@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Plus, Search, Pencil, Settings, Video } from "lucide-react";
+import { Plus, Search, Pencil, Settings, Video, Play, Download, Clock, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -40,6 +40,51 @@ export default function EventsPage() {
 
   if (activeTab === "registration") return <EventRegistration />;
   if (activeTab === "people") return <EventPeople />;
+  if (activeTab === "recording") return (
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
+      <motion.div variants={item} className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Recordings</h1>
+          <p className="text-sm text-muted-foreground mt-1">Access all recorded sessions and presentations</p>
+        </div>
+      </motion.div>
+      <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          { title: "Injury Prevention Keynote", speaker: "Dr. Marco Rossi", date: "Feb 18, 2026", duration: "45:32", views: 234, thumb: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=225&fit=crop" },
+          { title: "ACL Rehabilitation Workshop", speaker: "Sarah Johnson", date: "Feb 18, 2026", duration: "1:12:08", views: 189, thumb: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=225&fit=crop" },
+          { title: "GPS Load Monitoring Panel", speaker: "Alex Chen", date: "Feb 17, 2026", duration: "52:15", views: 312, thumb: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=400&h=225&fit=crop" },
+          { title: "Nutrition for Elite Recovery", speaker: "Lisa Anderson", date: "Feb 17, 2026", duration: "38:44", views: 156, thumb: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=225&fit=crop" },
+          { title: "Return to Play Protocols", speaker: "James Wilson", date: "Feb 16, 2026", duration: "1:05:20", views: 278, thumb: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=225&fit=crop" },
+          { title: "Periodization Masterclass", speaker: "Emma Johansson", date: "Feb 15, 2026", duration: "55:10", views: 198, thumb: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&h=225&fit=crop" },
+        ].map((rec) => (
+          <div key={rec.title} className="rounded-lg border border-border bg-card overflow-hidden hover:shadow-md transition-shadow group">
+            <div className="relative aspect-video">
+              <img src={rec.thumb} alt={rec.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center">
+                  <Play className="h-5 w-5 text-primary-foreground ml-0.5" />
+                </div>
+              </div>
+              <div className="absolute bottom-2 right-2 bg-black/70 rounded px-1.5 py-0.5 text-[10px] text-white font-medium">{rec.duration}</div>
+            </div>
+            <div className="p-4">
+              <h3 className="text-sm font-semibold text-foreground truncate">{rec.title}</h3>
+              <p className="text-xs text-muted-foreground mt-1">{rec.speaker}</p>
+              <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
+                  <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{rec.date}</span>
+                  <span className="flex items-center gap-1"><Eye className="h-3 w-3" />{rec.views}</span>
+                </div>
+                <button className="text-muted-foreground hover:text-foreground">
+                  <Download className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </motion.div>
+  );
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
