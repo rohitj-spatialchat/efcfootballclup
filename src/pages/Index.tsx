@@ -92,6 +92,41 @@ const Index = () => {
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
       {/* Main Feed Column */}
       <div className="flex-1 space-y-5 min-w-0">
+        {/* Ongoing Live Call Banner */}
+        <motion.div variants={item} className="rounded-lg border border-destructive/30 bg-destructive/5 p-4 shadow-card">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
+                <span className="h-3 w-3 rounded-full bg-destructive animate-pulse" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold text-destructive uppercase tracking-wide">● Live Now</span>
+                </div>
+                <p className="text-sm font-semibold text-foreground">EFC MPU Injury Prevention Summit</p>
+                <p className="text-xs text-muted-foreground">12 participants • Started 15 min ago</p>
+              </div>
+            </div>
+            <button className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+              Join Now
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Spatial Rooms */}
+        <motion.div variants={item} className="rounded-lg border border-border bg-card p-5 shadow-card">
+          <h2 className="text-lg font-bold text-foreground mb-3">Spatial Rooms</h2>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-foreground">United Kingdom EFC MPU Event</p>
+              <p className="text-xs text-muted-foreground mt-0.5">65 speakers in Geography</p>
+            </div>
+            <button className="inline-flex items-center rounded-full bg-[hsl(230,60%,60%)] px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity">
+              Join Now
+            </button>
+          </div>
+        </motion.div>
+
         {/* Hero Banner */}
         <motion.div
           variants={item}
