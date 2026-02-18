@@ -14,6 +14,9 @@ import AISearch from "./pages/AISearch";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Onboarding from "./pages/Onboarding";
+import Welcome from "./pages/Welcome";
+import Recommendations from "./pages/Recommendations";
+import IntroduceYourself from "./pages/IntroduceYourself";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +32,9 @@ const App = () => (
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/recommendations" element={<Recommendations />} />
+          <Route path="/introduce" element={<IntroduceYourself />} />
 
           {/* Dashboard pages - with layout */}
           <Route path="/*" element={
