@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
-import { Search, Plus, ChevronDown, Settings, Layers, FileText, Users, Presentation, UserCheck, BarChart3 } from "lucide-react";
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Search, ChevronDown, Settings, Layers, FileText, Users, Presentation, UserCheck, BarChart3, Video, LineChart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const eventSidebarItems = [
@@ -12,7 +10,8 @@ const eventSidebarItems = [
   { label: "Presenters", icon: Presentation },
   { label: "Registrants", icon: UserCheck },
   { label: "Exhibitors", icon: Users },
-  { label: "Analytics", icon: BarChart3 },
+  { label: "Recording", icon: Video },
+  { label: "Analytics", icon: LineChart },
 ];
 
 const sessions = [
