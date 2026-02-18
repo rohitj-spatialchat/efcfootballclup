@@ -1,91 +1,173 @@
 import { motion } from "framer-motion";
-import { BookOpen, Headphones, Video, Search, Clock, Star, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
-type TabType = "read" | "listen" | "watch";
+const categories = ["All", "Fitness", "Meeting Circles", "Nutrition", "Guided Sessions"];
 
-const resources = [
-  { title: "Building Resilient Teams in Remote Settings", type: "read" as TabType, category: "Leadership", duration: "8 min read", rating: 4.8, author: "Dr. Sarah Mitchell" },
-  { title: "The Future of AI in Community Building", type: "read" as TabType, category: "Technology", duration: "12 min read", rating: 4.5, author: "Alex Chen" },
-  { title: "Effective Stakeholder Communication", type: "read" as TabType, category: "Communication", duration: "6 min read", rating: 4.9, author: "Jamie Lawson" },
-  { title: "Leadership Lessons from Top CEOs", type: "listen" as TabType, category: "Leadership", duration: "35 min", rating: 4.7, author: "EFC Podcast" },
-  { title: "Design Thinking for Non-Designers", type: "listen" as TabType, category: "Design", duration: "28 min", rating: 4.6, author: "Morgan Davis" },
-  { title: "Networking Strategies That Work", type: "listen" as TabType, category: "Growth", duration: "42 min", rating: 4.4, author: "EFC Podcast" },
-  { title: "Mastering Public Speaking", type: "watch" as TabType, category: "Communication", duration: "45 min", rating: 4.9, author: "Chris Rodriguez" },
-  { title: "Startup Fundraising 101", type: "watch" as TabType, category: "Ventures", duration: "1h 10min", rating: 4.8, author: "Panel Discussion" },
-  { title: "Product Market Fit Workshop", type: "watch" as TabType, category: "Strategy", duration: "55 min", rating: 4.3, author: "Taylor Kim" },
+const courses = [
+  {
+    title: "Sport Medicine & Injury Prevention",
+    description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
+    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop",
+    type: "WATCH",
+    tags: ["Sport & Exercise Science", "Nutrition"],
+  },
+  {
+    title: "Sport Science & Physiology",
+    description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
+    image: "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=400&h=300&fit=crop",
+    type: "LISTEN",
+    tags: ["Sport Psychology", "Sportmedicine & Physiotherapy"],
+  },
+  {
+    title: "Sport Psychology",
+    description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
+    image: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&h=300&fit=crop",
+    type: "READ",
+    tags: ["Strength & Power", "Fitness & Exercise Physiology"],
+  },
+  {
+    title: "Nutrition for Performance",
+    description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
+    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop",
+    type: "WATCH",
+    tags: ["Nutrition", "Sport & Exercise Science"],
+  },
+  {
+    title: "ACL Recovery & Rehabilitation",
+    description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop",
+    type: "LISTEN",
+    tags: ["Sportmedicine & Physiotherapy"],
+  },
+  {
+    title: "Strength & Conditioning",
+    description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop",
+    type: "READ",
+    tags: ["Strength & Power"],
+  },
 ];
 
-const tabs: { key: TabType; label: string; icon: typeof BookOpen }[] = [
-  { key: "read", label: "Read", icon: BookOpen },
-  { key: "listen", label: "Listen", icon: Headphones },
-  { key: "watch", label: "Watch", icon: Video },
+const typeColors: Record<string, string> = {
+  WATCH: "bg-primary text-primary-foreground",
+  LISTEN: "bg-success text-success-foreground",
+  READ: "bg-info text-info-foreground",
+};
+
+const allTags = [
+  "Sport & Exercise Science", "Nutrition", "Sport Psychology",
+  "Sportmedicine & Physiotherapy", "Strength & Power", "Fitness & Exercise Physiology",
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 export default function KnowledgePage() {
-  const [activeTab, setActiveTab] = useState<TabType>("read");
-  const filtered = resources.filter((r) => r.type === activeTab);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedTags, setSelectedTags] = useState<string[]>(allTags.slice(0, 4));
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.div variants={item}>
-        <h1 className="text-2xl font-semibold text-foreground">Knowledge Hub</h1>
-        <p className="text-sm text-muted-foreground mt-1">Explore curated resources to accelerate your growth</p>
+        <h1 className="text-2xl font-semibold text-foreground">Courses</h1>
       </motion.div>
 
-      <motion.div variants={item} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-        <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-1.5 rounded-md px-4 py-2 text-xs font-medium transition-all ${
-                activeTab === tab.key ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <tab.icon className="h-3.5 w-3.5" />
-              {tab.label}
+      <div className="flex gap-8">
+        {/* Main Content */}
+        <div className="flex-1 space-y-5">
+          {/* Category Tabs */}
+          <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+                  activeCategory === cat
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+            <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+              More <ChevronDown className="h-3 w-3" />
             </button>
-          ))}
-        </div>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search resources..."
-            className="h-9 w-56 rounded-md border border-input bg-background pl-9 pr-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 transition-shadow"
-          />
-        </div>
-      </motion.div>
+          </motion.div>
 
-      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((r, i) => (
-          <div
-            key={i}
-            className="group rounded-lg border border-border bg-card p-5 shadow-card hover:shadow-card-hover transition-all cursor-pointer"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-medium text-accent-foreground">
-                {r.category}
-              </span>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+          {/* Course Grid */}
+          <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {courses.map((course, i) => (
+              <div key={i} className="group cursor-pointer">
+                <div className="rounded-lg overflow-hidden aspect-[4/3] mb-3">
+                  <img
+                    src={course.image}
+                    alt={course.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
+                  {course.title}
+                </h3>
+                <p className="text-xs text-muted-foreground mb-2">{course.description}</p>
+                <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[course.type]}`}>
+                  {course.type === "LISTEN" ? "🎧 " : course.type === "WATCH" ? "▶ " : "📖 "}{course.type}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Sort & Filter Sidebar */}
+        <motion.div variants={item} className="hidden xl:block w-56 shrink-0 space-y-5">
+          <div>
+            <h3 className="text-sm font-semibold text-primary mb-1">Sort & Filter</h3>
+            <p className="text-xs text-muted-foreground">Find the content you are looking for across the Knowledge Hub</p>
+          </div>
+
+          {[
+            { label: "Topics", value: "All" },
+            { label: "Brands", value: "All" },
+            { label: "Formats", value: "All" },
+            { label: "Date", value: "All Time" },
+            { label: "Prices", value: "All" },
+          ].map((filter) => (
+            <div key={filter.label}>
+              <label className="text-xs font-medium text-foreground">{filter.label}:</label>
+              <div className="mt-1 flex items-center justify-between rounded-md border border-input bg-background px-3 py-1.5 text-xs text-muted-foreground cursor-pointer hover:border-primary/30 transition-colors">
+                {filter.value}
+                <ChevronDown className="h-3 w-3" />
+              </div>
             </div>
-            <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-1">{r.title}</h3>
-            <p className="text-xs text-muted-foreground mb-3">by {r.author}</p>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Clock className="h-3 w-3" /> {r.duration}
-              </span>
-              <span className="flex items-center gap-1">
-                <Star className="h-3 w-3 text-warning" /> {r.rating}
-              </span>
+          ))}
+
+          <div>
+            <label className="text-xs font-medium text-foreground">Tags: {selectedTags.length} Selected</label>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors ${
+                    selectedTags.includes(tag)
+                      ? "bg-primary/10 text-primary border border-primary/30"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
             </div>
           </div>
-        ))}
-      </motion.div>
+        </motion.div>
+      </div>
     </motion.div>
   );
 }

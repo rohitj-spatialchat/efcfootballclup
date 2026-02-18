@@ -1,174 +1,172 @@
 import { motion } from "framer-motion";
-import {
-  Users,
-  Calendar,
-  TrendingUp,
-  Award,
-  ArrowUpRight,
-  Clock,
-  MessageSquare,
-  Megaphone,
-} from "lucide-react";
+import { Search, ChevronRight, ArrowUp, Plus, MoreHorizontal } from "lucide-react";
+import efcLogo from "@/assets/efclogo.png";
 
-const stats = [
-  { label: "Total Members", value: "2,847", change: "+12%", icon: Users },
-  { label: "Active Events", value: "18", change: "+3", icon: Calendar },
-  { label: "Engagement Rate", value: "73%", change: "+5%", icon: TrendingUp },
-  { label: "Karma Points", value: "14.2K", change: "+820", icon: Award },
+const onlineUsers = [
+  { name: "Alex", avatar: "A" },
+  { name: "Sarah", avatar: "S" },
+  { name: "Mike", avatar: "M" },
+  { name: "Emma", avatar: "E" },
+  { name: "Chris", avatar: "C" },
+  { name: "Taylor", avatar: "T" },
+  { name: "Jordan", avatar: "J" },
+  { name: "Casey", avatar: "K" },
+  { name: "Morgan", avatar: "O" },
+  { name: "Jamie", avatar: "D" },
 ];
 
-const announcements = [
-  { title: "Q1 Community Meetup", desc: "Join us for the quarterly meetup on March 15th", time: "2h ago", type: "event" },
-  { title: "New Knowledge Base Articles", desc: "15 new resources added to the leadership section", time: "5h ago", type: "content" },
-  { title: "Platform Update v2.4", desc: "Speed networking now supports video calls", time: "1d ago", type: "update" },
+const newsArticles = [
+  {
+    title: '"Stability gives you strength"- Xherdan Shaqiri on youth development at FC Basel and the choices young players face',
+    image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=250&fit=crop",
+  },
+  {
+    title: "Five standout moments from EFC in 2025",
+    image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=250&fit=crop",
+  },
+  {
+    title: "Clubs receive record €9m from UEFA Women's EURO 2025",
+    image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=400&h=250&fit=crop",
+  },
 ];
 
-const upcomingEvents = [
-  { title: "Leadership Workshop", date: "Mar 12", attendees: 45, category: "Workshop" },
-  { title: "Tech Talks: AI in Business", date: "Mar 15", attendees: 128, category: "Talk" },
-  { title: "Networking Mixer", date: "Mar 18", attendees: 67, category: "Social" },
-  { title: "Startup Pitch Night", date: "Mar 22", attendees: 89, category: "Competition" },
-];
-
-const recentActivity = [
-  { user: "Sarah M.", action: "joined the community", time: "10m ago" },
-  { user: "Alex K.", action: "earned 50 karma points", time: "25m ago" },
-  { user: "Jamie L.", action: "registered for Tech Talks", time: "1h ago" },
-  { user: "Chris R.", action: "shared a resource in Knowledge Hub", time: "2h ago" },
-  { user: "Morgan P.", action: "completed speed networking session", time: "3h ago" },
-];
-
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.05 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 8 },
-  show: { opacity: 1, y: 0 },
-};
+const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
+const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 const Index = () => {
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
-      {/* Header */}
-      <motion.div variants={item}>
-        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Welcome back, John. Here's what's happening in your community.</p>
-      </motion.div>
-
-      {/* Stats Grid */}
-      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-lg border border-border bg-card p-5 shadow-card hover:shadow-card-hover transition-shadow"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">{stat.label}</span>
-              <stat.icon className="h-4 w-4 text-primary" />
-            </div>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-2xl font-semibold text-foreground">{stat.value}</span>
-              <span className="text-xs font-medium text-success flex items-center gap-0.5">
-                <ArrowUpRight className="h-3 w-3" />
-                {stat.change}
-              </span>
-            </div>
-          </div>
-        ))}
-      </motion.div>
-
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Announcements */}
-        <motion.div variants={item} className="lg:col-span-2 rounded-lg border border-border bg-card shadow-card">
-          <div className="flex items-center justify-between p-5 pb-3">
-            <h2 className="font-semibold text-foreground flex items-center gap-2">
-              <Megaphone className="h-4 w-4 text-primary" />
-              Announcements
-            </h2>
-            <button className="text-xs text-primary hover:underline">View all</button>
-          </div>
-          <div className="divide-y divide-border">
-            {announcements.map((a, i) => (
-              <div key={i} className="px-5 py-3.5 hover:bg-muted/30 transition-colors cursor-pointer">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{a.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{a.desc}</p>
-                  </div>
-                  <span className="text-xs text-muted-foreground flex items-center gap-1 shrink-0 ml-4">
-                    <Clock className="h-3 w-3" />
-                    {a.time}
-                  </span>
-                </div>
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-5 max-w-4xl">
+      {/* Start Here Header */}
+      <motion.div variants={item} className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold text-foreground flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+          Start Here
+        </h1>
+        <div className="flex items-center gap-3">
+          <div className="flex -space-x-2">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-8 w-8 rounded-full bg-primary/10 border-2 border-card flex items-center justify-center text-primary text-[10px] font-semibold">
+                {["AW", "JD", "MK"][i - 1]}
               </div>
             ))}
           </div>
-        </motion.div>
-
-        {/* Recent Activity */}
-        <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card">
-          <div className="flex items-center justify-between p-5 pb-3">
-            <h2 className="font-semibold text-foreground flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 text-primary" />
-              Recent Activity
-            </h2>
-          </div>
-          <div className="px-5 pb-4 space-y-3">
-            {recentActivity.map((a, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0 mt-0.5">
-                  {a.user.split(" ").map(n => n[0]).join("")}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm text-foreground">
-                    <span className="font-medium">{a.user}</span>{" "}
-                    <span className="text-muted-foreground">{a.action}</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground">{a.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Upcoming Events */}
-      <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card">
-        <div className="flex items-center justify-between p-5 pb-3">
-          <h2 className="font-semibold text-foreground flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" />
-            Upcoming Events
-          </h2>
-          <button className="text-xs text-primary hover:underline">View all events</button>
+          <span className="text-xs text-muted-foreground">+233</span>
+          <button className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            New Post
+          </button>
+          <button className="text-muted-foreground hover:text-foreground">
+            <MoreHorizontal className="h-4 w-4" />
+          </button>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-t border-border">
-                <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Event</th>
-                <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Date</th>
-                <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Category</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Attendees</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {upcomingEvents.map((e, i) => (
-                <tr key={i} className="hover:bg-muted/30 transition-colors cursor-pointer">
-                  <td className="px-5 py-3 text-sm font-medium text-foreground">{e.title}</td>
-                  <td className="px-5 py-3 text-sm text-muted-foreground">{e.date}</td>
-                  <td className="px-5 py-3">
-                    <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-xs font-medium text-accent-foreground">
-                      {e.category}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3 text-sm text-muted-foreground text-right">{e.attendees}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      </motion.div>
+
+      {/* Hero Banner - Gradient */}
+      <motion.div
+        variants={item}
+        className="relative rounded-xl overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, hsl(190, 80%, 60%), hsl(280, 60%, 65%), hsl(330, 70%, 60%))",
+        }}
+      >
+        <div className="relative p-8 pb-6">
+          <div className="flex items-start justify-between">
+            <img src={efcLogo} alt="EFC Logo" className="h-20 w-20 rounded-full object-cover border-2 border-white/20" />
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="h-9 w-48 rounded-lg bg-white/90 pl-9 pr-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-white/50 transition-shadow"
+              />
+            </div>
+          </div>
+          <h2 className="text-3xl font-bold text-white mt-8 mb-4">Welcome to the EFC MPU Community</h2>
+          {/* Decorative swirl lines */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <svg className="w-full h-full" viewBox="0 0 800 300" fill="none">
+              <path d="M0 150 Q200 50 400 150 T800 150" stroke="white" strokeWidth="2" />
+              <path d="M0 200 Q200 100 400 200 T800 200" stroke="white" strokeWidth="1.5" />
+            </svg>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Info Cards Row */}
+      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Spatial Rooms */}
+        <div className="rounded-lg border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-1">Spatial Rooms</h3>
+          <p className="text-xs text-muted-foreground">United Kingdom EFC MPU Event</p>
+          <p className="text-xs text-muted-foreground mb-2">65 speakers in Geography</p>
+          <button className="inline-flex items-center rounded-full bg-success px-3 py-1 text-xs font-medium text-success-foreground hover:bg-success/90 transition-colors">
+            Join Now
+          </button>
+        </div>
+
+        {/* Announcements */}
+        <div className="rounded-lg border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-1">Announcements</h3>
+          <p className="text-xs text-muted-foreground">Apr 22, 2024</p>
+        </div>
+
+        {/* New Feature Update */}
+        <div className="rounded-lg border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-1">New Feature Update</h3>
+          <p className="text-xs text-muted-foreground">AI Assistant Live</p>
+        </div>
+
+        {/* Engagement Score */}
+        <div className="rounded-lg border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-1">Your Engagement Score</h3>
+          <div className="flex items-baseline gap-2 mt-2">
+            <span className="text-4xl font-bold text-foreground">78</span>
+            <span className="text-xs text-success flex items-center gap-0.5 font-medium">
+              <ArrowUp className="h-3 w-3" />
+              Active this week
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">Based on posts, replies, and interactions</p>
+          <button className="mt-2 inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+            View Activity Breakdown <ChevronRight className="h-3 w-3" />
+          </button>
+        </div>
+      </motion.div>
+
+      {/* People You Follow - Online Now */}
+      <motion.div variants={item}>
+        <h3 className="text-sm font-semibold text-foreground mb-3">
+          People You Follow - Online Now{" "}
+          <span className="text-xs font-normal text-muted-foreground">(Active right now - start a conversation)</span>
+        </h3>
+        <div className="flex items-center gap-3 flex-wrap">
+          {onlineUsers.map((u, i) => (
+            <div key={i} className="relative cursor-pointer">
+              <div className="h-11 w-11 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold border-2 border-card">
+                {u.avatar}
+              </div>
+              <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-card bg-success" />
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* News Articles */}
+      <motion.div variants={item}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {newsArticles.map((article, i) => (
+            <div key={i} className="group cursor-pointer">
+              <p className="text-xs text-foreground font-medium mb-2 line-clamp-3 group-hover:text-primary transition-colors">
+                {article.title}
+              </p>
+              <div className="rounded-lg overflow-hidden aspect-[16/10]">
+                <img
+                  src={article.image}
+                  alt={article.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </motion.div>
     </motion.div>
