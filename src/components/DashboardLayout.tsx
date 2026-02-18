@@ -281,15 +281,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Left Sidebar */}
         <aside className="hidden lg:flex w-56 shrink-0 flex-col border-r border-border bg-card overflow-y-auto">
           <div className="p-3 space-y-0.5">
-            {/* Start Live Session Button */}
-            <button
-              onClick={() => setLiveSessionOpen(true)}
-              className="flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors mb-3"
-            >
-              <Video className="h-4 w-4" />
-              Start live session
-            </button>
-
             <Link
               to="/"
               className={cn(
@@ -375,6 +366,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 ))}
               </div>
             )}
+          </div>
+
+          {/* Start Live Session Button - at bottom */}
+          <div className="px-3 py-4 mt-auto">
+            <button
+              onClick={() => setLiveSessionOpen(true)}
+              className="flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors"
+            >
+              <Video className="h-4 w-4" />
+              Start live session
+            </button>
           </div>
         </aside>
 
