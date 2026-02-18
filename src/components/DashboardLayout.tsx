@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Rss,
   Megaphone,
@@ -45,6 +46,17 @@ import {
   BarChart3,
   MonitorPlay,
   Cog,
+  Mic,
+  MicOff,
+  VideoOff,
+  Monitor,
+  Hand,
+  Share,
+  MessageSquare,
+  FileText,
+  BarChart,
+  Plus,
+  PenTool,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
@@ -117,6 +129,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [dmOpen, setDmOpen] = useState(false);
   const [dmTab, setDmTab] = useState("Inbox");
   const [activeContact, setActiveContact] = useState("Robert Fox");
+  const [spatialRoomOpen, setSpatialRoomOpen] = useState<string | null>(null);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoOff, setIsVideoOff] = useState(false);
+  const [spatialChatTab, setSpatialChatTab] = useState<"chat" | "qa" | "polls" | "docs">("chat");
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const dmRef = useRef<HTMLDivElement>(null);
@@ -448,6 +464,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 {spatialRooms.map((room) => (
                   <button
                     key={room.name}
+                    onClick={() => setSpatialRoomOpen(room.name)}
                     className="flex items-center gap-2 w-full rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                   >
                     <room.icon className="h-3.5 w-3.5 shrink-0" />
@@ -591,6 +608,185 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Spatial Room Overlay */}
+      <AnimatePresence>
+        {spatialRoomOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-[hsl(230,25%,12%)] flex flex-col"
+          >
+            {/* Top Bar */}
+            <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
+              <div className="flex items-center gap-4">
+                <span className="text-white font-medium text-sm">Spatial Event</span>
+                <div className="flex items-center gap-1.5 text-white/50 text-sm">
+                  <Users className="h-4 w-4" />
+                  <span>120</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <button className="flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-sm text-white/80 hover:bg-white/20 transition-colors">
+                  <Users className="h-4 w-4" /> INVITE
+                </button>
+                <button className="flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-sm text-white/80 hover:bg-white/20 transition-colors">
+                  <Video className="h-4 w-4" /> MEET
+                </button>
+                <button
+                  onClick={() => setSpatialRoomOpen(null)}
+                  className="rounded-full bg-destructive/80 hover:bg-destructive p-1.5 text-white transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-1 min-h-0">
+              {/* Left - Toolbar */}
+              <div className="w-12 shrink-0 flex flex-col items-center py-4 gap-4 border-r border-white/10">
+                {[Users, MessageSquare, FileText, PenTool, Share].map((Icon, i) => (
+                  <button key={i} className="h-9 w-9 rounded-lg bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/60 hover:text-white transition-colors">
+                    <Icon className="h-4 w-4" />
+                  </button>
+                ))}
+              </div>
+
+              {/* Center - Main Stage with Background */}
+              <div className="flex-1 relative overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop')" }}
+                />
+                <div className="absolute inset-0 bg-black/20" />
+
+                {/* EFC Logo watermark */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="text-white/10 text-[120px] font-black tracking-wider">EFC</span>
+                </div>
+
+                {/* Floating participant avatars */}
+                <div className="absolute bottom-32 left-1/2 -translate-x-1/2 flex items-end gap-4">
+                  {[
+                    { name: "Riddhik", color: "border-primary" },
+                    { name: "Dr. Rossi", color: "border-amber-400" },
+                    { name: "Sarah M.", color: "border-green-400" },
+                  ].map((p, i) => (
+                    <div key={i} className="flex flex-col items-center gap-1">
+                      <div className={`h-14 w-14 rounded-full border-2 ${p.color} bg-[hsl(230,20%,18%)] flex items-center justify-center`}>
+                        <span className="text-white text-xs font-bold">{p.name.split(" ").map(n => n[0]).join("")}</span>
+                      </div>
+                      <span className="text-[10px] text-white/70 bg-black/40 rounded px-1.5 py-0.5">{p.name}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Bottom Toolbar */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                  {[Plus, PenTool, Monitor, MessageSquare].map((Icon, i) => (
+                    <button key={i} className="h-11 w-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors backdrop-blur-sm">
+                      <Icon className="h-5 w-5" />
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setIsVideoOff(!isVideoOff)}
+                    className={`h-11 w-11 rounded-full flex items-center justify-center transition-colors ${isVideoOff ? "bg-destructive/80 text-white" : "bg-primary text-white"}`}
+                  >
+                    {isVideoOff ? <VideoOff className="h-5 w-5" /> : <Video className="h-5 w-5" />}
+                  </button>
+                  <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className={`h-11 w-11 rounded-full flex items-center justify-center transition-colors ${isMuted ? "bg-destructive/80 text-white" : "bg-primary text-white"}`}
+                  >
+                    {isMuted ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+                  </button>
+                  <button className="h-11 w-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors backdrop-blur-sm">
+                    <Share className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={() => setSpatialRoomOpen(null)}
+                    className="h-11 w-11 rounded-full bg-destructive/80 hover:bg-destructive flex items-center justify-center text-white transition-colors"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+
+                {/* Zoom indicator */}
+                <div className="absolute bottom-6 right-6 text-white/50 text-sm">45%</div>
+
+                {/* Help buttons bottom-left */}
+                <div className="absolute bottom-6 left-6 flex gap-2">
+                  <button className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-colors backdrop-blur-sm">
+                    <HelpCircle className="h-4 w-4" />
+                  </button>
+                  <button className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-colors backdrop-blur-sm">
+                    <Settings className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Right - Rooms Sidebar */}
+              <div className="w-64 shrink-0 bg-[hsl(230,20%,14%)] border-l border-white/10 flex flex-col">
+                {/* Search */}
+                <div className="p-3 flex items-center justify-between border-b border-white/10">
+                  <Search className="h-4 w-4 text-white/40" />
+                  <div className="flex items-center gap-2">
+                    <button className="h-7 w-7 rounded bg-primary flex items-center justify-center text-white">
+                      <User className="h-3.5 w-3.5" />
+                    </button>
+                    <button className="h-7 w-7 rounded bg-white/10 flex items-center justify-center text-white/60 hover:text-white">
+                      <MessageSquare className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Room list */}
+                <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
+                  {/* Active room */}
+                  <div className="rounded-md bg-primary/20 px-3 py-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-white flex items-center gap-2">
+                        <span className="text-primary">▼</span> EFC Welcome Lobby
+                      </span>
+                      <span className="text-[10px] text-white/50">1/50</span>
+                    </div>
+                    <div className="mt-2 flex items-center gap-2 ml-4">
+                      <div className="h-6 w-6 rounded-full bg-primary/30 flex items-center justify-center text-[10px] text-white font-bold">RK</div>
+                      <span className="text-xs text-white/80">Riddhik</span>
+                      <span className="text-[10px] bg-primary/30 text-primary-foreground rounded px-1.5 py-0.5">You</span>
+                    </div>
+                  </div>
+
+                  {/* Other rooms */}
+                  {[
+                    { name: "EFC Networking Room", icon: "▶", capacity: "0/50" },
+                    { name: "Stage", icon: "▶", capacity: "0/5000", special: true },
+                    { name: "Workshop Room", icon: "▶", capacity: "0/50" },
+                    { name: "Manchester City", icon: "📁", capacity: "" },
+                    { name: "Networking Room", icon: "▶", capacity: "0/50" },
+                  ].map((room) => (
+                    <button key={room.name} className="flex items-center justify-between w-full rounded-md px-3 py-2 text-sm text-white/70 hover:bg-white/5 transition-colors">
+                      <span className="flex items-center gap-2">
+                        <span className="text-white/40 text-xs">{room.icon}</span>
+                        {room.name}
+                      </span>
+                      {room.capacity && <span className="text-[10px] text-white/40">{room.capacity}</span>}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Add Room */}
+                <div className="p-3 border-t border-white/10">
+                  <button className="flex items-center justify-center gap-2 w-full rounded-md bg-white/5 hover:bg-white/10 px-3 py-2 text-sm text-white/60 hover:text-white transition-colors">
+                    <Plus className="h-4 w-4" /> Add Room
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
