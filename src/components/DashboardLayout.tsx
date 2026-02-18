@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import {
   Rss,
@@ -10,7 +10,6 @@ import {
   Search,
   Bell,
   MessageCircle,
-  Bookmark,
   Dumbbell,
   FlaskConical,
   Apple,
@@ -26,9 +25,17 @@ import {
   Moon,
   HelpCircle,
   Flame,
+  Video,
+  Radio,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -38,6 +45,9 @@ const navItems = [
   { label: "Leaderboard", path: "/leaderboard" },
   { label: "Networking", path: "/networking" },
   { label: "AI Search", path: "/ai-search" },
+  { label: "Settings", path: "/settings" },
+  { label: "Analytics", path: "/analytics" },
+  { label: "Engagement", path: "/engagement" },
 ];
 
 const groups = [
@@ -51,9 +61,19 @@ const groups = [
 ];
 
 const spatialRooms = [
-  "Balkans", "United Kingdom", "DACH", "RU+", "Benelux", "Central",
-  "Nordics", "Latin", "Eastern", "Iberico", "Injury Prevention",
-  "Return to Performance", "Periodization",
+  { name: "Balkans", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" },
+  { name: "United Kingdom", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" },
+  { name: "DACH", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" },
+  { name: "RU+", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" },
+  { name: "Benelux", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" },
+  { name: "Central", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" },
+  { name: "Nordics", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=40&h=40&fit=crop&crop=face" },
+  { name: "Latin", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" },
+  { name: "Eastern", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" },
+  { name: "Iberico", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" },
+  { name: "Injury Prevention", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" },
+  { name: "Return to Performance", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" },
+  { name: "Periodization", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" },
 ];
 
 const notifications = [
@@ -63,17 +83,22 @@ const notifications = [
   { title: "🏆 Match Analysis Available", desc: "Post-match tactical breakdown: pressing intensity & defensive transitions", time: "3h ago", unread: false },
 ];
 
+const channels = ["General", "Announcements", "Sports Science", "Injury Prevention", "Nutrition"];
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [spatialOpen, setSpatialOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [liveSessionOpen, setLiveSessionOpen] = useState(false);
+  const [sessionType, setSessionType] = useState("video");
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -161,10 +186,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
 
             {/* Direct Chat */}
-            <button className="rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors">
+            <button
+              onClick={() => navigate("/chat")}
+              className="rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors"
+            >
               <MessageCircle className="h-4 w-4" />
             </button>
-
 
             {/* Profile Dropdown */}
             <div ref={profileRef} className="relative ml-1">
@@ -179,7 +206,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </button>
               {profileOpen && (
                 <div className="absolute right-0 top-full mt-1 w-56 rounded-lg border border-border bg-card shadow-elevated z-50 py-3">
-                  {/* Profile Header */}
                   <div className="flex flex-col items-center pb-3 border-b border-border px-4">
                     <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xl font-semibold mb-2">
                       DE
@@ -190,15 +216,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       <Flame className="h-3 w-3" /> 800
                     </div>
                   </div>
-                  {/* Menu Items */}
                   <div className="py-1">
                     <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
                       <User className="h-4 w-4 text-muted-foreground" /> My Profile
                     </button>
-                    <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
+                    <button onClick={() => { setProfileOpen(false); navigate("/settings"); }} className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
                       <Settings className="h-4 w-4 text-muted-foreground" /> Settings
                     </button>
-                    <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
+                    <button onClick={() => { setProfileOpen(false); navigate("/community"); }} className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
                       <Users className="h-4 w-4 text-muted-foreground" /> Community Members
                     </button>
                     <button className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
@@ -256,6 +281,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Left Sidebar */}
         <aside className="hidden lg:flex w-56 shrink-0 flex-col border-r border-border bg-card overflow-y-auto">
           <div className="p-3 space-y-0.5">
+            {/* Start Live Session Button */}
+            <button
+              onClick={() => setLiveSessionOpen(true)}
+              className="flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors mb-3"
+            >
+              <Video className="h-4 w-4" />
+              Start live session
+            </button>
+
             <Link
               to="/"
               className={cn(
@@ -276,8 +310,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               Announcements
             </Link>
             <Link
-              to="/messages"
-              className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+              to="/chat"
+              className={cn(
+                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                location.pathname === "/chat"
+                  ? "bg-primary text-primary-foreground font-medium"
+                  : "text-foreground hover:bg-muted"
+              )}
             >
               <Send className="h-4 w-4" />
               Direct Message EFC MPU
@@ -327,11 +366,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <div className="ml-3 mt-0.5 space-y-0.5 pb-4">
                 {spatialRooms.map((room) => (
                   <button
-                    key={room}
+                    key={room.name}
                     className="flex items-center gap-2 w-full rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                   >
-                    <Globe className="h-3.5 w-3.5" />
-                    {room}
+                    <img src={room.image} alt="" className="h-5 w-5 rounded-full object-cover shrink-0" />
+                    {room.name}
                   </button>
                 ))}
               </div>
@@ -342,6 +381,87 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
+
+      {/* Create Live Session Dialog */}
+      <Dialog open={liveSessionOpen} onOpenChange={setLiveSessionOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold text-foreground">Create Live Session</DialogTitle>
+          </DialogHeader>
+          <div className="border-t border-primary/30 mb-2" />
+          <div className="space-y-5">
+            <div>
+              <label className="text-sm font-semibold text-foreground">Session Name <span className="text-destructive">*</span></label>
+              <input
+                type="text"
+                placeholder="Enter session name"
+                className="mt-1.5 h-10 w-full rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">Post in Channel <span className="text-destructive">*</span></label>
+              <select className="mt-1.5 h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30">
+                <option value="">Select channel</option>
+                {channels.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">Session Type</label>
+              <div className="flex gap-3 mt-1.5">
+                <button
+                  onClick={() => setSessionType("video")}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors",
+                    sessionType === "video" ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:bg-muted"
+                  )}
+                >
+                  <Video className="h-4 w-4" /> Video Call
+                </button>
+                <button
+                  onClick={() => setSessionType("webinar")}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors",
+                    sessionType === "webinar" ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:bg-muted"
+                  )}
+                >
+                  <Radio className="h-4 w-4" /> Webinar
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1.5">
+                <span className="font-medium">Participation</span> : Everyone can switch on their mic and camera
+              </p>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">Description</label>
+              <textarea
+                placeholder=""
+                className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 min-h-[80px] resize-y"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">Cover Picture</label>
+              <div className="mt-1.5 flex items-center justify-center rounded-md border-2 border-dashed border-border px-4 py-4 cursor-pointer hover:border-primary/30 transition-colors">
+                <span className="text-sm text-muted-foreground">+ Upload Live Call Thumbnail</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Size: 16:9 or 1600 by 900px</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
+            <button
+              onClick={() => setLiveSessionOpen(false)}
+              className="rounded-md border border-border px-5 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => setLiveSessionOpen(false)}
+              className="rounded-md bg-[hsl(220,20%,14%)] px-5 py-2 text-sm font-medium text-white hover:bg-[hsl(220,20%,20%)] transition-colors"
+            >
+              Create Live Session
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

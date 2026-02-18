@@ -18,6 +18,10 @@ import Welcome from "./pages/Welcome";
 import Recommendations from "./pages/Recommendations";
 import IntroduceYourself from "./pages/IntroduceYourself";
 import NotFound from "./pages/NotFound";
+import Settings from "./pages/Settings";
+import Analytics from "./pages/Analytics";
+import Engagement from "./pages/Engagement";
+import Chat from "./pages/Chat";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +51,10 @@ const App = () => (
                 <Route path="/networking" element={<Networking />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
                 <Route path="/ai-search" element={<AISearch />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/engagement" element={<Engagement />} />
+                <Route path="/chat" element={<Chat />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </DashboardLayout>
