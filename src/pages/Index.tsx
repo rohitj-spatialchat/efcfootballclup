@@ -294,6 +294,27 @@ const Index = () => {
             </div>
           </motion.div>
 
+          {/* Online Members */}
+          <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold text-foreground">Online Now</h3>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-500">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                127 online
+              </span>
+            </div>
+            <div className="flex -space-x-2">
+              {["MR", "SM", "AC", "EJ", "KA", "RP", "MW"].map((initials, i) => (
+                <div key={i} className="h-8 w-8 rounded-full border-2 border-card bg-primary/10 flex items-center justify-center text-[10px] font-semibold text-primary">
+                  {initials}
+                </div>
+              ))}
+              <div className="h-8 w-8 rounded-full border-2 border-card bg-muted flex items-center justify-center text-[10px] font-medium text-muted-foreground">
+                +120
+              </div>
+            </div>
+          </motion.div>
+
           {/* Trending News */}
           <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
             <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
