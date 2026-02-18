@@ -92,6 +92,28 @@ const Index = () => {
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
       {/* Main Feed Column */}
       <div className="flex-1 space-y-5 min-w-0">
+        {/* Hero Banner */}
+        <motion.div
+          variants={item}
+          className="relative rounded-xl overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, hsl(190, 80%, 60%), hsl(280, 60%, 65%), hsl(330, 70%, 60%))",
+          }}
+        >
+          <div className="relative p-8 pb-6">
+            <div className="flex items-start">
+              <img src={efcLogo} alt="EFC Logo" className="h-20 w-20 rounded-full object-cover border-2 border-white/20" />
+            </div>
+            <h2 className="text-3xl font-bold text-white mt-8 mb-4">Welcome to the EFC MPU Community</h2>
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <svg className="w-full h-full" viewBox="0 0 800 300" fill="none">
+                <path d="M0 150 Q200 50 400 150 T800 150" stroke="white" strokeWidth="2" />
+                <path d="M0 200 Q200 100 400 200 T800 200" stroke="white" strokeWidth="1.5" />
+              </svg>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Featured Posts */}
         <motion.div variants={item} className="rounded-lg border border-border bg-card p-5 shadow-card">
           <div className="flex items-center justify-between mb-4">
