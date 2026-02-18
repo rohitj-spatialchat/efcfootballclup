@@ -165,9 +165,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <MessageCircle className="h-4 w-4" />
             </button>
 
-            <button className="rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors">
-              <Bookmark className="h-4 w-4" />
-            </button>
 
             {/* Profile Dropdown */}
             <div ref={profileRef} className="relative ml-1">
