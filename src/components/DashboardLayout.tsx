@@ -476,27 +476,33 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Event Management</h3>
             <nav className="space-y-0.5 px-2">
               {[
-                { label: "Event", icon: ClipboardList },
-                { label: "Registration", icon: UserCheck },
-                { label: "People", icon: UsersRound },
-                { label: "Engagement", icon: Flame },
-                { label: "Analytics", icon: BarChart3 },
-                { label: "Recording", icon: MonitorPlay },
-                { label: "Settings", icon: Cog },
-              ].map((item, i) => (
-                <button
-                  key={item.label}
-                  className={cn(
-                    "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-sm transition-colors",
-                    i === 0
-                      ? "bg-primary text-primary-foreground font-medium"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}
-                >
-                  <item.icon className="h-4 w-4 shrink-0" />
-                  {item.label}
-                </button>
-              ))}
+                { label: "Event", icon: ClipboardList, tab: "" },
+                { label: "Registration", icon: UserCheck, tab: "registration" },
+                { label: "People", icon: UsersRound, tab: "people" },
+                { label: "Engagement", icon: Flame, tab: "engagement" },
+                { label: "Analytics", icon: BarChart3, tab: "analytics" },
+                { label: "Recording", icon: MonitorPlay, tab: "recording" },
+                { label: "Settings", icon: Cog, tab: "settings" },
+              ].map((item) => {
+                const params = new URLSearchParams(location.search);
+                const currentTab = params.get("tab") || "";
+                const isActive = currentTab === item.tab;
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => navigate(item.tab ? `/events?tab=${item.tab}` : "/events")}
+                    className={cn(
+                      "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-sm transition-colors",
+                      isActive
+                        ? "bg-primary text-primary-foreground font-medium"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4 shrink-0" />
+                    {item.label}
+                  </button>
+                );
+              })}
             </nav>
           </aside>
         )}
