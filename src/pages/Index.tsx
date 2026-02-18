@@ -2,19 +2,22 @@ import { motion } from "framer-motion";
 import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame } from "lucide-react";
 import { useState } from "react";
 import efcLogo from "@/assets/efclogo.png";
+import featuredUcl from "@/assets/featured-ucl.png";
+import featuredEuro from "@/assets/featured-euro.png";
+import featuredEasports from "@/assets/featured-easports.png";
 
 const featuredPosts = [
   {
     title: "UEFA Champions League – state of play",
-    image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&h=400&fit=crop",
+    image: featuredUcl,
   },
   {
     title: "European clubs receive record €9m benefits for UEFA Women's EURO 2025",
-    image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&h=400&fit=crop",
+    image: featuredEuro,
   },
   {
     title: "EFC x EA SPORTS FC Partnership",
-    image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=800&h=400&fit=crop",
+    image: featuredEasports,
   },
 ];
 
