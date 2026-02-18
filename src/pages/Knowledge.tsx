@@ -75,9 +75,6 @@ export default function KnowledgePage() {
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
-      <motion.div variants={item}>
-        <h1 className="text-2xl font-semibold text-foreground">Courses</h1>
-      </motion.div>
 
       <div className="flex gap-8">
         {/* Main Content */}
