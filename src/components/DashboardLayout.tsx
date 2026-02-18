@@ -657,7 +657,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <div className="flex-1 relative overflow-hidden">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop')" }}
+                  style={{ backgroundImage: spatialRoomOpen === "United Kingdom"
+                    ? "url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&h=1080&fit=crop')"
+                    : "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop')"
+                  }}
                 />
                 <div className="absolute inset-0 bg-black/20" />
 
