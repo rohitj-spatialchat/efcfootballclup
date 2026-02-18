@@ -1,15 +1,22 @@
 import { motion } from "framer-motion";
 import { Zap, Users, Shuffle, Video } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const onlineUsers = [
-  { name: "Dr. Marco Rossi", role: "Head of Sports Medicine • AC Milan", avatar: "MR", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" },
-  { name: "Sarah Mitchell", role: "Lead Physiotherapist • Manchester City", avatar: "SM", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" },
-  { name: "Alex Chen", role: "Performance Analyst • Bayern Munich", avatar: "AC", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" },
-  { name: "Emma Johansson", role: "Sports Scientist • Chelsea FC", avatar: "EJ", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" },
-  { name: "Carlos Mendez", role: "Strength & Conditioning • Real Madrid", avatar: "CM", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" },
-  { name: "Amara Diallo", role: "Team Doctor • Juventus", avatar: "AD", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face" },
-  { name: "Liam O'Connor", role: "Nutrition Specialist • Liverpool FC", avatar: "LO", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&h=100&fit=crop&crop=face" },
+  { name: "Dr. Marco Rossi", team: "AC Milan", country: "Italy", score: 9.4, role: "Sports Medicine", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" },
+  { name: "Sarah Mitchell", team: "Manchester City", country: "England", score: 9.2, role: "Physiotherapist", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" },
+  { name: "Alex Chen", team: "Bayern Munich", country: "Germany", score: 8.5, role: "Performance Analyst", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" },
+  { name: "Emma Johansson", team: "Chelsea FC", country: "Sweden", score: 8.0, role: "Sports Scientist", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" },
+  { name: "Carlos Mendez", team: "Real Madrid", country: "Spain", score: 7.8, role: "S&C Coach", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" },
+  { name: "Amara Diallo", team: "Juventus", country: "Senegal", score: 9.1, role: "Team Doctor", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face" },
+  { name: "Liam O'Connor", team: "Liverpool FC", country: "Ireland", score: 7.2, role: "Nutritionist", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&h=100&fit=crop&crop=face" },
 ];
+
+const scoreColor = (score: number) => {
+  if (score >= 9) return "bg-success text-success-foreground";
+  if (score >= 7) return "bg-warning text-warning-foreground";
+  return "bg-muted text-muted-foreground";
+};
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
@@ -34,8 +41,8 @@ export default function NetworkingPage() {
         </button>
       </motion.div>
 
-      {/* Online Now */}
-      <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card">
+      {/* Online Now - Table */}
+      <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
         <div className="flex items-center justify-between p-5 pb-3">
           <h2 className="font-semibold text-foreground flex items-center gap-2">
             <Users className="h-4 w-4 text-primary" />
@@ -43,29 +50,46 @@ export default function NetworkingPage() {
           </h2>
           <span className="text-xs text-muted-foreground">{onlineUsers.length} members</span>
         </div>
-        <div className="px-5 pb-4 space-y-2">
-          {onlineUsers.map((u) => (
-            <div key={u.name} className="flex items-center justify-between rounded-md p-2.5 hover:bg-muted/30 transition-colors">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <img
-                    src={u.image}
-                    alt={u.name}
-                    className="h-10 w-10 rounded-full object-cover"
-                  />
-                  <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-success" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">{u.name}</p>
-                  <p className="text-xs text-muted-foreground">{u.role}</p>
-                </div>
-              </div>
-              <button className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-accent-foreground hover:bg-accent/80 transition-colors">
-                <Video className="h-3 w-3" /> Connect
-              </button>
-            </div>
-          ))}
-        </div>
+        <table className="w-full">
+          <thead>
+            <tr className="border-t border-b border-border bg-muted/30">
+              <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</th>
+              <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Team</th>
+              <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Country</th>
+              <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Score</th>
+              <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Role</th>
+              <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider"></th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border">
+            {onlineUsers.map((u) => (
+              <tr key={u.name} className="hover:bg-muted/20 transition-colors">
+                <td className="px-5 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <img src={u.image} alt={u.name} className="h-9 w-9 rounded-full object-cover" />
+                      <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-success" />
+                    </div>
+                    <span className="text-sm font-medium text-foreground">{u.name}</span>
+                  </div>
+                </td>
+                <td className="px-5 py-3 text-sm text-foreground">{u.team}</td>
+                <td className="px-5 py-3 text-sm text-muted-foreground">{u.country}</td>
+                <td className="px-5 py-3">
+                  <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold", scoreColor(u.score))}>
+                    {u.score}
+                  </span>
+                </td>
+                <td className="px-5 py-3 text-sm text-muted-foreground">{u.role}</td>
+                <td className="px-5 py-3 text-right">
+                  <button className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-accent-foreground hover:bg-accent/80 transition-colors">
+                    <Video className="h-3 w-3" /> Connect
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </motion.div>
     </motion.div>
   );
