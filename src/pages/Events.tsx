@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import EventRegistration from "@/components/EventRegistration";
+import EventPeople from "@/components/EventPeople";
 const filterTabs = [
   { label: "All", count: 7, active: true },
   { label: "Live", count: 1 },
@@ -37,9 +38,8 @@ export default function EventsPage() {
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "";
 
-  if (activeTab === "registration") {
-    return <EventRegistration />;
-  }
+  if (activeTab === "registration") return <EventRegistration />;
+  if (activeTab === "people") return <EventPeople />;
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
