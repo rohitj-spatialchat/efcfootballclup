@@ -8,16 +8,19 @@ const featuredPosts = [
     title: "🏟️ EFC MPU 2025 Injury Prevention Summit | Register Now...",
     desc: "Hello Members 🎉 We're thrilled to announce the upcoming summit focusing on...",
     author: "Community Admin",
+    image: "https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?w=400&h=200&fit=crop",
   },
   {
     title: "🌍 Football Medicine Conference in Germany | ...",
     desc: "Hello, learners! Ready to take your career in football medicine gl...",
     author: "Community Admin",
+    image: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=400&h=200&fit=crop",
   },
   {
     title: "⚽ World Day of Sports Medicine | Let's Share ...",
     desc: "Hello, Members! At EFC, we believe that...",
     author: "Community Admin",
+    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=200&fit=crop",
   },
 ];
 
@@ -145,9 +148,7 @@ const Index = () => {
             <div className="flex gap-4 overflow-hidden">
               {featuredPosts.map((fp, i) => (
                 <div key={i} className="min-w-[200px] flex-1 rounded-lg border border-border bg-muted/30 p-3">
-                  <div className="h-24 rounded-md bg-primary/10 mb-3 flex items-center justify-center">
-                    <span className="text-3xl">⚽</span>
-                  </div>
+                  <img src={fp.image} alt="" className="h-24 w-full rounded-md object-cover mb-3" />
                   <p className="text-xs font-medium text-foreground line-clamp-2 mb-1">{fp.title}</p>
                   <p className="text-[11px] text-muted-foreground line-clamp-2 mb-2">{fp.desc}</p>
                   <div className="flex items-center gap-2">
