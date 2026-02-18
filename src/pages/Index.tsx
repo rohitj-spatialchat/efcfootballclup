@@ -5,22 +5,16 @@ import efcLogo from "@/assets/efclogo.png";
 
 const featuredPosts = [
   {
-    title: "🏟️ EFC MPU 2025 Injury Prevention Summit | Register Now...",
-    desc: "Hello Members 🎉 We're thrilled to announce the upcoming summit focusing on...",
-    author: "Community Admin",
-    image: "https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?w=400&h=200&fit=crop",
+    title: "UEFA Champions League – state of play",
+    image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&h=400&fit=crop",
   },
   {
-    title: "🌍 Football Medicine Conference in Germany | ...",
-    desc: "Hello, learners! Ready to take your career in football medicine gl...",
-    author: "Community Admin",
-    image: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=400&h=200&fit=crop",
+    title: "European clubs receive record €9m benefits for UEFA Women's EURO 2025",
+    image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&h=400&fit=crop",
   },
   {
-    title: "⚽ World Day of Sports Medicine | Let's Share ...",
-    desc: "Hello, Members! At EFC, we believe that...",
-    author: "Community Admin",
-    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=200&fit=crop",
+    title: "EFC x EA SPORTS FC Partnership",
+    image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=800&h=400&fit=crop",
   },
 ];
 
@@ -138,42 +132,45 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Featured Posts */}
-        <motion.div variants={item} className="rounded-lg border border-border bg-card p-5 shadow-card">
-          <div className="flex items-center justify-between mb-4">
+        {/* Featured Posts - Hero Carousel */}
+        <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
+          <div className="flex items-center justify-between p-4 pb-0">
             <h2 className="text-sm font-bold text-foreground uppercase tracking-wide">Featured Posts</h2>
-            <button className="text-xs font-medium text-primary hover:underline">EDIT ORDER</button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setFeaturedIndex(Math.max(0, featuredIndex - 1))}
+                className="h-7 w-7 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+              >
+                <ChevronLeft className="h-4 w-4 text-foreground" />
+              </button>
+              <button
+                onClick={() => setFeaturedIndex(Math.min(featuredPosts.length - 1, featuredIndex + 1))}
+                className="h-7 w-7 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+              >
+                <ChevronRight className="h-4 w-4 text-foreground" />
+              </button>
+            </div>
           </div>
-          <div className="relative">
-            <div className="flex gap-4 overflow-hidden">
-              {featuredPosts.map((fp, i) => (
-                <div key={i} className="min-w-[200px] flex-1 rounded-lg border border-border bg-muted/30 p-3">
-                  <img src={fp.image} alt="" className="h-24 w-full rounded-md object-cover mb-3" />
-                  <p className="text-xs font-medium text-foreground line-clamp-2 mb-1">{fp.title}</p>
-                  <p className="text-[11px] text-muted-foreground line-clamp-2 mb-2">{fp.desc}</p>
-                  <div className="flex items-center gap-2">
-                    <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
-                      <img src={efcLogo} alt="" className="h-5 w-5 rounded-full object-cover" />
-                    </div>
-                    <span className="text-[11px] font-medium text-foreground">{fp.author}</span>
-                  </div>
-                </div>
+          <div className="p-4">
+            <div className="relative rounded-xl overflow-hidden h-52">
+              <img src={featuredPosts[featuredIndex].image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3 className="text-lg font-bold text-white leading-snug">{featuredPosts[featuredIndex].title}</h3>
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-1.5 mt-3">
+              {featuredPosts.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setFeaturedIndex(i)}
+                  className={`h-1.5 rounded-full transition-all ${i === featuredIndex ? "w-6 bg-primary" : "w-1.5 bg-border"}`}
+                />
               ))}
             </div>
-            <button
-              onClick={() => setFeaturedIndex(Math.max(0, featuredIndex - 1))}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 h-7 w-7 rounded-full bg-card border border-border shadow-card flex items-center justify-center hover:bg-muted transition-colors"
-            >
-              <ChevronLeft className="h-4 w-4 text-foreground" />
-            </button>
-            <button
-              onClick={() => setFeaturedIndex(Math.min(featuredPosts.length - 1, featuredIndex + 1))}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 h-7 w-7 rounded-full bg-card border border-border shadow-card flex items-center justify-center hover:bg-muted transition-colors"
-            >
-              <ChevronRight className="h-4 w-4 text-foreground" />
-            </button>
           </div>
         </motion.div>
+
 
         {/* Create Post */}
         <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
