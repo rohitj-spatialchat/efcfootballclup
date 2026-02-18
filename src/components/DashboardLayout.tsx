@@ -476,7 +476,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Event Management</h3>
             <nav className="space-y-0.5 px-2">
               {[
-                { label: "Event Setup", icon: ClipboardList },
+                { label: "Event", icon: ClipboardList },
                 { label: "Registration", icon: UserCheck },
                 { label: "People", icon: UsersRound },
                 { label: "Engagement", icon: Flame },
