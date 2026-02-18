@@ -1,3 +1,4 @@
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Zap, Users, Shuffle, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,17 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 export default function NetworkingPage() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentUser = onlineUsers[currentIndex];
+
+  const handleShuffle = useCallback(() => {
+    let next: number;
+    do {
+      next = Math.floor(Math.random() * onlineUsers.length);
+    } while (next === currentIndex && onlineUsers.length > 1);
+    setCurrentIndex(next);
+  }, [currentIndex]);
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.div variants={item}>
@@ -31,14 +43,20 @@ export default function NetworkingPage() {
 
       {/* Quick Match Card */}
       <motion.div variants={item} className="rounded-lg border border-border bg-card p-8 shadow-card text-center max-w-lg mx-auto">
-        <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-          <Zap className="h-8 w-8 text-primary" />
+        <motion.div key={currentIndex} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}>
+          <img src={currentUser.image} alt={currentUser.name} className="h-20 w-20 rounded-full object-cover mx-auto mb-4 border-2 border-primary/20" />
+          <h2 className="text-lg font-semibold text-foreground">{currentUser.name}</h2>
+          <p className="text-sm text-primary font-medium">{currentUser.team}</p>
+          <p className="text-sm text-muted-foreground mb-6">{currentUser.role}</p>
+        </motion.div>
+        <div className="flex items-center justify-center gap-3">
+          <button onClick={handleShuffle} className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            <Shuffle className="h-4 w-4" /> Shuffle & Match
+          </button>
+          <button className="inline-flex items-center gap-1.5 rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground hover:bg-accent/80 transition-colors">
+            <Video className="h-4 w-4" /> Connect
+          </button>
         </div>
-        <h2 className="text-lg font-semibold text-foreground mb-1">Ready to Network?</h2>
-        <p className="text-sm text-muted-foreground mb-6">Get matched with a random community member for a quick conversation</p>
-        <button className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-          <Shuffle className="h-4 w-4" /> Shuffle & Match
-        </button>
       </motion.div>
 
       {/* Online Now - Table */}
