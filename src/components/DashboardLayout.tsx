@@ -11,6 +11,7 @@ import {
   Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import efcLogo from "@/assets/efclogo.png";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/" },
@@ -34,9 +35,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="flex h-14 items-center justify-between px-6">
           {/* Logo */}
           <div className="flex items-center gap-2 shrink-0">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-              E
-            </div>
+            <img src={efcLogo} alt="EFC Logo" className="h-8 w-8 rounded-full object-cover" />
             <span className="font-semibold text-foreground text-sm hidden sm:inline">EFC Community</span>
           </div>
 
