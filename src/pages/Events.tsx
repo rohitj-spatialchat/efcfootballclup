@@ -13,13 +13,13 @@ const filterTabs = [
 ];
 
 const events = [
-  { name: "Product Launch Webinar", type: "Webinar", date: "Feb 18, 2026", status: "Live", registrations: 312, capacity: 500, revenue: "$2,450" },
-  { name: "Q1 Team All-Hands", type: "Internal", date: "Feb 22, 2026", status: "Scheduled", registrations: 156, capacity: 200, revenue: "-" },
-  { name: "Customer Success Summit", type: "Conference", date: "Feb 25, 2026", status: "Scheduled", registrations: 412, capacity: 1000, revenue: "$8,900" },
-  { name: "Tech Talk Series: AI Trends", type: "Webinar", date: "Mar 1, 2026", status: "Draft", registrations: 0, capacity: 300, revenue: "-" },
-  { name: "Quarterly Business Review", type: "Internal", date: "Jan 15, 2026", status: "Ended", registrations: 45, capacity: 50, revenue: "-" },
-  { name: "Design System Workshop", type: "Workshop", date: "Mar 10, 2026", status: "Scheduled", registrations: 12, capacity: 50, revenue: "$1,200" },
-  { name: "Marketing Strategy 2026", type: "Meeting", date: "Mar 15, 2026", status: "Draft", registrations: 0, capacity: 100, revenue: "-" },
+  { name: "EFC MPU Annual Summit 2026", type: "Conference", date: "Feb 18, 2026", status: "Live", registrations: 312, capacity: 500, revenue: "$2,450" },
+  { name: "Sports Science Masterclass", type: "Webinar", date: "Feb 22, 2026", status: "Scheduled", registrations: 156, capacity: 200, revenue: "-" },
+  { name: "Injury Prevention Workshop", type: "Workshop", date: "Feb 25, 2026", status: "Scheduled", registrations: 412, capacity: 1000, revenue: "$8,900" },
+  { name: "Nutrition & Performance Seminar", type: "Webinar", date: "Mar 1, 2026", status: "Draft", registrations: 0, capacity: 300, revenue: "-" },
+  { name: "ACL Recovery Symposium", type: "Conference", date: "Jan 15, 2026", status: "Ended", registrations: 45, capacity: 50, revenue: "-" },
+  { name: "Strength & Conditioning Camp", type: "Workshop", date: "Mar 10, 2026", status: "Scheduled", registrations: 12, capacity: 50, revenue: "$1,200" },
+  { name: "Speed Networking Session", type: "Meeting", date: "Mar 15, 2026", status: "Draft", registrations: 0, capacity: 100, revenue: "-" },
 ];
 
 const statusStyles: Record<string, string> = {
