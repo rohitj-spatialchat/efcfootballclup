@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Plus, Upload, Search, UserPlus, MoreVertical } from "lucide-react";
+import { Plus, Upload, Search, UserPlus, MoreVertical, Mic } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -33,14 +33,43 @@ const engagementColor = (val: number) => {
   return "bg-muted-foreground";
 };
 
+const speakers = [
+  { initials: "SJ", name: "Sarah Johnson", role: "Head of Sports Science", team: "FC Barcelona", topic: "Injury Prevention in Elite Football", session: "Main Stage", time: "10:00 AM", color: "bg-primary", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" },
+  { initials: "MR", name: "Dr. Marco Rossi", role: "Sports Medicine Director", team: "AC Milan", topic: "Advances in ACL Rehabilitation", session: "Workshop Room A", time: "11:30 AM", color: "bg-amber-500", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" },
+  { initials: "JW", name: "James Wilson", role: "Rehabilitation Specialist", team: "Liverpool FC", topic: "Return to Play Protocols", session: "Main Stage", time: "2:00 PM", color: "bg-muted-foreground", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&h=100&fit=crop&crop=face" },
+  { initials: "LA", name: "Lisa Anderson", role: "Nutritionist", team: "Juventus", topic: "Nutrition for Recovery", session: "Workshop Room B", time: "3:30 PM", color: "bg-purple-500", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face" },
+];
+
+const peopleTabs = ["Attendees", "Speakers"];
+
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 export default function EventPeople() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [activeTab, setActiveTab] = useState("Attendees");
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
+      {/* Tabs */}
+      <motion.div variants={item} className="flex items-center gap-1 border-b border-border">
+        {peopleTabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={cn(
+              "px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px",
+              activeTab === tab
+                ? "border-primary text-foreground"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            )}
+          >
+            {tab}
+          </button>
+        ))}
+      </motion.div>
+
+      {activeTab === "Attendees" && (<>
       {/* Actions */}
       <motion.div variants={item} className="flex items-center gap-3">
         <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors">
@@ -157,6 +186,47 @@ export default function EventPeople() {
           </tbody>
         </table>
       </motion.div>
+      </>)}
+
+      {activeTab === "Speakers" && (
+        <>
+          {/* Speaker Actions */}
+          <motion.div variants={item} className="flex items-center gap-3">
+            <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+              <Plus className="h-4 w-4" /> Add Speaker
+            </button>
+          </motion.div>
+
+          {/* Speaker Cards */}
+          <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {speakers.map((s) => (
+              <div key={s.name} className="rounded-lg border border-border bg-card p-5 flex gap-4 hover:shadow-md transition-shadow">
+                <img src={s.image} alt={s.name} className="h-16 w-16 rounded-full object-cover shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{s.name}</p>
+                      <p className="text-xs text-primary font-medium">{s.team}</p>
+                      <p className="text-xs text-muted-foreground">{s.role}</p>
+                    </div>
+                    <button className="text-muted-foreground hover:text-foreground">
+                      <MoreVertical className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2">
+                    <Mic className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                    <p className="text-xs text-foreground font-medium truncate">{s.topic}</p>
+                  </div>
+                  <div className="mt-2 flex items-center gap-3">
+                    <span className="text-[10px] bg-muted text-muted-foreground rounded-md px-2 py-0.5 font-medium">{s.session}</span>
+                    <span className="text-[10px] text-muted-foreground">{s.time}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </>
+      )}
     </motion.div>
   );
 }
