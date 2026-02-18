@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { Plus, Search, Pencil, Settings, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-
+import { useSearchParams } from "react-router-dom";
+import EventRegistration from "@/components/EventRegistration";
 const filterTabs = [
   { label: "All", count: 7, active: true },
   { label: "Live", count: 1 },
@@ -33,6 +34,12 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 export default function EventsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [searchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "";
+
+  if (activeTab === "registration") {
+    return <EventRegistration />;
+  }
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
