@@ -27,6 +27,18 @@ import {
   Flame,
   Video,
   Radio,
+  MapPin,
+  Shield,
+  Mountain,
+  Compass,
+  Landmark,
+  Snowflake,
+  Sun,
+  Castle,
+  Grape,
+  Activity,
+  RotateCcw,
+  CalendarClock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
@@ -61,19 +73,19 @@ const groups = [
 ];
 
 const spatialRooms = [
-  { name: "Balkans", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" },
-  { name: "United Kingdom", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" },
-  { name: "DACH", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" },
-  { name: "RU+", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" },
-  { name: "Benelux", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" },
-  { name: "Central", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" },
-  { name: "Nordics", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=40&h=40&fit=crop&crop=face" },
-  { name: "Latin", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" },
-  { name: "Eastern", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" },
-  { name: "Iberico", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" },
-  { name: "Injury Prevention", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" },
-  { name: "Return to Performance", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" },
-  { name: "Periodization", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" },
+  { name: "Balkans", icon: Mountain },
+  { name: "United Kingdom", icon: Landmark },
+  { name: "DACH", icon: Castle },
+  { name: "RU+", icon: Compass },
+  { name: "Benelux", icon: Grape },
+  { name: "Central", icon: MapPin },
+  { name: "Nordics", icon: Snowflake },
+  { name: "Latin", icon: Sun },
+  { name: "Eastern", icon: Shield },
+  { name: "Iberico", icon: Globe },
+  { name: "Injury Prevention", icon: Activity },
+  { name: "Return to Performance", icon: RotateCcw },
+  { name: "Periodization", icon: CalendarClock },
 ];
 
 const notifications = [
@@ -435,7 +447,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     key={room.name}
                     className="flex items-center gap-2 w-full rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                   >
-                    <img src={room.image} alt="" className="h-5 w-5 rounded-full object-cover shrink-0" />
+                    <room.icon className="h-3.5 w-3.5 shrink-0" />
                     {room.name}
                   </button>
                 ))}
