@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon } from "lucide-react";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame } from "lucide-react";
 import { useState } from "react";
 import efcLogo from "@/assets/efclogo.png";
 
@@ -263,9 +263,38 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Right Sidebar - Trending News */}
+      {/* Right Sidebar */}
       <div className="hidden lg:block w-72 shrink-0">
-        <div className="sticky top-20">
+        <div className="sticky top-20 space-y-4">
+          {/* Karma / Rank / Streak Stats */}
+          <motion.div variants={item} className="space-y-3">
+            <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                <Star className="h-4 w-4 text-amber-400" />
+                <span className="text-sm">Your Karma</span>
+              </div>
+              <p className="text-2xl font-bold text-foreground">1,240</p>
+              <p className="text-xs text-emerald-500 font-medium">+65 this week</p>
+            </div>
+            <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                <TrendingIcon className="h-4 w-4 text-emerald-500" />
+                <span className="text-sm">Your Rank</span>
+              </div>
+              <p className="text-2xl font-bold text-foreground">#4</p>
+              <p className="text-xs text-emerald-500 font-medium">↑ 2 positions</p>
+            </div>
+            <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                <Flame className="h-4 w-4 text-destructive" />
+                <span className="text-sm">Streak</span>
+              </div>
+              <p className="text-2xl font-bold text-foreground">30 days</p>
+              <p className="text-xs text-muted-foreground font-medium">Personal best!</p>
+            </div>
+          </motion.div>
+
+          {/* Trending News */}
           <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
             <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
               <TrendingIcon className="h-4 w-4 text-primary" />
