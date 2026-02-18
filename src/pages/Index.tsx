@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send } from "lucide-react";
 import { useState } from "react";
 import efcLogo from "@/assets/efclogo.png";
 import featuredUcl from "@/assets/featured-ucl.png";
@@ -87,6 +87,11 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 const Index = () => {
   const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [liveEventOpen, setLiveEventOpen] = useState(false);
+  const [chatMessage, setChatMessage] = useState("");
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoOff, setIsVideoOff] = useState(false);
+  const [activeTab, setActiveTab] = useState("Chat");
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
@@ -129,7 +134,10 @@ const Index = () => {
                 <p className="text-xs text-muted-foreground">12 participants • Started 15 min ago</p>
               </div>
             </div>
-            <button className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            <button
+              onClick={() => setLiveEventOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
               Join Now
             </button>
           </div>
@@ -373,6 +381,212 @@ const Index = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* SpatialChat-style Live Event Overlay */}
+      <AnimatePresence>
+        {liveEventOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-[hsl(230,25%,12%)] flex flex-col"
+          >
+            {/* Top Bar */}
+            <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
+              <div className="flex items-center gap-4">
+                <button className="text-white/60 hover:text-white transition-colors">
+                  <Grid3X3 className="h-5 w-5" />
+                </button>
+                <span className="text-white/40">|</span>
+                <span className="text-white font-medium text-sm">EFC Event</span>
+                <div className="flex items-center gap-1.5 text-white/50 text-sm">
+                  <Users className="h-4 w-4" />
+                  <span>120</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <button className="text-white/60 hover:text-white transition-colors text-sm">Invite</button>
+                <button
+                  onClick={() => setLiveEventOpen(false)}
+                  className="rounded-full bg-destructive/80 hover:bg-destructive p-1.5 text-white transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-1 min-h-0">
+              {/* Left - Participant Videos */}
+              <div className="w-36 shrink-0 p-3 space-y-3 overflow-y-auto">
+                {[
+                  { name: "You", color: "border-primary" },
+                  { name: "Dr. Rossi", color: "border-amber-400" },
+                  { name: "Sarah M.", color: "border-amber-400" },
+                  { name: "Alex C.", color: "border-primary" },
+                  { name: "Emma J.", color: "border-primary" },
+                ].map((p, i) => (
+                  <div key={i} className={`rounded-lg border-2 ${p.color} overflow-hidden aspect-square bg-[hsl(230,20%,18%)] flex items-center justify-center`}>
+                    <div className="text-center">
+                      <div className="h-10 w-10 mx-auto rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
+                        {p.name.split(" ").map(n => n[0]).join("")}
+                      </div>
+                      <p className="text-[10px] text-white/70 mt-1">{p.name}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Center - Main Presentation */}
+              <div className="flex-1 flex flex-col items-center justify-center p-4 min-w-0">
+                <div className="w-full max-w-3xl aspect-video rounded-xl overflow-hidden bg-[hsl(230,20%,16%)] border border-white/10 relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=900&h=500&fit=crop"
+                    alt="Presentation"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="flex items-end justify-between">
+                      <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
+                        <p className="text-white text-xs font-bold">EFC MPU Injury Prevention Summit</p>
+                        <p className="text-white/60 text-[10px]">Live • 12 participants</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Participant Avatars Row */}
+                <div className="flex items-center gap-3 mt-6">
+                  {["M", "N"].map((letter, i) => (
+                    <div key={i} className={`h-12 w-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${i === 0 ? "bg-amber-500" : "bg-primary"}`}>
+                      {letter}
+                    </div>
+                  ))}
+                  {[
+                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=48&h=48&fit=crop&crop=face",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&crop=face",
+                    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&crop=face",
+                  ].map((src, i) => (
+                    <img key={i} src={src} alt="" className="h-12 w-12 rounded-full object-cover border-2 border-white/20" />
+                  ))}
+                </div>
+
+                {/* Bottom Toolbar */}
+                <div className="flex items-center gap-2 mt-6">
+                  {[
+                    { icon: Plus, active: false },
+                    { icon: PenTool, active: false },
+                    { icon: Monitor, active: false },
+                    { icon: MessageCircle, active: false },
+                  ].map((btn, i) => (
+                    <button key={i} className="h-11 w-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors">
+                      <btn.icon className="h-5 w-5" />
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setIsVideoOff(!isVideoOff)}
+                    className={`h-11 w-11 rounded-full flex items-center justify-center transition-colors ${isVideoOff ? "bg-destructive/80 text-white" : "bg-primary text-white"}`}
+                  >
+                    {isVideoOff ? <VideoOff className="h-5 w-5" /> : <Video className="h-5 w-5" />}
+                  </button>
+                  <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className={`h-11 w-11 rounded-full flex items-center justify-center transition-colors ${isMuted ? "bg-destructive/80 text-white" : "bg-primary text-white"}`}
+                  >
+                    {isMuted ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+                  </button>
+                  {[
+                    { icon: Share, active: false },
+                    { icon: Grid3X3, active: false },
+                  ].map((btn, i) => (
+                    <button key={i} className="h-11 w-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors">
+                      <btn.icon className="h-5 w-5" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right - Chat Panel */}
+              <div className="w-80 shrink-0 border-l border-white/10 flex flex-col bg-[hsl(230,20%,15%)]">
+                {/* Tabs */}
+                <div className="flex border-b border-white/10">
+                  {["Chat", "Q&A", "Poll", "Docs"].map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`flex-1 py-3 text-sm font-medium transition-colors ${
+                        activeTab === tab ? "text-white border-b-2 border-primary" : "text-white/50 hover:text-white/70"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Chat Messages */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-5">
+                  {[
+                    {
+                      name: "Benjamin",
+                      time: "3:13pm",
+                      avatar: "B",
+                      message: "Can you suggest tools or resources to enhance storytelling skills? A book perhaps?",
+                      reactions: 5,
+                    },
+                    {
+                      name: "Amelia",
+                      time: "3:13pm",
+                      avatar: "A",
+                      message: "@Benjamin Story Brand by Donald Miller is a good place to start. It lays out the fundamentals!",
+                      reactions: 2,
+                    },
+                    {
+                      name: "Ethan",
+                      time: "3:13pm",
+                      avatar: "E",
+                      message: "What are some effective ways to collect customer stories for marketing?",
+                      reactions: 0,
+                    },
+                  ].map((msg, i) => (
+                    <div key={i} className="flex gap-3">
+                      <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 text-xs font-bold shrink-0">
+                        {msg.avatar}
+                      </div>
+                      <div>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-sm font-semibold text-white">{msg.name}</span>
+                          <span className="text-[10px] text-white/40">{msg.time}</span>
+                        </div>
+                        <p className="text-sm text-white/70 mt-0.5 leading-relaxed">{msg.message}</p>
+                        {msg.reactions > 0 && (
+                          <span className="inline-flex items-center gap-1 mt-1.5 text-xs text-amber-400">
+                            🔥 {msg.reactions}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Chat Input */}
+                <div className="p-3 border-t border-white/10">
+                  <div className="flex items-center gap-2 rounded-full border border-primary/50 bg-white/5 px-4 py-2">
+                    <input
+                      type="text"
+                      value={chatMessage}
+                      onChange={(e) => setChatMessage(e.target.value)}
+                      placeholder="Contribute to the discussion!"
+                      className="flex-1 bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
+                    />
+                    <button className="text-white/40 hover:text-white transition-colors">
+                      <Send className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
