@@ -99,13 +99,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [liveSessionOpen, setLiveSessionOpen] = useState(false);
   const [sessionType, setSessionType] = useState("video");
+  const [dmOpen, setDmOpen] = useState(false);
+  const [dmTab, setDmTab] = useState("Inbox");
+  const [activeContact, setActiveContact] = useState("Robert Fox");
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const dmRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (notifRef.current && !notifRef.current.contains(e.target as Node)) setNotifOpen(false);
       if (profileRef.current && !profileRef.current.contains(e.target as Node)) setProfileOpen(false);
+      if (dmRef.current && !dmRef.current.contains(e.target as Node)) setDmOpen(false);
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
@@ -186,12 +191,82 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
 
             {/* Direct Chat */}
-            <button
-              onClick={() => navigate("/chat")}
-              className="rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors"
-            >
-              <MessageCircle className="h-4 w-4" />
-            </button>
+            <div ref={dmRef} className="relative">
+              <button
+                onClick={() => { setDmOpen(!dmOpen); setNotifOpen(false); setProfileOpen(false); }}
+                className="relative rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors"
+              >
+                <MessageCircle className="h-4 w-4" />
+                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" />
+              </button>
+              {dmOpen && (
+                <div className="absolute right-0 top-full mt-1 w-[360px] rounded-lg border border-border bg-card shadow-elevated z-50 flex flex-col" style={{ maxHeight: "calc(100vh - 4rem)" }}>
+                  <div className="flex items-center justify-between p-4 border-b border-border">
+                    <h2 className="text-base font-semibold text-foreground">Direct messages</h2>
+                    <button onClick={() => setDmOpen(false)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
+                  </div>
+                  <div className="flex items-center gap-4 px-4 pt-3 pb-2">
+                    {["Inbox", "Unread", "Agents"].map((tab) => (
+                      <button
+                        key={tab}
+                        onClick={() => setDmTab(tab)}
+                        className={cn("text-sm pb-1", dmTab === tab ? "text-foreground font-medium border-b-2 border-foreground" : "text-muted-foreground")}
+                      >
+                        {tab === "Agents" ? "✨ Agents" : tab}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="px-4 py-2">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                      <input type="text" placeholder="Search for a name" className="h-8 w-full rounded-md border border-input bg-background pl-9 pr-3 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring" />
+                    </div>
+                  </div>
+                  <div className="px-4 py-1">
+                    <span className="text-[10px] font-semibold text-primary uppercase tracking-wider">✨ Agents</span>
+                  </div>
+                  <div className="flex-1 overflow-y-auto">
+                    {[
+                      { name: "Clarity Coach", time: "9:45", preview: "Just wanted to check in and se...", agent: true },
+                      { name: "Carlos Ramirez", time: "10:18", preview: "Creating a space where clients...", unread: true },
+                      { name: "Robert, Edwin +2", time: "10:30", preview: "How you're feeling about this w..." },
+                      { name: "Robert Fox", time: "10:46", preview: "Can we discuss that project we...", active: true },
+                      { name: "Dianne Russell", time: "11:08", preview: "I just crossed a new income mil...", unread: true },
+                      { name: "Mei Wong", time: "12:45", preview: "Wanted to share something exci...", unread: true },
+                      { name: "Kwame Adebayo", time: "1:03", preview: "I was thinking about our niche cl..." },
+                      { name: "Ravi Patel", time: "1:18", preview: "I made a new client offer today!..." },
+                      { name: "Esther Howard", time: "9:45", preview: "Hope you're doing well. Any pla..." },
+                    ].map((c) => (
+                      <button
+                        key={c.name}
+                        onClick={() => { setActiveContact(c.name); setDmOpen(false); navigate("/chat"); }}
+                        className={cn("flex items-start gap-3 w-full px-4 py-3 text-left hover:bg-muted/50 transition-colors", activeContact === c.name && "bg-muted/50")}
+                      >
+                        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-semibold text-primary shrink-0">
+                          {c.agent ? "🤖" : c.name.split(" ").map(n => n[0]).join("")}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-foreground">{c.name}</span>
+                            <span className="text-[10px] text-muted-foreground">{c.time}</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground truncate">{c.preview}</p>
+                        </div>
+                        {c.unread && <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0" />}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="p-3 border-t border-border">
+                    <button
+                      onClick={() => { setDmOpen(false); navigate("/chat"); }}
+                      className="w-full text-center text-sm text-primary hover:underline font-medium"
+                    >
+                      Open all messages
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Profile Dropdown */}
             <div ref={profileRef} className="relative ml-1">
