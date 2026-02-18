@@ -126,7 +126,7 @@ export default function KnowledgePage() {
         </div>
 
         {/* Sort & Filter Sidebar */}
-        <motion.div variants={item} className="hidden xl:block w-56 shrink-0 space-y-5">
+        <motion.div variants={item} className="hidden lg:block w-60 shrink-0 space-y-5">
           <div>
             <h3 className="text-sm font-semibold text-primary mb-1">Sort & Filter</h3>
             <p className="text-xs text-muted-foreground">Find the content you are looking for across the Knowledge Hub</p>
