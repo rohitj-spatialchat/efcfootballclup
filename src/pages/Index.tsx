@@ -92,27 +92,6 @@ const Index = () => {
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
       {/* Main Feed Column */}
       <div className="flex-1 space-y-5 min-w-0">
-        {/* Ongoing Live Call Banner */}
-        <motion.div variants={item} className="rounded-lg border border-destructive/30 bg-destructive/5 p-4 shadow-card">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
-                <span className="h-3 w-3 rounded-full bg-destructive animate-pulse" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-destructive uppercase tracking-wide">● Live Now</span>
-                </div>
-                <p className="text-sm font-semibold text-foreground">EFC MPU Injury Prevention Summit</p>
-                <p className="text-xs text-muted-foreground">12 participants • Started 15 min ago</p>
-              </div>
-            </div>
-            <button className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-              Join Now
-            </button>
-          </div>
-        </motion.div>
-
         {/* Hero Banner */}
         <motion.div
           variants={item}
@@ -132,6 +111,27 @@ const Index = () => {
                 <path d="M0 200 Q200 100 400 200 T800 200" stroke="white" strokeWidth="1.5" />
               </svg>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Ongoing Live Call Banner */}
+        <motion.div variants={item} className="rounded-lg border border-destructive/30 bg-destructive/5 p-4 shadow-card">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
+                <span className="h-3 w-3 rounded-full bg-destructive animate-pulse" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold text-destructive uppercase tracking-wide">● Live Now</span>
+                </div>
+                <p className="text-sm font-semibold text-foreground">EFC MPU Injury Prevention Summit</p>
+                <p className="text-xs text-muted-foreground">12 participants • Started 15 min ago</p>
+              </div>
+            </div>
+            <button className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+              Join Now
+            </button>
           </div>
         </motion.div>
 
