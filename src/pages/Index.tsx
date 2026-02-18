@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame } from "lucide-react";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import efcLogo from "@/assets/efclogo.png";
 import featuredUcl from "@/assets/featured-ucl.png";
@@ -320,6 +320,38 @@ const Index = () => {
                 +120
               </div>
             </div>
+          </motion.div>
+
+          {/* Mini Leaderboard */}
+          <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
+            <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+              <Trophy className="h-4 w-4 text-amber-400" />
+              Leaderboard
+            </h3>
+            <div className="space-y-2.5">
+              {[
+                { rank: 1, name: "Dr. Marco Rossi", points: "2,480", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" },
+                { rank: 2, name: "Sarah Mitchell", points: "2,120", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" },
+                { rank: 3, name: "Alex Chen", points: "1,890", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" },
+                { rank: 4, name: "Emma Johansson", points: "1,240", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" },
+                { rank: 5, name: "Kwame Adebayo", points: "1,100", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" },
+              ].map((user) => (
+                <div key={user.rank} className="flex items-center gap-2.5">
+                  <span className={`text-xs font-bold w-4 text-center ${user.rank <= 3 ? "text-amber-400" : "text-muted-foreground"}`}>
+                    {user.rank}
+                  </span>
+                  <img src={user.image} alt="" className="h-7 w-7 rounded-full object-cover" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-foreground truncate">{user.name}</p>
+                  </div>
+                  <span className="text-[10px] font-semibold text-muted-foreground">{user.points}</span>
+                </div>
+              ))}
+            </div>
+            <a href="/leaderboard" className="flex items-center justify-center gap-1.5 mt-3 pt-3 border-t border-border text-xs font-medium text-primary hover:underline">
+              <ExternalLink className="h-3 w-3" />
+              View Leaderboard
+            </a>
           </motion.div>
 
           {/* Trending News */}
