@@ -113,20 +113,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Spatial Rooms */}
-        <motion.div variants={item} className="rounded-lg border border-border bg-card p-5 shadow-card">
-          <h2 className="text-lg font-bold text-foreground mb-3">Spatial Rooms</h2>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-foreground">United Kingdom EFC MPU Event</p>
-              <p className="text-xs text-muted-foreground mt-0.5">65 speakers in Geography</p>
-            </div>
-            <button className="inline-flex items-center rounded-full bg-[hsl(230,60%,60%)] px-6 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity">
-              Join Now
-            </button>
-          </div>
-        </motion.div>
-
         {/* Hero Banner */}
         <motion.div
           variants={item}
