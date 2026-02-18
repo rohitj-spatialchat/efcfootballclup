@@ -268,26 +268,30 @@ const Index = () => {
       <div className="hidden lg:block w-72 shrink-0">
         <div className="sticky top-20 space-y-4">
           {/* Karma / Rank / Streak Stats */}
-          <motion.div variants={item} className="rounded-lg border border-border bg-card p-3 shadow-card">
-            <div className="grid grid-cols-3 divide-x divide-border">
-              <div className="px-2 text-center">
-                <Star className="h-4 w-4 text-amber-400 mx-auto mb-1" />
-                <p className="text-[10px] text-muted-foreground">Karma</p>
-                <p className="text-sm font-bold text-foreground">1,240</p>
-                <p className="text-[10px] text-emerald-500 font-medium">+65</p>
+          <motion.div variants={item} className="space-y-3">
+            <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                <Star className="h-4 w-4 text-amber-400" />
+                <span className="text-sm">Your Karma</span>
               </div>
-              <div className="px-2 text-center">
-                <TrendingIcon className="h-4 w-4 text-emerald-500 mx-auto mb-1" />
-                <p className="text-[10px] text-muted-foreground">Rank</p>
-                <p className="text-sm font-bold text-foreground">#4</p>
-                <p className="text-[10px] text-emerald-500 font-medium">↑ 2</p>
+              <p className="text-2xl font-bold text-foreground">1,240</p>
+              <p className="text-xs text-emerald-500 font-medium">+65 this week</p>
+            </div>
+            <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                <TrendingIcon className="h-4 w-4 text-emerald-500" />
+                <span className="text-sm">Your Rank</span>
               </div>
-              <div className="px-2 text-center">
-                <Flame className="h-4 w-4 text-destructive mx-auto mb-1" />
-                <p className="text-[10px] text-muted-foreground">Streak</p>
-                <p className="text-sm font-bold text-foreground">30d</p>
-                <p className="text-[10px] text-muted-foreground font-medium">Best!</p>
+              <p className="text-2xl font-bold text-foreground">#4</p>
+              <p className="text-xs text-emerald-500 font-medium">↑ 2 positions</p>
+            </div>
+            <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                <Flame className="h-4 w-4 text-destructive" />
+                <span className="text-sm">Streak</span>
               </div>
+              <p className="text-2xl font-bold text-foreground">30 days</p>
+              <p className="text-xs text-muted-foreground font-medium">Personal best!</p>
             </div>
           </motion.div>
 
