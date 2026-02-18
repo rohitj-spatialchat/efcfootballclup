@@ -57,9 +57,6 @@ const navItems = [
   { label: "Leaderboard", path: "/leaderboard" },
   { label: "Networking", path: "/networking" },
   { label: "AI Search", path: "/ai-search" },
-  { label: "Settings", path: "/settings" },
-  { label: "Analytics", path: "/analytics" },
-  { label: "Engagement", path: "/engagement" },
 ];
 
 const groups = [
