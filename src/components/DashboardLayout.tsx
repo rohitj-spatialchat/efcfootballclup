@@ -39,6 +39,8 @@ import {
   Activity,
   RotateCcw,
   CalendarClock,
+  BarChart3,
+  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
@@ -57,9 +59,6 @@ const navItems = [
   { label: "Leaderboard", path: "/leaderboard" },
   { label: "Networking", path: "/networking" },
   { label: "AI Search", path: "/ai-search" },
-  { label: "Settings", path: "/settings" },
-  { label: "Analytics", path: "/analytics" },
-  { label: "Engagement", path: "/engagement" },
 ];
 
 const groups = [
@@ -398,6 +397,30 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             >
               <Send className="h-4 w-4" />
               Direct Message EFC MPU
+            </Link>
+            <Link
+              to="/analytics"
+              className={cn(
+                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                location.pathname === "/analytics"
+                  ? "bg-primary text-primary-foreground font-medium"
+                  : "text-foreground hover:bg-muted"
+              )}
+            >
+              <BarChart3 className="h-4 w-4" />
+              Analytics
+            </Link>
+            <Link
+              to="/engagement"
+              className={cn(
+                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                location.pathname === "/engagement"
+                  ? "bg-primary text-primary-foreground font-medium"
+                  : "text-foreground hover:bg-muted"
+              )}
+            >
+              <Heart className="h-4 w-4" />
+              Engagement
             </Link>
           </div>
 
