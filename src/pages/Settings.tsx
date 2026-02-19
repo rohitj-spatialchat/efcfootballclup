@@ -45,6 +45,8 @@ const defaultLevels = [
   { level: 2, title: "Midfielder", pointsRequired: 50, badge: "🥉" },
   { level: 3, title: "Striker", pointsRequired: 150, badge: "🥈" },
   { level: 4, title: "Champion", pointsRequired: 400, badge: "🏆" },
+  { level: 5, title: "Legend", pointsRequired: 800, badge: "👑" },
+  { level: 6, title: "Hall of Fame", pointsRequired: 1500, badge: "⭐" },
 ];
 
 const pointRules = [
