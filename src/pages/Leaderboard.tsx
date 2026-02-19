@@ -9,12 +9,14 @@ const levels = [
   { level: 2, title: "Midfielder", pointsRequired: 50, badge: "🥉" },
   { level: 3, title: "Striker", pointsRequired: 150, badge: "🥈" },
   { level: 4, title: "Champion", pointsRequired: 400, badge: "🏆" },
+  { level: 5, title: "Legend", pointsRequired: 800, badge: "👑" },
+  { level: 6, title: "Hall of Fame", pointsRequired: 1500, badge: "⭐" },
 ];
 
 const leaderboard = [
-  { rank: 1, name: "Casey Nguyen", xp: 520, level: 4, streak: 45, badge: "🏆", change: "+120" },
-  { rank: 2, name: "Jamie Lawson", xp: 430, level: 4, streak: 38, badge: "🏆", change: "+95" },
-  { rank: 3, name: "Chris Rodriguez", xp: 280, level: 3, streak: 22, badge: "🥈", change: "+80" },
+  { rank: 1, name: "Casey Nguyen", xp: 1600, level: 6, streak: 45, badge: "⭐", change: "+120" },
+  { rank: 2, name: "Jamie Lawson", xp: 950, level: 5, streak: 38, badge: "👑", change: "+95" },
+  { rank: 3, name: "Chris Rodriguez", xp: 520, level: 4, streak: 22, badge: "🏆", change: "+80" },
   { rank: 4, name: "Sarah Mitchell", xp: 190, level: 3, streak: 30, badge: "🥈", change: "+65" },
   { rank: 5, name: "Alex Chen", xp: 120, level: 2, streak: 18, badge: "🥉", change: "+50" },
   { rank: 6, name: "Morgan Davis", xp: 85, level: 2, streak: 12, badge: "🥉", change: "+40" },
