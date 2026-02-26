@@ -78,13 +78,13 @@ const navItems = [
 ];
 
 const groups = [
-  { label: "Sport & Exercise", icon: Dumbbell },
-  { label: "Science", icon: FlaskConical },
-  { label: "Nutrition", icon: Apple },
-  { label: "Sport Psychology", icon: Brain },
-  { label: "Medical & Physiotherapy", icon: Stethoscope },
-  { label: "Strength & Power", icon: Zap },
-  { label: "Fitness & Exercise Physiology", icon: HeartPulse },
+  { label: "Sport & Exercise", icon: Dumbbell, slug: "sport-exercise" },
+  { label: "Science", icon: FlaskConical, slug: "science" },
+  { label: "Nutrition", icon: Apple, slug: "nutrition" },
+  { label: "Sport Psychology", icon: Brain, slug: "sport-psychology" },
+  { label: "Medical & Physiotherapy", icon: Stethoscope, slug: "medical-physiotherapy" },
+  { label: "Strength & Power", icon: Zap, slug: "strength-power" },
+  { label: "Fitness & Exercise Physiology", icon: HeartPulse, slug: "fitness-exercise-physiology" },
 ];
 
 const spatialRooms = [
@@ -435,13 +435,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {groupsOpen && (
               <div className="ml-3 mt-0.5 space-y-0.5">
                 {groups.map((g) => (
-                  <button
+                  <Link
                     key={g.label}
-                    className="flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                    to={`/groups/${g.slug}`}
+                    className={cn(
+                      "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-xs transition-colors",
+                      location.pathname === `/groups/${g.slug}`
+                        ? "bg-primary text-primary-foreground font-medium"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
                   >
                     <g.icon className="h-3.5 w-3.5 shrink-0" />
                     <span className="text-left">{g.label}</span>
-                  </button>
+                  </Link>
                 ))}
               </div>
             )}
