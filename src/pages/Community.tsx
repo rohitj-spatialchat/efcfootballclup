@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
-import { Search, Plus, Settings, ChevronDown, MoreHorizontal, Globe, Users, Link2, Tag, User, BarChart3, Mail, Shield } from "lucide-react";
+import { Search, Plus, Settings, ChevronDown, MoreHorizontal, Globe, Users, Link2, Tag, User, BarChart3, Mail, Shield, Download, Trash2, UserPlus, Ban, RefreshCw, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 const communitySidebar = [
   { label: "Audience", icon: Users },
@@ -13,7 +20,7 @@ const communitySidebar = [
   { label: "Bulk logs", icon: BarChart3 },
 ];
 
-const members = [
+const initialMembers = [
   { name: "Kwame Adebayo", email: "adebayo@gmail.com", team: "AFC Ajax", country: "Netherlands", score: 9.2, role: "Member", joined: "Apr 12, 2024", flag: "🇳🇱" },
   { name: "Robert Fox", email: "robertfox@gmail.com", team: "AC Milan", country: "Italy", score: 9.4, role: "Member", joined: "Mar 5, 2024", flag: "🇮🇹" },
   { name: "Mei Wong", email: "meiwong@gmail.com", team: "Juventus FC", country: "Italy", score: 8.0, role: "Member", joined: "Jun 22, 2024", flag: "🇮🇹" },
@@ -33,6 +40,76 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 export default function CommunityPage() {
+  const { toast } = useToast();
+  const [members, setMembers] = useState(initialMembers);
+  const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+  const [addMemberOpen, setAddMemberOpen] = useState(false);
+  const [newMember, setNewMember] = useState({ name: "", email: "", team: "", country: "", role: "Member" });
+
+  const handleAddMember = () => {
+    if (!newMember.name || !newMember.email) {
+      toast({ title: "Missing fields", description: "Name and email are required.", variant: "destructive" });
+      return;
+    }
+    const member = {
+      ...newMember,
+      score: parseFloat((Math.random() * 4 + 6).toFixed(1)),
+      joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      flag: "🏳️",
+    };
+    setMembers((prev) => [member, ...prev]);
+    setNewMember({ name: "", email: "", team: "", country: "", role: "Member" });
+    setAddMemberOpen(false);
+    toast({ title: "Member added", description: `${member.name} has been added to the community.` });
+  };
+
+  const handleExport = () => {
+    const csv = [
+      ["Name", "Email", "Team", "Country", "Score", "Role", "Joined"].join(","),
+      ...members.map((m) => [m.name, m.email, m.team, m.country, m.score, m.role, m.joined].join(",")),
+    ].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "community-members.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: "Exported", description: "Member data has been downloaded as CSV." });
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedMembers.length === 0) {
+      toast({ title: "No selection", description: "Select members first using checkboxes.", variant: "destructive" });
+      return;
+    }
+    setMembers((prev) => prev.filter((_, i) => !selectedMembers.includes(i)));
+    toast({ title: "Removed", description: `${selectedMembers.length} member(s) removed.` });
+    setSelectedMembers([]);
+  };
+
+  const handleBulkRoleChange = (role: string) => {
+    if (selectedMembers.length === 0) {
+      toast({ title: "No selection", description: "Select members first using checkboxes.", variant: "destructive" });
+      return;
+    }
+    setMembers((prev) => prev.map((m, i) => (selectedMembers.includes(i) ? { ...m, role } : m)));
+    toast({ title: "Role updated", description: `${selectedMembers.length} member(s) set to ${role}.` });
+    setSelectedMembers([]);
+  };
+
+  const toggleSelect = (idx: number) => {
+    setSelectedMembers((prev) => (prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]));
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedMembers.length === members.length) {
+      setSelectedMembers([]);
+    } else {
+      setSelectedMembers(members.map((_, i) => i));
+    }
+  };
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-0 -m-6">
       {/* Community Sidebar */}
@@ -42,9 +119,7 @@ export default function CommunityPage() {
             key={sideItem.label}
             className={cn(
               "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm w-full text-left transition-colors",
-              sideItem.active
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-foreground hover:bg-muted"
+              sideItem.active ? "bg-primary/10 text-primary font-medium" : "text-foreground hover:bg-muted"
             )}
           >
             <sideItem.icon className="h-4 w-4" />
@@ -58,10 +133,26 @@ export default function CommunityPage() {
         <motion.div variants={item} className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
           <div className="flex items-center gap-3">
-            <button className="text-muted-foreground hover:text-foreground">
-              <MoreHorizontal className="h-5 w-5" />
-            </button>
-            <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            {/* More (header) dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="text-muted-foreground hover:text-foreground">
+                  <MoreHorizontal className="h-5 w-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
+                <DropdownMenuItem onClick={handleExport}>
+                  <Download className="h-4 w-4 mr-2" /> Export all
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setMembers(initialMembers); toast({ title: "Reset", description: "Member list restored to defaults." }); }}>
+                  <RefreshCw className="h-4 w-4 mr-2" /> Reset list
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <button
+              onClick={() => setAddMemberOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
               Add
             </button>
           </div>
@@ -69,12 +160,11 @@ export default function CommunityPage() {
 
         {/* Stats bar */}
         <motion.div variants={item} className="flex items-center gap-4 text-xs text-muted-foreground">
-          <span className="text-foreground font-medium">All 720</span>
-          <span>Contacts 719</span>
-          <span>Members 700</span>
-          <span>Invited 700</span>
-          <span>Admins 4</span>
-          <span>Members 18</span>
+          <span className="text-foreground font-medium">All {members.length}</span>
+          <span>Contacts {members.length - 1}</span>
+          <span>Members {members.filter((m) => m.role === "Member").length}</span>
+          <span>Admins {members.filter((m) => m.role === "Admin").length}</span>
+          <span>Moderators {members.filter((m) => m.role === "Moderator").length}</span>
         </motion.div>
 
         {/* Filters */}
@@ -90,37 +180,116 @@ export default function CommunityPage() {
         {/* Action bar */}
         <motion.div variants={item} className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-foreground">720 people</span>
-            <button className="text-xs text-muted-foreground hover:text-foreground">Save segment</button>
-            <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">Bulk actions <ChevronDown className="h-3 w-3" /></button>
-            <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">More <ChevronDown className="h-3 w-3" /></button>
+            <span className="text-sm font-medium text-foreground">{members.length} people</span>
+            <button
+              onClick={() => toast({ title: "Segment saved", description: "Current view saved as a segment." })}
+              className="text-xs text-muted-foreground hover:text-foreground"
+            >
+              Save segment
+            </button>
+
+            {/* Bulk Actions dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+                  Bulk actions <ChevronDown className="h-3 w-3" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
+                <DropdownMenuItem onClick={() => handleBulkRoleChange("Admin")}>
+                  <Shield className="h-4 w-4 mr-2" /> Set as Admin
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleBulkRoleChange("Moderator")}>
+                  <Shield className="h-4 w-4 mr-2" /> Set as Moderator
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleBulkRoleChange("Member")}>
+                  <User className="h-4 w-4 mr-2" /> Set as Member
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleBulkDelete} className="text-destructive focus:text-destructive">
+                  <Trash2 className="h-4 w-4 mr-2" /> Remove selected
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* More dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+                  More <ChevronDown className="h-3 w-3" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
+                <DropdownMenuItem onClick={() => toast({ title: "Email sent", description: "Bulk email sent to all selected members." })}>
+                  <Mail className="h-4 w-4 mr-2" /> Send email
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => toast({ title: "Tags applied", description: "Tags have been applied to selected members." })}>
+                  <Tag className="h-4 w-4 mr-2" /> Apply tags
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => toast({ title: "Suspended", description: "Selected members have been suspended." })} className="text-destructive focus:text-destructive">
+                  <Ban className="h-4 w-4 mr-2" /> Suspend
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <div className="flex items-center gap-2">
-            <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
-              ↗ Export
+            <button
+              onClick={handleExport}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+            >
+              <Download className="h-3.5 w-3.5" /> Export
             </button>
-            <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-              + Add member
+            <button
+              onClick={() => setAddMemberOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="h-3.5 w-3.5" /> Add member
             </button>
           </div>
         </motion.div>
+
+        {selectedMembers.length > 0 && (
+          <div className="flex items-center gap-2 rounded-md bg-primary/10 px-3 py-2 text-xs text-primary font-medium">
+            {selectedMembers.length} member(s) selected
+            <button onClick={() => setSelectedMembers([])} className="ml-auto hover:text-primary/70">
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
 
         {/* Members Table */}
         <motion.div variants={item} className="rounded-lg border border-border bg-card overflow-hidden">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border bg-muted/30">
+                <th className="px-4 py-2.5 text-left">
+                  <input
+                    type="checkbox"
+                    checked={selectedMembers.length === members.length && members.length > 0}
+                    onChange={toggleSelectAll}
+                    className="rounded border-border"
+                  />
+                </th>
                 <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">NAME</th>
                 <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">TEAM</th>
                 <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">COUNTRY</th>
                 <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">SCORE</th>
                 <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">ROLE</th>
                 <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">JOINED</th>
+                <th className="px-4 py-2.5"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {members.map((m, i) => (
-                <tr key={i} className="hover:bg-muted/20 transition-colors">
+                <tr key={i} className={cn("hover:bg-muted/20 transition-colors", selectedMembers.includes(i) && "bg-primary/5")}>
+                  <td className="px-4 py-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedMembers.includes(i)}
+                      onChange={() => toggleSelect(i)}
+                      className="rounded border-border"
+                    />
+                  </td>
                   <td className="px-4 py-3">
                     <div>
                       <p className="text-sm font-medium text-foreground">{m.name}</p>
@@ -140,12 +309,83 @@ export default function CommunityPage() {
                   </td>
                   <td className="px-4 py-3 text-sm text-muted-foreground">{m.role}</td>
                   <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{m.joined}</td>
+                  <td className="px-4 py-3">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="text-muted-foreground hover:text-foreground">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
+                        <DropdownMenuItem onClick={() => toast({ title: "Profile", description: `Viewing ${m.name}'s profile.` })}>
+                          <User className="h-4 w-4 mr-2" /> View profile
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => toast({ title: "Email", description: `Email sent to ${m.name}.` })}>
+                          <Mail className="h-4 w-4 mr-2" /> Send email
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => {
+                            setMembers((prev) => prev.filter((_, idx) => idx !== i));
+                            toast({ title: "Removed", description: `${m.name} has been removed.` });
+                          }}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4 mr-2" /> Remove
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </motion.div>
       </div>
+
+      {/* Add Member Dialog */}
+      <Dialog open={addMemberOpen} onOpenChange={setAddMemberOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add new member</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label>Name *</Label>
+              <Input placeholder="Full name" value={newMember.name} onChange={(e) => setNewMember((p) => ({ ...p, name: e.target.value }))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Email *</Label>
+              <Input type="email" placeholder="email@example.com" value={newMember.email} onChange={(e) => setNewMember((p) => ({ ...p, email: e.target.value }))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Team</Label>
+              <Input placeholder="Club name" value={newMember.team} onChange={(e) => setNewMember((p) => ({ ...p, team: e.target.value }))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Country</Label>
+              <Input placeholder="Country" value={newMember.country} onChange={(e) => setNewMember((p) => ({ ...p, country: e.target.value }))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Role</Label>
+              <Select value={newMember.role} onValueChange={(v) => setNewMember((p) => ({ ...p, role: v }))}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="z-50 bg-popover border border-border">
+                  <SelectItem value="Member">Member</SelectItem>
+                  <SelectItem value="Moderator">Moderator</SelectItem>
+                  <SelectItem value="Admin">Admin</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAddMemberOpen(false)}>Cancel</Button>
+            <Button onClick={handleAddMember}>Add member</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
