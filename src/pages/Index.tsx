@@ -1,10 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag } from "lucide-react";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown } from "lucide-react";
 import { useState, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 import featuredUcl from "@/assets/featured-ucl.png";
@@ -26,50 +27,70 @@ const featuredPosts = [
   },
 ];
 
-const posts = [
+const initialPosts = [
   {
+    id: 1,
     author: "Dr. Marco Rossi",
     avatar: "MR",
     time: "27m ago",
     channel: "Feed",
+    tags: ["Injury Prevention", "Sports Science"],
     title: "When innovation becomes optics, credibility becomes collateral.",
     body: "The recent developments in football injury prevention technology have raised important questions about evidence-based practice vs. marketing claims.\n\nIt's a credibility test.\n\nIn the sports science era, perception moves faster than verification. But practitioners cannot afford to confuse showcasing technology with claiming validated outcomes.",
     image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&h=400&fit=crop",
     likes: 42,
     comments: 12,
+    liked: false,
+    saved: false,
+    following: true,
   },
   {
+    id: 2,
     author: "Sarah Mitchell",
     avatar: "SM",
     time: "2h ago",
     channel: "Feed",
+    tags: ["Injury Prevention", "Recovery", "Fitness"],
     title: "Hamstring injury prevention: what the latest research tells us",
     body: "Just published our latest findings on eccentric strengthening protocols for elite footballers. The Nordic hamstring exercise remains the gold standard, but there's growing evidence for complementary approaches.\n\nKey takeaway: Individualised load management combined with targeted strengthening reduces hamstring injuries by up to 65%.",
     image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=400&fit=crop",
     likes: 89,
     comments: 23,
+    liked: false,
+    saved: false,
+    following: true,
   },
   {
+    id: 3,
     author: "Alex Chen",
     avatar: "AC",
     time: "5h ago",
     channel: "Science",
+    tags: ["Technology", "Match Analysis", "Sports Science"],
     title: "GPS data and its role in injury risk assessment",
     body: "We've been tracking high-speed running distance and acceleration patterns across our first team squad for 3 seasons now. The correlation between acute:chronic workload ratio spikes and soft tissue injuries is striking.\n\nHere's what we've learned about practical thresholds...",
     image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&h=400&fit=crop",
     likes: 56,
     comments: 18,
+    liked: false,
+    saved: false,
+    following: false,
   },
   {
+    id: 4,
     author: "Emma Johansson",
     avatar: "EJ",
     time: "8h ago",
     channel: "Feed",
+    tags: ["Recovery", "Mental Health"],
     title: "Return to play after ACL reconstruction: a multidisciplinary approach",
     body: "Our club's RTP protocol now includes psychological readiness assessment alongside physical benchmarks. The results have been remarkable — reinjury rates dropped significantly since we adopted this holistic framework.\n\nSharing our complete protocol for discussion...",
     image: null,
     likes: 34,
     comments: 9,
+    liked: false,
+    saved: false,
+    following: false,
   },
 ];
 
@@ -80,12 +101,13 @@ const trendingNews = [
   { title: "New study reveals impact of altitude training on injury rates", time: "8h ago" },
 ];
 
-const filterTabs = [
-  { label: "Recent", icon: Clock, active: true },
-  { label: "Top Posts", icon: ArrowUp, active: false },
-  { label: "Trending", icon: TrendingIcon, active: false, hasDropdown: true },
-  { label: "Following", icon: null, active: false },
+const topicOptions = [
+  "All Topics", "Injury Prevention", "Sports Science", "Coaching", "Nutrition",
+  "Recovery", "Youth Development", "Tactics", "Match Analysis",
+  "Fitness", "Mental Health", "Technology", "Transfer News",
 ];
+
+const trendingOptions = ["Today", "This Week", "This Month", "All Time"];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
@@ -108,7 +130,13 @@ const Index = () => {
   const [postTitle, setPostTitle] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [feedPosts, setFeedPosts] = useState(posts);
+  const [feedPosts, setFeedPosts] = useState(initialPosts);
+  const [activeFilter, setActiveFilter] = useState("Recent");
+  const [trendingPeriod, setTrendingPeriod] = useState("This Week");
+  const [selectedTopic, setSelectedTopic] = useState("All Topics");
+  const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set());
+  const [commentingPost, setCommentingPost] = useState<number | null>(null);
+  const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -133,15 +161,20 @@ const Index = () => {
       return;
     }
     const newPost = {
+      id: Date.now(),
       author: "Demo User",
       avatar: "DE",
       time: "Just now",
       channel: selectedTags[0] || "Feed",
+      tags: selectedTags.length > 0 ? selectedTags : ["Feed"],
       title: postTitle || postContent.slice(0, 60),
       body: postContent,
       image: selectedImage,
       likes: 0,
       comments: 0,
+      liked: false,
+      saved: false,
+      following: true,
     };
     setFeedPosts([newPost, ...feedPosts]);
     setPostContent("");
@@ -151,6 +184,87 @@ const Index = () => {
     setCreatePostOpen(false);
     toast({ title: "Post published!", description: "Your post is now live in the feed." });
   };
+
+  const handleLike = (postId: number) => {
+    setFeedPosts(prev => prev.map(p =>
+      p.id === postId ? { ...p, liked: !p.liked, likes: p.liked ? p.likes - 1 : p.likes + 1 } : p
+    ));
+  };
+
+  const handleSave = (postId: number) => {
+    setFeedPosts(prev => prev.map(p =>
+      p.id === postId ? { ...p, saved: !p.saved } : p
+    ));
+    const post = feedPosts.find(p => p.id === postId);
+    toast({ title: post?.saved ? "Removed from saved" : "Post saved!" });
+  };
+
+  const handleShare = (postId: number) => {
+    const post = feedPosts.find(p => p.id === postId);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(`Check out "${post?.title}" on EFC Community`);
+      toast({ title: "Link copied!", description: "Post link copied to clipboard." });
+    }
+  };
+
+  const handleComment = (postId: number) => {
+    setCommentingPost(commentingPost === postId ? null : postId);
+    setCommentText("");
+  };
+
+  const submitComment = (postId: number) => {
+    if (!commentText.trim()) return;
+    setFeedPosts(prev => prev.map(p =>
+      p.id === postId ? { ...p, comments: p.comments + 1 } : p
+    ));
+    setCommentText("");
+    setCommentingPost(null);
+    toast({ title: "Comment posted!" });
+  };
+
+  const handleHidePost = (postId: number) => {
+    setFeedPosts(prev => prev.filter(p => p.id !== postId));
+    toast({ title: "Post hidden from your feed." });
+  };
+
+  const handleReportPost = (postId: number) => {
+    toast({ title: "Post reported", description: "Thank you. Our team will review this post." });
+  };
+
+  const toggleExpand = (postId: number) => {
+    setExpandedPosts(prev => {
+      const next = new Set(prev);
+      if (next.has(postId)) next.delete(postId);
+      else next.add(postId);
+      return next;
+    });
+  };
+
+  // Filter and sort posts
+  const getFilteredPosts = () => {
+    let filtered = [...feedPosts];
+
+    // Topic filter
+    if (selectedTopic !== "All Topics") {
+      filtered = filtered.filter(p => p.tags?.includes(selectedTopic));
+    }
+
+    // Following filter
+    if (activeFilter === "Following") {
+      filtered = filtered.filter(p => p.following);
+    }
+
+    // Sort
+    if (activeFilter === "Top Posts") {
+      filtered.sort((a, b) => b.likes - a.likes);
+    } else if (activeFilter === "Trending") {
+      filtered.sort((a, b) => (b.likes + b.comments * 2) - (a.likes + a.comments * 2));
+    }
+
+    return filtered;
+  };
+
+  const displayedPosts = getFilteredPosts();
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
@@ -240,7 +354,6 @@ const Index = () => {
             </div>
           </div>
         </motion.div>
-
 
         {/* Create Post */}
         <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
@@ -354,30 +467,109 @@ const Index = () => {
         </Dialog>
 
         {/* Filter Tabs */}
-        <motion.div variants={item} className="flex items-center gap-2">
-          {filterTabs.map((tab) => (
-            <button
-              key={tab.label}
-              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
-                tab.active
-                  ? "bg-primary text-primary-foreground"
-                  : "border border-border bg-card text-foreground hover:bg-muted"
-              }`}
-            >
-              {tab.icon && <tab.icon className="h-3.5 w-3.5" />}
-              {tab.label}
-              {tab.hasDropdown && <ChevronRight className="h-3 w-3 rotate-90" />}
-            </button>
-          ))}
-          <button className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
-            Select Topic <ChevronRight className="h-3 w-3 rotate-90" />
+        <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
+          {/* Recent */}
+          <button
+            onClick={() => setActiveFilter("Recent")}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+              activeFilter === "Recent"
+                ? "bg-primary text-primary-foreground"
+                : "border border-border bg-card text-foreground hover:bg-muted"
+            }`}
+          >
+            <Clock className="h-3.5 w-3.5" />
+            Recent
           </button>
+
+          {/* Top Posts */}
+          <button
+            onClick={() => setActiveFilter("Top Posts")}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+              activeFilter === "Top Posts"
+                ? "bg-primary text-primary-foreground"
+                : "border border-border bg-card text-foreground hover:bg-muted"
+            }`}
+          >
+            <ArrowUp className="h-3.5 w-3.5" />
+            Top Posts
+          </button>
+
+          {/* Trending - Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+                  activeFilter === "Trending"
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-border bg-card text-foreground hover:bg-muted"
+                }`}
+              >
+                <TrendingIcon className="h-3.5 w-3.5" />
+                Trending
+                <ChevronDown className="h-3 w-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {trendingOptions.map(option => (
+                <DropdownMenuItem
+                  key={option}
+                  onClick={() => { setActiveFilter("Trending"); setTrendingPeriod(option); }}
+                  className={trendingPeriod === option && activeFilter === "Trending" ? "bg-accent" : ""}
+                >
+                  {option}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Following */}
+          <button
+            onClick={() => setActiveFilter("Following")}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+              activeFilter === "Following"
+                ? "bg-primary text-primary-foreground"
+                : "border border-border bg-card text-foreground hover:bg-muted"
+            }`}
+          >
+            Following
+          </button>
+
+          {/* Select Topic - Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+                {selectedTopic === "All Topics" ? "Select Topic" : selectedTopic}
+                <ChevronDown className="h-3 w-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="max-h-64 overflow-y-auto">
+              {topicOptions.map(topic => (
+                <DropdownMenuItem
+                  key={topic}
+                  onClick={() => setSelectedTopic(topic)}
+                  className={selectedTopic === topic ? "bg-accent" : ""}
+                >
+                  {topic}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </motion.div>
+
+        {/* Empty state */}
+        {displayedPosts.length === 0 && (
+          <div className="rounded-lg border border-border bg-card p-8 text-center shadow-card">
+            <p className="text-sm text-muted-foreground">No posts found for this filter.</p>
+            <Button variant="outline" size="sm" className="mt-3" onClick={() => { setActiveFilter("Recent"); setSelectedTopic("All Topics"); }}>
+              Clear filters
+            </Button>
+          </div>
+        )}
 
         {/* Posts Feed - Scrollable */}
         <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
-          {feedPosts.map((post, i) => (
-            <motion.div key={i} variants={item} className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
+          {displayedPosts.map((post) => (
+            <motion.div key={post.id} variants={item} className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
               {/* Post Header */}
               <div className="flex items-start justify-between p-4 pb-2">
                 <div className="flex items-center gap-3">
@@ -389,16 +581,57 @@ const Index = () => {
                     <p className="text-xs text-muted-foreground">Posted in {post.channel} • {post.time}</p>
                   </div>
                 </div>
-                <button className="text-muted-foreground hover:text-foreground">
-                  <MoreHorizontal className="h-4 w-4" />
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="text-muted-foreground hover:text-foreground transition-colors">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleSave(post.id)}>
+                      <BookmarkPlus className="h-4 w-4 mr-2" />
+                      {post.saved ? "Unsave post" : "Save post"}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleShare(post.id)}>
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Copy link
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => handleHidePost(post.id)}>
+                      <EyeOff className="h-4 w-4 mr-2" />
+                      Hide post
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleReportPost(post.id)} className="text-destructive focus:text-destructive">
+                      <Flag className="h-4 w-4 mr-2" />
+                      Report post
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
+
+              {/* Post Tags */}
+              {post.tags && post.tags.length > 0 && (
+                <div className="px-4 pb-1 flex flex-wrap gap-1">
+                  {post.tags.map(tag => (
+                    <Badge key={tag} variant="outline" className="text-[10px] px-1.5 py-0">{tag}</Badge>
+                  ))}
+                </div>
+              )}
 
               {/* Post Content */}
               <div className="px-4 pb-3">
                 <h3 className="text-sm font-semibold text-foreground mb-2">{post.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line line-clamp-4">{post.body}</p>
-                <button className="text-xs font-bold text-foreground mt-1">READ MORE...</button>
+                <p className={`text-sm text-muted-foreground leading-relaxed whitespace-pre-line ${expandedPosts.has(post.id) ? "" : "line-clamp-4"}`}>
+                  {post.body}
+                </p>
+                {post.body.length > 200 && (
+                  <button
+                    onClick={() => toggleExpand(post.id)}
+                    className="text-xs font-bold text-foreground mt-1 hover:text-primary transition-colors"
+                  >
+                    {expandedPosts.has(post.id) ? "SHOW LESS" : "READ MORE..."}
+                  </button>
+                )}
               </div>
 
               {/* Post Image */}
@@ -408,18 +641,69 @@ const Index = () => {
                 </div>
               )}
 
+              {/* Engagement counts */}
+              <div className="px-4 pb-2 flex items-center justify-between text-xs text-muted-foreground">
+                <span>{post.likes} likes</span>
+                <span>{post.comments} comments</span>
+              </div>
+
               {/* Post Actions */}
               <div className="flex items-center border-t border-border divide-x divide-border">
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 text-sm text-muted-foreground hover:bg-muted transition-colors">
-                  <ThumbsUp className="h-4 w-4" /> Like
+                <button
+                  onClick={() => handleLike(post.id)}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm transition-colors ${
+                    post.liked ? "text-primary font-medium" : "text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <ThumbsUp className={`h-4 w-4 ${post.liked ? "fill-primary" : ""}`} /> Like
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 text-sm text-muted-foreground hover:bg-muted transition-colors">
+                <button
+                  onClick={() => handleComment(post.id)}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm transition-colors ${
+                    commentingPost === post.id ? "text-primary font-medium" : "text-muted-foreground hover:bg-muted"
+                  }`}
+                >
                   <MessageSquare className="h-4 w-4" /> Comment
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 text-sm text-muted-foreground hover:bg-muted transition-colors">
+                <button
+                  onClick={() => handleShare(post.id)}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 text-sm text-muted-foreground hover:bg-muted transition-colors"
+                >
                   <Share2 className="h-4 w-4" /> Share
                 </button>
               </div>
+
+              {/* Comment input */}
+              <AnimatePresence>
+                {commentingPost === post.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="border-t border-border overflow-hidden"
+                  >
+                    <div className="p-3 flex gap-2">
+                      <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold shrink-0">
+                        DE
+                      </div>
+                      <div className="flex-1 flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Write a comment..."
+                          value={commentText}
+                          onChange={(e) => setCommentText(e.target.value)}
+                          onKeyDown={(e) => e.key === "Enter" && submitComment(post.id)}
+                          className="flex-1 rounded-full border border-input bg-background px-3 py-1.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+                          autoFocus
+                        />
+                        <Button size="sm" className="rounded-full" onClick={() => submitComment(post.id)} disabled={!commentText.trim()}>
+                          <Send className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
