@@ -1,6 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send } from "lucide-react";
-import { useState } from "react";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag } from "lucide-react";
+import { useState, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 import featuredUcl from "@/assets/featured-ucl.png";
 import featuredEuro from "@/assets/featured-euro.png";
@@ -85,6 +90,12 @@ const filterTabs = [
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
+const predefinedTags = [
+  "Injury Prevention", "Sports Science", "Coaching", "Nutrition",
+  "Recovery", "Youth Development", "Tactics", "Match Analysis",
+  "Fitness", "Mental Health", "Technology", "Transfer News",
+];
+
 const Index = () => {
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [liveEventOpen, setLiveEventOpen] = useState(false);
@@ -92,6 +103,54 @@ const Index = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOff, setIsVideoOff] = useState(false);
   const [activeTab, setActiveTab] = useState("Chat");
+  const [createPostOpen, setCreatePostOpen] = useState(false);
+  const [postContent, setPostContent] = useState("");
+  const [postTitle, setPostTitle] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [feedPosts, setFeedPosts] = useState(posts);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setSelectedImage(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  const handleCreatePost = () => {
+    if (!postContent.trim() && !postTitle.trim()) {
+      toast({ title: "Post cannot be empty", variant: "destructive" });
+      return;
+    }
+    const newPost = {
+      author: "Demo User",
+      avatar: "DE",
+      time: "Just now",
+      channel: selectedTags[0] || "Feed",
+      title: postTitle || postContent.slice(0, 60),
+      body: postContent,
+      image: selectedImage,
+      likes: 0,
+      comments: 0,
+    };
+    setFeedPosts([newPost, ...feedPosts]);
+    setPostContent("");
+    setPostTitle("");
+    setSelectedTags([]);
+    setSelectedImage(null);
+    setCreatePostOpen(false);
+    toast({ title: "Post published!", description: "Your post is now live in the feed." });
+  };
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
@@ -189,16 +248,110 @@ const Index = () => {
             <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
               DE
             </div>
-            <div className="flex-1 relative">
+            <div className="flex-1 relative cursor-pointer" onClick={() => setCreatePostOpen(true)}>
               <input
                 type="text"
                 placeholder="What's on your mind, Demo?"
-                className="w-full h-10 rounded-full border border-input bg-background px-4 pr-10 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 transition-shadow"
+                readOnly
+                className="w-full h-10 rounded-full border border-input bg-background px-4 pr-10 text-sm placeholder:text-muted-foreground cursor-pointer"
               />
               <Pencil className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             </div>
           </div>
         </motion.div>
+
+        {/* Create Post Dialog */}
+        <Dialog open={createPostOpen} onOpenChange={setCreatePostOpen}>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <PenTool className="h-5 w-5 text-primary" />
+                Create a Post
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
+                  DE
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Demo User</p>
+                  <p className="text-xs text-muted-foreground">Posting to Feed</p>
+                </div>
+              </div>
+
+              <input
+                type="text"
+                placeholder="Post title (optional)"
+                value={postTitle}
+                onChange={(e) => setPostTitle(e.target.value)}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+              />
+
+              <Textarea
+                placeholder="Write something..."
+                value={postContent}
+                onChange={(e) => setPostContent(e.target.value)}
+                className="min-h-[120px] resize-none"
+              />
+
+              {selectedImage && (
+                <div className="relative rounded-lg overflow-hidden border border-border">
+                  <img src={selectedImage} alt="Selected" className="w-full max-h-48 object-cover" />
+                  <button
+                    onClick={() => setSelectedImage(null)}
+                    className="absolute top-2 right-2 h-6 w-6 rounded-full bg-foreground/70 flex items-center justify-center hover:bg-foreground/90 transition-colors"
+                  >
+                    <X className="h-3 w-3 text-background" />
+                  </button>
+                </div>
+              )}
+
+              <div>
+                <p className="text-xs font-semibold text-muted-foreground mb-2 flex items-center gap-1">
+                  <Tag className="h-3 w-3" /> Select Topics
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {predefinedTags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant={selectedTags.includes(tag) ? "default" : "outline"}
+                      className="cursor-pointer text-xs transition-colors"
+                      onClick={() => toggleTag(tag)}
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-2 border-t border-border">
+                <div className="flex items-center gap-2">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageSelect}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="text-muted-foreground"
+                  >
+                    <ImagePlus className="h-4 w-4 mr-1" />
+                    Image
+                  </Button>
+                </div>
+                <Button onClick={handleCreatePost} className="rounded-full px-6">
+                  <Send className="h-4 w-4 mr-1" />
+                  Post
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Filter Tabs */}
         <motion.div variants={item} className="flex items-center gap-2">
@@ -223,7 +376,7 @@ const Index = () => {
 
         {/* Posts Feed - Scrollable */}
         <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
-          {posts.map((post, i) => (
+          {feedPosts.map((post, i) => (
             <motion.div key={i} variants={item} className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
               {/* Post Header */}
               <div className="flex items-start justify-between p-4 pb-2">
