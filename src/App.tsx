@@ -23,6 +23,7 @@ import Analytics from "./pages/Analytics";
 import Engagement from "./pages/Engagement";
 import Chat from "./pages/Chat";
 import Announcements from "./pages/Announcements";
+import Group from "./pages/Group";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const App = () => (
                 <Route path="/engagement" element={<Engagement />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/announcements" element={<Announcements />} />
+                <Route path="/groups/:slug" element={<Group />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </DashboardLayout>
