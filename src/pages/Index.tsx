@@ -336,7 +336,7 @@ const Index = () => {
             </div>
           </div>
           <div className="p-4">
-            <div className="relative rounded-xl overflow-hidden h-52">
+            <div className="relative rounded-xl overflow-hidden h-72">
               <img src={featuredPosts[featuredIndex].image} alt="" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
