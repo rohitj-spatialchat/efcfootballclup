@@ -134,6 +134,7 @@ const Index = () => {
   const [activeFilter, setActiveFilter] = useState("Recent");
   const [trendingPeriod, setTrendingPeriod] = useState("This Week");
   const [selectedTopic, setSelectedTopic] = useState("All Topics");
+  const [selectedRegion, setSelectedRegion] = useState("All Regions");
   const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set());
   const [commentingPost, setCommentingPost] = useState<number | null>(null);
   const [commentText, setCommentText] = useState("");
