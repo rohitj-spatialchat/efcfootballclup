@@ -69,7 +69,7 @@ import {
 
 const navItems = [
   { label: "Home", path: "/" },
-  { label: "Events", path: "/events" },
+  { label: "Calendar", path: "/events" },
   { label: "Knowledge Hub", path: "/knowledge" },
   { label: "Community Members", path: "/community" },
   { label: "Leaderboard", path: "/leaderboard" },
