@@ -587,7 +587,7 @@ const Index = () => {
         {displayedPosts.length === 0 && (
           <div className="rounded-lg border border-border bg-card p-8 text-center shadow-card">
             <p className="text-sm text-muted-foreground">No posts found for this filter.</p>
-            <Button variant="outline" size="sm" className="mt-3" onClick={() => { setActiveFilter("Recent"); setSelectedTopic("All Topics"); }}>
+            <Button variant="outline" size="sm" className="mt-3" onClick={() => { setActiveFilter("Recent"); setSelectedTopic("All Topics"); setSelectedRegion("All Regions"); }}>
               Clear filters
             </Button>
           </div>
