@@ -278,15 +278,15 @@ const Index = () => {
             background: "linear-gradient(135deg, hsl(190, 80%, 60%), hsl(280, 60%, 65%), hsl(330, 70%, 60%))",
           }}
         >
-          <div className="relative p-8 pb-6">
-            <div className="flex items-start">
-              <img src={efcLogo} alt="EFC Logo" className="h-20 w-20 rounded-full object-cover border-2 border-white/20" />
+          <div className="relative px-8 py-4">
+            <div className="flex items-center gap-4">
+              <img src={efcLogo} alt="EFC Logo" className="h-14 w-14 rounded-full object-cover border-2 border-white/20" />
+              <h2 className="text-2xl font-bold text-white">Welcome to the EFC MPU Community</h2>
             </div>
-            <h2 className="text-3xl font-bold text-white mt-8 mb-4">Welcome to the EFC MPU Community</h2>
             <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <svg className="w-full h-full" viewBox="0 0 800 300" fill="none">
-                <path d="M0 150 Q200 50 400 150 T800 150" stroke="white" strokeWidth="2" />
-                <path d="M0 200 Q200 100 400 200 T800 200" stroke="white" strokeWidth="1.5" />
+              <svg className="w-full h-full" viewBox="0 0 800 150" fill="none">
+                <path d="M0 75 Q200 25 400 75 T800 75" stroke="white" strokeWidth="2" />
+                <path d="M0 100 Q200 50 400 100 T800 100" stroke="white" strokeWidth="1.5" />
               </svg>
             </div>
           </div>
@@ -336,7 +336,7 @@ const Index = () => {
             </div>
           </div>
           <div className="p-4">
-            <div className="relative rounded-xl overflow-hidden h-52">
+            <div className="relative rounded-xl overflow-hidden h-72">
               <img src={featuredPosts[featuredIndex].image} alt="" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
