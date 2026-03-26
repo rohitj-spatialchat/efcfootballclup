@@ -712,6 +712,24 @@ const Index = () => {
       {/* Right Sidebar */}
       <div className="hidden lg:block w-72 shrink-0">
         <div className="sticky top-20 space-y-4">
+          {/* Quick Action Buttons */}
+          <motion.div variants={item} className="flex gap-2">
+            <button
+              onClick={() => setLiveEventOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-destructive px-3 py-2.5 text-sm font-semibold text-destructive-foreground hover:bg-destructive/90 transition-colors"
+            >
+              <Video className="h-4 w-4" />
+              Go Live
+            </button>
+            <button
+              onClick={() => setCreatePostOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="h-4 w-4" />
+              Create Post
+            </button>
+          </motion.div>
+
           {/* Karma / Rank / Streak Stats */}
           <motion.div variants={item} className="space-y-3">
             <div className="rounded-lg border border-border bg-card p-4 shadow-card">
