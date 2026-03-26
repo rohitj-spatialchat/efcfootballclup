@@ -60,18 +60,13 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const navItems = [
   { label: "Home", path: "/" },
   { label: "Calendar", path: "/events" },
   { label: "Knowledge Hub", path: "/knowledge" },
-  { label: "Community Members", path: "/community" },
+  { label: "Memeber Directory", path: "/community" },
   { label: "Leaderboard", path: "/leaderboard" },
   { label: "Networking", path: "/networking" },
   { label: "AI Search", path: "/ai-search" },
@@ -104,10 +99,30 @@ const spatialRooms = [
 ];
 
 const notifications = [
-  { title: "⚽ Transfer Window Update", desc: "Breaking: Major midfielder signing confirmed for Champions League contender", time: "5m ago", unread: true },
-  { title: "🏥 Injury Report Alert", desc: "Key striker ruled out for 6 weeks with hamstring tear ahead of derby", time: "15m ago", unread: true },
-  { title: "📊 New Research Published", desc: "Groundbreaking study on GPS load monitoring and injury prevention released", time: "1h ago", unread: true },
-  { title: "🏆 Match Analysis Available", desc: "Post-match tactical breakdown: pressing intensity & defensive transitions", time: "3h ago", unread: false },
+  {
+    title: "⚽ Transfer Window Update",
+    desc: "Breaking: Major midfielder signing confirmed for Champions League contender",
+    time: "5m ago",
+    unread: true,
+  },
+  {
+    title: "🏥 Injury Report Alert",
+    desc: "Key striker ruled out for 6 weeks with hamstring tear ahead of derby",
+    time: "15m ago",
+    unread: true,
+  },
+  {
+    title: "📊 New Research Published",
+    desc: "Groundbreaking study on GPS load monitoring and injury prevention released",
+    time: "1h ago",
+    unread: true,
+  },
+  {
+    title: "🏆 Match Analysis Available",
+    desc: "Post-match tactical breakdown: pressing intensity & defensive transitions",
+    time: "3h ago",
+    unread: false,
+  },
 ];
 
 const channels = ["General", "Announcements", "Sports Science", "Injury Prevention", "Nutrition"];
@@ -172,7 +187,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       "px-3 py-1.5 text-sm rounded-md whitespace-nowrap transition-colors",
                       active
                         ? "bg-primary text-primary-foreground font-medium"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
                     {item.label}
@@ -196,7 +211,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {/* Notifications */}
             <div ref={notifRef} className="relative">
               <button
-                onClick={() => { setNotifOpen(!notifOpen); setProfileOpen(false); }}
+                onClick={() => {
+                  setNotifOpen(!notifOpen);
+                  setProfileOpen(false);
+                }}
                 className="relative rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors"
               >
                 <Bell className="h-4 w-4" />
@@ -210,7 +228,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   </div>
                   <div className="max-h-72 overflow-y-auto">
                     {notifications.map((n, i) => (
-                      <div key={i} className={cn("px-3 py-3 hover:bg-muted/50 transition-colors cursor-pointer border-b border-border last:border-0", n.unread && "bg-primary/5")}>
+                      <div
+                        key={i}
+                        className={cn(
+                          "px-3 py-3 hover:bg-muted/50 transition-colors cursor-pointer border-b border-border last:border-0",
+                          n.unread && "bg-primary/5",
+                        )}
+                      >
                         <div className="flex items-start gap-2">
                           {n.unread && <span className="mt-1.5 h-2 w-2 rounded-full bg-primary shrink-0" />}
                           <div className={cn(!n.unread && "ml-4")}>
@@ -229,24 +253,38 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {/* Direct Chat */}
             <div ref={dmRef} className="relative">
               <button
-                onClick={() => { setDmOpen(!dmOpen); setNotifOpen(false); setProfileOpen(false); }}
+                onClick={() => {
+                  setDmOpen(!dmOpen);
+                  setNotifOpen(false);
+                  setProfileOpen(false);
+                }}
                 className="relative rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors"
               >
                 <MessageCircle className="h-4 w-4" />
                 <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" />
               </button>
               {dmOpen && (
-                <div className="absolute right-0 top-full mt-1 w-[360px] rounded-lg border border-border bg-card shadow-elevated z-50 flex flex-col" style={{ maxHeight: "calc(100vh - 4rem)" }}>
+                <div
+                  className="absolute right-0 top-full mt-1 w-[360px] rounded-lg border border-border bg-card shadow-elevated z-50 flex flex-col"
+                  style={{ maxHeight: "calc(100vh - 4rem)" }}
+                >
                   <div className="flex items-center justify-between p-4 border-b border-border">
                     <h2 className="text-base font-semibold text-foreground">Direct messages</h2>
-                    <button onClick={() => setDmOpen(false)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
+                    <button onClick={() => setDmOpen(false)} className="text-muted-foreground hover:text-foreground">
+                      <X className="h-4 w-4" />
+                    </button>
                   </div>
                   <div className="flex items-center gap-4 px-4 pt-3 pb-2">
                     {["Inbox", "Unread", "Agents"].map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setDmTab(tab)}
-                        className={cn("text-sm pb-1", dmTab === tab ? "text-foreground font-medium border-b-2 border-foreground" : "text-muted-foreground")}
+                        className={cn(
+                          "text-sm pb-1",
+                          dmTab === tab
+                            ? "text-foreground font-medium border-b-2 border-foreground"
+                            : "text-muted-foreground",
+                        )}
                       >
                         {tab === "Agents" ? "✨ Agents" : tab}
                       </button>
@@ -255,7 +293,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <div className="px-4 py-2">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-                      <input type="text" placeholder="Search for a name" className="h-8 w-full rounded-md border border-input bg-background pl-9 pr-3 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring" />
+                      <input
+                        type="text"
+                        placeholder="Search for a name"
+                        className="h-8 w-full rounded-md border border-input bg-background pl-9 pr-3 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                      />
                     </div>
                   </div>
                   <div className="px-4 py-1">
@@ -263,11 +305,26 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   </div>
                   <div className="flex-1 overflow-y-auto">
                     {[
-                      { name: "Clarity Coach", time: "9:45", preview: "Just wanted to check in and se...", agent: true },
-                      { name: "Carlos Ramirez", time: "10:18", preview: "Creating a space where clients...", unread: true },
+                      {
+                        name: "Clarity Coach",
+                        time: "9:45",
+                        preview: "Just wanted to check in and se...",
+                        agent: true,
+                      },
+                      {
+                        name: "Carlos Ramirez",
+                        time: "10:18",
+                        preview: "Creating a space where clients...",
+                        unread: true,
+                      },
                       { name: "Robert, Edwin +2", time: "10:30", preview: "How you're feeling about this w..." },
                       { name: "Robert Fox", time: "10:46", preview: "Can we discuss that project we...", active: true },
-                      { name: "Dianne Russell", time: "11:08", preview: "I just crossed a new income mil...", unread: true },
+                      {
+                        name: "Dianne Russell",
+                        time: "11:08",
+                        preview: "I just crossed a new income mil...",
+                        unread: true,
+                      },
                       { name: "Mei Wong", time: "12:45", preview: "Wanted to share something exci...", unread: true },
                       { name: "Kwame Adebayo", time: "1:03", preview: "I was thinking about our niche cl..." },
                       { name: "Ravi Patel", time: "1:18", preview: "I made a new client offer today!..." },
@@ -275,11 +332,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     ].map((c) => (
                       <button
                         key={c.name}
-                        onClick={() => { setActiveContact(c.name); setDmOpen(false); navigate("/chat"); }}
-                        className={cn("flex items-start gap-3 w-full px-4 py-3 text-left hover:bg-muted/50 transition-colors", activeContact === c.name && "bg-muted/50")}
+                        onClick={() => {
+                          setActiveContact(c.name);
+                          setDmOpen(false);
+                          navigate("/chat");
+                        }}
+                        className={cn(
+                          "flex items-start gap-3 w-full px-4 py-3 text-left hover:bg-muted/50 transition-colors",
+                          activeContact === c.name && "bg-muted/50",
+                        )}
                       >
                         <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-semibold text-primary shrink-0">
-                          {c.agent ? "🤖" : c.name.split(" ").map(n => n[0]).join("")}
+                          {c.agent
+                            ? "🤖"
+                            : c.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
@@ -294,7 +363,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   </div>
                   <div className="p-3 border-t border-border">
                     <button
-                      onClick={() => { setDmOpen(false); navigate("/chat"); }}
+                      onClick={() => {
+                        setDmOpen(false);
+                        navigate("/chat");
+                      }}
                       className="w-full text-center text-sm text-primary hover:underline font-medium"
                     >
                       Open all messages
@@ -307,7 +379,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {/* Profile Dropdown */}
             <div ref={profileRef} className="relative ml-1">
               <button
-                onClick={() => { setProfileOpen(!profileOpen); setNotifOpen(false); }}
+                onClick={() => {
+                  setProfileOpen(!profileOpen);
+                  setNotifOpen(false);
+                }}
                 className="flex items-center gap-1 cursor-pointer"
               >
                 <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
@@ -331,10 +406,22 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
                       <User className="h-4 w-4 text-muted-foreground" /> My Profile
                     </button>
-                    <button onClick={() => { setProfileOpen(false); navigate("/settings"); }} className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
+                    <button
+                      onClick={() => {
+                        setProfileOpen(false);
+                        navigate("/settings");
+                      }}
+                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                    >
                       <Settings className="h-4 w-4 text-muted-foreground" /> Settings
                     </button>
-                    <button onClick={() => { setProfileOpen(false); navigate("/community"); }} className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
+                    <button
+                      onClick={() => {
+                        setProfileOpen(false);
+                        navigate("/community");
+                      }}
+                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                    >
                       <Users className="h-4 w-4 text-muted-foreground" /> Community Members
                     </button>
                     <button className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
@@ -375,9 +462,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
                     "block px-3 py-2 text-sm rounded-md transition-colors",
-                    active
-                      ? "bg-primary text-primary-foreground font-medium"
-                      : "text-muted-foreground hover:bg-muted"
+                    active ? "bg-primary text-primary-foreground font-medium" : "text-muted-foreground hover:bg-muted",
                   )}
                 >
                   {item.label}
@@ -398,7 +483,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
                 location.pathname === "/"
                   ? "bg-primary text-primary-foreground font-medium"
-                  : "text-foreground hover:bg-muted"
+                  : "text-foreground hover:bg-muted",
               )}
             >
               <Rss className="h-4 w-4" />
@@ -417,7 +502,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
                 location.pathname === "/chat"
                   ? "bg-primary text-primary-foreground font-medium"
-                  : "text-foreground hover:bg-muted"
+                  : "text-foreground hover:bg-muted",
               )}
             >
               <Send className="h-4 w-4" />
@@ -447,7 +532,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-xs transition-colors",
                       location.pathname === `/groups/${g.slug}`
                         ? "bg-primary text-primary-foreground font-medium"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
                     <g.icon className="h-3.5 w-3.5 shrink-0" />
@@ -501,7 +586,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Event Sub-Sidebar */}
         {location.pathname === "/events" && (
           <aside className="hidden lg:flex w-48 shrink-0 flex-col border-r border-border bg-card py-4">
-            <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Event Management</h3>
+            <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+              Event Management
+            </h3>
             <nav className="space-y-0.5 px-2">
               {[
                 { label: "Event", icon: ClipboardList, tab: "" },
@@ -523,7 +610,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-sm transition-colors",
                       isActive
                         ? "bg-primary text-primary-foreground font-medium"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
                     <item.icon className="h-4 w-4 shrink-0" />
@@ -548,7 +635,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="border-t border-primary/30 mb-2" />
           <div className="space-y-5">
             <div>
-              <label className="text-sm font-semibold text-foreground">Session Name <span className="text-destructive">*</span></label>
+              <label className="text-sm font-semibold text-foreground">
+                Session Name <span className="text-destructive">*</span>
+              </label>
               <input
                 type="text"
                 placeholder="Enter session name"
@@ -556,10 +645,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-foreground">Post in Channel <span className="text-destructive">*</span></label>
+              <label className="text-sm font-semibold text-foreground">
+                Post in Channel <span className="text-destructive">*</span>
+              </label>
               <select className="mt-1.5 h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30">
                 <option value="">Select channel</option>
-                {channels.map((c) => <option key={c} value={c}>{c}</option>)}
+                {channels.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
@@ -569,7 +664,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   onClick={() => setSessionType("video")}
                   className={cn(
                     "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors",
-                    sessionType === "video" ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:bg-muted"
+                    sessionType === "video"
+                      ? "border-primary bg-primary/5 text-foreground"
+                      : "border-border text-muted-foreground hover:bg-muted",
                   )}
                 >
                   <Video className="h-4 w-4" /> Video Call
@@ -578,7 +675,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   onClick={() => setSessionType("webinar")}
                   className={cn(
                     "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors",
-                    sessionType === "webinar" ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:bg-muted"
+                    sessionType === "webinar"
+                      ? "border-primary bg-primary/5 text-foreground"
+                      : "border-border text-muted-foreground hover:bg-muted",
                   )}
                 >
                   <Radio className="h-4 w-4" /> Webinar
@@ -658,7 +757,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               {/* Left - Toolbar */}
               <div className="w-12 shrink-0 flex flex-col items-center py-4 gap-4 border-r border-white/10">
                 {[Users, MessageSquare, FileText, PenTool, Share].map((Icon, i) => (
-                  <button key={i} className="h-9 w-9 rounded-lg bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/60 hover:text-white transition-colors">
+                  <button
+                    key={i}
+                    className="h-9 w-9 rounded-lg bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                  >
                     <Icon className="h-4 w-4" />
                   </button>
                 ))}
@@ -668,10 +770,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <div className="flex-1 relative overflow-hidden">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: {
-                    "United Kingdom": "url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&h=1080&fit=crop')",
-                    "DACH": "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&h=1080&fit=crop')",
-                  }[spatialRoomOpen || ""] || "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop')" }}
+                  style={{
+                    backgroundImage:
+                      {
+                        "United Kingdom":
+                          "url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&h=1080&fit=crop')",
+                        DACH: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&h=1080&fit=crop')",
+                      }[spatialRoomOpen || ""] ||
+                      "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop')",
+                  }}
                 />
                 <div className="absolute inset-0 bg-black/20" />
 
@@ -688,8 +795,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     { name: "Sarah M.", color: "border-green-400" },
                   ].map((p, i) => (
                     <div key={i} className="flex flex-col items-center gap-1">
-                      <div className={`h-14 w-14 rounded-full border-2 ${p.color} bg-[hsl(230,20%,18%)] flex items-center justify-center`}>
-                        <span className="text-white text-xs font-bold">{p.name.split(" ").map(n => n[0]).join("")}</span>
+                      <div
+                        className={`h-14 w-14 rounded-full border-2 ${p.color} bg-[hsl(230,20%,18%)] flex items-center justify-center`}
+                      >
+                        <span className="text-white text-xs font-bold">
+                          {p.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </span>
                       </div>
                       <span className="text-[10px] text-white/70 bg-black/40 rounded px-1.5 py-0.5">{p.name}</span>
                     </div>
@@ -699,7 +813,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 {/* Bottom Toolbar */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
                   {[Plus, PenTool, Monitor, MessageSquare].map((Icon, i) => (
-                    <button key={i} className="h-11 w-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors backdrop-blur-sm">
+                    <button
+                      key={i}
+                      className="h-11 w-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors backdrop-blur-sm"
+                    >
                       <Icon className="h-5 w-5" />
                     </button>
                   ))}
@@ -766,9 +883,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       <span className="text-[10px] text-white/50">1/50</span>
                     </div>
                     <div className="mt-2 flex items-center gap-2 ml-4">
-                      <div className="h-6 w-6 rounded-full bg-primary/30 flex items-center justify-center text-[10px] text-white font-bold">RK</div>
+                      <div className="h-6 w-6 rounded-full bg-primary/30 flex items-center justify-center text-[10px] text-white font-bold">
+                        RK
+                      </div>
                       <span className="text-xs text-white/80">Riddhik</span>
-                      <span className="text-[10px] bg-primary/30 text-primary-foreground rounded px-1.5 py-0.5">You</span>
+                      <span className="text-[10px] bg-primary/30 text-primary-foreground rounded px-1.5 py-0.5">
+                        You
+                      </span>
                     </div>
                   </div>
 
@@ -780,7 +901,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     { name: "Manchester City", icon: "📁", capacity: "" },
                     { name: "Networking Room", icon: "▶", capacity: "0/50" },
                   ].map((room) => (
-                    <button key={room.name} className="flex items-center justify-between w-full rounded-md px-3 py-2 text-sm text-white/70 hover:bg-white/5 transition-colors">
+                    <button
+                      key={room.name}
+                      className="flex items-center justify-between w-full rounded-md px-3 py-2 text-sm text-white/70 hover:bg-white/5 transition-colors"
+                    >
                       <span className="flex items-center gap-2">
                         <span className="text-white/40 text-xs">{room.icon}</span>
                         {room.name}
