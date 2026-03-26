@@ -567,7 +567,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   >
                     <room.icon className="h-3.5 w-3.5 shrink-0" />
                     {room.name}
-                  </button>
+                  </a>
                 ))}
               </div>
             )}
