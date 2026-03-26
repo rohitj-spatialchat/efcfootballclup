@@ -64,7 +64,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 
 const navItems = [
   { label: "Home", path: "/" },
-  { label: "Event", path: "/events" },
+  { label: "Events", path: "/events" },
   { label: "Knowledge Hub", path: "/knowledge" },
   { label: "Memeber Directory", path: "/community" },
   { label: "Leaderboard", path: "/leaderboard" },
