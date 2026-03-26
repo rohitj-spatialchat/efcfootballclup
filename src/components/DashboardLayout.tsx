@@ -184,9 +184,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1">
-            <button className="rounded-md p-2 text-muted-foreground hover:bg-muted transition-colors">
-              <Search className="h-4 w-4" />
-            </button>
+            <div className="relative flex items-center">
+              <Search className="absolute left-3 h-4 w-4 text-muted-foreground pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="h-9 w-44 rounded-full border border-border bg-muted/50 pl-9 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:bg-background transition-colors"
+              />
+            </div>
 
             {/* Notifications */}
             <div ref={notifRef} className="relative">
