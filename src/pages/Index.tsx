@@ -711,7 +711,7 @@ const Index = () => {
 
       {/* Right Sidebar */}
       <div className="hidden lg:block w-72 shrink-0">
-        <div className="sticky top-20 space-y-4">
+        <div className="sticky top-4 space-y-4">
           {/* Quick Action Buttons */}
           <motion.div variants={item} className="flex gap-2">
             <button
