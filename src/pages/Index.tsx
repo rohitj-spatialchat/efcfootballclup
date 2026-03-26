@@ -560,6 +560,27 @@ const Index = () => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* Select Region - Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+                {selectedRegion === "All Regions" ? "Select Region" : selectedRegion}
+                <ChevronDown className="h-3 w-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="max-h-64 overflow-y-auto">
+              {regionOptions.map(region => (
+                <DropdownMenuItem
+                  key={region}
+                  onClick={() => setSelectedRegion(region)}
+                  className={selectedRegion === region ? "bg-accent" : ""}
+                >
+                  {region}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </motion.div>
 
         {/* Empty state */}
