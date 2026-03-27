@@ -41,6 +41,7 @@ export default function EventsPage() {
 
   if (activeTab === "registration") return <EventRegistration />;
   if (activeTab === "people") return <EventPeople />;
+  if (activeTab === "analytics") return <EventAnalytics />;
   if (activeTab === "recording") return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.div variants={item} className="flex items-center justify-between">
