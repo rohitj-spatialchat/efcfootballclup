@@ -185,15 +185,16 @@ export default function CommunityPage() {
   const isInvitedTab = activeTab === "invited";
   const isBlockedTab = activeTab === "blocked";
 
-  const tabs: { key: ActiveTab; label: string; count: number; isNew?: boolean }[] = [
+  const allTabs: { key: ActiveTab; label: string; count: number; isNew?: boolean; adminOnly?: boolean }[] = [
     { key: "all", label: "All", count: members.length },
     { key: "contacts", label: "Contacts", count: members.length - 1, isNew: true },
     { key: "members", label: "Members", count: members.filter(m => m.role === "Member").length },
-    { key: "invited", label: "Invited", count: invited.length },
-    { key: "admins", label: "Admins", count: members.filter(m => m.role === "Admin").length },
-    { key: "moderators", label: "Moderators", count: members.filter(m => m.role === "Moderator").length },
-    { key: "blocked", label: "Blocked", count: blocked.length },
+    { key: "invited", label: "Invited", count: invited.length, adminOnly: true },
+    { key: "admins", label: "Admins", count: members.filter(m => m.role === "Admin").length, adminOnly: true },
+    { key: "moderators", label: "Moderators", count: members.filter(m => m.role === "Moderator").length, adminOnly: true },
+    { key: "blocked", label: "Blocked", count: blocked.length, adminOnly: true },
   ];
+  const tabs = allTabs.filter(t => !t.adminOnly || isAdmin);
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-0 -m-6">
