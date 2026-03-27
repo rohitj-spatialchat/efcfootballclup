@@ -148,6 +148,8 @@ const groupsData: Record<string, {
     ],
     posts: [
       { id: 1, author: "Dr. Anna Weber", avatar: "AW", time: "1h ago", title: "Updated ACL rehabilitation timeline", body: "Based on our latest outcomes data (n=47 athletes), we're recommending extending the minimum RTP criteria to include 9 months + psychological readiness assessment.", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop", likes: 89, comments: 42, pinned: true },
+      { id: 2, author: "Paulo Mendes", avatar: "PM", time: "1d ago", title: "🗳️ POLL: Most common muscle injury in your squad?", body: "A. Hamstring strain\nB. Quadriceps strain\nC. Calf strain\nD. Adductor/groin injury", image: null, likes: 47, comments: 33, pinned: false },
+      { id: 3, author: "Dr. Fatima Al-Hassan", avatar: "FA", time: "2d ago", title: "Platelet-rich plasma therapy: where do we stand?", body: "Our systematic review of PRP in muscle injuries shows mixed evidence. However, for specific tendinopathies, the results are more promising. Here's a breakdown of when we consider PRP in our clinical pathway.", image: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&h=400&fit=crop", likes: 61, comments: 29, pinned: false },
     ],
     events: [
       { title: "Rehabilitation Case Study Series", date: "Mar 12, 2026", attendees: 64 },
