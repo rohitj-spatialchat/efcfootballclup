@@ -200,11 +200,11 @@ export default function KnowledgePage() {
           </div>
 
           {[
-            { label: "Topics", value: "All" },
-            { label: "Brands", value: "All" },
-            { label: "Formats", value: "All" },
-            { label: "Date", value: "All Time" },
-            { label: "Prices", value: "All" },
+            { label: "Topics", value: "All", options: ["Fitness", "Nutrition", "Recovery", "Strength"] },
+            { label: "Formats", value: "All", options: ["Watch", "Listen", "Read"] },
+            { label: "Discipline", value: "All", options: ["Football", "Athletics", "Swimming", "Basketball"] },
+            { label: "Country", value: "All", options: ["United Kingdom", "Spain", "Germany", "France", "Brazil"] },
+            { label: "Region", value: "All", options: ["Europe", "South America", "North America", "Asia", "Africa"] },
           ].map((filter) => (
             <div key={filter.label}>
               <label className="text-xs font-medium text-foreground">{filter.label}:</label>
