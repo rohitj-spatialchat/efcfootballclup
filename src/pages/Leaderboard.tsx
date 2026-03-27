@@ -74,7 +74,7 @@ export default function LeaderboardPage() {
             </div>
             <div>
               <p className="font-semibold text-foreground">{currentUser.name}</p>
-              <p className="text-sm text-muted-foreground">{currentUser.xp} XP</p>
+              <p className="text-sm text-muted-foreground">{currentUser.mpu} MPU</p>
             </div>
           </div>
 
