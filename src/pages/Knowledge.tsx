@@ -69,7 +69,7 @@ const courses = [
     title: "Strength & conditioning: Building the complete athlete",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Mohamed_Salah_2018.jpg/440px-Mohamed_Salah_2018.jpg",
+      "https://hips.hearstapps.com/hmg-prod/images/premier-league-footballers-weights-1667822239.jpg?crop=0.888888888888889xw:1xh;center,top&resize=1200:*",
     type: "READ" as const,
     tags: ["Strength & Power"],
     progress: 100,
