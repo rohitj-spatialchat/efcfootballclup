@@ -286,12 +286,12 @@ export default function LeaderboardPage() {
                   </td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">
-                        {m.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </div>
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={avatarUrl(m.name)} alt={m.name} />
+                        <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
+                          {m.name.split(" ").map((n) => n[0]).join("")}
+                        </AvatarFallback>
+                      </Avatar>
                       <span className="text-sm font-medium text-foreground">{m.name}</span>
                     </div>
                   </td>
