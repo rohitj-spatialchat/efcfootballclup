@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Lock, Award, Crown } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Lock, Award, Crown, ThumbsUp, MessageSquare, Users, Share2, Heart } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
