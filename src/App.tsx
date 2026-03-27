@@ -24,6 +24,7 @@ import Engagement from "./pages/Engagement";
 import Chat from "./pages/Chat";
 import Announcements from "./pages/Announcements";
 import Group from "./pages/Group";
+import HelpChatWidget from "./components/HelpChatWidget";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const App = () => (
           } />
         </Routes>
       </BrowserRouter>
+      <HelpChatWidget />
     </TooltipProvider>
   </QueryClientProvider>
 );
