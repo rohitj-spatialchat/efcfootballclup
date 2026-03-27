@@ -147,7 +147,7 @@ const Index = () => {
   const { toast } = useToast();
 
   // Poll state
-  const [createPollOpen, setCreatePollOpen] = useState(false);
+  const [postMode, setPostMode] = useState<"post" | "poll">("post");
   const [pollQuestion, setPollQuestion] = useState("");
   const [pollOptions, setPollOptions] = useState(["", ""]);
   const [pollDuration, setPollDuration] = useState("1 day");
