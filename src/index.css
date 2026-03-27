@@ -121,3 +121,20 @@
     box-shadow: var(--shadow-lg);
   }
 }
+
+/* MPU Redemption Page Tokens */
+:root {
+  --mpu-bg: 225 25% 6%;
+  --mpu-surface: 225 20% 10%;
+  --mpu-surface-glass: 225 20% 12%;
+  --mpu-gold: 42 92% 56%;
+  --mpu-gold-foreground: 225 25% 6%;
+  --mpu-neon: 200 100% 50%;
+  --mpu-neon-dim: 200 80% 30%;
+  --mpu-accent-purple: 270 60% 55%;
+  --mpu-text: 220 20% 94%;
+  --mpu-text-muted: 220 14% 50%;
+  --mpu-border: 225 15% 18%;
+  --mpu-success: 152 55% 42%;
+  --mpu-danger: 0 72% 55%;
+}
