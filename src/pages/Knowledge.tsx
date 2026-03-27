@@ -9,7 +9,8 @@ const courses = [
   {
     title: "Desk to deep breath: Midday movement for grounded energy",
     description: "Recovery techniques and stretching routines for peak athletic performance.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/440px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg",
+    image:
+      "https://assets-us-01.kc-usercontent.com/31dbcbc6-da4c-0033-328a-d7621d0fa726/143a1f0a-b490-4c16-8afd-f9617526a406/2025-09-16T193455Z_399216793_UP1EL9G1IE5UG_RTRMADP_3_SOCCER-CHAMPIONS-RMA-OM.JPG?ver=03-06-2025?w=3840&q=75",
     type: "WATCH" as const,
     tags: ["Fitness & Exercise Physiology"],
     progress: 100,
@@ -20,7 +21,8 @@ const courses = [
   {
     title: "Simple nourishment: Wholesome eating for life in motion",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Cristiano_Ronaldo_2018.jpg/440px-Cristiano_Ronaldo_2018.jpg",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Cristiano_Ronaldo_2018.jpg/440px-Cristiano_Ronaldo_2018.jpg",
     type: "WATCH" as const,
     tags: ["Nutrition"],
     progress: 50,
@@ -31,7 +33,8 @@ const courses = [
   {
     title: "The rest ritual: Reclaiming sleep as sacred restoration",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg/440px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg/440px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg",
     type: "LISTEN" as const,
     tags: ["Healing Circles"],
     progress: 0,
@@ -42,7 +45,8 @@ const courses = [
   {
     title: "Nutrition for performance: Fueling the footballer's body",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg/440px-2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg/440px-2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg",
     type: "WATCH" as const,
     tags: ["Nutrition", "Sport & Exercise Science"],
     progress: 75,
@@ -53,7 +57,8 @@ const courses = [
   {
     title: "ACL recovery & rehabilitation: A footballer's journey back",
     description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Erling_Haaland_2023.jpg/440px-Erling_Haaland_2023.jpg",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Erling_Haaland_2023.jpg/440px-Erling_Haaland_2023.jpg",
     type: "LISTEN" as const,
     tags: ["Sportmedicine & Physiotherapy"],
     progress: 30,
@@ -64,7 +69,8 @@ const courses = [
   {
     title: "Strength & conditioning: Building the complete athlete",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Mohamed_Salah_2018.jpg/440px-Mohamed_Salah_2018.jpg",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Mohamed_Salah_2018.jpg/440px-Mohamed_Salah_2018.jpg",
     type: "READ" as const,
     tags: ["Strength & Power"],
     progress: 100,
@@ -81,8 +87,12 @@ const typeColors: Record<string, string> = {
 };
 
 const allTags = [
-  "Sport & Exercise Science", "Nutrition", "Sport Psychology",
-  "Sportmedicine & Physiotherapy", "Strength & Power", "Fitness & Exercise Physiology",
+  "Sport & Exercise Science",
+  "Nutrition",
+  "Sport Psychology",
+  "Sportmedicine & Physiotherapy",
+  "Strength & Power",
+  "Fitness & Exercise Physiology",
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
@@ -93,14 +103,11 @@ export default function KnowledgePage() {
   const [selectedTags, setSelectedTags] = useState<string[]>(allTags.slice(0, 4));
 
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
+    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
   };
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
-
       <div className="flex gap-8">
         {/* Main Content */}
         <div className="flex-1 space-y-5">
@@ -152,9 +159,7 @@ export default function KnowledgePage() {
                   {course.progress === 100 ? (
                     <div className="flex items-center gap-1.5">
                       <CheckCircle2 className="h-4 w-4 text-success" />
-                      <span className="text-xs text-muted-foreground">
-                        Completed {course.completedDate}
-                      </span>
+                      <span className="text-xs text-muted-foreground">Completed {course.completedDate}</span>
                     </div>
                   ) : course.progress > 0 ? (
                     <div className="flex items-center gap-2">
@@ -174,8 +179,11 @@ export default function KnowledgePage() {
 
                 {/* Type badge */}
                 <div className="mt-2">
-                  <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[course.type]}`}>
-                    {course.type === "LISTEN" ? "🎧 " : course.type === "WATCH" ? "▶ " : "📖 "}{course.type}
+                  <span
+                    className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[course.type]}`}
+                  >
+                    {course.type === "LISTEN" ? "🎧 " : course.type === "WATCH" ? "▶ " : "📖 "}
+                    {course.type}
                   </span>
                 </div>
               </div>
@@ -187,7 +195,9 @@ export default function KnowledgePage() {
         <motion.div variants={item} className="hidden lg:block w-60 shrink-0 space-y-5">
           <div>
             <h3 className="text-sm font-semibold text-primary mb-1">Sort & Filter</h3>
-            <p className="text-xs text-muted-foreground">Find the content you are looking for across the Knowledge Hub</p>
+            <p className="text-xs text-muted-foreground">
+              Find the content you are looking for across the Knowledge Hub
+            </p>
           </div>
 
           {[
