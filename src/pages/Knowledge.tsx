@@ -1,51 +1,76 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CheckCircle2 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 const categories = ["All", "Fitness", "Meeting Circles", "Nutrition", "Guided Sessions"];
 
 const courses = [
   {
-    title: "Sport Medicine & Injury Prevention",
+    title: "Desk to deep breath: Midday movement for grounded energy",
+    description: "Recovery techniques and stretching routines for peak athletic performance.",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+    type: "WATCH" as const,
+    tags: ["Fitness & Exercise Physiology"],
+    progress: 100,
+    completedDate: "Apr 4, 2025",
+    publishedDate: "Mar 10, 2025",
+    isNew: false,
+  },
+  {
+    title: "Simple nourishment: Wholesome eating for life in motion",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop",
-    type: "WATCH",
-    tags: ["Sport & Exercise Science", "Nutrition"],
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+    type: "WATCH" as const,
+    tags: ["Nutrition"],
+    progress: 50,
+    completedDate: null,
+    publishedDate: "May 20, 2025",
+    isNew: true,
   },
   {
-    title: "Sport Science & Physiology",
-    description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
-    image: "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=400&h=300&fit=crop",
-    type: "LISTEN",
-    tags: ["Sport Psychology", "Sportmedicine & Physiotherapy"],
-  },
-  {
-    title: "Sport Psychology",
+    title: "The rest ritual: Reclaiming sleep as sacred restoration",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&h=300&fit=crop",
-    type: "READ",
-    tags: ["Strength & Power", "Fitness & Exercise Physiology"],
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop",
+    type: "LISTEN" as const,
+    tags: ["Healing Circles"],
+    progress: 0,
+    completedDate: null,
+    publishedDate: "Jul 25, 2025",
+    isNew: true,
   },
   {
-    title: "Nutrition for Performance",
+    title: "Nutrition for performance: Fueling the footballer's body",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop",
-    type: "WATCH",
+    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=300&fit=crop",
+    type: "WATCH" as const,
     tags: ["Nutrition", "Sport & Exercise Science"],
+    progress: 75,
+    completedDate: null,
+    publishedDate: "Jun 15, 2025",
+    isNew: true,
   },
   {
-    title: "ACL Recovery & Rehabilitation",
+    title: "ACL recovery & rehabilitation: A footballer's journey back",
     description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop",
-    type: "LISTEN",
+    image: "https://images.unsplash.com/photo-1624880357913-a8539238245b?w=400&h=300&fit=crop",
+    type: "LISTEN" as const,
     tags: ["Sportmedicine & Physiotherapy"],
+    progress: 30,
+    completedDate: null,
+    publishedDate: "Feb 12, 2025",
+    isNew: false,
   },
   {
-    title: "Strength & Conditioning",
+    title: "Strength & conditioning: Building the complete athlete",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop",
-    type: "READ",
+    image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=400&h=300&fit=crop",
+    type: "READ" as const,
     tags: ["Strength & Power"],
+    progress: 100,
+    completedDate: "Jan 28, 2025",
+    publishedDate: "Dec 5, 2024",
+    isNew: false,
   },
 ];
 
@@ -103,20 +128,56 @@ export default function KnowledgePage() {
           <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {courses.map((course, i) => (
               <div key={i} className="group cursor-pointer">
-                <div className="rounded-lg overflow-hidden aspect-[4/3] mb-3">
+                {/* Image */}
+                <div className="relative rounded-xl overflow-hidden aspect-[4/3] mb-3">
                   <img
                     src={course.image}
                     alt={course.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
+                  {course.isNew && (
+                    <span className="absolute top-3 right-3 bg-destructive text-destructive-foreground text-[10px] font-bold uppercase px-2 py-0.5 rounded">
+                      NEW
+                    </span>
+                  )}
                 </div>
-                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
+
+                {/* Title */}
+                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
                   {course.title}
                 </h3>
-                <p className="text-xs text-muted-foreground mb-2">{course.description}</p>
-                <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[course.type]}`}>
-                  {course.type === "LISTEN" ? "🎧 " : course.type === "WATCH" ? "▶ " : "📖 "}{course.type}
-                </span>
+
+                {/* Status row */}
+                <div className="space-y-1.5">
+                  {course.progress === 100 ? (
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle2 className="h-4 w-4 text-success" />
+                      <span className="text-xs text-muted-foreground">
+                        Completed {course.completedDate}
+                      </span>
+                    </div>
+                  ) : course.progress > 0 ? (
+                    <div className="flex items-center gap-2">
+                      <Progress value={course.progress} className="h-1.5 flex-1" />
+                      <span className="text-xs text-muted-foreground whitespace-nowrap">
+                        {course.progress}% complete
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <span>{course.tags[0]}</span>
+                      <span>·</span>
+                      <span>Starts on {course.publishedDate}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Type badge */}
+                <div className="mt-2">
+                  <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[course.type]}`}>
+                    {course.type === "LISTEN" ? "🎧 " : course.type === "WATCH" ? "▶ " : "📖 "}{course.type}
+                  </span>
+                </div>
               </div>
             ))}
           </motion.div>
