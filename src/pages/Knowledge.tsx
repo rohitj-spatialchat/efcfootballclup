@@ -53,7 +53,7 @@ const courses = [
   {
     title: "ACL recovery & rehabilitation: A footballer's journey back",
     description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
-    image: "https://images.unsplash.com/photo-1624880357913-a8539238245b?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=400&h=300&fit=crop",
     type: "LISTEN" as const,
     tags: ["Sportmedicine & Physiotherapy"],
     progress: 30,
