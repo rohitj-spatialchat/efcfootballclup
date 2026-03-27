@@ -47,6 +47,7 @@ function getLevelProgress(xp: number) {
 
 export default function LeaderboardPage() {
   const [selectedRegion, setSelectedRegion] = useState("All Regions");
+  const [timePeriod, setTimePeriod] = useState("This Month");
 
   const filteredLeaderboard = selectedRegion === "All Regions"
     ? leaderboard
