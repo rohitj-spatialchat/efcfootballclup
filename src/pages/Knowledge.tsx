@@ -22,7 +22,7 @@ const courses = [
     title: "Simple nourishment: Wholesome eating for life in motion",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Cristiano_Ronaldo_2018.jpg/440px-Cristiano_Ronaldo_2018.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2024/11/10/1600x900/Gbxbr0VXYAwGVul_1731217124310_1731217142060.jfif",
     type: "WATCH" as const,
     tags: ["Nutrition"],
     progress: 50,
