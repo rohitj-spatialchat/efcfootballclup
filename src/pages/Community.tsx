@@ -340,18 +340,27 @@ export default function CommunityPage() {
                       <td className="px-4 py-3">
                         <div>
                           <p className="text-sm font-medium text-foreground">{m.name}</p>
-                          <p className="text-xs text-muted-foreground">{m.email}</p>
                         </div>
                       </td>
+                      <td className="px-4 py-3 text-sm text-muted-foreground">{m.email}</td>
                       <td className="px-4 py-3">
-                        <span className="text-sm text-foreground flex items-center gap-1.5">
-                          {m.flag} {m.team}
-                        </span>
+                        <button
+                          onClick={() => {
+                            setMembers((prev) => prev.map((member, idx) => idx === i ? { ...member, subscribed: !member.subscribed } : member));
+                            toast({ title: m.subscribed ? "Unsubscribed" : "Subscribed", description: `${m.name} has been ${m.subscribed ? "unsubscribed from" : "subscribed to"} email marketing.` });
+                          }}
+                          className={cn(
+                            "inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold transition-colors cursor-pointer",
+                            m.subscribed ? "bg-success/20 text-success hover:bg-success/30" : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          )}
+                        >
+                          {m.subscribed ? "Subscribed" : "Unsubscribed"}
+                        </button>
                       </td>
                       <td className="px-4 py-3 text-sm text-muted-foreground">{m.country}</td>
                       <td className="px-4 py-3">
-                        <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold", scoreColor(m.score))}>
-                          {m.score}
+                        <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold", mpuColor(m.mpu))}>
+                          {m.mpu}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-sm text-muted-foreground">{m.role}</td>
