@@ -970,14 +970,40 @@ export default function CommunityPage() {
                         </div>
                       </div>
 
-                      {/* Message button */}
-                      <button
-                        onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
-                        className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
-                      >
-                        <MessageCircle className="h-3.5 w-3.5" />
-                        Message
-                      </button>
+                      {/* Follow + Message buttons */}
+                      <div className="mt-4 w-full flex items-center gap-2">
+                        <button
+                          onClick={() => {
+                            setFollowedMembers((prev) => {
+                              const next = new Set(prev);
+                              if (next.has(m.name)) {
+                                next.delete(m.name);
+                                toast({ title: "Unfollowed", description: `You unfollowed ${m.name}.` });
+                              } else {
+                                next.add(m.name);
+                                toast({ title: "Followed", description: `You are now following ${m.name}.` });
+                              }
+                              return next;
+                            });
+                          }}
+                          className={cn(
+                            "flex-1 flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-xs font-medium transition-colors",
+                            followedMembers.has(m.name)
+                              ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                              : "border border-border text-foreground hover:bg-muted",
+                          )}
+                        >
+                          <UserPlus className="h-3.5 w-3.5" />
+                          {followedMembers.has(m.name) ? "Unfollow" : "Follow"}
+                        </button>
+                        <button
+                          onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                          className="flex-1 flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+                        >
+                          <MessageCircle className="h-3.5 w-3.5" />
+                          Message
+                        </button>
+                      </div>
                     </motion.div>
                   ))}
                 </motion.div>
