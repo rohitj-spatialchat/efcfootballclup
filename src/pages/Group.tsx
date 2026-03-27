@@ -127,7 +127,9 @@ const groupsData: Record<string, {
       { name: "Mei Wong", avatar: "MW", role: "Member", online: true },
     ],
     posts: [
-      { id: 1, author: "Dr. Ravi Patel", avatar: "RP", time: "6h ago", title: "Building psychological resilience after long-term injury", body: "Our 12-week psychological intervention program for ACL-reconstructed players has shown remarkable improvements in return-to-sport confidence scores. Key components include visualization, graduated exposure, and peer mentoring.", image: null, likes: 72, comments: 31, pinned: true },
+      { id: 1, author: "Dr. Ravi Patel", avatar: "RP", time: "6h ago", title: "Building psychological resilience after long-term injury", body: "Our 12-week psychological intervention program for ACL-reconstructed players has shown remarkable improvements in return-to-sport confidence scores. Key components include visualization, graduated exposure, and peer mentoring.", image: "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=800&h=400&fit=crop", likes: 72, comments: 31, pinned: true },
+      { id: 2, author: "Mei Wong", avatar: "MW", time: "1d ago", title: "🗳️ POLL: Biggest mental health challenge for players?", body: "A. Performance anxiety before big matches\nB. Dealing with social media criticism\nC. Coping with injury setbacks\nD. Managing work-life balance", image: null, likes: 64, comments: 38, pinned: false },
+      { id: 3, author: "Dr. Ravi Patel", avatar: "RP", time: "3d ago", title: "Pre-match visualization techniques that actually work", body: "We ran a controlled study with 24 players over a season. Those who completed structured 10-min visualization sessions before matches reported 40% higher confidence and showed measurably better decision-making under pressure.", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=400&fit=crop", likes: 58, comments: 22, pinned: false },
     ],
     events: [],
     rules: ["Maintain confidentiality about specific athlete cases", "Be sensitive when discussing mental health topics"],
