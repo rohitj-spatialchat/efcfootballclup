@@ -544,6 +544,89 @@ const Index = () => {
           </DialogContent>
         </Dialog>
 
+        {/* Create Poll Dialog */}
+        <Dialog open={createPollOpen} onOpenChange={setCreatePollOpen}>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-primary" />
+                Create a Poll
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
+                  DE
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Demo User</p>
+                  <p className="text-xs text-muted-foreground">Posting a poll to Feed</p>
+                </div>
+              </div>
+
+              <Textarea
+                placeholder="Ask your question..."
+                value={pollQuestion}
+                onChange={(e) => setPollQuestion(e.target.value)}
+                className="min-h-[80px] resize-none text-base font-medium"
+              />
+
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                  <BarChart3 className="h-3 w-3" /> Poll Options
+                </p>
+                {pollOptions.map((opt, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full border-2 border-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">
+                      {String.fromCharCode(65 + i)}
+                    </div>
+                    <input
+                      type="text"
+                      placeholder={`Option ${i + 1}`}
+                      value={opt}
+                      onChange={(e) => updatePollOption(i, e.target.value)}
+                      className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+                    />
+                    {pollOptions.length > 2 && (
+                      <button onClick={() => removePollOption(i)} className="text-muted-foreground hover:text-destructive transition-colors">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {pollOptions.length < 6 && (
+                  <button
+                    onClick={addPollOption}
+                    className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors mt-1"
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Add option
+                  </button>
+                )}
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-muted-foreground mb-1.5">Poll Duration</p>
+                <select
+                  value={pollDuration}
+                  onChange={(e) => setPollDuration(e.target.value)}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+                >
+                  <option>1 day</option>
+                  <option>3 days</option>
+                  <option>1 week</option>
+                  <option>2 weeks</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-end pt-2 border-t border-border">
+                <Button onClick={handleCreatePoll} className="rounded-full px-6">
+                  <BarChart3 className="h-4 w-4 mr-1" />
+                  Post Poll
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+
         {/* Filter Tabs */}
         <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
           {/* Recent */}
