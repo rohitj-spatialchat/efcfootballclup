@@ -103,9 +103,14 @@ export default function NetworkingPage() {
                 </td>
                 <td className="px-5 py-3 text-sm text-muted-foreground">{u.role}</td>
                 <td className="px-5 py-3 text-right">
-                  <button className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-accent-foreground hover:bg-accent/80 transition-colors">
-                    <Video className="h-3 w-3" /> Connect
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-accent-foreground hover:bg-accent/80 transition-colors">
+                      <Video className="h-3 w-3" /> Connect
+                    </button>
+                    <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+                      <MessageSquare className="h-3 w-3" /> Message
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
