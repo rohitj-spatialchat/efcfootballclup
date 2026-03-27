@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Lock, Award } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Lock, Award, Crown } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const levels = [
   { level: 1, title: "Member", pointsRequired: 0, badge: "⚽" },
@@ -14,6 +15,9 @@ const levels = [
 ];
 
 const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
+
+const avatarUrl = (name: string) =>
+  `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
 
 const leaderboard = [
   { rank: 1, name: "Casey Nguyen", mpu: 1600, level: 6, streak: 45, badge: "👑", change: "+120", region: "Asia", team: "FC Tokyo" },
@@ -39,6 +43,8 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 // Current user stats
 const currentUser = { name: "Sarah Mitchell", mpu: 190, level: 3, nextLevelMpu: 400, rank: 4 };
+
+const top3 = leaderboard.filter((m) => m.rank <= 3).sort((a, b) => a.rank - b.rank);
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
