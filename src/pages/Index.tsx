@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown, BarChart3, Trash2, CheckCircle2, Rocket, Search, Bell, UserPlus, Sparkles } from "lucide-react";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown, BarChart3, Trash2 } from "lucide-react";
 import { useState, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -145,8 +145,6 @@ const Index = () => {
   const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
-  const [getStartedDismissed, setGetStartedDismissed] = useState(false);
 
   // Poll state
   const [postMode, setPostMode] = useState<"post" | "poll">("post");
@@ -936,73 +934,6 @@ const Index = () => {
       {/* Right Sidebar */}
       <div className="hidden lg:block w-72 shrink-0">
         <div className="sticky top-4 space-y-4">
-          {/* Get Started Guide */}
-          {!getStartedDismissed && (
-            <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card relative">
-              <button
-                onClick={() => setGetStartedDismissed(true)}
-                className="absolute top-2 right-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Rocket className="h-4 w-4 text-primary" />
-                </div>
-                <h3 className="text-sm font-bold text-foreground">Get Started</h3>
-              </div>
-              <p className="text-xs text-muted-foreground mb-3">Complete these steps to get the most out of your dashboard.</p>
-              <div className="space-y-1.5">
-                {[
-                  { id: "profile", label: "Complete your profile", icon: UserPlus, href: "/onboarding" },
-                  { id: "post", label: "Create your first post", icon: PenTool, action: () => { setPostMode("post"); setCreatePostOpen(true); } },
-                  { id: "explore", label: "Explore the community", icon: Users, href: "/community" },
-                  { id: "search", label: "Try AI-powered search", icon: Search, href: "/ai-search" },
-                  { id: "network", label: "Start networking", icon: Sparkles, href: "/networking" },
-                ].map((step) => {
-                  const done = completedSteps.has(step.id);
-                  return (
-                    <button
-                      key={step.id}
-                      onClick={() => {
-                        setCompletedSteps((prev) => new Set([...prev, step.id]));
-                        if (step.action) {
-                          step.action();
-                        } else if (step.href) {
-                          window.location.href = step.href;
-                        }
-                      }}
-                      className={`w-full flex items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-xs transition-colors ${
-                        done
-                          ? "bg-primary/5 text-muted-foreground line-through"
-                          : "hover:bg-accent text-foreground"
-                      }`}
-                    >
-                      {done ? (
-                        <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                      ) : (
-                        <step.icon className="h-4 w-4 text-muted-foreground shrink-0" />
-                      )}
-                      <span className="font-medium">{step.label}</span>
-                      {!done && <ChevronRight className="h-3 w-3 text-muted-foreground ml-auto" />}
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="mt-3 pt-2 border-t border-border">
-                <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                  <span>{completedSteps.size}/5 completed</span>
-                  <div className="w-20 h-1.5 rounded-full bg-muted overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-primary transition-all duration-500"
-                      style={{ width: `${(completedSteps.size / 5) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
           {/* Quick Action Buttons */}
           <motion.div variants={item} className="flex gap-2">
             <button
