@@ -66,6 +66,7 @@ const initialMembers = [
     following: 89,
     avatar: "https://i.pravatar.cc/150?img=11",
     subscribed: true,
+    team: "AFC Ajax",
   },
   {
     name: "Robert Fox",
@@ -79,6 +80,7 @@ const initialMembers = [
     following: 115,
     avatar: "https://i.pravatar.cc/150?img=12",
     subscribed: true,
+    team: "AC Milan",
   },
   {
     name: "Mei Wong",
@@ -92,6 +94,7 @@ const initialMembers = [
     following: 43,
     avatar: "https://i.pravatar.cc/150?img=5",
     subscribed: false,
+    team: "Inter Milan",
   },
   {
     name: "Dianne Russell",
@@ -105,6 +108,7 @@ const initialMembers = [
     following: 178,
     avatar: "https://i.pravatar.cc/150?img=23",
     subscribed: true,
+    team: "SL Benfica",
   },
   {
     name: "Kristin Watson",
@@ -118,6 +122,7 @@ const initialMembers = [
     following: 201,
     avatar: "https://i.pravatar.cc/150?img=32",
     subscribed: true,
+    team: "FC Porto",
   },
   {
     name: "Carlos Ramirez",
@@ -131,6 +136,7 @@ const initialMembers = [
     following: 22,
     avatar: "https://i.pravatar.cc/150?img=53",
     subscribed: false,
+    team: "Arsenal FC",
   },
   {
     name: "Ravi Patel",
@@ -144,6 +150,7 @@ const initialMembers = [
     following: 97,
     avatar: "https://i.pravatar.cc/150?img=59",
     subscribed: true,
+    team: "Chelsea FC",
   },
 ];
 
@@ -275,6 +282,7 @@ export default function CommunityPage() {
         following: Math.floor(Math.random() * 100),
         avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
         subscribed: Math.random() > 0.5,
+        team: "Unassigned",
       };
       setMembers((prev) => [member, ...prev]);
       setNewMember({ name: "", email: "", country: "", role: "Member" });
@@ -950,9 +958,12 @@ export default function CommunityPage() {
                       <p className="text-xs text-muted-foreground mt-0.5">
                         {m.role} · {m.country}
                       </p>
+                      <p className="text-xs text-primary font-medium mt-1">
+                        {m.team}
+                      </p>
 
                       {/* Location */}
-                      <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1 mt-1.5 text-xs text-muted-foreground">
                         <MapPin className="h-3 w-3" />
                         {m.country}
                       </div>
