@@ -173,7 +173,7 @@ export default function LeaderboardPage() {
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Level</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Streak</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Change</th>
+                
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
