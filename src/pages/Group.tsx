@@ -403,23 +403,22 @@ export default function Group() {
       {/* Tab Content */}
       {activeTab === "discussions" && (
         <div className="space-y-4">
-          {/* Create Post Button + Sort */}
+          {/* Sort + Create Post Button */}
           <motion.div variants={itemAnim} className="flex items-center justify-between">
-            <Button onClick={() => { setPostMode("post"); setCreatePostOpen(true); }} className="rounded-full">
-              <Plus className="h-4 w-4 mr-1" /> Create Post
-            </Button>
-              className="flex-1 rounded-lg border border-border bg-card p-3 cursor-pointer hover:bg-muted/50 transition-colors"
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="shrink-0">
                   {sortBy === "recent" ? "Recent" : "Popular"} <ChevronDown className="h-3 w-3 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="start">
                 <DropdownMenuItem onClick={() => setSortBy("recent")} className={sortBy === "recent" ? "bg-accent" : ""}>Most Recent</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy("popular")} className={sortBy === "popular" ? "bg-accent" : ""}>Most Popular</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <Button onClick={() => { setPostMode("post"); setCreatePostOpen(true); }} className="rounded-full">
+              <Plus className="h-4 w-4 mr-1" /> Create Post
+            </Button>
           </motion.div>
 
           {/* Pinned posts */}
