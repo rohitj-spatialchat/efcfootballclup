@@ -70,6 +70,7 @@ const App = () => (
       </BrowserRouter>
       <HelpChatWidget />
     </TooltipProvider>
+    </ViewModeProvider>
   </QueryClientProvider>
 );
 
