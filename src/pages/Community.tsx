@@ -161,14 +161,28 @@ export default function CommunityPage() {
 
   const getInitials = (name: string) => name.split(" ").map(n => n[0]).join("").toUpperCase();
 
-  const filteredMembers = activeTab === "all" ? members
+  const preFilteredMembers = activeTab === "all" ? members
     : activeTab === "contacts" ? members.slice(0, members.length - 1)
     : activeTab === "members" ? members.filter(m => m.role === "Member")
     : activeTab === "admins" ? members.filter(m => m.role === "Admin")
     : activeTab === "moderators" ? members.filter(m => m.role === "Moderator")
     : members;
 
+  const query = searchQuery.toLowerCase().trim();
+  const filteredMembers = query
+    ? preFilteredMembers.filter(m => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
+    : preFilteredMembers;
+
+  const filteredInvited = query
+    ? invited.filter(m => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
+    : invited;
+
+  const filteredBlocked = query
+    ? blocked.filter(m => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
+    : blocked;
+
   const isInvitedTab = activeTab === "invited";
+  const isBlockedTab = activeTab === "blocked";
 
   const tabs: { key: ActiveTab; label: string; count: number; isNew?: boolean }[] = [
     { key: "all", label: "All", count: members.length },
@@ -177,6 +191,7 @@ export default function CommunityPage() {
     { key: "invited", label: "Invited", count: invited.length },
     { key: "admins", label: "Admins", count: members.filter(m => m.role === "Admin").length },
     { key: "moderators", label: "Moderators", count: members.filter(m => m.role === "Moderator").length },
+    { key: "blocked", label: "Blocked", count: blocked.length },
   ];
 
   return (
