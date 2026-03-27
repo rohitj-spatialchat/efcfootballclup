@@ -40,6 +40,13 @@ const initialInvited = [
   { name: "Isabelle Desrosiers", email: "idesrosiers@ideoscripto.fr", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Dec 12, 2022", invitedAt: "Dec 12, 2022" },
 ];
 
+const initialBlocked = [
+  { name: "Tomás Silva", email: "tsilva@spam.net", reason: "Spam", blockedAt: "Feb 14, 2026" },
+  { name: "Jake Morrison", email: "jake.m@fake.com", reason: "Harassment", blockedAt: "Jan 3, 2026" },
+  { name: "Анна Козлова", email: "anna.k@mail.ru", reason: "Inappropriate content", blockedAt: "Nov 20, 2025" },
+  { name: "Liu Wei", email: "liuwei88@temp.cn", reason: "Spam", blockedAt: "Sep 5, 2025" },
+];
+
 const avatarColors = [
   "bg-primary/80", "bg-accent/80", "bg-destructive/40", "bg-secondary", "bg-muted-foreground/30", "bg-primary/50", "bg-accent/50",
 ];
@@ -53,17 +60,19 @@ const mpuColor = (mpu: number) => {
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
-type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "moderators";
+type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "moderators" | "blocked";
 
 export default function CommunityPage() {
   const { toast } = useToast();
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
+  const [blocked, setBlocked] = useState(initialBlocked);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [activeTab, setActiveTab] = useState<ActiveTab>("all");
   const [showInviteBanner, setShowInviteBanner] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
 
   const handleAddMember = () => {
@@ -152,14 +161,28 @@ export default function CommunityPage() {
 
   const getInitials = (name: string) => name.split(" ").map(n => n[0]).join("").toUpperCase();
 
-  const filteredMembers = activeTab === "all" ? members
+  const preFilteredMembers = activeTab === "all" ? members
     : activeTab === "contacts" ? members.slice(0, members.length - 1)
     : activeTab === "members" ? members.filter(m => m.role === "Member")
     : activeTab === "admins" ? members.filter(m => m.role === "Admin")
     : activeTab === "moderators" ? members.filter(m => m.role === "Moderator")
     : members;
 
+  const query = searchQuery.toLowerCase().trim();
+  const filteredMembers = query
+    ? preFilteredMembers.filter(m => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
+    : preFilteredMembers;
+
+  const filteredInvited = query
+    ? invited.filter(m => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
+    : invited;
+
+  const filteredBlocked = query
+    ? blocked.filter(m => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
+    : blocked;
+
   const isInvitedTab = activeTab === "invited";
+  const isBlockedTab = activeTab === "blocked";
 
   const tabs: { key: ActiveTab; label: string; count: number; isNew?: boolean }[] = [
     { key: "all", label: "All", count: members.length },
@@ -168,6 +191,7 @@ export default function CommunityPage() {
     { key: "invited", label: "Invited", count: invited.length },
     { key: "admins", label: "Admins", count: members.filter(m => m.role === "Admin").length },
     { key: "moderators", label: "Moderators", count: members.filter(m => m.role === "Moderator").length },
+    { key: "blocked", label: "Blocked", count: blocked.length },
   ];
 
   return (
@@ -194,8 +218,8 @@ export default function CommunityPage() {
         <motion.div variants={item} className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
           <div className="flex items-center gap-3">
-            {/* View toggle - only show on non-invited tabs */}
-            {!isInvitedTab && (
+            {/* View toggle - only show on member tabs */}
+            {!isInvitedTab && !isBlockedTab && (
               <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
                 <button
                   onClick={() => setViewMode("list")}
@@ -250,7 +274,7 @@ export default function CommunityPage() {
           {tabs.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => { setActiveTab(tab.key); setSelectedMembers([]); }}
+              onClick={() => { setActiveTab(tab.key); setSelectedMembers([]); setSearchQuery(""); }}
               className={cn(
                 "relative px-3 py-2.5 text-sm font-medium transition-colors",
                 activeTab === tab.key
@@ -281,10 +305,21 @@ export default function CommunityPage() {
           ))}
         </motion.div>
 
-        {/* Filters */}
+        {/* Search bar */}
         <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={`Search ${activeTab === "invited" ? "invited" : activeTab === "blocked" ? "blocked" : "members"}...`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 h-9 text-sm"
+            />
+          </div>
           {(isInvitedTab
             ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
+            : isBlockedTab
+            ? ["+ Name", "+ Email", "+ Reason"]
             : ["+ Name", "+ Email marketing", "+ Member", "+ Source", "+ Data added"]
           ).map((f) => (
             <button key={f} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors">
@@ -321,7 +356,7 @@ export default function CommunityPage() {
 
             {/* Invited count + More */}
             <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold text-foreground">{invited.length} invited</span>
+              <span className="text-sm font-semibold text-foreground">{filteredInvited.length} invited</span>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors">
@@ -351,7 +386,7 @@ export default function CommunityPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {invited.map((inv, i) => (
+                  {filteredInvited.map((inv, i) => (
                     <tr key={i} className="hover:bg-muted/20 transition-colors">
                       <td className="px-4 py-4 text-sm font-medium text-foreground">{inv.name}</td>
                       <td className="px-4 py-4 text-sm text-muted-foreground">{inv.subscribed ? "Subscribed" : "Unsubscribed"}</td>
@@ -360,6 +395,56 @@ export default function CommunityPage() {
                       <td className="px-4 py-4 text-sm text-muted-foreground">{inv.role}</td>
                       <td className="px-4 py-4 text-sm text-muted-foreground whitespace-nowrap">{inv.dateAdded}</td>
                       <td className="px-4 py-4 text-sm text-muted-foreground whitespace-nowrap">{inv.invitedAt}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
+        ) : isBlockedTab ? (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-semibold text-foreground">{filteredBlocked.length} blocked</span>
+            </div>
+
+            <div className="rounded-lg border border-border bg-card overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border bg-muted/30">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Reason</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Blocked At</th>
+                    <th className="px-4 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {filteredBlocked.map((b, i) => (
+                    <tr key={i} className="hover:bg-muted/20 transition-colors">
+                      <td className="px-4 py-4 text-sm font-medium text-foreground">{b.name}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground">{b.email}</td>
+                      <td className="px-4 py-4">
+                        <span className="inline-flex items-center rounded-full bg-destructive/10 px-2.5 py-0.5 text-[10px] font-semibold text-destructive">
+                          {b.reason}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground whitespace-nowrap">{b.blockedAt}</td>
+                      <td className="px-4 py-4">
+                        <button
+                          onClick={() => {
+                            setBlocked((prev) => prev.filter((_, idx) => idx !== i));
+                            toast({ title: "Unblocked", description: `${b.name} has been unblocked.` });
+                          }}
+                          className="text-xs font-medium text-primary hover:underline"
+                        >
+                          Unblock
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
