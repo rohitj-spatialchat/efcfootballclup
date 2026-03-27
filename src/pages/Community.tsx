@@ -958,9 +958,12 @@ export default function CommunityPage() {
                       <p className="text-xs text-muted-foreground mt-0.5">
                         {m.role} · {m.country}
                       </p>
+                      <p className="text-xs text-primary font-medium mt-1">
+                        {m.team}
+                      </p>
 
                       {/* Location */}
-                      <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1 mt-1.5 text-xs text-muted-foreground">
                         <MapPin className="h-3 w-3" />
                         {m.country}
                       </div>
