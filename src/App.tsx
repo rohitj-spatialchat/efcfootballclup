@@ -25,6 +25,7 @@ import Engagement from "./pages/Engagement";
 import Chat from "./pages/Chat";
 import Announcements from "./pages/Announcements";
 import Group from "./pages/Group";
+import Redemption from "./pages/Redemption";
 import HelpChatWidget from "./components/HelpChatWidget";
 
 const queryClient = new QueryClient();
