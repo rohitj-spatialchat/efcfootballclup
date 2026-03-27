@@ -100,7 +100,7 @@ export default function LeaderboardPage() {
         {/* Level milestones */}
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {levels.map((lvl) => {
-            const unlocked = currentUser.xp >= lvl.pointsRequired;
+            const unlocked = currentUser.mpu >= lvl.pointsRequired;
             return (
               <div
                 key={lvl.level}
