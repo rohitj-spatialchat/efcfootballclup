@@ -478,54 +478,77 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       <div className="flex flex-1">
         {/* Left Sidebar */}
-        <aside className="hidden lg:flex w-56 shrink-0 flex-col border-r border-border bg-card overflow-y-auto">
-          <div className="p-3 space-y-0.5">
+        <aside className={cn(
+          "hidden lg:flex shrink-0 flex-col border-r border-border bg-card overflow-y-auto transition-all duration-300 relative",
+          sidebarCollapsed ? "w-14" : "w-56"
+        )}>
+          {/* Collapse Toggle */}
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="absolute -right-3 top-3 z-10 h-6 w-6 rounded-full border border-border bg-card shadow-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          >
+            {sidebarCollapsed ? <ChevronsRight className="h-3.5 w-3.5" /> : <ChevronsLeft className="h-3.5 w-3.5" />}
+          </button>
+
+          <div className={cn("p-3 space-y-0.5", sidebarCollapsed && "px-2")}>
             <Link
               to="/"
+              title="Feed"
               className={cn(
                 "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                sidebarCollapsed && "justify-center px-0",
                 location.pathname === "/"
                   ? "bg-primary text-primary-foreground font-medium"
                   : "text-foreground hover:bg-muted",
               )}
             >
-              <Rss className="h-4 w-4" />
-              Feed
+              <Rss className="h-4 w-4 shrink-0" />
+              {!sidebarCollapsed && "Feed"}
             </Link>
             <Link
               to="/announcements"
-              className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+              title="Announcements"
+              className={cn(
+                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors",
+                sidebarCollapsed && "justify-center px-0",
+              )}
             >
-              <Megaphone className="h-4 w-4" />
-              Announcements
+              <Megaphone className="h-4 w-4 shrink-0" />
+              {!sidebarCollapsed && "Announcements"}
             </Link>
             <Link
               to="/chat"
+              title="Direct Message EFC MPU"
               className={cn(
                 "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                sidebarCollapsed && "justify-center px-0",
                 location.pathname === "/chat"
                   ? "bg-primary text-primary-foreground font-medium"
                   : "text-foreground hover:bg-muted",
               )}
             >
-              <Send className="h-4 w-4" />
-              Direct Message EFC MPU
+              <Send className="h-4 w-4 shrink-0" />
+              {!sidebarCollapsed && "Direct Message EFC MPU"}
             </Link>
           </div>
 
           {/* Groups */}
-          <div className="px-3 mt-2">
+          <div className={cn("px-3 mt-2", sidebarCollapsed && "px-2")}>
             <button
-              onClick={() => setGroupsOpen(!groupsOpen)}
-              className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-foreground hover:bg-muted rounded-md transition-colors"
+              onClick={() => !sidebarCollapsed && setGroupsOpen(!groupsOpen)}
+              title="Groups"
+              className={cn(
+                "flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-foreground hover:bg-muted rounded-md transition-colors",
+                sidebarCollapsed && "justify-center px-0",
+              )}
             >
               <span className="flex items-center gap-2.5">
-                <Users className="h-4 w-4" />
-                Groups
+                <Users className="h-4 w-4 shrink-0" />
+                {!sidebarCollapsed && "Groups"}
               </span>
-              {groupsOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+              {!sidebarCollapsed && (groupsOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />)}
             </button>
-            {groupsOpen && (
+            {groupsOpen && !sidebarCollapsed && (
               <div className="ml-3 mt-0.5 space-y-0.5">
                 {groups.map((g) => (
                   <Link
@@ -544,21 +567,44 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 ))}
               </div>
             )}
+            {sidebarCollapsed && (
+              <div className="mt-0.5 space-y-0.5">
+                {groups.map((g) => (
+                  <Link
+                    key={g.label}
+                    to={`/groups/${g.slug}`}
+                    title={g.label}
+                    className={cn(
+                      "flex items-center justify-center rounded-md py-2 transition-colors",
+                      location.pathname === `/groups/${g.slug}`
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    )}
+                  >
+                    <g.icon className="h-3.5 w-3.5" />
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Spatial Room */}
-          <div className="px-3 mt-2">
+          <div className={cn("px-3 mt-2", sidebarCollapsed && "px-2")}>
             <button
-              onClick={() => setSpatialOpen(!spatialOpen)}
-              className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-foreground hover:bg-muted rounded-md transition-colors"
+              onClick={() => !sidebarCollapsed && setSpatialOpen(!spatialOpen)}
+              title="Spatial Room"
+              className={cn(
+                "flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-foreground hover:bg-muted rounded-md transition-colors",
+                sidebarCollapsed && "justify-center px-0",
+              )}
             >
               <span className="flex items-center gap-2.5">
-                <Globe className="h-4 w-4" />
-                Spatial Room
+                <Globe className="h-4 w-4 shrink-0" />
+                {!sidebarCollapsed && "Spatial Room"}
               </span>
-              {spatialOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+              {!sidebarCollapsed && (spatialOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />)}
             </button>
-            {spatialOpen && (
+            {spatialOpen && !sidebarCollapsed && (
               <div className="ml-3 mt-0.5 space-y-0.5 pb-4">
                 {spatialRooms.map((room) => (
                   <button
@@ -572,16 +618,34 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 ))}
               </div>
             )}
+            {sidebarCollapsed && (
+              <div className="mt-0.5 space-y-0.5 pb-4">
+                {spatialRooms.map((room) => (
+                  <button
+                    key={room.name}
+                    onClick={() => setSpatialRoomOpen(room.name)}
+                    title={room.name}
+                    className="flex items-center justify-center w-full rounded-md py-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                  >
+                    <room.icon className="h-3.5 w-3.5" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Start Live Session Button - at bottom */}
-          <div className="px-3 py-4 mt-auto">
+          <div className={cn("px-3 py-4 mt-auto", sidebarCollapsed && "px-2")}>
             <button
               onClick={() => setLiveSessionOpen(true)}
-              className="flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors"
+              title="Start live session"
+              className={cn(
+                "flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors",
+                sidebarCollapsed && "px-0",
+              )}
             >
-              <Video className="h-4 w-4" />
-              Start live session
+              <Video className="h-4 w-4 shrink-0" />
+              {!sidebarCollapsed && "Start live session"}
             </button>
           </div>
         </aside>
