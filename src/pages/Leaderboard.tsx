@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Lock, Award, Users, Target, Zap, Medal } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Lock, Award } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -37,9 +37,10 @@ const leaderboard = [
   { rank: 16, name: "Noah Williams", mpu: 60, level: 2, streak: 9, badge: "🥈", change: "+30", region: "Oceania", team: "Melbourne City" },
 ];
 
-const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06 } } };
-const item = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.4 } } };
+const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
+const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
+// Current user stats
 const currentUser = { name: "Sarah Mitchell", mpu: 190, level: 3, nextLevelMpu: 400, rank: 4 };
 
 function getLevelTitle(level: number) {
@@ -64,109 +65,72 @@ export default function LeaderboardPage() {
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
-      {/* Header */}
-      <motion.div variants={item} className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Trophy className="h-6 w-6 text-primary" />
-            Leaderboard
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Earn MPU Points through likes, comments & reposts. Level up and unlock badges!
-          </p>
-        </div>
-        <div className="hidden sm:flex items-center gap-2">
-          <div className="flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5">
-            <Users className="h-3.5 w-3.5 text-primary" />
-            <span className="text-xs font-medium text-accent-foreground">16 Active Members</span>
-          </div>
-        </div>
+      <motion.div variants={item}>
+        <h1 className="text-2xl font-semibold text-foreground">Leaderboard</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Earn MPU Points through likes, comments & reposts. Level up and unlock badges!
+        </p>
       </motion.div>
 
-      {/* Your Progress Card — Enhanced */}
-      <motion.div variants={item} className="relative rounded-2xl border border-border bg-gradient-to-r from-card via-card to-accent/20 p-6 shadow-elevated overflow-hidden">
-        <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
-
-        <div className="relative flex flex-col sm:flex-row sm:items-center gap-6">
+      {/* Your Level Card */}
+      <motion.div variants={item} className="rounded-lg border border-border bg-card p-6 shadow-card">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
           {/* Avatar + level */}
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="h-18 w-18 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary text-xl font-bold border-2 border-primary shadow-md">
+              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg font-bold border-2 border-primary">
                 SM
               </div>
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3, type: "spring" }}
-                className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center shadow-sm ring-2 ring-card"
-              >
+              <span className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">
                 {currentUser.level}
-              </motion.span>
+              </span>
             </div>
             <div>
-              <p className="font-bold text-foreground text-lg">{currentUser.name}</p>
-              <p className="text-sm text-muted-foreground flex items-center gap-1">
-                <Zap className="h-3.5 w-3.5 text-warning" />
-                {currentUser.mpu} MPU Points
-              </p>
+              <p className="font-semibold text-foreground">{currentUser.name}</p>
+              <p className="text-sm text-muted-foreground">{currentUser.mpu} MPU</p>
             </div>
           </div>
 
           {/* Level badge */}
           <div className="sm:ml-auto text-center sm:text-right">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-4 py-1.5 text-sm font-semibold shadow-sm">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-medium">
               <Award className="h-4 w-4" /> Level {currentUser.level} — {getLevelTitle(currentUser.level)}
             </span>
-            <p className="text-xs text-muted-foreground mt-1.5 flex items-center justify-center sm:justify-end gap-1">
-              <Medal className="h-3 w-3" /> Top 36% of members
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Top 36% of members</p>
           </div>
         </div>
 
         {/* Level progress */}
-        <div className="relative mt-6 space-y-2">
-          <div className="flex items-center justify-between text-xs text-muted-foreground font-medium">
-            <span className="flex items-center gap-1">
-              {levels[currentUser.level - 1]?.badge} Level {currentUser.level}
-            </span>
-            <span className="text-primary font-semibold">
+        <div className="mt-5 space-y-2">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Level {currentUser.level}</span>
+            <span>
               {currentUser.mpu} / {currentUser.nextLevelMpu} MPU
             </span>
-            <span className="flex items-center gap-1">
-              Level {currentUser.level + 1} {levels[currentUser.level]?.badge}
-            </span>
+            <span>Level {currentUser.level + 1}</span>
           </div>
-          <div className="relative">
-            <Progress value={getLevelProgress(currentUser.mpu)} className="h-3 rounded-full" />
-            <div
-              className="absolute top-0 h-3 rounded-full bg-primary/20 animate-pulse"
-              style={{ width: `${getLevelProgress(currentUser.mpu)}%` }}
-            />
-          </div>
+          <Progress value={getLevelProgress(currentUser.mpu)} className="h-2" />
         </div>
 
         {/* Level milestones */}
-        <div className="mt-5 grid grid-cols-3 sm:grid-cols-6 gap-2">
+        <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {levels.map((lvl) => {
             const unlocked = currentUser.mpu >= lvl.pointsRequired;
             return (
-              <motion.div
+              <div
                 key={lvl.level}
-                whileHover={{ scale: 1.05 }}
                 className={cn(
-                  "rounded-xl border p-2.5 text-center transition-all duration-200 cursor-default",
-                  unlocked
-                    ? "border-primary/30 bg-primary/5 shadow-sm"
-                    : "border-border bg-muted/20 opacity-50",
+                  "rounded-lg border p-3 text-center transition-colors",
+                  unlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/30 opacity-60",
                 )}
               >
-                <span className="text-lg">{lvl.badge}</span>
-                <p className="text-[10px] font-semibold text-foreground mt-0.5">{lvl.title}</p>
-                <p className="text-[9px] text-muted-foreground flex items-center justify-center gap-0.5">
-                  {!unlocked && <Lock className="h-2.5 w-2.5" />}
+                <span className="text-xl">{lvl.badge}</span>
+                <p className="text-xs font-medium text-foreground mt-1">{lvl.title}</p>
+                <p className="text-xs text-muted-foreground flex items-center justify-center gap-1 mt-0.5">
+                  {!unlocked && <Lock className="h-3 w-3" />}
                   {lvl.pointsRequired} pts
                 </p>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -180,50 +144,27 @@ export default function LeaderboardPage() {
       {/* Quick Stats + Live Activity Feed */}
       <motion.div variants={item} className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            {
-              icon: Star,
-              iconColor: "text-warning",
-              iconBg: "bg-warning/10",
-              label: "Total MPU Points",
-              value: currentUser.mpu,
-              sub: "+65 this week",
-              subColor: "text-success",
-            },
-            {
-              icon: Target,
-              iconColor: "text-primary",
-              iconBg: "bg-primary/10",
-              label: "Your Rank",
-              value: `#${currentUser.rank}`,
-              sub: "↑ 2 positions",
-              subColor: "text-success",
-            },
-            {
-              icon: Flame,
-              iconColor: "text-destructive",
-              iconBg: "bg-destructive/10",
-              label: "Streak",
-              value: "30 days",
-              sub: "🔥 Personal best!",
-              subColor: "text-warning",
-            },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -2, scale: 1.01 }}
-              className="rounded-2xl border border-border bg-card p-5 shadow-card hover:shadow-elevated transition-all duration-200"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center", stat.iconBg)}>
-                  <stat.icon className={cn("h-4 w-4", stat.iconColor)} />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">{stat.label}</span>
-              </div>
-              <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              <p className={cn("text-xs mt-1 font-medium", stat.subColor)}>{stat.sub}</p>
-            </motion.div>
-          ))}
+          <div className="rounded-lg border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+              <Star className="h-4 w-4 text-warning" /> Total MPU Points
+            </div>
+            <p className="text-2xl font-semibold text-foreground">{currentUser.mpu}</p>
+            <p className="text-xs text-success mt-1">+65 this week</p>
+          </div>
+          <div className="rounded-lg border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+              <TrendingUp className="h-4 w-4 text-primary" /> Your Rank
+            </div>
+            <p className="text-2xl font-semibold text-foreground">#{currentUser.rank}</p>
+            <p className="text-xs text-success mt-1">↑ 2 positions</p>
+          </div>
+          <div className="rounded-lg border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+              <Flame className="h-4 w-4 text-destructive" /> Streak
+            </div>
+            <p className="text-2xl font-semibold text-foreground">30 days</p>
+            <p className="text-xs text-muted-foreground mt-1">Personal best!</p>
+          </div>
         </div>
         <LiveActivityFeed />
       </motion.div>
@@ -233,26 +174,21 @@ export default function LeaderboardPage() {
         <RewardsPreview />
       </motion.div>
 
-      {/* Leaderboard Table — Enhanced */}
-      <motion.div variants={item} className="rounded-2xl border border-border bg-card shadow-elevated overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-5 pb-3 gap-3">
-          <h2 className="font-bold text-foreground flex items-center gap-2 text-base">
-            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Trophy className="h-4 w-4 text-primary" />
-            </div>
-            Full Rankings
+      {/* Leaderboard Table */}
+      <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card">
+        <div className="flex items-center justify-between p-5 pb-3">
+          <h2 className="font-semibold text-foreground flex items-center gap-2">
+            <Trophy className="h-4 w-4 text-primary" /> Leaderboard
           </h2>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1 rounded-full bg-muted p-1">
+            <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
               {["All Time", "This Month", "This Week"].map((f) => (
                 <button
                   key={f}
                   onClick={() => setTimePeriod(f)}
                   className={cn(
-                    "rounded-full px-3 py-1.5 text-xs font-medium transition-all",
-                    timePeriod === f
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground",
+                    "rounded-md px-3 py-1 text-xs font-medium transition-all",
+                    timePeriod === f ? "bg-card text-foreground shadow-sm" : "text-muted-foreground",
                   )}
                 >
                   {f}
@@ -262,10 +198,12 @@ export default function LeaderboardPage() {
             <select
               value={selectedRegion}
               onChange={(e) => setSelectedRegion(e.target.value)}
-              className="rounded-full border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {regions.map((r) => (
-                <option key={r} value={r}>{r}</option>
+                <option key={r} value={r}>
+                  {r}
+                </option>
               ))}
             </select>
           </div>
@@ -274,86 +212,58 @@ export default function LeaderboardPage() {
           <table className="w-full">
             <thead>
               <tr className="border-t border-border bg-muted/40">
-                <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground w-16">Rank</th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground">Member</th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground">Region</th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-muted-foreground">Team</th>
-                <th className="px-5 py-3 text-right text-xs font-semibold text-muted-foreground">Level</th>
-                <th className="px-5 py-3 text-right text-xs font-semibold text-muted-foreground">MPU Points</th>
-                <th className="px-5 py-3 text-right text-xs font-semibold text-muted-foreground">Streak</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">Level</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">Streak</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/50">
-              {filteredLeaderboard.map((m, i) => {
-                const isCurrentUser = m.name === currentUser.name;
-                return (
-                  <motion.tr
-                    key={m.rank}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.02 * i }}
-                    className={cn(
-                      "hover:bg-accent/30 transition-colors",
-                      isCurrentUser && "bg-primary/5 hover:bg-primary/10",
-                      !isCurrentUser && i % 2 === 0 && "bg-muted/10",
+            <tbody className="divide-y divide-border">
+              {filteredLeaderboard.map((m, i) => (
+                <tr key={m.rank} className={cn("hover:bg-muted/30 transition-colors", i % 2 === 0 && "bg-muted/10")}>
+                  <td className="px-5 py-3.5 text-sm">
+                    {m.rank <= 3 ? (
+                      <span
+                        className={cn(
+                          "inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold",
+                          m.rank === 1 && "bg-primary/20 text-primary",
+                          m.rank === 2 && "bg-muted text-muted-foreground",
+                          m.rank === 3 && "bg-accent text-accent-foreground",
+                        )}
+                      >
+                        {m.rank}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground">#{m.rank}</span>
                     )}
-                  >
-                    <td className="px-5 py-3.5 text-sm">
-                      {m.rank <= 3 ? (
-                        <span
-                          className={cn(
-                            "inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold shadow-sm",
-                            m.rank === 1 && "bg-warning/20 text-warning ring-1 ring-warning/30",
-                            m.rank === 2 && "bg-muted text-muted-foreground ring-1 ring-border",
-                            m.rank === 3 && "bg-accent text-accent-foreground ring-1 ring-border",
-                          )}
-                        >
-                          {m.rank}
-                        </span>
-                      ) : (
-                        <span className="text-muted-foreground font-medium">#{m.rank}</span>
-                      )}
-                    </td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center gap-3">
-                        <div className={cn(
-                          "h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold shadow-sm",
-                          isCurrentUser
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-primary/10 text-primary",
-                        )}>
-                          {m.name.split(" ").map((n) => n[0]).join("")}
-                        </div>
-                        <div>
-                          <span className={cn("text-sm font-semibold text-foreground", isCurrentUser && "text-primary")}>
-                            {m.name}
-                          </span>
-                          {isCurrentUser && (
-                            <span className="ml-2 text-[10px] font-semibold text-primary bg-primary/10 rounded-full px-2 py-0.5">YOU</span>
-                          )}
-                        </div>
+                  </td>
+                  <td className="px-5 py-3.5">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">
+                        {m.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </div>
-                    </td>
-                    <td className="px-5 py-3.5 text-sm text-muted-foreground">{m.region}</td>
-                    <td className="px-5 py-3.5 text-sm text-foreground">{m.team}</td>
-                    <td className="px-5 py-3.5 text-right">
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold rounded-full bg-primary/10 text-primary px-2.5 py-0.5">
-                        {m.badge} Lv.{m.level}
-                      </span>
-                    </td>
-                    <td className="px-5 py-3.5 text-right">
-                      <span className="text-sm font-bold text-foreground">{m.mpu}</span>
-                      <span className="text-[10px] text-success ml-1 font-medium">{m.change}</span>
-                    </td>
-                    <td className="px-5 py-3.5 text-sm text-muted-foreground text-right">
-                      <span className="inline-flex items-center gap-1">
-                        <Flame className="h-3.5 w-3.5 text-destructive" />
-                        <span className="font-medium">{m.streak}d</span>
-                      </span>
-                    </td>
-                  </motion.tr>
-                );
-              })}
+                      <span className="text-sm font-medium text-foreground">{m.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-5 py-3.5 text-sm text-muted-foreground">{m.region}</td>
+                  <td className="px-5 py-3.5 text-sm text-foreground">{m.team}</td>
+                  <td className="px-5 py-3.5 text-right">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium rounded-full bg-primary/10 text-primary px-2 py-0.5">
+                      {m.badge} Lv.{m.level}
+                    </span>
+                  </td>
+                  <td className="px-5 py-3.5 text-sm text-foreground text-right font-medium">{m.mpu}</td>
+                  <td className="px-5 py-3.5 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
+                    <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
