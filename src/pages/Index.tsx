@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown } from "lucide-react";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown, BarChart3, Trash2 } from "lucide-react";
 import { useState, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -145,6 +145,78 @@ const Index = () => {
   const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // Poll state
+  const [createPollOpen, setCreatePollOpen] = useState(false);
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [pollOptions, setPollOptions] = useState(["", ""]);
+  const [pollDuration, setPollDuration] = useState("1 day");
+
+  const addPollOption = () => {
+    if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
+  };
+
+  const removePollOption = (index: number) => {
+    if (pollOptions.length > 2) setPollOptions(pollOptions.filter((_, i) => i !== index));
+  };
+
+  const updatePollOption = (index: number, value: string) => {
+    setPollOptions(pollOptions.map((o, i) => (i === index ? value : o)));
+  };
+
+  const handleCreatePoll = () => {
+    if (!pollQuestion.trim()) {
+      toast({ title: "Poll question is required", variant: "destructive" });
+      return;
+    }
+    const validOptions = pollOptions.filter((o) => o.trim());
+    if (validOptions.length < 2) {
+      toast({ title: "At least 2 options are required", variant: "destructive" });
+      return;
+    }
+    const newPoll = {
+      id: Date.now(),
+      author: "Demo User",
+      avatar: "DE",
+      time: "Just now",
+      channel: "Feed",
+      tags: ["Poll"],
+      title: pollQuestion,
+      body: "",
+      image: null,
+      likes: 0,
+      comments: 0,
+      liked: false,
+      saved: false,
+      following: true,
+      poll: {
+        options: validOptions.map((o) => ({ text: o, votes: 0 })),
+        totalVotes: 0,
+        votedOption: null as number | null,
+        duration: pollDuration,
+      },
+    };
+    setFeedPosts([newPoll as any, ...feedPosts]);
+    setPollQuestion("");
+    setPollOptions(["", ""]);
+    setCreatePollOpen(false);
+    toast({ title: "Poll published!", description: "Your poll is now live in the feed." });
+  };
+
+  const handleVotePoll = (postId: number, optionIndex: number) => {
+    setFeedPosts((prev) =>
+      prev.map((p) => {
+        if (p.id !== postId || !(p as any).poll || (p as any).poll.votedOption !== null) return p;
+        const poll = { ...(p as any).poll };
+        poll.options = poll.options.map((o: any, i: number) =>
+          i === optionIndex ? { ...o, votes: o.votes + 1 } : o
+        );
+        poll.totalVotes += 1;
+        poll.votedOption = optionIndex;
+        return { ...p, poll };
+      })
+    );
+  };
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -472,6 +544,90 @@ const Index = () => {
           </DialogContent>
         </Dialog>
 
+        {/* Create Poll Dialog */}
+        <Dialog open={createPollOpen} onOpenChange={setCreatePollOpen}>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-primary" />
+                Create a Poll
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
+                  DE
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Demo User</p>
+                  <p className="text-xs text-muted-foreground">Posting a poll to Feed</p>
+                </div>
+              </div>
+
+              <Textarea
+                placeholder="Ask your question..."
+                value={pollQuestion}
+                onChange={(e) => setPollQuestion(e.target.value)}
+                className="min-h-[80px] resize-none text-base font-medium"
+              />
+
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                  <BarChart3 className="h-3 w-3" /> Poll Options
+                </p>
+                {pollOptions.map((opt, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full border-2 border-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">
+                      {String.fromCharCode(65 + i)}
+                    </div>
+                    <input
+                      type="text"
+                      placeholder={`Option ${i + 1}`}
+                      value={opt}
+                      onChange={(e) => updatePollOption(i, e.target.value)}
+                      className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+                    />
+                    {pollOptions.length > 2 && (
+                      <button onClick={() => removePollOption(i)} className="text-muted-foreground hover:text-destructive transition-colors">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {pollOptions.length < 6 && (
+                  <button
+                    onClick={addPollOption}
+                    className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors mt-1"
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Add option
+                  </button>
+                )}
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-muted-foreground mb-1.5">Poll Duration</p>
+                <select
+                  value={pollDuration}
+                  onChange={(e) => setPollDuration(e.target.value)}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+                >
+                  <option>1 day</option>
+                  <option>3 days</option>
+                  <option>1 week</option>
+                  <option>2 weeks</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-end pt-2 border-t border-border">
+                <Button onClick={handleCreatePoll} className="rounded-full px-6">
+                  <BarChart3 className="h-4 w-4 mr-1" />
+                  Post Poll
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* Filter Tabs */}
         <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
           {/* Recent */}
@@ -668,6 +824,69 @@ const Index = () => {
                 </div>
               )}
 
+              {/* Poll UI */}
+              {(post as any).poll && (() => {
+                const poll = (post as any).poll;
+                const hasVoted = poll.votedOption !== null;
+                return (
+                  <div className="px-4 pb-3">
+                    <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-4 space-y-3">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <BarChart3 className="h-3.5 w-3.5 text-primary" />
+                        <span className="font-medium">Poll • {poll.duration}</span>
+                        {hasVoted && <span className="ml-auto">{poll.totalVotes} vote{poll.totalVotes !== 1 ? "s" : ""}</span>}
+                      </div>
+                      <div className="space-y-2">
+                        {poll.options.map((opt: any, i: number) => {
+                          const pct = hasVoted && poll.totalVotes > 0 ? Math.round((opt.votes / poll.totalVotes) * 100) : 0;
+                          const isWinner = hasVoted && opt.votes === Math.max(...poll.options.map((o: any) => o.votes));
+                          return (
+                            <button
+                              key={i}
+                              onClick={() => !hasVoted && handleVotePoll(post.id, i)}
+                              disabled={hasVoted}
+                              className={`relative w-full text-left rounded-lg border px-4 py-3 text-sm font-medium transition-all overflow-hidden ${
+                                hasVoted
+                                  ? poll.votedOption === i
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-border text-foreground"
+                                  : "border-border hover:border-primary/50 hover:bg-primary/5 text-foreground cursor-pointer"
+                              }`}
+                            >
+                              {hasVoted && (
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${pct}%` }}
+                                  transition={{ duration: 0.6, ease: "easeOut" }}
+                                  className={`absolute left-0 top-0 bottom-0 rounded-lg ${isWinner ? "bg-primary/15" : "bg-muted/50"}`}
+                                />
+                              )}
+                              <span className="relative flex items-center justify-between">
+                                <span className="flex items-center gap-2">
+                                  {!hasVoted && (
+                                    <span className="h-5 w-5 rounded-full border-2 border-muted-foreground/30 flex items-center justify-center text-[10px]">
+                                      {String.fromCharCode(65 + i)}
+                                    </span>
+                                  )}
+                                  {hasVoted && poll.votedOption === i && (
+                                    <span className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-[10px] text-primary-foreground">✓</span>
+                                  )}
+                                  {opt.text}
+                                </span>
+                                {hasVoted && <span className="text-xs font-semibold">{pct}%</span>}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {!hasVoted && (
+                        <p className="text-[10px] text-muted-foreground text-center">Select an option to vote</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Engagement counts */}
               <div className="px-4 pb-2 flex items-center justify-between text-xs text-muted-foreground">
                 <span>{post.likes} likes</span>
@@ -748,13 +967,25 @@ const Index = () => {
               <Video className="h-4 w-4" />
               Go Live
             </button>
-            <button
-              onClick={() => setCreatePostOpen(true)}
-              className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
-            >
-              <Plus className="h-4 w-4" />
-              Create Post
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
+                  <Plus className="h-4 w-4" />
+                  Create Post
+                  <ChevronDown className="h-3 w-3" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setCreatePostOpen(true)}>
+                  <PenTool className="h-4 w-4 mr-2" />
+                  Create Post
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setCreatePollOpen(true)}>
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Create Poll
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </motion.div>
 
           {/* Karma / Rank / Streak Stats */}
