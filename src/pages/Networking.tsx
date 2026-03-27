@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Zap, Users, Shuffle, Video } from "lucide-react";
+import { Zap, Users, Shuffle, Video, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const onlineUsers = [
