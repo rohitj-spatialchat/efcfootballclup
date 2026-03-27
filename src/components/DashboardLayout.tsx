@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import { useViewMode } from "@/contexts/ViewModeContext";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Rss,
@@ -59,6 +60,8 @@ import {
   PenTool,
   ChevronsLeft,
   ChevronsRight,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
@@ -136,6 +139,7 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { viewMode, isAdmin, toggleViewMode } = useViewMode();
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [spatialOpen, setSpatialOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -202,6 +206,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1">
+            {/* Admin/User View Toggle */}
+            <button
+              onClick={toggleViewMode}
+              className={cn(
+                "hidden lg:flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-colors mr-2",
+                isAdmin
+                  ? "bg-primary/10 text-primary border border-primary/20"
+                  : "bg-muted text-muted-foreground border border-border"
+              )}
+            >
+              {isAdmin ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+              {isAdmin ? "Admin View" : "User View"}
+            </button>
+
             <div className="relative flex items-center">
               <Search className="absolute left-3 h-4 w-4 text-muted-foreground pointer-events-none" />
               <input
@@ -409,15 +427,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
                       <User className="h-4 w-4 text-muted-foreground" /> My Profile
                     </button>
-                    <button
-                      onClick={() => {
-                        setProfileOpen(false);
-                        navigate("/settings");
-                      }}
-                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-                    >
-                      <Settings className="h-4 w-4 text-muted-foreground" /> Settings
-                    </button>
+                    {isAdmin && (
+                      <button
+                        onClick={() => {
+                          setProfileOpen(false);
+                          navigate("/settings");
+                        }}
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                      >
+                        <Settings className="h-4 w-4 text-muted-foreground" /> Settings
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         setProfileOpen(false);
@@ -634,20 +654,22 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             )}
           </div>
 
-          {/* Start Live Session Button - at bottom */}
-          <div className={cn("px-3 py-4 mt-auto", sidebarCollapsed && "px-2")}>
-            <button
-              onClick={() => setLiveSessionOpen(true)}
-              title="Start live session"
-              className={cn(
-                "flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors",
-                sidebarCollapsed && "px-0",
-              )}
-            >
-              <Video className="h-4 w-4 shrink-0" />
-              {!sidebarCollapsed && "Start live session"}
-            </button>
-          </div>
+          {/* Start Live Session Button - at bottom (admin only) */}
+          {isAdmin && (
+            <div className={cn("px-3 py-4 mt-auto", sidebarCollapsed && "px-2")}>
+              <button
+                onClick={() => setLiveSessionOpen(true)}
+                title="Start live session"
+                className={cn(
+                  "flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors",
+                  sidebarCollapsed && "px-0",
+                )}
+              >
+                <Video className="h-4 w-4 shrink-0" />
+                {!sidebarCollapsed && "Start live session"}
+              </button>
+            </div>
+          )}
         </aside>
 
         {/* Event Sub-Sidebar */}
@@ -662,10 +684,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 { label: "Registration", icon: UserCheck, tab: "registration" },
                 { label: "People", icon: UsersRound, tab: "people" },
                 { label: "Engagement", icon: Flame, tab: "engagement" },
-                { label: "Analytics", icon: BarChart3, tab: "analytics" },
-                { label: "Recording", icon: MonitorPlay, tab: "recording" },
-                { label: "Settings", icon: Cog, tab: "settings" },
-              ].map((item) => {
+                { label: "Analytics", icon: BarChart3, tab: "analytics", adminOnly: true },
+                { label: "Recording", icon: MonitorPlay, tab: "recording", adminOnly: true },
+                { label: "Settings", icon: Cog, tab: "settings", adminOnly: true },
+              ].filter((item) => !item.adminOnly || isAdmin).map((item) => {
                 const params = new URLSearchParams(location.search);
                 const currentTab = params.get("tab") || "";
                 const isActive = currentTab === item.tab;
