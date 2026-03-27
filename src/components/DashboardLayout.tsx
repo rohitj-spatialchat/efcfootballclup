@@ -684,10 +684,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 { label: "Registration", icon: UserCheck, tab: "registration" },
                 { label: "People", icon: UsersRound, tab: "people" },
                 { label: "Engagement", icon: Flame, tab: "engagement" },
-                { label: "Analytics", icon: BarChart3, tab: "analytics" },
-                { label: "Recording", icon: MonitorPlay, tab: "recording" },
-                { label: "Settings", icon: Cog, tab: "settings" },
-              ].map((item) => {
+                { label: "Analytics", icon: BarChart3, tab: "analytics", adminOnly: true },
+                { label: "Recording", icon: MonitorPlay, tab: "recording", adminOnly: true },
+                { label: "Settings", icon: Cog, tab: "settings", adminOnly: true },
+              ].filter((item) => !item.adminOnly || isAdmin).map((item) => {
                 const params = new URLSearchParams(location.search);
                 const currentTab = params.get("tab") || "";
                 const isActive = currentTab === item.tab;
