@@ -236,6 +236,36 @@ export default function Group() {
   const Icon = group.icon;
 
   const handleCreatePost = () => {
+    if (postMode === "poll") {
+      if (!pollQuestion.trim()) {
+        toast({ title: "Poll question is required", variant: "destructive" });
+        return;
+      }
+      const validOptions = pollOptions.filter(o => o.trim());
+      if (validOptions.length < 2) {
+        toast({ title: "At least 2 options are required", variant: "destructive" });
+        return;
+      }
+      const newPost = {
+        id: Date.now(),
+        author: "Demo User",
+        avatar: "DE",
+        time: "Just now",
+        title: pollQuestion,
+        body: validOptions.map((o, i) => `${String.fromCharCode(65 + i)}. ${o}`).join("\n"),
+        image: null,
+        likes: 0,
+        comments: 0,
+        pinned: false,
+      };
+      setPosts([newPost, ...posts]);
+      setPollQuestion("");
+      setPollOptions(["", ""]);
+      setPostMode("post");
+      setCreatePostOpen(false);
+      toast({ title: "Poll published!", description: `Your poll is now live in ${group.label}.` });
+      return;
+    }
     if (!newPostBody.trim()) {
       toast({ title: "Post cannot be empty", variant: "destructive" });
       return;
@@ -255,6 +285,7 @@ export default function Group() {
     setPosts([newPost, ...posts]);
     setNewPostTitle("");
     setNewPostBody("");
+    setPostMode("post");
     setCreatePostOpen(false);
     toast({ title: "Post published!", description: `Your post is now live in ${group.label}.` });
   };
