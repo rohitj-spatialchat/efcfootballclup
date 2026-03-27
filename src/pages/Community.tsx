@@ -64,6 +64,7 @@ export default function CommunityPage() {
       flag: "🏳️",
       followers: Math.floor(Math.random() * 200),
       following: Math.floor(Math.random() * 100),
+      avatar: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 90)}.jpg`,
     };
     setMembers((prev) => [member, ...prev]);
     setNewMember({ name: "", email: "", team: "", country: "", role: "Member" });
