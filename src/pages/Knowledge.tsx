@@ -34,7 +34,7 @@ const courses = [
     title: "The rest ritual: Reclaiming sleep as sacred restoration",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg/440px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg",
+      "https://thumbs.dreamstime.com/b/young-restful-footballer-lying-green-field-soccer-ball-behind-his-neck-rest-green-field-123110697.jpg",
     type: "LISTEN" as const,
     tags: ["Healing Circles"],
     progress: 0,
