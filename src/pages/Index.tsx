@@ -626,6 +626,7 @@ const Index = () => {
               </div>
             </div>
           </DialogContent>
+        </Dialog>
 
         {/* Filter Tabs */}
         <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
