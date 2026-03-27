@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
