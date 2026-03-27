@@ -36,7 +36,7 @@ const courses = [
     image:
       "https://thumbs.dreamstime.com/b/young-restful-footballer-lying-green-field-soccer-ball-behind-his-neck-rest-green-field-123110697.jpg",
     type: "LISTEN" as const,
-    tags: ["Healing Circles"],
+    tags: ["Sport Psychology"],
     progress: 0,
     completedDate: null,
     publishedDate: "Jul 25, 2025",
