@@ -56,7 +56,7 @@ export default function LeaderboardPage() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.div variants={item}>
         <h1 className="text-2xl font-semibold text-foreground">Leaderboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Earn XP through likes, comments & reposts. Level up and unlock badges!</p>
+        <p className="text-sm text-muted-foreground mt-1">Earn MPU through likes, comments & reposts. Level up and unlock badges!</p>
       </motion.div>
 
       {/* Your Level Card */}
