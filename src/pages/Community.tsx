@@ -505,10 +505,6 @@ export default function CommunityPage() {
               <Input type="email" placeholder="email@example.com" value={newMember.email} onChange={(e) => setNewMember((p) => ({ ...p, email: e.target.value }))} />
             </div>
             <div className="space-y-2">
-              <Label>Team</Label>
-              <Input placeholder="Club name" value={newMember.team} onChange={(e) => setNewMember((p) => ({ ...p, team: e.target.value }))} />
-            </div>
-            <div className="space-y-2">
               <Label>Country</Label>
               <Input placeholder="Country" value={newMember.country} onChange={(e) => setNewMember((p) => ({ ...p, country: e.target.value }))} />
             </div>
