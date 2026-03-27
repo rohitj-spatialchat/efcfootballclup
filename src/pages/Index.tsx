@@ -145,6 +145,8 @@ const Index = () => {
   const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
+  const [getStartedDismissed, setGetStartedDismissed] = useState(false);
 
   // Poll state
   const [postMode, setPostMode] = useState<"post" | "poll">("post");
