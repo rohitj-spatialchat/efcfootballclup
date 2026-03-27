@@ -57,7 +57,7 @@ const courses = [
     title: "ACL recovery & rehabilitation: A footballer's journey back",
     description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Erling_Haaland_2023.jpg/440px-Erling_Haaland_2023.jpg",
+      "https://images.pexels.com/photos/34085834/pexels-photo-34085834.jpeg?cs=srgb&dl=pexels-olliecraig1-34085834.jpg&fm=jpg",
     type: "LISTEN" as const,
     tags: ["Sportmedicine & Physiotherapy"],
     progress: 30,
