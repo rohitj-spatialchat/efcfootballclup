@@ -60,7 +60,7 @@ const mpuColor = (mpu: number) => {
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
-type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "moderators";
+type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "moderators" | "blocked";
 
 export default function CommunityPage() {
   const { toast } = useToast();
