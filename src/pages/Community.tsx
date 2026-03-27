@@ -356,7 +356,7 @@ export default function CommunityPage() {
 
             {/* Invited count + More */}
             <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold text-foreground">{invited.length} invited</span>
+              <span className="text-sm font-semibold text-foreground">{filteredInvited.length} invited</span>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors">
