@@ -136,29 +136,42 @@ export default function LeaderboardPage() {
         </div>
       </motion.div>
 
-      {/* Quick Stats */}
-      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-lg border border-border bg-card p-5 shadow-card">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-            <Star className="h-4 w-4 text-warning" /> Total MPU Points
+      {/* Top 3 Podium */}
+      <motion.div variants={item}>
+        <TopPodium users={leaderboard.sort((a, b) => a.rank - b.rank)} />
+      </motion.div>
+
+      {/* Quick Stats + Live Activity Feed */}
+      <motion.div variants={item} className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="rounded-lg border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+              <Star className="h-4 w-4 text-warning" /> Total MPU Points
+            </div>
+            <p className="text-2xl font-semibold text-foreground">{currentUser.mpu}</p>
+            <p className="text-xs text-success mt-1">+65 this week</p>
           </div>
-          <p className="text-2xl font-semibold text-foreground">{currentUser.mpu}</p>
-          <p className="text-xs text-success mt-1">+65 this week</p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-5 shadow-card">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-            <TrendingUp className="h-4 w-4 text-primary" /> Your Rank
+          <div className="rounded-lg border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+              <TrendingUp className="h-4 w-4 text-primary" /> Your Rank
+            </div>
+            <p className="text-2xl font-semibold text-foreground">#{currentUser.rank}</p>
+            <p className="text-xs text-success mt-1">↑ 2 positions</p>
           </div>
-          <p className="text-2xl font-semibold text-foreground">#{currentUser.rank}</p>
-          <p className="text-xs text-success mt-1">↑ 2 positions</p>
-        </div>
-        <div className="rounded-lg border border-border bg-card p-5 shadow-card">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-            <Flame className="h-4 w-4 text-destructive" /> Streak
+          <div className="rounded-lg border border-border bg-card p-5 shadow-card">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+              <Flame className="h-4 w-4 text-destructive" /> Streak
+            </div>
+            <p className="text-2xl font-semibold text-foreground">30 days</p>
+            <p className="text-xs text-muted-foreground mt-1">Personal best!</p>
           </div>
-          <p className="text-2xl font-semibold text-foreground">30 days</p>
-          <p className="text-xs text-muted-foreground mt-1">Personal best!</p>
         </div>
+        <LiveActivityFeed />
+      </motion.div>
+
+      {/* Rewards Preview */}
+      <motion.div variants={item}>
+        <RewardsPreview />
       </motion.div>
 
       {/* Leaderboard Table */}
