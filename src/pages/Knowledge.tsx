@@ -31,7 +31,7 @@ const courses = [
   {
     title: "The rest ritual: Reclaiming sleep as sacred restoration",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=300&fit=crop",
     type: "LISTEN" as const,
     tags: ["Healing Circles"],
     progress: 0,
