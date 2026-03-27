@@ -5,26 +5,26 @@ import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 
 const levels = [
-  { level: 1, title: "Rookie", pointsRequired: 0, badge: "⚽" },
-  { level: 2, title: "Midfielder", pointsRequired: 50, badge: "🥉" },
-  { level: 3, title: "Striker", pointsRequired: 150, badge: "🥈" },
-  { level: 4, title: "Champion", pointsRequired: 400, badge: "🏆" },
-  { level: 5, title: "Legend", pointsRequired: 800, badge: "👑" },
-  { level: 6, title: "Hall of Fame", pointsRequired: 1500, badge: "⭐" },
+  { level: 1, title: "Member", pointsRequired: 0, badge: "⚽" },
+  { level: 2, title: "Silver", pointsRequired: 50, badge: "🥈" },
+  { level: 3, title: "Gold", pointsRequired: 150, badge: "🥇" },
+  { level: 4, title: "Platinum", pointsRequired: 400, badge: "🏆" },
+  { level: 5, title: "Diamond", pointsRequired: 800, badge: "💎" },
+  { level: 6, title: "Elite", pointsRequired: 1500, badge: "👑" },
 ];
+
+const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
 
 const leaderboard = [
-  { rank: 1, name: "Casey Nguyen", xp: 1600, level: 6, streak: 45, badge: "⭐", change: "+120" },
-  { rank: 2, name: "Jamie Lawson", xp: 950, level: 5, streak: 38, badge: "👑", change: "+95" },
-  { rank: 3, name: "Chris Rodriguez", xp: 520, level: 4, streak: 22, badge: "🏆", change: "+80" },
-  { rank: 4, name: "Sarah Mitchell", xp: 190, level: 3, streak: 30, badge: "🥈", change: "+65" },
-  { rank: 5, name: "Alex Chen", xp: 120, level: 2, streak: 18, badge: "🥉", change: "+50" },
-  { rank: 6, name: "Morgan Davis", xp: 85, level: 2, streak: 12, badge: "🥉", change: "+40" },
-  { rank: 7, name: "Taylor Kim", xp: 40, level: 1, streak: 8, badge: "⚽", change: "+35" },
-  { rank: 8, name: "Jordan Blake", xp: 20, level: 1, streak: 5, badge: "⚽", change: "+20" },
+  { rank: 1, name: "Casey Nguyen", mpu: 1600, level: 6, streak: 45, badge: "👑", change: "+120", region: "Asia" },
+  { rank: 2, name: "Jamie Lawson", mpu: 950, level: 5, streak: 38, badge: "💎", change: "+95", region: "Europe" },
+  { rank: 3, name: "Chris Rodriguez", mpu: 520, level: 4, streak: 22, badge: "🏆", change: "+80", region: "Americas" },
+  { rank: 4, name: "Sarah Mitchell", mpu: 190, level: 3, streak: 30, badge: "🥇", change: "+65", region: "Europe" },
+  { rank: 5, name: "Alex Chen", mpu: 120, level: 2, streak: 18, badge: "🥈", change: "+50", region: "Asia" },
+  { rank: 6, name: "Morgan Davis", mpu: 85, level: 2, streak: 12, badge: "🥈", change: "+40", region: "Americas" },
+  { rank: 7, name: "Taylor Kim", mpu: 40, level: 1, streak: 8, badge: "⚽", change: "+35", region: "Asia" },
+  { rank: 8, name: "Jordan Blake", mpu: 20, level: 1, streak: 5, badge: "⚽", change: "+20", region: "Africa" },
 ];
-
-const filters = ["All Time", "This Month", "This Week"];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
