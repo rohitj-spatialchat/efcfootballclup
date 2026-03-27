@@ -66,6 +66,7 @@ const initialMembers = [
     following: 89,
     avatar: "https://i.pravatar.cc/150?img=11",
     subscribed: true,
+    team: "AFC Ajax",
   },
   {
     name: "Robert Fox",
@@ -79,6 +80,7 @@ const initialMembers = [
     following: 115,
     avatar: "https://i.pravatar.cc/150?img=12",
     subscribed: true,
+    team: "AC Milan",
   },
   {
     name: "Mei Wong",
@@ -92,6 +94,7 @@ const initialMembers = [
     following: 43,
     avatar: "https://i.pravatar.cc/150?img=5",
     subscribed: false,
+    team: "Inter Milan",
   },
   {
     name: "Dianne Russell",
@@ -105,6 +108,7 @@ const initialMembers = [
     following: 178,
     avatar: "https://i.pravatar.cc/150?img=23",
     subscribed: true,
+    team: "SL Benfica",
   },
   {
     name: "Kristin Watson",
@@ -118,6 +122,7 @@ const initialMembers = [
     following: 201,
     avatar: "https://i.pravatar.cc/150?img=32",
     subscribed: true,
+    team: "FC Porto",
   },
   {
     name: "Carlos Ramirez",
@@ -131,6 +136,7 @@ const initialMembers = [
     following: 22,
     avatar: "https://i.pravatar.cc/150?img=53",
     subscribed: false,
+    team: "Arsenal FC",
   },
   {
     name: "Ravi Patel",
@@ -144,6 +150,7 @@ const initialMembers = [
     following: 97,
     avatar: "https://i.pravatar.cc/150?img=59",
     subscribed: true,
+    team: "Chelsea FC",
   },
 ];
 
