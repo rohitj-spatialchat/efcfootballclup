@@ -592,24 +592,76 @@ export default function Redemption() {
                   </div>
                 </>
               ) : (
-                <div className="p-8 text-center">
+              <div className="p-8 text-center">
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                    className="h-20 w-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5"
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 12 }}
+                    className="h-24 w-24 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center mx-auto mb-6 shadow-lg"
                   >
-                    <Check className="h-10 w-10 text-primary-foreground" />
+                    <PartyPopper className="h-12 w-12 text-primary-foreground" />
                   </motion.div>
-                  <h3 className="text-2xl font-black mb-2">Redeemed!</h3>
-                  <p className="text-sm text-muted-foreground mb-2">{selectedReward.title}</p>
-                  <p className="text-primary font-bold mb-6">-{selectedReward.cost.toLocaleString()} MPU</p>
-                  <button
-                    onClick={() => setSelectedReward(null)}
-                    className="px-8 py-3 rounded-xl bg-secondary border border-border font-semibold text-sm hover:bg-muted transition-colors"
+                  <motion.h3
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-2xl font-black mb-1"
                   >
-                    Close
-                  </button>
+                    🎉 Congratulations!
+                  </motion.h3>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45 }}
+                    className="text-base font-semibold text-foreground mb-1"
+                  >
+                    You've successfully redeemed
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.55 }}
+                    className="text-lg font-black text-primary mb-4"
+                  >
+                    {selectedReward.title}
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.65 }}
+                    className="rounded-xl bg-secondary/50 border border-border p-4 mb-6 space-y-2"
+                  >
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Points Deducted</span>
+                      <span className="font-bold text-destructive">-{selectedReward.cost.toLocaleString()} MPU</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Remaining Balance</span>
+                      <span className="font-bold text-success">{(USER_POINTS - selectedReward.cost).toLocaleString()} MPU</span>
+                    </div>
+                  </motion.div>
+
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="text-xs text-muted-foreground mb-6"
+                  >
+                    🏟️ You'll receive a confirmation email with all the details shortly.
+                  </motion.p>
+
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setSelectedReward(null)}
+                    className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-bold text-sm shadow-lg transition-all"
+                  >
+                    Awesome! 🎊
+                  </motion.button>
                 </div>
               )}
             </motion.div>
