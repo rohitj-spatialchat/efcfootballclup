@@ -305,10 +305,21 @@ export default function CommunityPage() {
           ))}
         </motion.div>
 
-        {/* Filters */}
+        {/* Search bar */}
         <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={`Search ${activeTab === "invited" ? "invited" : activeTab === "blocked" ? "blocked" : "members"}...`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 h-9 text-sm"
+            />
+          </div>
           {(isInvitedTab
             ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
+            : isBlockedTab
+            ? ["+ Name", "+ Email", "+ Reason"]
             : ["+ Name", "+ Email marketing", "+ Member", "+ Source", "+ Data added"]
           ).map((f) => (
             <button key={f} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors">
