@@ -173,7 +173,7 @@ export default function LeaderboardPage() {
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Level</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Streak</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Change</th>
+                
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -208,7 +208,7 @@ export default function LeaderboardPage() {
                   <td className="px-5 py-3 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
                     <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                   </td>
-                  <td className="px-5 py-3 text-sm text-success text-right">{m.change}</td>
+                  
                 </tr>
               ))}
             </tbody>
