@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Lock, Award, Crown } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Lock, Award, Crown, ThumbsUp, MessageSquare, Users, Share2, Heart } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -215,6 +215,30 @@ export default function LeaderboardPage() {
           </div>
           <p className="text-2xl font-semibold text-foreground">30 days</p>
           <p className="text-xs text-muted-foreground mt-1">Personal best!</p>
+        </div>
+      </motion.div>
+
+      {/* How to Earn MPU Points */}
+      <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card p-5">
+        <h2 className="font-semibold text-foreground flex items-center gap-2 mb-4">
+          <Star className="h-4 w-4 text-primary" /> How to Earn MPU Points
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {[
+            { icon: ThumbsUp, label: "Like a Post", points: "+2 MPU", color: "text-primary" },
+            { icon: MessageSquare, label: "Comment", points: "+5 MPU", color: "text-primary" },
+            { icon: Share2, label: "Repost / Share", points: "+3 MPU", color: "text-primary" },
+            { icon: Users, label: "Networking", points: "+10 MPU", color: "text-primary" },
+            { icon: Heart, label: "Receive a Like", points: "+1 MPU", color: "text-primary" },
+          ].map((action) => (
+            <div key={action.label} className="flex flex-col items-center gap-2 rounded-lg border border-border bg-muted/30 p-4 text-center">
+              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <action.icon className={cn("h-5 w-5", action.color)} />
+              </div>
+              <p className="text-xs font-medium text-foreground">{action.label}</p>
+              <span className="text-xs font-bold text-primary">{action.points}</span>
+            </div>
+          ))}
         </div>
       </motion.div>
 

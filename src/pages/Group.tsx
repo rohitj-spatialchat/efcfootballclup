@@ -73,8 +73,10 @@ const groupsData: Record<string, {
       { name: "Yuki Tanaka", avatar: "YT", role: "Member", online: false },
     ],
     posts: [
-      { id: 1, author: "Alex Chen", avatar: "AC", time: "3h ago", title: "Meta-analysis on eccentric training and injury reduction", body: "Just published: our systematic review of 47 RCTs on eccentric training protocols. Results show a 51% reduction in muscle strain injuries when combining Nordic hamstring exercises with hip-focused eccentrics.", image: null, likes: 67, comments: 24, pinned: true },
+      { id: 1, author: "Alex Chen", avatar: "AC", time: "3h ago", title: "Meta-analysis on eccentric training and injury reduction", body: "Just published: our systematic review of 47 RCTs on eccentric training protocols. Results show a 51% reduction in muscle strain injuries when combining Nordic hamstring exercises with hip-focused eccentrics.", image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=400&fit=crop", likes: 67, comments: 24, pinned: true },
       { id: 2, author: "Prof. Nina Volkov", avatar: "NV", time: "1d ago", title: "Biomechanical analysis of change-of-direction movements", body: "Sharing preliminary data from our motion capture study on COD mechanics in elite footballers. Significant differences found between ACL-injured and non-injured cohorts in knee valgus angles during 45° cuts.", image: "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=800&h=400&fit=crop", likes: 45, comments: 15, pinned: false },
+      { id: 3, author: "Tom Bradley", avatar: "TB", time: "2d ago", title: "🗳️ POLL: Most impactful sports science technology?", body: "A. GPS/GNSS tracking\nB. Force plates\nC. Motion capture\nD. Wearable EMG sensors", image: null, likes: 33, comments: 19, pinned: false },
+      { id: 4, author: "Yuki Tanaka", avatar: "YT", time: "4d ago", title: "Blood biomarker monitoring in professional football", body: "We've implemented quarterly blood panels for our entire squad. Key markers we track: ferritin, vitamin D, testosterone:cortisol ratio, CRP, and CK. Early intervention based on trends has reduced illness incidence by 30%.", image: "https://images.unsplash.com/photo-1579165466741-7f35e4755660?w=800&h=400&fit=crop", likes: 52, comments: 28, pinned: false },
     ],
     events: [
       { title: "Research Methodology Workshop", date: "Mar 20, 2026", attendees: 28 },
@@ -99,7 +101,10 @@ const groupsData: Record<string, {
       { name: "Sophie Laurent", avatar: "SL", role: "Moderator", online: true },
     ],
     posts: [
-      { id: 1, author: "Emma Johansson", avatar: "EJ", time: "4h ago", title: "Match-day nutrition protocols: what's changed?", body: "The traditional carb-loading approach is evolving. Here's our updated match-day nutrition timeline that's improved perceived energy levels in 80% of our squad members.", image: null, likes: 41, comments: 16, pinned: true },
+      { id: 1, author: "Emma Johansson", avatar: "EJ", time: "4h ago", title: "Match-day nutrition protocols: what's changed?", body: "The traditional carb-loading approach is evolving. Here's our updated match-day nutrition timeline that's improved perceived energy levels in 80% of our squad members.", image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=400&fit=crop", likes: 41, comments: 16, pinned: true },
+      { id: 2, author: "Dr. Kwame Adebayo", avatar: "KA", time: "1d ago", title: "Hydration strategies for hot climate matches", body: "We tested individualized sweat-rate protocols vs standard fluid guidelines during pre-season in Dubai. Players on personalized plans showed 12% less performance decline in the second half.\n\nKey findings:\n1. Sweat rate varies hugely — 0.5L to 2.5L per hour\n2. Sodium concentration in sweat differs by 3x between players\n3. Pre-cooling with ice slurries improved time to fatigue by 8%", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=400&fit=crop", likes: 55, comments: 21, pinned: false },
+      { id: 3, author: "Sophie Laurent", avatar: "SL", time: "2d ago", title: "🗳️ POLL: Best recovery meal timing post-match?", body: "A. Within 30 minutes\nB. 30-60 minutes after\nC. 1-2 hours after\nD. Whenever the player feels ready", image: null, likes: 38, comments: 27, pinned: false },
+      { id: 4, author: "Emma Johansson", avatar: "EJ", time: "3d ago", title: "Supplement stack review: what's actually evidence-based?", body: "After reviewing 200+ papers, here's our tier list for football-specific supplementation:\n\nTier 1 (Strong evidence): Creatine, Caffeine, Vitamin D\nTier 2 (Moderate evidence): Beta-alanine, Tart cherry juice, Omega-3\nTier 3 (Limited evidence): Beetroot juice, Collagen peptides\nTier 4 (Insufficient evidence): BCAAs (if protein adequate), HMB", image: "https://images.unsplash.com/photo-1505576399279-0d754c0d8fba?w=800&h=400&fit=crop", likes: 94, comments: 45, pinned: false },
     ],
     events: [
       { title: "Nutrition Masterclass", date: "Mar 25, 2026", attendees: 52 },
@@ -122,7 +127,9 @@ const groupsData: Record<string, {
       { name: "Mei Wong", avatar: "MW", role: "Member", online: true },
     ],
     posts: [
-      { id: 1, author: "Dr. Ravi Patel", avatar: "RP", time: "6h ago", title: "Building psychological resilience after long-term injury", body: "Our 12-week psychological intervention program for ACL-reconstructed players has shown remarkable improvements in return-to-sport confidence scores. Key components include visualization, graduated exposure, and peer mentoring.", image: null, likes: 72, comments: 31, pinned: true },
+      { id: 1, author: "Dr. Ravi Patel", avatar: "RP", time: "6h ago", title: "Building psychological resilience after long-term injury", body: "Our 12-week psychological intervention program for ACL-reconstructed players has shown remarkable improvements in return-to-sport confidence scores. Key components include visualization, graduated exposure, and peer mentoring.", image: "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=800&h=400&fit=crop", likes: 72, comments: 31, pinned: true },
+      { id: 2, author: "Mei Wong", avatar: "MW", time: "1d ago", title: "🗳️ POLL: Biggest mental health challenge for players?", body: "A. Performance anxiety before big matches\nB. Dealing with social media criticism\nC. Coping with injury setbacks\nD. Managing work-life balance", image: null, likes: 64, comments: 38, pinned: false },
+      { id: 3, author: "Dr. Ravi Patel", avatar: "RP", time: "3d ago", title: "Pre-match visualization techniques that actually work", body: "We ran a controlled study with 24 players over a season. Those who completed structured 10-min visualization sessions before matches reported 40% higher confidence and showed measurably better decision-making under pressure.", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=400&fit=crop", likes: 58, comments: 22, pinned: false },
     ],
     events: [],
     rules: ["Maintain confidentiality about specific athlete cases", "Be sensitive when discussing mental health topics"],
@@ -141,6 +148,8 @@ const groupsData: Record<string, {
     ],
     posts: [
       { id: 1, author: "Dr. Anna Weber", avatar: "AW", time: "1h ago", title: "Updated ACL rehabilitation timeline", body: "Based on our latest outcomes data (n=47 athletes), we're recommending extending the minimum RTP criteria to include 9 months + psychological readiness assessment.", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop", likes: 89, comments: 42, pinned: true },
+      { id: 2, author: "Paulo Mendes", avatar: "PM", time: "1d ago", title: "🗳️ POLL: Most common muscle injury in your squad?", body: "A. Hamstring strain\nB. Quadriceps strain\nC. Calf strain\nD. Adductor/groin injury", image: null, likes: 47, comments: 33, pinned: false },
+      { id: 3, author: "Dr. Fatima Al-Hassan", avatar: "FA", time: "2d ago", title: "Platelet-rich plasma therapy: where do we stand?", body: "Our systematic review of PRP in muscle injuries shows mixed evidence. However, for specific tendinopathies, the results are more promising. Here's a breakdown of when we consider PRP in our clinical pathway.", image: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&h=400&fit=crop", likes: 61, comments: 29, pinned: false },
     ],
     events: [
       { title: "Rehabilitation Case Study Series", date: "Mar 12, 2026", attendees: 64 },
@@ -159,7 +168,9 @@ const groupsData: Record<string, {
       { name: "Viktor Petrov", avatar: "VP", role: "Member", online: false },
     ],
     posts: [
-      { id: 1, author: "Jake Morrison", avatar: "JM", time: "8h ago", title: "Velocity-based training: practical implementation", body: "We've transitioned from percentage-based programming to VBT for all our main lifts. Here's our autoregulation framework using mean concentric velocity zones.", image: null, likes: 53, comments: 22, pinned: true },
+      { id: 1, author: "Jake Morrison", avatar: "JM", time: "8h ago", title: "Velocity-based training: practical implementation", body: "We've transitioned from percentage-based programming to VBT for all our main lifts. Here's our autoregulation framework using mean concentric velocity zones.", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=400&fit=crop", likes: 53, comments: 22, pinned: true },
+      { id: 2, author: "Viktor Petrov", avatar: "VP", time: "2d ago", title: "Trap bar deadlift vs conventional for footballers", body: "After 2 seasons comparing both variations, trap bar deadlifts produced similar strength gains with significantly less lumbar stress. We've made it our primary hip-hinge movement for the squad.", image: "https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=800&h=400&fit=crop", likes: 44, comments: 18, pinned: false },
+      { id: 3, author: "Jake Morrison", avatar: "JM", time: "4d ago", title: "🗳️ POLL: Preferred in-season strength frequency?", body: "A. 1x per week full body\nB. 2x per week upper/lower split\nC. 2x per week full body\nD. 3x per week with reduced volume", image: null, likes: 37, comments: 25, pinned: false },
     ],
     events: [],
     rules: ["Safety first — always discuss proper form and progressions", "Share programming rationale, not just exercises"],
@@ -176,7 +187,9 @@ const groupsData: Record<string, {
       { name: "Oscar Nilsson", avatar: "ON", role: "Member", online: true },
     ],
     posts: [
-      { id: 1, author: "Dr. Lisa Park", avatar: "LP", time: "12h ago", title: "Heart rate variability as a readiness indicator", body: "3-season longitudinal data on HRV monitoring in our first team. Strong predictive value for illness susceptibility when combined with subjective wellness scores.", image: null, likes: 38, comments: 14, pinned: true },
+      { id: 1, author: "Dr. Lisa Park", avatar: "LP", time: "12h ago", title: "Heart rate variability as a readiness indicator", body: "3-season longitudinal data on HRV monitoring in our first team. Strong predictive value for illness susceptibility when combined with subjective wellness scores.", image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop", likes: 38, comments: 14, pinned: true },
+      { id: 2, author: "Oscar Nilsson", avatar: "ON", time: "1d ago", title: "Repeated sprint ability vs single sprint speed", body: "Our GPS data from 120 matches shows RSA is a far better predictor of match performance than peak speed. Players in the top quartile for RSA covered 15% more high-intensity distance in the final 15 minutes.", image: "https://images.unsplash.com/photo-1461896836934-bd45ba7d8f73?w=800&h=400&fit=crop", likes: 42, comments: 16, pinned: false },
+      { id: 3, author: "Dr. Lisa Park", avatar: "LP", time: "3d ago", title: "🗳️ POLL: Best wearable for monitoring training load?", body: "A. Catapult/STATSports GPS\nB. WHOOP strap\nC. Polar heart rate monitors\nD. Garmin wearables", image: null, likes: 29, comments: 20, pinned: false },
     ],
     events: [
       { title: "Endurance Training Symposium", date: "Apr 10, 2026", attendees: 40 },
