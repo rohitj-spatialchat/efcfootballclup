@@ -8,18 +8,19 @@ import {
 import TeamTab from "@/components/settings/TeamTab";
 import GamificationTab from "@/components/settings/GamificationTab";
 import UserSafetyTab from "@/components/settings/UserSafetyTab";
+import { useViewMode } from "@/contexts/ViewModeContext";
 
-const tabs = [
-  { label: "Team", id: "team", icon: Users },
-  { label: "Gamification", id: "gamification", icon: Trophy },
-  { label: "User Safety", id: "safety", icon: ShieldAlert },
+const allTabs = [
+  { label: "Team", id: "team", icon: Users, adminOnly: true },
+  { label: "Gamification", id: "gamification", icon: Trophy, adminOnly: true },
+  { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
   { label: "Single sign-on (SSO)", id: "sso", icon: KeyRound },
-  { label: "SCIM provisioning", id: "scim", icon: Server },
+  { label: "SCIM provisioning", id: "scim", icon: Server, adminOnly: true },
   { label: "Two-step authentication", id: "2fa", icon: ShieldCheck },
   { label: "Security history", id: "security", icon: History },
   { label: "Installed apps", id: "apps", icon: AppWindow },
   { label: "Access requests", id: "access", icon: UserCheck },
-  { label: "MCP access", id: "mcp", icon: Cpu },
+  { label: "MCP access", id: "mcp", icon: Cpu, adminOnly: true },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
@@ -43,7 +44,13 @@ function renderTabContent(activeTab: string) {
 }
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState("team");
+  const { isAdmin } = useViewMode();
+  const tabs = allTabs.filter(t => !t.adminOnly || isAdmin);
+  const [activeTab, setActiveTab] = useState(() => tabs[0]?.id || "sso");
+
+  // Reset to first visible tab if current tab becomes hidden
+  const visibleIds = tabs.map(t => t.id);
+  const effectiveTab = visibleIds.includes(activeTab) ? activeTab : tabs[0]?.id || "sso";
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6 min-h-[calc(100vh-120px)]">
@@ -52,7 +59,7 @@ export default function SettingsPage() {
         <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-3">Settings</h2>
         {tabs.map((tab) => {
           const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
+          const isActive = effectiveTab === tab.id;
           return (
             <button
               key={tab.id}
@@ -73,7 +80,7 @@ export default function SettingsPage() {
 
       {/* Content */}
       <motion.div variants={item} className="flex-1 min-w-0">
-        {renderTabContent(activeTab)}
+        {renderTabContent(effectiveTab)}
       </motion.div>
     </motion.div>
   );
