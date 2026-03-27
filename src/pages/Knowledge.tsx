@@ -64,7 +64,7 @@ const courses = [
   {
     title: "Strength & conditioning: Building the complete athlete",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&h=300&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Mohamed_Salah_2018.jpg/440px-Mohamed_Salah_2018.jpg",
     type: "READ" as const,
     tags: ["Strength & Power"],
     progress: 100,
