@@ -79,8 +79,8 @@ const categories: { key: RewardCategory; label: string; icon: React.ReactNode }[
 
 const tiers = [
   { name: "Silver", min: 0, color: "bg-secondary text-secondary-foreground" },
-  { name: "Gold", min: 25000, color: "bg-warning text-warning-foreground" },
-  { name: "Elite", min: 50000, color: "bg-primary text-primary-foreground" },
+  { name: "Gold", min: 50000, color: "bg-warning text-warning-foreground" },
+  { name: "Elite", min: 150000, color: "bg-primary text-primary-foreground" },
 ];
 
 const leaderboard = [
