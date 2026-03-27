@@ -16,14 +16,22 @@ const levels = [
 const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
 
 const leaderboard = [
-  { rank: 1, name: "Casey Nguyen", mpu: 1600, level: 6, streak: 45, badge: "👑", change: "+120", region: "Asia" },
-  { rank: 2, name: "Jamie Lawson", mpu: 950, level: 5, streak: 38, badge: "💎", change: "+95", region: "Europe" },
-  { rank: 3, name: "Chris Rodriguez", mpu: 520, level: 4, streak: 22, badge: "🏆", change: "+80", region: "Americas" },
-  { rank: 4, name: "Sarah Mitchell", mpu: 190, level: 3, streak: 30, badge: "🥇", change: "+65", region: "Europe" },
-  { rank: 5, name: "Alex Chen", mpu: 120, level: 2, streak: 18, badge: "🥈", change: "+50", region: "Asia" },
-  { rank: 6, name: "Morgan Davis", mpu: 85, level: 2, streak: 12, badge: "🥈", change: "+40", region: "Americas" },
-  { rank: 7, name: "Taylor Kim", mpu: 40, level: 1, streak: 8, badge: "⚽", change: "+35", region: "Asia" },
-  { rank: 8, name: "Jordan Blake", mpu: 20, level: 1, streak: 5, badge: "⚽", change: "+20", region: "Africa" },
+  { rank: 1, name: "Casey Nguyen", mpu: 1600, level: 6, streak: 45, badge: "👑", change: "+120", region: "Asia", team: "FC Tokyo" },
+  { rank: 2, name: "Jamie Lawson", mpu: 950, level: 5, streak: 38, badge: "💎", change: "+95", region: "Europe", team: "AC Milan" },
+  { rank: 3, name: "Chris Rodriguez", mpu: 520, level: 4, streak: 22, badge: "🏆", change: "+80", region: "Americas", team: "LA Galaxy" },
+  { rank: 4, name: "Sarah Mitchell", mpu: 190, level: 3, streak: 30, badge: "🥇", change: "+65", region: "Europe", team: "Chelsea FC" },
+  { rank: 5, name: "Alex Chen", mpu: 120, level: 2, streak: 18, badge: "🥈", change: "+50", region: "Asia", team: "Shanghai SIPG" },
+  { rank: 6, name: "Morgan Davis", mpu: 85, level: 2, streak: 12, badge: "🥈", change: "+40", region: "Americas", team: "Toronto FC" },
+  { rank: 7, name: "Taylor Kim", mpu: 40, level: 1, streak: 8, badge: "⚽", change: "+35", region: "Asia", team: "Ulsan HD" },
+  { rank: 8, name: "Jordan Blake", mpu: 20, level: 1, streak: 5, badge: "⚽", change: "+20", region: "Africa", team: "Al Ahly" },
+  { rank: 9, name: "Lucas Fernandez", mpu: 1450, level: 6, streak: 40, badge: "👑", change: "+110", region: "Americas", team: "Inter Miami" },
+  { rank: 10, name: "Yuki Tanaka", mpu: 870, level: 5, streak: 35, badge: "💎", change: "+88", region: "Asia", team: "Yokohama FM" },
+  { rank: 11, name: "Oliver Smith", mpu: 480, level: 4, streak: 20, badge: "🏆", change: "+72", region: "Europe", team: "Arsenal FC" },
+  { rank: 12, name: "Fatima Al-Rashid", mpu: 350, level: 3, streak: 28, badge: "🥇", change: "+60", region: "Africa", team: "Wydad AC" },
+  { rank: 13, name: "Liam O'Brien", mpu: 260, level: 3, streak: 15, badge: "🥇", change: "+55", region: "Europe", team: "Celtic FC" },
+  { rank: 14, name: "Diego Morales", mpu: 175, level: 3, streak: 10, badge: "🥇", change: "+45", region: "Americas", team: "Boca Juniors" },
+  { rank: 15, name: "Priya Sharma", mpu: 95, level: 2, streak: 14, badge: "🥈", change: "+38", region: "Asia", team: "Mumbai City" },
+  { rank: 16, name: "Noah Williams", mpu: 60, level: 2, streak: 9, badge: "🥈", change: "+30", region: "Oceania", team: "Melbourne City" },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
@@ -187,25 +195,27 @@ export default function LeaderboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-t border-border">
-                <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
-                <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Member</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Level</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Streak</th>
+              <tr className="border-t border-border bg-muted/40">
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">Level</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">Streak</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {filteredLeaderboard.map((m) => (
-                <tr key={m.rank} className="hover:bg-muted/30 transition-colors">
-                  <td className="px-5 py-3 text-sm">
+              {filteredLeaderboard.map((m, i) => (
+                <tr key={m.rank} className={cn("hover:bg-muted/30 transition-colors", i % 2 === 0 && "bg-muted/10")}>
+                  <td className="px-5 py-3.5 text-sm">
                     {m.rank <= 3 ? (
                       <span
                         className={cn(
                           "inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold",
-                          m.rank === 1 && "bg-yellow-100 text-yellow-700",
-                          m.rank === 2 && "bg-gray-100 text-gray-600",
-                          m.rank === 3 && "bg-orange-100 text-orange-700",
+                          m.rank === 1 && "bg-primary/20 text-primary",
+                          m.rank === 2 && "bg-muted text-muted-foreground",
+                          m.rank === 3 && "bg-accent text-accent-foreground",
                         )}
                       >
                         {m.rank}
@@ -214,7 +224,7 @@ export default function LeaderboardPage() {
                       <span className="text-muted-foreground">#{m.rank}</span>
                     )}
                   </td>
-                  <td className="px-5 py-3">
+                  <td className="px-5 py-3.5">
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">
                         {m.name
@@ -225,13 +235,15 @@ export default function LeaderboardPage() {
                       <span className="text-sm font-medium text-foreground">{m.name}</span>
                     </div>
                   </td>
-                  <td className="px-5 py-3 text-right">
+                  <td className="px-5 py-3.5 text-sm text-muted-foreground">{m.region}</td>
+                  <td className="px-5 py-3.5 text-sm text-foreground">{m.team}</td>
+                  <td className="px-5 py-3.5 text-right">
                     <span className="inline-flex items-center gap-1 text-xs font-medium rounded-full bg-primary/10 text-primary px-2 py-0.5">
                       {m.badge} Lv.{m.level}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-sm text-foreground text-right font-medium">{m.mpu}</td>
-                  <td className="px-5 py-3 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
+                  <td className="px-5 py-3.5 text-sm text-foreground text-right font-medium">{m.mpu}</td>
+                  <td className="px-5 py-3.5 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
                     <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                   </td>
                 </tr>
