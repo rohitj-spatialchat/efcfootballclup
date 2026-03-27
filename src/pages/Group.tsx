@@ -168,7 +168,9 @@ const groupsData: Record<string, {
       { name: "Viktor Petrov", avatar: "VP", role: "Member", online: false },
     ],
     posts: [
-      { id: 1, author: "Jake Morrison", avatar: "JM", time: "8h ago", title: "Velocity-based training: practical implementation", body: "We've transitioned from percentage-based programming to VBT for all our main lifts. Here's our autoregulation framework using mean concentric velocity zones.", image: null, likes: 53, comments: 22, pinned: true },
+      { id: 1, author: "Jake Morrison", avatar: "JM", time: "8h ago", title: "Velocity-based training: practical implementation", body: "We've transitioned from percentage-based programming to VBT for all our main lifts. Here's our autoregulation framework using mean concentric velocity zones.", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=400&fit=crop", likes: 53, comments: 22, pinned: true },
+      { id: 2, author: "Viktor Petrov", avatar: "VP", time: "2d ago", title: "Trap bar deadlift vs conventional for footballers", body: "After 2 seasons comparing both variations, trap bar deadlifts produced similar strength gains with significantly less lumbar stress. We've made it our primary hip-hinge movement for the squad.", image: "https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=800&h=400&fit=crop", likes: 44, comments: 18, pinned: false },
+      { id: 3, author: "Jake Morrison", avatar: "JM", time: "4d ago", title: "🗳️ POLL: Preferred in-season strength frequency?", body: "A. 1x per week full body\nB. 2x per week upper/lower split\nC. 2x per week full body\nD. 3x per week with reduced volume", image: null, likes: 37, comments: 25, pinned: false },
     ],
     events: [],
     rules: ["Safety first — always discuss proper form and progressions", "Share programming rationale, not just exercises"],
