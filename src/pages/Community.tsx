@@ -40,6 +40,13 @@ const initialInvited = [
   { name: "Isabelle Desrosiers", email: "idesrosiers@ideoscripto.fr", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Dec 12, 2022", invitedAt: "Dec 12, 2022" },
 ];
 
+const initialBlocked = [
+  { name: "Tomás Silva", email: "tsilva@spam.net", reason: "Spam", blockedAt: "Feb 14, 2026" },
+  { name: "Jake Morrison", email: "jake.m@fake.com", reason: "Harassment", blockedAt: "Jan 3, 2026" },
+  { name: "Анна Козлова", email: "anna.k@mail.ru", reason: "Inappropriate content", blockedAt: "Nov 20, 2025" },
+  { name: "Liu Wei", email: "liuwei88@temp.cn", reason: "Spam", blockedAt: "Sep 5, 2025" },
+];
+
 const avatarColors = [
   "bg-primary/80", "bg-accent/80", "bg-destructive/40", "bg-secondary", "bg-muted-foreground/30", "bg-primary/50", "bg-accent/50",
 ];
