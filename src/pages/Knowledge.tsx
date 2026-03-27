@@ -45,8 +45,7 @@ const courses = [
   {
     title: "Nutrition for performance: Fueling the footballer's body",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg/440px-2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg",
+    image: "https://www.shutterstock.com/image-photo/close-sportsman-having-healthy-fruit-600nw-2675007961.jpg",
     type: "WATCH" as const,
     tags: ["Nutrition", "Sport & Exercise Science"],
     progress: 75,
