@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import { useViewMode } from "@/contexts/ViewModeContext";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Rss,
