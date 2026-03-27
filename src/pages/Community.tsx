@@ -510,7 +510,7 @@ export default function CommunityPage() {
 
             {/* Members - List / Grid View */}
             <AnimatePresence mode="wait">
-              {viewMode === "list" ? (
+              {isAdmin ? (
                 <motion.div
                   key="list"
                   variants={item}
