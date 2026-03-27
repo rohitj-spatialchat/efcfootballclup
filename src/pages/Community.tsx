@@ -66,11 +66,13 @@ export default function CommunityPage() {
   const { toast } = useToast();
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
+  const [blocked, setBlocked] = useState(initialBlocked);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [activeTab, setActiveTab] = useState<ActiveTab>("all");
   const [showInviteBanner, setShowInviteBanner] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
 
   const handleAddMember = () => {
