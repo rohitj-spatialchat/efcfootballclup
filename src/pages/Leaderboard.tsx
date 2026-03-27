@@ -46,7 +46,11 @@ function getLevelProgress(xp: number) {
 }
 
 export default function LeaderboardPage() {
-  const [activeFilter, setActiveFilter] = useState("This Month");
+  const [selectedRegion, setSelectedRegion] = useState("All Regions");
+
+  const filteredLeaderboard = selectedRegion === "All Regions"
+    ? leaderboard
+    : leaderboard.filter((m) => m.region === selectedRegion);
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
