@@ -220,31 +220,32 @@ export default function CommunityPage() {
       <div className="flex-1 p-6 space-y-5">
         {/* Header */}
         <motion.div variants={item} className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
-          <div className="flex items-center gap-3">
-            {/* More (header) dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="text-muted-foreground hover:text-foreground">
-                  <MoreHorizontal className="h-5 w-5" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
-                <DropdownMenuItem onClick={handleExport}>
-                  <Download className="h-4 w-4 mr-2" /> Export all
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { setMembers(initialMembers); toast({ title: "Reset", description: "Member list restored to defaults." }); }}>
-                  <RefreshCw className="h-4 w-4 mr-2" /> Reset list
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <button
-              onClick={() => setAddMemberOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
-            >
-              Invite
-            </button>
-          </div>
+          <h1 className="text-2xl font-semibold text-foreground">{isAdmin ? "Manage audience" : "Member Directory"}</h1>
+          {isAdmin && (
+            <div className="flex items-center gap-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="text-muted-foreground hover:text-foreground">
+                    <MoreHorizontal className="h-5 w-5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
+                  <DropdownMenuItem onClick={handleExport}>
+                    <Download className="h-4 w-4 mr-2" /> Export all
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setMembers(initialMembers); toast({ title: "Reset", description: "Member list restored to defaults." }); }}>
+                    <RefreshCw className="h-4 w-4 mr-2" /> Reset list
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <button
+                onClick={() => setAddMemberOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
+              >
+                Invite
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* Tabs */}
