@@ -36,7 +36,7 @@ const courses = [
     image:
       "https://thumbs.dreamstime.com/b/young-restful-footballer-lying-green-field-soccer-ball-behind-his-neck-rest-green-field-123110697.jpg",
     type: "LISTEN" as const,
-    tags: ["Healing Circles"],
+    tags: ["Sport Psychology"],
     progress: 0,
     completedDate: null,
     publishedDate: "Jul 25, 2025",
@@ -133,7 +133,7 @@ export default function KnowledgePage() {
           {/* Course Grid */}
           <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {courses.map((course, i) => (
-              <div key={i} className="group cursor-pointer">
+              <div key={i} className="group cursor-pointer flex flex-col">
                 {/* Image */}
                 <div className="relative rounded-xl overflow-hidden aspect-[4/3] mb-3">
                   <img
@@ -148,16 +148,16 @@ export default function KnowledgePage() {
                   )}
                 </div>
 
-                {/* Title */}
-                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
+                {/* Title - fixed height for alignment */}
+                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug min-h-[2.5rem] line-clamp-2">
                   {course.title}
                 </h3>
 
-                {/* Status row */}
-                <div className="space-y-1.5">
+                {/* Status row - push to bottom with mt-auto */}
+                <div className="mt-auto space-y-1.5">
                   {course.progress === 100 ? (
                     <div className="flex items-center gap-1.5">
-                      <CheckCircle2 className="h-4 w-4 text-success" />
+                      <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
                       <span className="text-xs text-muted-foreground">Completed {course.completedDate}</span>
                     </div>
                   ) : course.progress > 0 ? (
@@ -200,11 +200,11 @@ export default function KnowledgePage() {
           </div>
 
           {[
-            { label: "Topics", value: "All" },
-            { label: "Brands", value: "All" },
-            { label: "Formats", value: "All" },
-            { label: "Date", value: "All Time" },
-            { label: "Prices", value: "All" },
+            { label: "Topics", value: "All", options: ["Fitness", "Nutrition", "Recovery", "Strength"] },
+            { label: "Formats", value: "All", options: ["Watch", "Listen", "Read"] },
+            { label: "Discipline", value: "All", options: ["Football", "Athletics", "Swimming", "Basketball"] },
+            { label: "Country", value: "All", options: ["United Kingdom", "Spain", "Germany", "France", "Brazil"] },
+            { label: "Region", value: "All", options: ["Europe", "South America", "North America", "Asia", "Africa"] },
           ].map((filter) => (
             <div key={filter.label}>
               <label className="text-xs font-medium text-foreground">{filter.label}:</label>
