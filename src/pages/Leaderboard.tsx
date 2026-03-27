@@ -177,7 +177,7 @@ export default function LeaderboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {leaderboard.map((m) => (
+              {filteredLeaderboard.map((m) => (
                 <tr key={m.rank} className="hover:bg-muted/30 transition-colors">
                   <td className="px-5 py-3 text-sm">
                     {m.rank <= 3 ? (
