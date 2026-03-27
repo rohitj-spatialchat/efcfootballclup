@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
@@ -267,6 +267,14 @@ export default function Group() {
   const [activeTab, setActiveTab] = useState<"discussions" | "members" | "events" | "about">("discussions");
   const [joined, setJoined] = useState(true);
   const [posts, setPosts] = useState(group?.posts || []);
+
+  // Sync posts when slug/group changes
+  useEffect(() => {
+    setPosts(group?.posts || []);
+    setActiveTab("discussions");
+    setSearchQuery("");
+    setSortBy("recent");
+  }, [slug]);
   const [createPostOpen, setCreatePostOpen] = useState(false);
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostBody, setNewPostBody] = useState("");
