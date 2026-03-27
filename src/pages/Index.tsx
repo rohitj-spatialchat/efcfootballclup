@@ -943,25 +943,13 @@ const Index = () => {
               <Video className="h-4 w-4" />
               Go Live
             </button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
-                  <Plus className="h-4 w-4" />
-                  Create Post
-                  <ChevronDown className="h-3 w-3" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setCreatePostOpen(true)}>
-                  <PenTool className="h-4 w-4 mr-2" />
-                  Create Post
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCreatePollOpen(true)}>
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Create Poll
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <button
+              onClick={() => setCreatePostOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="h-4 w-4" />
+              Create Post
+            </button>
           </motion.div>
 
           {/* Karma / Rank / Streak Stats */}
