@@ -75,67 +75,121 @@ export default function LeaderboardPage() {
         </p>
       </motion.div>
 
-      {/* Your Level Card */}
-      <motion.div variants={item} className="rounded-lg border border-border bg-card p-6 shadow-card">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-          {/* Avatar + level */}
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-lg font-bold border-2 border-primary">
-                SM
+      {/* Your Level Card + Podium */}
+      <motion.div variants={item} className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* Your Level Card */}
+        <div className="lg:col-span-3 rounded-lg border border-border bg-card p-6 shadow-card">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <Avatar className="h-16 w-16 border-2 border-primary">
+                  <AvatarImage src={avatarUrl(currentUser.name)} alt={currentUser.name} />
+                  <AvatarFallback className="bg-primary/10 text-primary text-lg font-bold">SM</AvatarFallback>
+                </Avatar>
+                <span className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">
+                  {currentUser.level}
+                </span>
               </div>
-              <span className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">
-                {currentUser.level}
+              <div>
+                <p className="font-semibold text-foreground">{currentUser.name}</p>
+                <p className="text-sm text-muted-foreground">{currentUser.mpu} MPU</p>
+              </div>
+            </div>
+            <div className="sm:ml-auto text-center sm:text-right">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-medium">
+                <Award className="h-4 w-4" /> Level {currentUser.level} — {getLevelTitle(currentUser.level)}
               </span>
-            </div>
-            <div>
-              <p className="font-semibold text-foreground">{currentUser.name}</p>
-              <p className="text-sm text-muted-foreground">{currentUser.mpu} MPU</p>
+              <p className="text-xs text-muted-foreground mt-1">Top 36% of members</p>
             </div>
           </div>
 
-          {/* Level badge */}
-          <div className="sm:ml-auto text-center sm:text-right">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-medium">
-              <Award className="h-4 w-4" /> Level {currentUser.level} — {getLevelTitle(currentUser.level)}
-            </span>
-            <p className="text-xs text-muted-foreground mt-1">Top 36% of members</p>
+          <div className="mt-5 space-y-2">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>Level {currentUser.level}</span>
+              <span>{currentUser.mpu} / {currentUser.nextLevelMpu} MPU</span>
+              <span>Level {currentUser.level + 1}</span>
+            </div>
+            <Progress value={getLevelProgress(currentUser.mpu)} className="h-2" />
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {levels.map((lvl) => {
+              const unlocked = currentUser.mpu >= lvl.pointsRequired;
+              return (
+                <div
+                  key={lvl.level}
+                  className={cn(
+                    "rounded-lg border p-3 text-center transition-colors",
+                    unlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/30 opacity-60",
+                  )}
+                >
+                  <span className="text-xl">{lvl.badge}</span>
+                  <p className="text-xs font-medium text-foreground mt-1">{lvl.title}</p>
+                  <p className="text-xs text-muted-foreground flex items-center justify-center gap-1 mt-0.5">
+                    {!unlocked && <Lock className="h-3 w-3" />}
+                    {lvl.pointsRequired} pts
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Level progress */}
-        <div className="mt-5 space-y-2">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Level {currentUser.level}</span>
-            <span>
-              {currentUser.mpu} / {currentUser.nextLevelMpu} MPU
-            </span>
-            <span>Level {currentUser.level + 1}</span>
-          </div>
-          <Progress value={getLevelProgress(currentUser.mpu)} className="h-2" />
-        </div>
-
-        {/* Level milestones */}
-        <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {levels.map((lvl) => {
-            const unlocked = currentUser.mpu >= lvl.pointsRequired;
-            return (
-              <div
-                key={lvl.level}
-                className={cn(
-                  "rounded-lg border p-3 text-center transition-colors",
-                  unlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/30 opacity-60",
-                )}
-              >
-                <span className="text-xl">{lvl.badge}</span>
-                <p className="text-xs font-medium text-foreground mt-1">{lvl.title}</p>
-                <p className="text-xs text-muted-foreground flex items-center justify-center gap-1 mt-0.5">
-                  {!unlocked && <Lock className="h-3 w-3" />}
-                  {lvl.pointsRequired} pts
-                </p>
+        {/* Top 3 Podium */}
+        <div className="lg:col-span-2 rounded-lg border border-border bg-card p-6 shadow-card flex flex-col">
+          <h3 className="font-semibold text-foreground flex items-center gap-2 mb-4">
+            <Trophy className="h-4 w-4 text-primary" /> Top Performers
+          </h3>
+          <div className="flex-1 flex items-end justify-center gap-3">
+            {/* 2nd place */}
+            <div className="flex flex-col items-center">
+              <Avatar className="h-12 w-12 border-2 border-muted-foreground/40">
+                <AvatarImage src={avatarUrl(top3[1].name)} alt={top3[1].name} />
+                <AvatarFallback className="bg-muted text-muted-foreground text-sm font-bold">
+                  {top3[1].name.split(" ").map(n => n[0]).join("")}
+                </AvatarFallback>
+              </Avatar>
+              <p className="text-xs font-medium text-foreground mt-1.5 text-center max-w-[80px] truncate">{top3[1].name}</p>
+              <p className="text-xs text-muted-foreground">{top3[1].mpu} MPU</p>
+              <div className="mt-2 w-20 bg-muted/60 rounded-t-lg flex flex-col items-center justify-end pt-3 pb-2" style={{ height: 80 }}>
+                <span className="text-lg">🥈</span>
+                <span className="text-xs font-bold text-muted-foreground">#2</span>
               </div>
-            );
-          })}
+            </div>
+            {/* 1st place */}
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                <Crown className="h-5 w-5 text-primary absolute -top-5 left-1/2 -translate-x-1/2" />
+                <Avatar className="h-14 w-14 border-2 border-primary">
+                  <AvatarImage src={avatarUrl(top3[0].name)} alt={top3[0].name} />
+                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-bold">
+                    {top3[0].name.split(" ").map(n => n[0]).join("")}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              <p className="text-xs font-medium text-foreground mt-1.5 text-center max-w-[80px] truncate">{top3[0].name}</p>
+              <p className="text-xs text-muted-foreground">{top3[0].mpu} MPU</p>
+              <div className="mt-2 w-20 bg-primary/15 rounded-t-lg flex flex-col items-center justify-end pt-3 pb-2" style={{ height: 110 }}>
+                <span className="text-lg">🥇</span>
+                <span className="text-xs font-bold text-primary">#1</span>
+              </div>
+            </div>
+            {/* 3rd place */}
+            <div className="flex flex-col items-center">
+              <Avatar className="h-12 w-12 border-2 border-accent">
+                <AvatarImage src={avatarUrl(top3[2].name)} alt={top3[2].name} />
+                <AvatarFallback className="bg-accent text-accent-foreground text-sm font-bold">
+                  {top3[2].name.split(" ").map(n => n[0]).join("")}
+                </AvatarFallback>
+              </Avatar>
+              <p className="text-xs font-medium text-foreground mt-1.5 text-center max-w-[80px] truncate">{top3[2].name}</p>
+              <p className="text-xs text-muted-foreground">{top3[2].mpu} MPU</p>
+              <div className="mt-2 w-20 bg-accent/20 rounded-t-lg flex flex-col items-center justify-end pt-3 pb-2" style={{ height: 60 }}>
+                <span className="text-lg">🥉</span>
+                <span className="text-xs font-bold text-accent-foreground">#3</span>
+              </div>
+            </div>
+          </div>
         </div>
       </motion.div>
 
