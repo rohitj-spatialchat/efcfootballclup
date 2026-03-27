@@ -22,13 +22,13 @@ const communitySidebar = [
 ];
 
 const initialMembers = [
-  { name: "Kwame Adebayo", email: "adebayo@gmail.com", team: "AFC Ajax", country: "Netherlands", score: 9.2, role: "Member", joined: "Apr 12, 2024", flag: "🇳🇱", followers: 142, following: 89 },
-  { name: "Robert Fox", email: "robertfox@gmail.com", team: "AC Milan", country: "Italy", score: 9.4, role: "Member", joined: "Mar 5, 2024", flag: "🇮🇹", followers: 230, following: 115 },
-  { name: "Mei Wong", email: "meiwong@gmail.com", team: "Juventus FC", country: "Italy", score: 8.0, role: "Member", joined: "Jun 22, 2024", flag: "🇮🇹", followers: 67, following: 43 },
-  { name: "Dianne Russell", email: "drussell@yahoo.com", team: "S.C. Braga", country: "Portugal", score: 9.2, role: "Moderator", joined: "Mar 9, 2023", flag: "🇵🇹", followers: 312, following: 178 },
-  { name: "Kristin Watson", email: "kristin@watson.com", team: "FC Porto", country: "Portugal", score: 9.2, role: "Admin", joined: "Sep 19, 2022", flag: "🇵🇹", followers: 456, following: 201 },
-  { name: "Carlos Ramirez", email: "ramirez@yahoo.com", team: "Chelsea F.C.", country: "England", score: 6.7, role: "Member", joined: "Jul 8, 2024", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", followers: 34, following: 22 },
-  { name: "Ravi Patel", email: "ravi@email.com", team: "Manchester City", country: "United Kingdom", score: 9.2, role: "Moderator", joined: "Dec 1, 2023", flag: "🇬🇧", followers: 189, following: 97 },
+  { name: "Kwame Adebayo", email: "adebayo@gmail.com", team: "AFC Ajax", country: "Netherlands", score: 9.2, role: "Member", joined: "Apr 12, 2024", flag: "🇳🇱", followers: 142, following: 89, avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+  { name: "Robert Fox", email: "robertfox@gmail.com", team: "AC Milan", country: "Italy", score: 9.4, role: "Member", joined: "Mar 5, 2024", flag: "🇮🇹", followers: 230, following: 115, avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
+  { name: "Mei Wong", email: "meiwong@gmail.com", team: "Juventus FC", country: "Italy", score: 8.0, role: "Member", joined: "Jun 22, 2024", flag: "🇮🇹", followers: 67, following: 43, avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { name: "Dianne Russell", email: "drussell@yahoo.com", team: "S.C. Braga", country: "Portugal", score: 9.2, role: "Moderator", joined: "Mar 9, 2023", flag: "🇵🇹", followers: 312, following: 178, avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
+  { name: "Kristin Watson", email: "kristin@watson.com", team: "FC Porto", country: "Portugal", score: 9.2, role: "Admin", joined: "Sep 19, 2022", flag: "🇵🇹", followers: 456, following: 201, avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+  { name: "Carlos Ramirez", email: "ramirez@yahoo.com", team: "Chelsea F.C.", country: "England", score: 6.7, role: "Member", joined: "Jul 8, 2024", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", followers: 34, following: 22, avatar: "https://randomuser.me/api/portraits/men/22.jpg" },
+  { name: "Ravi Patel", email: "ravi@email.com", team: "Manchester City", country: "United Kingdom", score: 9.2, role: "Moderator", joined: "Dec 1, 2023", flag: "🇬🇧", followers: 189, following: 97, avatar: "https://randomuser.me/api/portraits/men/36.jpg" },
 ];
 
 const avatarColors = [
@@ -64,6 +64,7 @@ export default function CommunityPage() {
       flag: "🏳️",
       followers: Math.floor(Math.random() * 200),
       following: Math.floor(Math.random() * 100),
+      avatar: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 90)}.jpg`,
     };
     setMembers((prev) => [member, ...prev]);
     setNewMember({ name: "", email: "", team: "", country: "", role: "Member" });
@@ -144,26 +145,26 @@ export default function CommunityPage() {
           <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
           <div className="flex items-center gap-3">
             {/* View toggle */}
-            <div className="flex items-center rounded-lg border border-border bg-muted/30 p-0.5">
+            <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
               <button
                 onClick={() => setViewMode("list")}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-all duration-200",
-                  viewMode === "list" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                  viewMode === "list" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <List className="h-3.5 w-3.5" />
-                List
+                <Shield className="h-3.5 w-3.5" />
+                View as Admin
               </button>
               <button
                 onClick={() => setViewMode("grid")}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-all duration-200",
-                  viewMode === "grid" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                  viewMode === "grid" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <LayoutGrid className="h-3.5 w-3.5" />
-                Cards
+                <User className="h-3.5 w-3.5" />
+                View as Member
               </button>
             </div>
 
@@ -432,7 +433,8 @@ export default function CommunityPage() {
                   </div>
 
                   {/* Avatar */}
-                  <Avatar className="h-16 w-16 mb-3">
+                  <Avatar className="h-16 w-16 mb-3 ring-2 ring-border">
+                    <img src={m.avatar} alt={m.name} className="aspect-square h-full w-full object-cover" />
                     <AvatarFallback className={cn("text-lg font-semibold text-primary-foreground", avatarColors[i % avatarColors.length])}>
                       {getInitials(m.name)}
                     </AvatarFallback>
