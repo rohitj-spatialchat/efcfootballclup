@@ -199,7 +199,8 @@ const Index = () => {
     setFeedPosts([newPoll as any, ...feedPosts]);
     setPollQuestion("");
     setPollOptions(["", ""]);
-    setCreatePollOpen(false);
+    setPostMode("post");
+    setCreatePostOpen(false);
     toast({ title: "Poll published!", description: "Your poll is now live in the feed." });
   };
 
