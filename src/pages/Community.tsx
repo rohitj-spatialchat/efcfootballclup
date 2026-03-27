@@ -317,9 +317,10 @@ export default function CommunityPage() {
                       />
                     </th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">NAME</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">TEAM</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL MARKETING</th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">COUNTRY</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">SCORE</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">MPU</th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">ROLE</th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">JOINED</th>
                     <th className="px-4 py-2.5"></th>
