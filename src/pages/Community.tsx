@@ -22,22 +22,22 @@ const communitySidebar = [
 ];
 
 const initialMembers = [
-  { name: "Kwame Adebayo", email: "adebayo@gmail.com", team: "AFC Ajax", country: "Netherlands", score: 9.2, role: "Member", joined: "Apr 12, 2024", flag: "🇳🇱", followers: 142, following: 89, avatar: "https://i.pravatar.cc/150?img=11" },
-  { name: "Robert Fox", email: "robertfox@gmail.com", team: "AC Milan", country: "Italy", score: 9.4, role: "Member", joined: "Mar 5, 2024", flag: "🇮🇹", followers: 230, following: 115, avatar: "https://i.pravatar.cc/150?img=12" },
-  { name: "Mei Wong", email: "meiwong@gmail.com", team: "Juventus FC", country: "Italy", score: 8.0, role: "Member", joined: "Jun 22, 2024", flag: "🇮🇹", followers: 67, following: 43, avatar: "https://i.pravatar.cc/150?img=5" },
-  { name: "Dianne Russell", email: "drussell@yahoo.com", team: "S.C. Braga", country: "Portugal", score: 9.2, role: "Moderator", joined: "Mar 9, 2023", flag: "🇵🇹", followers: 312, following: 178, avatar: "https://i.pravatar.cc/150?img=23" },
-  { name: "Kristin Watson", email: "kristin@watson.com", team: "FC Porto", country: "Portugal", score: 9.2, role: "Admin", joined: "Sep 19, 2022", flag: "🇵🇹", followers: 456, following: 201, avatar: "https://i.pravatar.cc/150?img=32" },
-  { name: "Carlos Ramirez", email: "ramirez@yahoo.com", team: "Chelsea F.C.", country: "England", score: 6.7, role: "Member", joined: "Jul 8, 2024", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", followers: 34, following: 22, avatar: "https://i.pravatar.cc/150?img=53" },
-  { name: "Ravi Patel", email: "ravi@email.com", team: "Manchester City", country: "United Kingdom", score: 9.2, role: "Moderator", joined: "Dec 1, 2023", flag: "🇬🇧", followers: 189, following: 97, avatar: "https://i.pravatar.cc/150?img=59" },
+  { name: "Kwame Adebayo", email: "adebayo@gmail.com", country: "Netherlands", mpu: 920, role: "Member", joined: "Apr 12, 2024", flag: "🇳🇱", followers: 142, following: 89, avatar: "https://i.pravatar.cc/150?img=11", subscribed: true },
+  { name: "Robert Fox", email: "robertfox@gmail.com", country: "Italy", mpu: 940, role: "Member", joined: "Mar 5, 2024", flag: "🇮🇹", followers: 230, following: 115, avatar: "https://i.pravatar.cc/150?img=12", subscribed: true },
+  { name: "Mei Wong", email: "meiwong@gmail.com", country: "Italy", mpu: 800, role: "Member", joined: "Jun 22, 2024", flag: "🇮🇹", followers: 67, following: 43, avatar: "https://i.pravatar.cc/150?img=5", subscribed: false },
+  { name: "Dianne Russell", email: "drussell@yahoo.com", country: "Portugal", mpu: 920, role: "Moderator", joined: "Mar 9, 2023", flag: "🇵🇹", followers: 312, following: 178, avatar: "https://i.pravatar.cc/150?img=23", subscribed: true },
+  { name: "Kristin Watson", email: "kristin@watson.com", country: "Portugal", mpu: 920, role: "Admin", joined: "Sep 19, 2022", flag: "🇵🇹", followers: 456, following: 201, avatar: "https://i.pravatar.cc/150?img=32", subscribed: true },
+  { name: "Carlos Ramirez", email: "ramirez@yahoo.com", country: "England", mpu: 670, role: "Member", joined: "Jul 8, 2024", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", followers: 34, following: 22, avatar: "https://i.pravatar.cc/150?img=53", subscribed: false },
+  { name: "Ravi Patel", email: "ravi@email.com", country: "United Kingdom", mpu: 920, role: "Moderator", joined: "Dec 1, 2023", flag: "🇬🇧", followers: 189, following: 97, avatar: "https://i.pravatar.cc/150?img=59", subscribed: true },
 ];
 
 const avatarColors = [
   "bg-primary/80", "bg-accent/80", "bg-destructive/40", "bg-secondary", "bg-muted-foreground/30", "bg-primary/50", "bg-accent/50",
 ];
 
-const scoreColor = (score: number) => {
-  if (score >= 9) return "bg-success text-success-foreground";
-  if (score >= 7) return "bg-warning text-warning-foreground";
+const mpuColor = (mpu: number) => {
+  if (mpu >= 900) return "bg-success text-success-foreground";
+  if (mpu >= 700) return "bg-warning text-warning-foreground";
   return "bg-muted text-muted-foreground";
 };
 
@@ -50,7 +50,7 @@ export default function CommunityPage() {
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
-  const [newMember, setNewMember] = useState({ name: "", email: "", team: "", country: "", role: "Member" });
+  const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
 
   const handleAddMember = () => {
     if (!newMember.name || !newMember.email) {
@@ -59,23 +59,24 @@ export default function CommunityPage() {
     }
     const member = {
       ...newMember,
-      score: parseFloat((Math.random() * 4 + 6).toFixed(1)),
+      mpu: Math.floor(Math.random() * 400 + 600),
       joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
       flag: "🏳️",
       followers: Math.floor(Math.random() * 200),
       following: Math.floor(Math.random() * 100),
-      avatar: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 90)}.jpg`,
+      avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
+      subscribed: Math.random() > 0.5,
     };
     setMembers((prev) => [member, ...prev]);
-    setNewMember({ name: "", email: "", team: "", country: "", role: "Member" });
+    setNewMember({ name: "", email: "", country: "", role: "Member" });
     setAddMemberOpen(false);
     toast({ title: "Member added", description: `${member.name} has been added to the community.` });
   };
 
   const handleExport = () => {
     const csv = [
-      ["Name", "Email", "Team", "Country", "Score", "Role", "Joined"].join(","),
-      ...members.map((m) => [m.name, m.email, m.team, m.country, m.score, m.role, m.joined].join(",")),
+      ["Name", "Email", "Country", "MPU", "Email Marketing", "Role", "Joined"].join(","),
+      ...members.map((m) => [m.name, m.email, m.country, m.mpu, m.subscribed ? "Subscribed" : "Unsubscribed", m.role, m.joined].join(",")),
     ].join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
@@ -316,9 +317,10 @@ export default function CommunityPage() {
                       />
                     </th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">NAME</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">TEAM</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL MARKETING</th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">COUNTRY</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">SCORE</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">MPU</th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">ROLE</th>
                     <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">JOINED</th>
                     <th className="px-4 py-2.5"></th>
@@ -338,18 +340,27 @@ export default function CommunityPage() {
                       <td className="px-4 py-3">
                         <div>
                           <p className="text-sm font-medium text-foreground">{m.name}</p>
-                          <p className="text-xs text-muted-foreground">{m.email}</p>
                         </div>
                       </td>
+                      <td className="px-4 py-3 text-sm text-muted-foreground">{m.email}</td>
                       <td className="px-4 py-3">
-                        <span className="text-sm text-foreground flex items-center gap-1.5">
-                          {m.flag} {m.team}
-                        </span>
+                        <button
+                          onClick={() => {
+                            setMembers((prev) => prev.map((member, idx) => idx === i ? { ...member, subscribed: !member.subscribed } : member));
+                            toast({ title: m.subscribed ? "Unsubscribed" : "Subscribed", description: `${m.name} has been ${m.subscribed ? "unsubscribed from" : "subscribed to"} email marketing.` });
+                          }}
+                          className={cn(
+                            "inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold transition-colors cursor-pointer",
+                            m.subscribed ? "bg-success/20 text-success hover:bg-success/30" : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          )}
+                        >
+                          {m.subscribed ? "Subscribed" : "Unsubscribed"}
+                        </button>
                       </td>
                       <td className="px-4 py-3 text-sm text-muted-foreground">{m.country}</td>
                       <td className="px-4 py-3">
-                        <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold", scoreColor(m.score))}>
-                          {m.score}
+                        <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold", mpuColor(m.mpu))}>
+                          {m.mpu}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-sm text-muted-foreground">{m.role}</td>
@@ -442,7 +453,7 @@ export default function CommunityPage() {
 
                   {/* Name & Role */}
                   <h3 className="text-sm font-semibold text-foreground">{m.name}</h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">{m.role} · {m.team}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{m.role} · {m.country}</p>
 
                   {/* Location */}
                   <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
@@ -492,10 +503,6 @@ export default function CommunityPage() {
             <div className="space-y-2">
               <Label>Email *</Label>
               <Input type="email" placeholder="email@example.com" value={newMember.email} onChange={(e) => setNewMember((p) => ({ ...p, email: e.target.value }))} />
-            </div>
-            <div className="space-y-2">
-              <Label>Team</Label>
-              <Input placeholder="Club name" value={newMember.team} onChange={(e) => setNewMember((p) => ({ ...p, team: e.target.value }))} />
             </div>
             <div className="space-y-2">
               <Label>Country</Label>
