@@ -127,9 +127,9 @@ export default function LeaderboardPage() {
       <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="rounded-lg border border-border bg-card p-5 shadow-card">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-            <Star className="h-4 w-4 text-warning" /> Total XP
+            <Star className="h-4 w-4 text-warning" /> Total MPU
           </div>
-          <p className="text-2xl font-semibold text-foreground">{currentUser.xp}</p>
+          <p className="text-2xl font-semibold text-foreground">{currentUser.mpu}</p>
           <p className="text-xs text-success mt-1">+65 this week</p>
         </div>
         <div className="rounded-lg border border-border bg-card p-5 shadow-card">
