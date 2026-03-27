@@ -208,7 +208,7 @@ export default function LeaderboardPage() {
                   <td className="px-5 py-3 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
                     <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                   </td>
-                  <td className="px-5 py-3 text-sm text-success text-right">{m.change}</td>
+                  
                 </tr>
               ))}
             </tbody>
