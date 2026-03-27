@@ -218,8 +218,8 @@ export default function CommunityPage() {
         <motion.div variants={item} className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
           <div className="flex items-center gap-3">
-            {/* View toggle - only show on non-invited tabs */}
-            {!isInvitedTab && (
+            {/* View toggle - only show on member tabs */}
+            {!isInvitedTab && !isBlockedTab && (
               <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
                 <button
                   onClick={() => setViewMode("list")}
