@@ -57,6 +57,8 @@ import {
   BarChart,
   Plus,
   PenTool,
+  ChevronsLeft,
+  ChevronsRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
