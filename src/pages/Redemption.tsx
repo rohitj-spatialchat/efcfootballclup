@@ -84,10 +84,10 @@ const tiers = [
 ];
 
 const leaderboard = [
-  { name: "Marcus R.", points: 87500, tier: "Elite" },
-  { name: "Sarah K.", points: 62300, tier: "Elite" },
-  { name: "James O.", points: 45100, tier: "Gold" },
-  { name: "Priya M.", points: 38900, tier: "Gold" },
+  { name: "Marcus R.", points: 187500, tier: "Elite" },
+  { name: "Sarah K.", points: 162300, tier: "Elite" },
+  { name: "James O.", points: 145100, tier: "Gold" },
+  { name: "Priya M.", points: 98900, tier: "Gold" },
   { name: "You", points: USER_POINTS, tier: "Gold" },
 ];
 
