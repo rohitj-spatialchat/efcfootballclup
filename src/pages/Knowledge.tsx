@@ -42,7 +42,7 @@ const courses = [
   {
     title: "Nutrition for performance: Fueling the footballer's body",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=400&h=300&fit=crop",
     type: "WATCH" as const,
     tags: ["Nutrition", "Sport & Exercise Science"],
     progress: 75,
