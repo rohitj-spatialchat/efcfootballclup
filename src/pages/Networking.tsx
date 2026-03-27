@@ -54,7 +54,10 @@ export default function NetworkingPage() {
             <Shuffle className="h-4 w-4" /> Shuffle & Match
           </button>
           <button className="inline-flex items-center gap-1.5 rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground hover:bg-accent/80 transition-colors">
-            <Video className="h-4 w-4" /> Connect
+           <Video className="h-4 w-4" /> Connect
+          </button>
+          <button className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors">
+            <MessageSquare className="h-4 w-4" /> Message
           </button>
         </div>
       </motion.div>
