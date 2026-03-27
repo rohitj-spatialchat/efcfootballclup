@@ -206,6 +206,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1">
+            {/* Admin/User View Toggle */}
+            <button
+              onClick={toggleViewMode}
+              className={cn(
+                "hidden lg:flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-colors mr-2",
+                isAdmin
+                  ? "bg-primary/10 text-primary border border-primary/20"
+                  : "bg-muted text-muted-foreground border border-border"
+              )}
+            >
+              {isAdmin ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+              {isAdmin ? "Admin View" : "User View"}
+            </button>
+
             <div className="relative flex items-center">
               <Search className="absolute left-3 h-4 w-4 text-muted-foreground pointer-events-none" />
               <input
