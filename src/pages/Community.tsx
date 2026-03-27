@@ -50,7 +50,7 @@ export default function CommunityPage() {
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
-  const [newMember, setNewMember] = useState({ name: "", email: "", team: "", country: "", role: "Member" });
+  const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
 
   const handleAddMember = () => {
     if (!newMember.name || !newMember.email) {
