@@ -60,6 +60,8 @@ import {
   PenTool,
   ChevronsLeft,
   ChevronsRight,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
