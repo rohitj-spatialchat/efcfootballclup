@@ -5,32 +5,32 @@ import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 
 const levels = [
-  { level: 1, title: "Rookie", pointsRequired: 0, badge: "⚽" },
-  { level: 2, title: "Midfielder", pointsRequired: 50, badge: "🥉" },
-  { level: 3, title: "Striker", pointsRequired: 150, badge: "🥈" },
-  { level: 4, title: "Champion", pointsRequired: 400, badge: "🏆" },
-  { level: 5, title: "Legend", pointsRequired: 800, badge: "👑" },
-  { level: 6, title: "Hall of Fame", pointsRequired: 1500, badge: "⭐" },
+  { level: 1, title: "Member", pointsRequired: 0, badge: "⚽" },
+  { level: 2, title: "Silver", pointsRequired: 50, badge: "🥈" },
+  { level: 3, title: "Gold", pointsRequired: 150, badge: "🥇" },
+  { level: 4, title: "Platinum", pointsRequired: 400, badge: "🏆" },
+  { level: 5, title: "Diamond", pointsRequired: 800, badge: "💎" },
+  { level: 6, title: "Elite", pointsRequired: 1500, badge: "👑" },
 ];
+
+const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
 
 const leaderboard = [
-  { rank: 1, name: "Casey Nguyen", xp: 1600, level: 6, streak: 45, badge: "⭐", change: "+120" },
-  { rank: 2, name: "Jamie Lawson", xp: 950, level: 5, streak: 38, badge: "👑", change: "+95" },
-  { rank: 3, name: "Chris Rodriguez", xp: 520, level: 4, streak: 22, badge: "🏆", change: "+80" },
-  { rank: 4, name: "Sarah Mitchell", xp: 190, level: 3, streak: 30, badge: "🥈", change: "+65" },
-  { rank: 5, name: "Alex Chen", xp: 120, level: 2, streak: 18, badge: "🥉", change: "+50" },
-  { rank: 6, name: "Morgan Davis", xp: 85, level: 2, streak: 12, badge: "🥉", change: "+40" },
-  { rank: 7, name: "Taylor Kim", xp: 40, level: 1, streak: 8, badge: "⚽", change: "+35" },
-  { rank: 8, name: "Jordan Blake", xp: 20, level: 1, streak: 5, badge: "⚽", change: "+20" },
+  { rank: 1, name: "Casey Nguyen", mpu: 1600, level: 6, streak: 45, badge: "👑", change: "+120", region: "Asia" },
+  { rank: 2, name: "Jamie Lawson", mpu: 950, level: 5, streak: 38, badge: "💎", change: "+95", region: "Europe" },
+  { rank: 3, name: "Chris Rodriguez", mpu: 520, level: 4, streak: 22, badge: "🏆", change: "+80", region: "Americas" },
+  { rank: 4, name: "Sarah Mitchell", mpu: 190, level: 3, streak: 30, badge: "🥇", change: "+65", region: "Europe" },
+  { rank: 5, name: "Alex Chen", mpu: 120, level: 2, streak: 18, badge: "🥈", change: "+50", region: "Asia" },
+  { rank: 6, name: "Morgan Davis", mpu: 85, level: 2, streak: 12, badge: "🥈", change: "+40", region: "Americas" },
+  { rank: 7, name: "Taylor Kim", mpu: 40, level: 1, streak: 8, badge: "⚽", change: "+35", region: "Asia" },
+  { rank: 8, name: "Jordan Blake", mpu: 20, level: 1, streak: 5, badge: "⚽", change: "+20", region: "Africa" },
 ];
-
-const filters = ["All Time", "This Month", "This Week"];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 // Current user stats
-const currentUser = { name: "Sarah Mitchell", xp: 190, level: 3, nextLevelXp: 400, rank: 4 };
+const currentUser = { name: "Sarah Mitchell", mpu: 190, level: 3, nextLevelMpu: 400, rank: 4 };
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
@@ -46,13 +46,17 @@ function getLevelProgress(xp: number) {
 }
 
 export default function LeaderboardPage() {
-  const [activeFilter, setActiveFilter] = useState("This Month");
+  const [selectedRegion, setSelectedRegion] = useState("All Regions");
+
+  const filteredLeaderboard = selectedRegion === "All Regions"
+    ? leaderboard
+    : leaderboard.filter((m) => m.region === selectedRegion);
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.div variants={item}>
         <h1 className="text-2xl font-semibold text-foreground">Leaderboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Earn XP through likes, comments & reposts. Level up and unlock badges!</p>
+        <p className="text-sm text-muted-foreground mt-1">Earn MPU through likes, comments & reposts. Level up and unlock badges!</p>
       </motion.div>
 
       {/* Your Level Card */}
@@ -70,7 +74,7 @@ export default function LeaderboardPage() {
             </div>
             <div>
               <p className="font-semibold text-foreground">{currentUser.name}</p>
-              <p className="text-sm text-muted-foreground">{currentUser.xp} XP</p>
+              <p className="text-sm text-muted-foreground">{currentUser.mpu} MPU</p>
             </div>
           </div>
 
@@ -87,16 +91,16 @@ export default function LeaderboardPage() {
         <div className="mt-5 space-y-2">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>Level {currentUser.level}</span>
-            <span>{currentUser.xp} / {currentUser.nextLevelXp} XP</span>
+            <span>{currentUser.mpu} / {currentUser.nextLevelMpu} MPU</span>
             <span>Level {currentUser.level + 1}</span>
           </div>
-          <Progress value={getLevelProgress(currentUser.xp)} className="h-2" />
+          <Progress value={getLevelProgress(currentUser.mpu)} className="h-2" />
         </div>
 
         {/* Level milestones */}
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {levels.map((lvl) => {
-            const unlocked = currentUser.xp >= lvl.pointsRequired;
+            const unlocked = currentUser.mpu >= lvl.pointsRequired;
             return (
               <div
                 key={lvl.level}
@@ -123,9 +127,9 @@ export default function LeaderboardPage() {
       <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="rounded-lg border border-border bg-card p-5 shadow-card">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-            <Star className="h-4 w-4 text-warning" /> Total XP
+            <Star className="h-4 w-4 text-warning" /> Total MPU
           </div>
-          <p className="text-2xl font-semibold text-foreground">{currentUser.xp}</p>
+          <p className="text-2xl font-semibold text-foreground">{currentUser.mpu}</p>
           <p className="text-xs text-success mt-1">+65 this week</p>
         </div>
         <div className="rounded-lg border border-border bg-card p-5 shadow-card">
@@ -150,19 +154,15 @@ export default function LeaderboardPage() {
           <h2 className="font-semibold text-foreground flex items-center gap-2">
             <Trophy className="h-4 w-4 text-primary" /> Leaderboard
           </h2>
-          <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
-            {filters.map((f) => (
-              <button
-                key={f}
-                onClick={() => setActiveFilter(f)}
-                className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
-                  activeFilter === f ? "bg-card text-foreground shadow-card" : "text-muted-foreground"
-                }`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
+           <select
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+              className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {regions.map((r) => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -171,13 +171,13 @@ export default function LeaderboardPage() {
                 <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
                 <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Member</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Level</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">XP</th>
+                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Streak</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Change</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {leaderboard.map((m) => (
+              {filteredLeaderboard.map((m) => (
                 <tr key={m.rank} className="hover:bg-muted/30 transition-colors">
                   <td className="px-5 py-3 text-sm">
                     {m.rank <= 3 ? (
@@ -204,7 +204,7 @@ export default function LeaderboardPage() {
                       {m.badge} Lv.{m.level}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-sm text-foreground text-right font-medium">{m.xp}</td>
+                  <td className="px-5 py-3 text-sm text-foreground text-right font-medium">{m.mpu}</td>
                   <td className="px-5 py-3 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
                     <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                   </td>
