@@ -78,9 +78,9 @@ const categories: { key: RewardCategory; label: string; icon: React.ReactNode }[
 ];
 
 const tiers = [
-  { name: "Silver", min: 0, color: "from-gray-400 to-gray-300" },
-  { name: "Gold", min: 25000, color: "from-yellow-500 to-amber-400" },
-  { name: "Elite", min: 50000, color: "from-purple-500 to-pink-500" },
+  { name: "Silver", min: 0, color: "bg-secondary text-secondary-foreground" },
+  { name: "Gold", min: 25000, color: "bg-warning text-warning-foreground" },
+  { name: "Elite", min: 50000, color: "bg-primary text-primary-foreground" },
 ];
 
 const leaderboard = [
@@ -134,7 +134,7 @@ export default function Redemption() {
   };
 
   return (
-    <div className="min-h-screen bg-mpu-bg text-mpu-text">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Confetti overlay */}
       <AnimatePresence>
         {showConfetti && (
@@ -161,7 +161,7 @@ export default function Redemption() {
                   width: 8 + Math.random() * 8,
                   height: 8 + Math.random() * 8,
                   borderRadius: Math.random() > 0.5 ? "50%" : "2px",
-                  background: ["hsl(42,92%,56%)", "hsl(200,100%,50%)", "hsl(270,60%,55%)", "hsl(0,72%,55%)", "hsl(152,55%,42%)"][Math.floor(Math.random() * 5)],
+                  background: ["hsl(var(--primary))", "hsl(var(--warning))", "hsl(var(--info))", "hsl(var(--destructive))", "hsl(var(--success))"][Math.floor(Math.random() * 5)],
                 }}
               />
             ))}
@@ -170,7 +170,7 @@ export default function Redemption() {
       </AnimatePresence>
 
       {/* Sticky Balance Header */}
-      <div className="sticky top-14 z-20 border-b border-mpu-border bg-mpu-bg/95 backdrop-blur-xl">
+      <div className="sticky top-14 z-20 border-b border-border bg-card/95 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-4">
             <motion.div
@@ -178,24 +178,24 @@ export default function Redemption() {
               animate={{ scale: 1, opacity: 1 }}
               className="relative"
             >
-              <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-mpu-gold to-amber-600 flex items-center justify-center shadow-lg shadow-mpu-gold/20">
-                <Trophy className="h-7 w-7 text-mpu-gold-foreground" />
+              <div className="h-14 w-14 rounded-2xl bg-primary flex items-center justify-center shadow-lg">
+                <Trophy className="h-7 w-7 text-primary-foreground" />
               </div>
-              <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-mpu-neon flex items-center justify-center">
-                <Sparkles className="h-3 w-3 text-mpu-gold-foreground" />
+              <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-warning flex items-center justify-center">
+                <Sparkles className="h-3 w-3 text-warning-foreground" />
               </div>
             </motion.div>
             <div>
-              <p className="text-xs uppercase tracking-widest text-mpu-text-muted font-medium">Your Balance</p>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Your Balance</p>
               <motion.p
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 className="text-3xl font-black tracking-tight"
               >
-                <span className="bg-gradient-to-r from-mpu-gold to-amber-300 bg-clip-text text-transparent">
+                <span className="text-primary">
                   {USER_POINTS.toLocaleString()}
                 </span>
-                <span className="text-sm font-medium text-mpu-text-muted ml-2">MPU</span>
+                <span className="text-sm font-medium text-muted-foreground ml-2">MPU</span>
               </motion.p>
             </div>
           </div>
@@ -204,21 +204,21 @@ export default function Redemption() {
             {/* Tier Progress */}
             <div className="flex-1 sm:w-56">
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-xs font-semibold text-mpu-gold flex items-center gap-1">
+                <span className="text-xs font-semibold text-primary flex items-center gap-1">
                   <Shield className="h-3 w-3" /> {currentTier.name}
                 </span>
                 {nextTier && (
-                  <span className="text-xs text-mpu-text-muted">
+                  <span className="text-xs text-muted-foreground">
                     {formatPoints(nextTier.min - USER_POINTS)} to {nextTier.name}
                   </span>
                 )}
               </div>
-              <div className="h-2.5 rounded-full bg-mpu-surface overflow-hidden">
+              <div className="h-2.5 rounded-full bg-secondary overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${tierProgress}%` }}
                   transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="h-full rounded-full bg-gradient-to-r from-mpu-gold to-mpu-neon"
+                  className="h-full rounded-full bg-primary"
                 />
               </div>
             </div>
@@ -226,7 +226,7 @@ export default function Redemption() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-mpu-gold to-amber-500 text-mpu-gold-foreground font-bold text-sm shadow-lg shadow-mpu-gold/25 hover:shadow-mpu-gold/40 transition-shadow whitespace-nowrap"
+              className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-sm shadow-lg transition-shadow whitespace-nowrap"
             >
               <Zap className="h-4 w-4 inline mr-1.5 -mt-0.5" />
               Earn More
@@ -240,20 +240,20 @@ export default function Redemption() {
         <section>
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-bold flex items-center gap-2">
-              <Star className="h-5 w-5 text-mpu-gold" /> Featured Rewards
+              <Star className="h-5 w-5 text-primary" /> Featured Rewards
             </h2>
             <div className="flex gap-2">
               <button
                 onClick={() => scrollCarousel(-1)}
                 disabled={carouselIndex === 0}
-                className="h-9 w-9 rounded-full border border-mpu-border bg-mpu-surface flex items-center justify-center text-mpu-text-muted hover:text-mpu-text hover:border-mpu-gold/50 disabled:opacity-30 transition-colors"
+                className="h-9 w-9 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 disabled:opacity-30 transition-colors"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
               <button
                 onClick={() => scrollCarousel(1)}
                 disabled={carouselIndex >= featuredRewards.length - 1}
-                className="h-9 w-9 rounded-full border border-mpu-border bg-mpu-surface flex items-center justify-center text-mpu-text-muted hover:text-mpu-text hover:border-mpu-gold/50 disabled:opacity-30 transition-colors"
+                className="h-9 w-9 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 disabled:opacity-30 transition-colors"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -273,20 +273,20 @@ export default function Redemption() {
                   className="min-w-[calc(33.333%-14px)] shrink-0 group cursor-pointer"
                   onClick={() => { setSelectedReward(reward); setRedeemed(false); }}
                 >
-                  <div className="relative rounded-2xl overflow-hidden border border-mpu-border bg-mpu-surface hover:border-mpu-gold/40 transition-all hover:shadow-xl hover:shadow-mpu-gold/10">
+                  <div className="relative rounded-2xl overflow-hidden border border-border bg-card hover:border-primary/40 transition-all shadow-card hover:shadow-elevated">
                     <div className="relative h-48 overflow-hidden">
                       <img src={reward.image} alt={reward.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" width={640} height={512} />
-                      <div className="absolute inset-0 bg-gradient-to-t from-mpu-bg via-mpu-bg/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                       
                       {/* Badges */}
                       <div className="absolute top-3 left-3 flex gap-2">
                         {reward.availability && (
-                          <span className="px-2.5 py-1 rounded-full bg-mpu-danger/90 text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
+                          <span className="px-2.5 py-1 rounded-full bg-destructive/90 text-[11px] font-bold uppercase tracking-wide text-destructive-foreground backdrop-blur-sm">
                             {reward.availability}
                           </span>
                         )}
                         {reward.countdown && (
-                          <span className="px-2.5 py-1 rounded-full bg-mpu-bg/80 text-[11px] font-medium text-mpu-neon backdrop-blur-sm flex items-center gap-1">
+                          <span className="px-2.5 py-1 rounded-full bg-card/80 text-[11px] font-medium text-info backdrop-blur-sm flex items-center gap-1">
                             <Timer className="h-3 w-3" /> {reward.countdown}
                           </span>
                         )}
@@ -294,10 +294,10 @@ export default function Redemption() {
                     </div>
 
                     <div className="p-5">
-                      <h3 className="font-bold text-base mb-1.5 group-hover:text-mpu-gold transition-colors">{reward.title}</h3>
-                      <p className="text-xs text-mpu-text-muted line-clamp-2 mb-4">{reward.description}</p>
+                      <h3 className="font-bold text-base mb-1.5 group-hover:text-primary transition-colors">{reward.title}</h3>
+                      <p className="text-xs text-muted-foreground line-clamp-2 mb-4">{reward.description}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-black bg-gradient-to-r from-mpu-gold to-amber-300 bg-clip-text text-transparent">
+                        <span className="text-lg font-black text-primary">
                           {formatPoints(reward.cost)} MPU
                         </span>
                         <motion.button
@@ -307,8 +307,8 @@ export default function Redemption() {
                           className={cn(
                             "px-4 py-2 rounded-lg text-xs font-bold transition-all",
                             USER_POINTS >= reward.cost
-                              ? "bg-gradient-to-r from-mpu-gold to-amber-500 text-mpu-gold-foreground shadow-md shadow-mpu-gold/20"
-                              : "bg-mpu-surface text-mpu-text-muted border border-mpu-border cursor-not-allowed"
+                              ? "bg-primary text-primary-foreground shadow-md"
+                              : "bg-secondary text-muted-foreground border border-border cursor-not-allowed"
                           )}
                           onClick={(e) => { e.stopPropagation(); setSelectedReward(reward); setRedeemed(false); }}
                         >
@@ -333,8 +333,8 @@ export default function Redemption() {
                 className={cn(
                   "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all",
                   activeCategory === cat.key
-                    ? "bg-gradient-to-r from-mpu-gold to-amber-500 text-mpu-gold-foreground shadow-md shadow-mpu-gold/20"
-                    : "bg-mpu-surface border border-mpu-border text-mpu-text-muted hover:text-mpu-text hover:border-mpu-gold/30"
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/30"
                 )}
               >
                 {cat.icon} {cat.label}
@@ -357,22 +357,22 @@ export default function Redemption() {
                   className="group cursor-pointer"
                   onClick={() => { setSelectedReward(reward); setRedeemed(false); }}
                 >
-                  <div className="rounded-2xl overflow-hidden border border-mpu-border bg-mpu-surface/60 backdrop-blur-md hover:border-mpu-gold/30 hover:shadow-xl hover:shadow-mpu-gold/5 transition-all h-full flex flex-col">
+                  <div className="rounded-2xl overflow-hidden border border-border bg-card hover:border-primary/30 shadow-card hover:shadow-elevated transition-all h-full flex flex-col">
                     <div className="relative h-40 overflow-hidden">
                       <img src={reward.image} alt={reward.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" width={640} height={512} />
-                      <div className="absolute inset-0 bg-gradient-to-t from-mpu-bg via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
                       
                       <div className="absolute top-2.5 left-2.5 flex gap-1.5">
                         <span className={cn(
                           "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase backdrop-blur-sm",
                           reward.availabilityCount && reward.availabilityCount <= 3
-                            ? "bg-mpu-danger/90 text-white"
-                            : "bg-mpu-bg/70 text-mpu-gold"
+                            ? "bg-destructive/90 text-destructive-foreground"
+                            : "bg-card/70 text-primary"
                         )}>
                           {reward.availability}
                         </span>
                         {reward.countdown && (
-                          <span className="px-2 py-0.5 rounded-full bg-mpu-bg/70 text-[10px] font-medium text-mpu-neon flex items-center gap-1 backdrop-blur-sm">
+                          <span className="px-2 py-0.5 rounded-full bg-card/70 text-[10px] font-medium text-info flex items-center gap-1 backdrop-blur-sm">
                             <Timer className="h-2.5 w-2.5" /> {reward.countdown}
                           </span>
                         )}
@@ -380,19 +380,19 @@ export default function Redemption() {
                     </div>
 
                     <div className="p-4 flex flex-col flex-1">
-                      <h3 className="font-bold text-sm mb-1 group-hover:text-mpu-gold transition-colors">{reward.title}</h3>
-                      <p className="text-[11px] text-mpu-text-muted line-clamp-2 mb-3 flex-1">{reward.description}</p>
+                      <h3 className="font-bold text-sm mb-1 group-hover:text-primary transition-colors">{reward.title}</h3>
+                      <p className="text-[11px] text-muted-foreground line-clamp-2 mb-3 flex-1">{reward.description}</p>
                       
                       <div className="flex items-center justify-between">
-                        <span className="font-black text-sm bg-gradient-to-r from-mpu-gold to-amber-300 bg-clip-text text-transparent">
+                        <span className="font-black text-sm text-primary">
                           {formatPoints(reward.cost)}
                         </span>
                         {USER_POINTS >= reward.cost ? (
-                          <span className="text-[10px] font-semibold text-mpu-success flex items-center gap-1">
+                          <span className="text-[10px] font-semibold text-success flex items-center gap-1">
                             <Check className="h-3 w-3" /> Redeemable
                           </span>
                         ) : (
-                          <span className="text-[10px] text-mpu-text-muted">
+                          <span className="text-[10px] text-muted-foreground">
                             Need {formatPoints(reward.cost - USER_POINTS)} more
                           </span>
                         )}
@@ -408,9 +408,9 @@ export default function Redemption() {
         {/* Bottom Sections: Leaderboard + History */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Gamification / Leaderboard */}
-          <section className="rounded-2xl border border-mpu-border bg-mpu-surface/60 backdrop-blur-md p-6">
+          <section className="rounded-2xl border border-border bg-card p-6">
             <h3 className="text-lg font-bold mb-5 flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-mpu-neon" /> Top Fans This Month
+              <TrendingUp className="h-5 w-5 text-primary" /> Top Fans This Month
             </h3>
             
             {/* Tiers */}
@@ -421,14 +421,14 @@ export default function Redemption() {
                   className={cn(
                     "flex-1 rounded-xl p-3 text-center border transition-all",
                     currentTier.name === t.name
-                      ? "border-mpu-gold/50 bg-mpu-gold/10"
-                      : "border-mpu-border bg-mpu-bg/50"
+                      ? "border-primary/50 bg-accent"
+                      : "border-border bg-secondary/50"
                   )}
                 >
-                  <div className={cn("inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-1 bg-gradient-to-r text-white", t.color)}>
+                  <div className={cn("inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-1", t.color)}>
                     {t.name}
                   </div>
-                  <p className="text-[11px] text-mpu-text-muted">{formatPoints(t.min)}+ MPU</p>
+                  <p className="text-[11px] text-muted-foreground">{formatPoints(t.min)}+ MPU</p>
                 </div>
               ))}
             </div>
@@ -441,26 +441,26 @@ export default function Redemption() {
                   className={cn(
                     "flex items-center gap-3 rounded-xl px-4 py-3 transition-colors",
                     user.name === "You"
-                      ? "bg-mpu-gold/10 border border-mpu-gold/30"
-                      : "bg-mpu-bg/40 hover:bg-mpu-bg/60"
+                      ? "bg-accent border border-primary/30"
+                      : "bg-secondary/40 hover:bg-secondary/60"
                   )}
                 >
                   <span className={cn(
                     "h-7 w-7 rounded-full flex items-center justify-center text-xs font-black",
-                    i === 0 ? "bg-mpu-gold text-mpu-gold-foreground" :
-                    i === 1 ? "bg-gray-300 text-gray-700" :
-                    i === 2 ? "bg-amber-700 text-amber-100" :
-                    "bg-mpu-surface text-mpu-text-muted"
+                    i === 0 ? "bg-warning text-warning-foreground" :
+                    i === 1 ? "bg-secondary text-secondary-foreground" :
+                    i === 2 ? "bg-warning/60 text-warning-foreground" :
+                    "bg-muted text-muted-foreground"
                   )}>
                     {i + 1}
                   </span>
-                  <span className={cn("flex-1 text-sm font-medium", user.name === "You" && "text-mpu-gold")}>
+                  <span className={cn("flex-1 text-sm font-medium", user.name === "You" && "text-primary")}>
                     {user.name}
                   </span>
-                  <span className="text-xs font-bold text-mpu-gold">{user.points.toLocaleString()}</span>
+                  <span className="text-xs font-bold text-primary">{user.points.toLocaleString()}</span>
                   <span className={cn(
                     "px-2 py-0.5 rounded-full text-[9px] font-bold uppercase",
-                    user.tier === "Elite" ? "bg-purple-500/20 text-purple-400" : "bg-mpu-gold/20 text-mpu-gold"
+                    user.tier === "Elite" ? "bg-primary/20 text-primary" : "bg-warning/20 text-warning"
                   )}>
                     {user.tier}
                   </span>
@@ -470,13 +470,13 @@ export default function Redemption() {
           </section>
 
           {/* Redemption History */}
-          <section className="rounded-2xl border border-mpu-border bg-mpu-surface/60 backdrop-blur-md p-6">
+          <section className="rounded-2xl border border-border bg-card p-6">
             <h3 className="text-lg font-bold mb-5 flex items-center gap-2">
-              <Clock className="h-5 w-5 text-mpu-purple" /> Redemption History
+              <Clock className="h-5 w-5 text-primary" /> Redemption History
             </h3>
             <div className="relative">
               {/* Timeline line */}
-              <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-mpu-gold via-mpu-neon to-mpu-purple" />
+              <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-primary via-info to-accent" />
               
               <div className="space-y-6">
                 {history.map((item, i) => (
@@ -487,15 +487,15 @@ export default function Redemption() {
                     transition={{ delay: i * 0.15 }}
                     className="flex items-start gap-4 pl-1"
                   >
-                    <div className="h-7 w-7 rounded-full bg-mpu-surface border-2 border-mpu-gold flex items-center justify-center shrink-0 z-10">
-                      <Gift className="h-3 w-3 text-mpu-gold" />
+                    <div className="h-7 w-7 rounded-full bg-card border-2 border-primary flex items-center justify-center shrink-0 z-10">
+                      <Gift className="h-3 w-3 text-primary" />
                     </div>
-                    <div className="flex-1 rounded-xl bg-mpu-bg/60 border border-mpu-border p-4">
+                    <div className="flex-1 rounded-xl bg-secondary/40 border border-border p-4">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-sm font-semibold">{item.reward}</span>
-                        <span className="text-xs font-bold text-mpu-gold">-{formatPoints(item.cost)}</span>
+                        <span className="text-xs font-bold text-primary">-{formatPoints(item.cost)}</span>
                       </div>
-                      <p className="text-[11px] text-mpu-text-muted">{item.date}</p>
+                      <p className="text-[11px] text-muted-foreground">{item.date}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -503,7 +503,7 @@ export default function Redemption() {
             </div>
 
             {history.length === 0 && (
-              <div className="text-center py-10 text-mpu-text-muted">
+              <div className="text-center py-10 text-muted-foreground">
                 <Gift className="h-10 w-10 mx-auto mb-3 opacity-30" />
                 <p className="text-sm">No redemptions yet</p>
               </div>
@@ -527,17 +527,17 @@ export default function Redemption() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="w-full max-w-md rounded-2xl border border-mpu-border bg-mpu-surface overflow-hidden shadow-2xl"
+              className="w-full max-w-md rounded-2xl border border-border bg-card overflow-hidden shadow-2xl"
               onClick={e => e.stopPropagation()}
             >
               {!redeemed ? (
                 <>
                   <div className="relative h-48">
                     <img src={selectedReward.image} alt={selectedReward.title} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-mpu-surface via-mpu-surface/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
                     <button
                       onClick={() => setSelectedReward(null)}
-                      className="absolute top-3 right-3 h-8 w-8 rounded-full bg-mpu-bg/60 backdrop-blur-sm flex items-center justify-center text-mpu-text hover:bg-mpu-bg transition-colors"
+                      className="absolute top-3 right-3 h-8 w-8 rounded-full bg-background/60 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-background transition-colors"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -545,20 +545,20 @@ export default function Redemption() {
 
                   <div className="p-6">
                     <h3 className="text-xl font-black mb-2">{selectedReward.title}</h3>
-                    <p className="text-sm text-mpu-text-muted mb-6">{selectedReward.description}</p>
+                    <p className="text-sm text-muted-foreground mb-6">{selectedReward.description}</p>
 
-                    <div className="rounded-xl bg-mpu-bg/60 border border-mpu-border p-4 mb-6 space-y-3">
+                    <div className="rounded-xl bg-secondary/40 border border-border p-4 mb-6 space-y-3">
                       <div className="flex justify-between text-sm">
-                        <span className="text-mpu-text-muted">Reward Cost</span>
-                        <span className="font-bold text-mpu-gold">{selectedReward.cost.toLocaleString()} MPU</span>
+                        <span className="text-muted-foreground">Reward Cost</span>
+                        <span className="font-bold text-primary">{selectedReward.cost.toLocaleString()} MPU</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-mpu-text-muted">Your Balance</span>
+                        <span className="text-muted-foreground">Your Balance</span>
                         <span className="font-bold">{USER_POINTS.toLocaleString()} MPU</span>
                       </div>
-                      <div className="border-t border-mpu-border pt-3 flex justify-between text-sm">
-                        <span className="text-mpu-text-muted">After Redemption</span>
-                        <span className={cn("font-bold", USER_POINTS >= selectedReward.cost ? "text-mpu-success" : "text-mpu-danger")}>
+                      <div className="border-t border-border pt-3 flex justify-between text-sm">
+                        <span className="text-muted-foreground">After Redemption</span>
+                        <span className={cn("font-bold", USER_POINTS >= selectedReward.cost ? "text-success" : "text-destructive")}>
                           {USER_POINTS >= selectedReward.cost
                             ? `${(USER_POINTS - selectedReward.cost).toLocaleString()} MPU`
                             : `Insufficient (need ${(selectedReward.cost - USER_POINTS).toLocaleString()} more)`
@@ -570,7 +570,7 @@ export default function Redemption() {
                     <div className="flex gap-3">
                       <button
                         onClick={() => setSelectedReward(null)}
-                        className="flex-1 py-3 rounded-xl border border-mpu-border text-sm font-semibold hover:bg-mpu-bg/60 transition-colors"
+                        className="flex-1 py-3 rounded-xl border border-border text-sm font-semibold hover:bg-secondary/60 transition-colors"
                       >
                         Cancel
                       </button>
@@ -582,8 +582,8 @@ export default function Redemption() {
                         className={cn(
                           "flex-1 py-3 rounded-xl text-sm font-bold transition-all",
                           USER_POINTS >= selectedReward.cost
-                            ? "bg-gradient-to-r from-mpu-gold to-amber-500 text-mpu-gold-foreground shadow-lg shadow-mpu-gold/25"
-                            : "bg-mpu-bg text-mpu-text-muted cursor-not-allowed"
+                            ? "bg-primary text-primary-foreground shadow-lg"
+                            : "bg-muted text-muted-foreground cursor-not-allowed"
                         )}
                       >
                         Confirm Redemption
@@ -597,16 +597,16 @@ export default function Redemption() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                    className="h-20 w-20 rounded-full bg-gradient-to-r from-mpu-gold to-amber-500 flex items-center justify-center mx-auto mb-5"
+                    className="h-20 w-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5"
                   >
-                    <Check className="h-10 w-10 text-mpu-gold-foreground" />
+                    <Check className="h-10 w-10 text-primary-foreground" />
                   </motion.div>
                   <h3 className="text-2xl font-black mb-2">Redeemed!</h3>
-                  <p className="text-sm text-mpu-text-muted mb-2">{selectedReward.title}</p>
-                  <p className="text-mpu-gold font-bold mb-6">-{selectedReward.cost.toLocaleString()} MPU</p>
+                  <p className="text-sm text-muted-foreground mb-2">{selectedReward.title}</p>
+                  <p className="text-primary font-bold mb-6">-{selectedReward.cost.toLocaleString()} MPU</p>
                   <button
                     onClick={() => setSelectedReward(null)}
-                    className="px-8 py-3 rounded-xl bg-mpu-surface border border-mpu-border font-semibold text-sm hover:bg-mpu-bg transition-colors"
+                    className="px-8 py-3 rounded-xl bg-secondary border border-border font-semibold text-sm hover:bg-muted transition-colors"
                   >
                     Close
                   </button>
