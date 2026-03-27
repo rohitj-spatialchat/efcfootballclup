@@ -145,26 +145,28 @@ export default function CommunityPage() {
           <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
           <div className="flex items-center gap-3">
             {/* View toggle */}
-            <div className="flex items-center rounded-lg border border-border bg-muted/30 p-0.5">
+            <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
               <button
                 onClick={() => setViewMode("list")}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-all duration-200",
-                  viewMode === "list" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                  viewMode === "list" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <List className="h-3.5 w-3.5" />
-                List
+                <Shield className="h-3.5 w-3.5" />
+                View as Admin
               </button>
               <button
                 onClick={() => setViewMode("grid")}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-all duration-200",
-                  viewMode === "grid" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                  viewMode === "grid" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <LayoutGrid className="h-3.5 w-3.5" />
-                Cards
+                <User className="h-3.5 w-3.5" />
+                View as Member
+              </button>
+            </div>
               </button>
             </div>
 
