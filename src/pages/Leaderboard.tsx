@@ -155,7 +155,22 @@ export default function LeaderboardPage() {
           <h2 className="font-semibold text-foreground flex items-center gap-2">
             <Trophy className="h-4 w-4 text-primary" /> Leaderboard
           </h2>
-           <select
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
+              {["All Time", "This Month", "This Week"].map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setTimePeriod(f)}
+                  className={cn(
+                    "rounded-md px-3 py-1 text-xs font-medium transition-all",
+                    timePeriod === f ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+                  )}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+            <select
               value={selectedRegion}
               onChange={(e) => setSelectedRegion(e.target.value)}
               className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -164,6 +179,7 @@ export default function LeaderboardPage() {
                 <option key={r} value={r}>{r}</option>
               ))}
             </select>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
