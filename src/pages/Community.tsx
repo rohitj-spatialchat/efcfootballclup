@@ -75,8 +75,8 @@ export default function CommunityPage() {
 
   const handleExport = () => {
     const csv = [
-      ["Name", "Email", "Team", "Country", "Score", "Role", "Joined"].join(","),
-      ...members.map((m) => [m.name, m.email, m.team, m.country, m.score, m.role, m.joined].join(",")),
+      ["Name", "Email", "Country", "MPU", "Email Marketing", "Role", "Joined"].join(","),
+      ...members.map((m) => [m.name, m.email, m.country, m.mpu, m.subscribed ? "Subscribed" : "Unsubscribed", m.role, m.joined].join(",")),
     ].join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
