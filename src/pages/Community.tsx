@@ -282,6 +282,7 @@ export default function CommunityPage() {
         following: Math.floor(Math.random() * 100),
         avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
         subscribed: Math.random() > 0.5,
+        team: "Unassigned",
       };
       setMembers((prev) => [member, ...prev]);
       setNewMember({ name: "", email: "", country: "", role: "Member" });
