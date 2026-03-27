@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Plus, Settings, ChevronDown, MoreHorizontal, Globe, Users, Link2, Tag, User, BarChart3, Mail, Shield, Download, Trash2, UserPlus, Ban, RefreshCw, X, MessageCircle, LayoutGrid, List, MapPin } from "lucide-react";
+import { Search, Plus, Settings, ChevronDown, MoreHorizontal, Globe, Users, Link2, Tag, User, BarChart3, Mail, Shield, Download, Trash2, UserPlus, Ban, RefreshCw, X, MessageCircle, LayoutGrid, List, MapPin, Info } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
@@ -31,6 +31,15 @@ const initialMembers = [
   { name: "Ravi Patel", email: "ravi@email.com", country: "United Kingdom", mpu: 920, role: "Moderator", joined: "Dec 1, 2023", flag: "🇬🇧", followers: 189, following: 97, avatar: "https://i.pravatar.cc/150?img=59", subscribed: true },
 ];
 
+const initialInvited = [
+  { name: "Hina Okazaki", email: "okazaki-h@to-be.co.jp", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Mar 27, 2026", invitedAt: "—" },
+  { name: "池戸千賀良", email: "c.ikedo@tips7.biz", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Oct 3, 2025", invitedAt: "—" },
+  { name: "Elena Messore", email: "elena.messore@terna.it", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Dec 16, 2024", invitedAt: "—" },
+  { name: "Keshia Case", email: "kcase@colearn.com", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Jul 9, 2024", invitedAt: "Jul 9, 2024" },
+  { name: "Philip", email: "philipfields458@gmail.com", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Mar 19, 2024", invitedAt: "Mar 19, 2024" },
+  { name: "Isabelle Desrosiers", email: "idesrosiers@ideoscripto.fr", subscribed: true, invitationStatus: "—", role: "Invited", dateAdded: "Dec 12, 2022", invitedAt: "Dec 12, 2022" },
+];
+
 const avatarColors = [
   "bg-primary/80", "bg-accent/80", "bg-destructive/40", "bg-secondary", "bg-muted-foreground/30", "bg-primary/50", "bg-accent/50",
 ];
@@ -44,12 +53,17 @@ const mpuColor = (mpu: number) => {
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
+type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "moderators";
+
 export default function CommunityPage() {
   const { toast } = useToast();
   const [members, setMembers] = useState(initialMembers);
+  const [invited, setInvited] = useState(initialInvited);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [activeTab, setActiveTab] = useState<ActiveTab>("all");
+  const [showInviteBanner, setShowInviteBanner] = useState(true);
   const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
 
   const handleAddMember = () => {
@@ -57,20 +71,36 @@ export default function CommunityPage() {
       toast({ title: "Missing fields", description: "Name and email are required.", variant: "destructive" });
       return;
     }
-    const member = {
-      ...newMember,
-      mpu: Math.floor(Math.random() * 400 + 600),
-      joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-      flag: "🏳️",
-      followers: Math.floor(Math.random() * 200),
-      following: Math.floor(Math.random() * 100),
-      avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
-      subscribed: Math.random() > 0.5,
-    };
-    setMembers((prev) => [member, ...prev]);
-    setNewMember({ name: "", email: "", country: "", role: "Member" });
-    setAddMemberOpen(false);
-    toast({ title: "Member added", description: `${member.name} has been added to the community.` });
+    if (activeTab === "invited") {
+      const inv = {
+        name: newMember.name,
+        email: newMember.email,
+        subscribed: true,
+        invitationStatus: "—",
+        role: "Invited",
+        dateAdded: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        invitedAt: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      };
+      setInvited((prev) => [inv, ...prev]);
+      setNewMember({ name: "", email: "", country: "", role: "Member" });
+      setAddMemberOpen(false);
+      toast({ title: "Invited", description: `${inv.name} has been invited to the community.` });
+    } else {
+      const member = {
+        ...newMember,
+        mpu: Math.floor(Math.random() * 400 + 600),
+        joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        flag: "🏳️",
+        followers: Math.floor(Math.random() * 200),
+        following: Math.floor(Math.random() * 100),
+        avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
+        subscribed: Math.random() > 0.5,
+      };
+      setMembers((prev) => [member, ...prev]);
+      setNewMember({ name: "", email: "", country: "", role: "Member" });
+      setAddMemberOpen(false);
+      toast({ title: "Member added", description: `${member.name} has been added to the community.` });
+    }
   };
 
   const handleExport = () => {
@@ -122,6 +152,24 @@ export default function CommunityPage() {
 
   const getInitials = (name: string) => name.split(" ").map(n => n[0]).join("").toUpperCase();
 
+  const filteredMembers = activeTab === "all" ? members
+    : activeTab === "contacts" ? members.slice(0, members.length - 1)
+    : activeTab === "members" ? members.filter(m => m.role === "Member")
+    : activeTab === "admins" ? members.filter(m => m.role === "Admin")
+    : activeTab === "moderators" ? members.filter(m => m.role === "Moderator")
+    : members;
+
+  const isInvitedTab = activeTab === "invited";
+
+  const tabs: { key: ActiveTab; label: string; count: number; isNew?: boolean }[] = [
+    { key: "all", label: "All", count: members.length },
+    { key: "contacts", label: "Contacts", count: members.length - 1, isNew: true },
+    { key: "members", label: "Members", count: members.filter(m => m.role === "Member").length },
+    { key: "invited", label: "Invited", count: invited.length },
+    { key: "admins", label: "Admins", count: members.filter(m => m.role === "Admin").length },
+    { key: "moderators", label: "Moderators", count: members.filter(m => m.role === "Moderator").length },
+  ];
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-0 -m-6">
       {/* Community Sidebar */}
@@ -142,32 +190,35 @@ export default function CommunityPage() {
 
       {/* Main Content */}
       <div className="flex-1 p-6 space-y-5">
+        {/* Header */}
         <motion.div variants={item} className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
           <div className="flex items-center gap-3">
-            {/* View toggle */}
-            <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
-              <button
-                onClick={() => setViewMode("list")}
-                className={cn(
-                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                  viewMode === "list" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <Shield className="h-3.5 w-3.5" />
-                View as Admin
-              </button>
-              <button
-                onClick={() => setViewMode("grid")}
-                className={cn(
-                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                  viewMode === "grid" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <User className="h-3.5 w-3.5" />
-                View as Member
-              </button>
-            </div>
+            {/* View toggle - only show on non-invited tabs */}
+            {!isInvitedTab && (
+              <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={cn(
+                    "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                    viewMode === "list" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <Shield className="h-3.5 w-3.5" />
+                  View as Admin
+                </button>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={cn(
+                    "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
+                    viewMode === "grid" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <User className="h-3.5 w-3.5" />
+                  View as Member
+                </button>
+              </div>
+            )}
 
             {/* More (header) dropdown */}
             <DropdownMenu>
@@ -187,25 +238,55 @@ export default function CommunityPage() {
             </DropdownMenu>
             <button
               onClick={() => setAddMemberOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
             >
-              Add
+              Invite
             </button>
           </div>
         </motion.div>
 
-        {/* Stats bar */}
-        <motion.div variants={item} className="flex items-center gap-4 text-xs text-muted-foreground">
-          <span className="text-foreground font-medium">All {members.length}</span>
-          <span>Contacts {members.length - 1}</span>
-          <span>Members {members.filter((m) => m.role === "Member").length}</span>
-          <span>Admins {members.filter((m) => m.role === "Admin").length}</span>
-          <span>Moderators {members.filter((m) => m.role === "Moderator").length}</span>
+        {/* Tabs */}
+        <motion.div variants={item} className="flex items-center gap-1 border-b border-border">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => { setActiveTab(tab.key); setSelectedMembers([]); }}
+              className={cn(
+                "relative px-3 py-2.5 text-sm font-medium transition-colors",
+                activeTab === tab.key
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <span className="flex items-center gap-1.5">
+                {tab.label}
+                <span className={cn(
+                  "text-xs",
+                  activeTab === tab.key ? "text-foreground" : "text-muted-foreground"
+                )}>
+                  {tab.count}
+                </span>
+                {tab.isNew && (
+                  <span className="rounded-sm bg-primary px-1.5 py-0.5 text-[10px] font-bold text-primary-foreground uppercase">New</span>
+                )}
+              </span>
+              {activeTab === tab.key && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground rounded-full"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
         </motion.div>
 
         {/* Filters */}
         <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
-          {["+ Name", "+ Email marketing", "+ Member", "+ Source", "+ Data added"].map((f) => (
+          {(isInvitedTab
+            ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
+            : ["+ Name", "+ Email marketing", "+ Member", "+ Source", "+ Data added"]
+          ).map((f) => (
             <button key={f} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors">
               {f}
             </button>
@@ -213,162 +294,284 @@ export default function CommunityPage() {
           <button className="text-xs text-muted-foreground hover:text-foreground">+ Add filter</button>
         </motion.div>
 
-        {/* Action bar */}
-        <motion.div variants={item} className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-foreground">{members.length} people</span>
-            <button
-              onClick={() => toast({ title: "Segment saved", description: "Current view saved as a segment." })}
-              className="text-xs text-muted-foreground hover:text-foreground"
-            >
-              Save segment
-            </button>
-
-            {/* Bulk Actions dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
-                  Bulk actions <ChevronDown className="h-3 w-3" />
+        {/* Invited Tab Content */}
+        {isInvitedTab ? (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+            {/* Info banner */}
+            {showInviteBanner && (
+              <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/30 px-4 py-3">
+                <Info className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-foreground">Your pending invites are displayed here</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    This tab shows you a list of members you've invited who have yet to sign up to your community.{" "}
+                    <button className="text-primary hover:underline">Learn more</button>
+                  </p>
+                </div>
+                <button onClick={() => setShowInviteBanner(false)} className="text-muted-foreground hover:text-foreground shrink-0">
+                  <X className="h-4 w-4" />
                 </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
-                <DropdownMenuItem onClick={() => handleBulkRoleChange("Admin")}>
-                  <Shield className="h-4 w-4 mr-2" /> Set as Admin
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleBulkRoleChange("Moderator")}>
-                  <Shield className="h-4 w-4 mr-2" /> Set as Moderator
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleBulkRoleChange("Member")}>
-                  <User className="h-4 w-4 mr-2" /> Set as Member
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleBulkDelete} className="text-destructive focus:text-destructive">
-                  <Trash2 className="h-4 w-4 mr-2" /> Remove selected
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </div>
+            )}
 
-            {/* More dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
-                  More <ChevronDown className="h-3 w-3" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
-                <DropdownMenuItem onClick={() => toast({ title: "Message sent", description: "Bulk message sent to all selected members." })}>
-                  <MessageCircle className="h-4 w-4 mr-2" /> Send message
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => toast({ title: "Tags applied", description: "Tags have been applied to selected members." })}>
-                  <Tag className="h-4 w-4 mr-2" /> Apply tags
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => toast({ title: "Suspended", description: "Selected members have been suspended." })} className="text-destructive focus:text-destructive">
-                  <Ban className="h-4 w-4 mr-2" /> Suspend
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleExport}
-              className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
-            >
-              <Download className="h-3.5 w-3.5" /> Export
-            </button>
-            <button
-              onClick={() => setAddMemberOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-            >
-              <Plus className="h-3.5 w-3.5" /> Add member
-            </button>
-          </div>
-        </motion.div>
+            {/* Invited count + More */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-semibold text-foreground">{invited.length} invited</span>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors">
+                    More <ChevronDown className="h-3 w-3" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
+                  <DropdownMenuItem onClick={handleExport}>
+                    <Download className="h-4 w-4 mr-2" /> Export invited
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
 
-        {selectedMembers.length > 0 && (
-          <div className="flex items-center gap-2 rounded-md bg-primary/10 px-3 py-2 text-xs text-primary font-medium">
-            {selectedMembers.length} member(s) selected
-            <button onClick={() => setSelectedMembers([])} className="ml-auto hover:text-primary/70">
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        )}
-
-        {/* Members - List View */}
-        <AnimatePresence mode="wait">
-          {viewMode === "list" ? (
-            <motion.div
-              key="list"
-              variants={item}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="rounded-lg border border-border bg-card overflow-hidden"
-            >
+            {/* Invited table */}
+            <div className="rounded-lg border border-border bg-card overflow-hidden">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border bg-muted/30">
-                    <th className="px-4 py-2.5 text-left">
-                      <input
-                        type="checkbox"
-                        checked={selectedMembers.length === members.length && members.length > 0}
-                        onChange={toggleSelectAll}
-                        className="rounded border-border"
-                      />
-                    </th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">NAME</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL MARKETING</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">COUNTRY</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">MPU</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">ROLE</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">JOINED</th>
-                    <th className="px-4 py-2.5"></th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Email Marketing</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Invitation Status</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Role</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Date Added ↓</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Invited At</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {members.map((m, i) => (
-                    <tr key={i} className={cn("hover:bg-muted/20 transition-colors", selectedMembers.includes(i) && "bg-primary/5")}>
-                      <td className="px-4 py-3">
-                        <input
-                          type="checkbox"
-                          checked={selectedMembers.includes(i)}
-                          onChange={() => toggleSelect(i)}
-                          className="rounded border-border"
-                        />
-                      </td>
-                      <td className="px-4 py-3">
-                        <div>
-                          <p className="text-sm font-medium text-foreground">{m.name}</p>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground">{m.email}</td>
-                      <td className="px-4 py-3">
-                        <button
-                          onClick={() => {
-                            setMembers((prev) => prev.map((member, idx) => idx === i ? { ...member, subscribed: !member.subscribed } : member));
-                            toast({ title: m.subscribed ? "Unsubscribed" : "Subscribed", description: `${m.name} has been ${m.subscribed ? "unsubscribed from" : "subscribed to"} email marketing.` });
-                          }}
-                          className={cn(
-                            "inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold transition-colors cursor-pointer",
-                            m.subscribed ? "bg-success/20 text-success hover:bg-success/30" : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          )}
-                        >
-                          {m.subscribed ? "Subscribed" : "Unsubscribed"}
-                        </button>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground">{m.country}</td>
-                      <td className="px-4 py-3">
-                        <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold", mpuColor(m.mpu))}>
-                          {m.mpu}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground">{m.role}</td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{m.joined}</td>
-                      <td className="px-4 py-3">
+                  {invited.map((inv, i) => (
+                    <tr key={i} className="hover:bg-muted/20 transition-colors">
+                      <td className="px-4 py-4 text-sm font-medium text-foreground">{inv.name}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground">{inv.subscribed ? "Subscribed" : "Unsubscribed"}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground">{inv.email}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground">{inv.invitationStatus}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground">{inv.role}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground whitespace-nowrap">{inv.dateAdded}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground whitespace-nowrap">{inv.invitedAt}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
+        ) : (
+          <>
+            {/* Action bar */}
+            <motion.div variants={item} className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-foreground">{filteredMembers.length} people</span>
+                <button
+                  onClick={() => toast({ title: "Segment saved", description: "Current view saved as a segment." })}
+                  className="text-xs text-muted-foreground hover:text-foreground"
+                >
+                  Save segment
+                </button>
+
+                {/* Bulk Actions dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+                      Bulk actions <ChevronDown className="h-3 w-3" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
+                    <DropdownMenuItem onClick={() => handleBulkRoleChange("Admin")}>
+                      <Shield className="h-4 w-4 mr-2" /> Set as Admin
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleBulkRoleChange("Moderator")}>
+                      <Shield className="h-4 w-4 mr-2" /> Set as Moderator
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleBulkRoleChange("Member")}>
+                      <User className="h-4 w-4 mr-2" /> Set as Member
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleBulkDelete} className="text-destructive focus:text-destructive">
+                      <Trash2 className="h-4 w-4 mr-2" /> Remove selected
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* More dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+                      More <ChevronDown className="h-3 w-3" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
+                    <DropdownMenuItem onClick={() => toast({ title: "Message sent", description: "Bulk message sent to all selected members." })}>
+                      <MessageCircle className="h-4 w-4 mr-2" /> Send message
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => toast({ title: "Tags applied", description: "Tags have been applied to selected members." })}>
+                      <Tag className="h-4 w-4 mr-2" /> Apply tags
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => toast({ title: "Suspended", description: "Selected members have been suspended." })} className="text-destructive focus:text-destructive">
+                      <Ban className="h-4 w-4 mr-2" /> Suspend
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleExport}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+                >
+                  <Download className="h-3.5 w-3.5" /> Export
+                </button>
+                <button
+                  onClick={() => setAddMemberOpen(true)}
+                  className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                >
+                  <Plus className="h-3.5 w-3.5" /> Invite member
+                </button>
+              </div>
+            </motion.div>
+
+            {selectedMembers.length > 0 && (
+              <div className="flex items-center gap-2 rounded-md bg-primary/10 px-3 py-2 text-xs text-primary font-medium">
+                {selectedMembers.length} member(s) selected
+                <button onClick={() => setSelectedMembers([])} className="ml-auto hover:text-primary/70">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            )}
+
+            {/* Members - List / Grid View */}
+            <AnimatePresence mode="wait">
+              {viewMode === "list" ? (
+                <motion.div
+                  key="list"
+                  variants={item}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-lg border border-border bg-card overflow-hidden"
+                >
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-border bg-muted/30">
+                        <th className="px-4 py-2.5 text-left">
+                          <input
+                            type="checkbox"
+                            checked={selectedMembers.length === filteredMembers.length && filteredMembers.length > 0}
+                            onChange={toggleSelectAll}
+                            className="rounded border-border"
+                          />
+                        </th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">NAME</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL MARKETING</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">EMAIL</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">COUNTRY</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">MPU</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">ROLE</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">JOINED</th>
+                        <th className="px-4 py-2.5"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {filteredMembers.map((m, i) => (
+                        <tr key={i} className={cn("hover:bg-muted/20 transition-colors", selectedMembers.includes(i) && "bg-primary/5")}>
+                          <td className="px-4 py-3">
+                            <input
+                              type="checkbox"
+                              checked={selectedMembers.includes(i)}
+                              onChange={() => toggleSelect(i)}
+                              className="rounded border-border"
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <p className="text-sm font-medium text-foreground">{m.name}</p>
+                          </td>
+                          <td className="px-4 py-3">
+                            <button
+                              onClick={() => {
+                                setMembers((prev) => prev.map((member, idx) => idx === i ? { ...member, subscribed: !member.subscribed } : member));
+                                toast({ title: m.subscribed ? "Unsubscribed" : "Subscribed", description: `${m.name} has been ${m.subscribed ? "unsubscribed from" : "subscribed to"} email marketing.` });
+                              }}
+                              className={cn(
+                                "inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold transition-colors cursor-pointer",
+                                m.subscribed ? "bg-success/20 text-success hover:bg-success/30" : "bg-muted text-muted-foreground hover:bg-muted/80"
+                              )}
+                            >
+                              {m.subscribed ? "Subscribed" : "Unsubscribed"}
+                            </button>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground">{m.email}</td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground">{m.country}</td>
+                          <td className="px-4 py-3">
+                            <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold", mpuColor(m.mpu))}>
+                              {m.mpu}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground">{m.role}</td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{m.joined}</td>
+                          <td className="px-4 py-3">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <button className="text-muted-foreground hover:text-foreground">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
+                                <DropdownMenuItem onClick={() => toast({ title: "Profile", description: `Viewing ${m.name}'s profile.` })}>
+                                  <User className="h-4 w-4 mr-2" /> View profile
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}>
+                                  <MessageCircle className="h-4 w-4 mr-2" /> Send message
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setMembers((prev) => prev.filter((_, idx) => idx !== i));
+                                    toast({ title: "Removed", description: `${m.name} has been removed.` });
+                                  }}
+                                  className="text-destructive focus:text-destructive"
+                                >
+                                  <Trash2 className="h-4 w-4 mr-2" /> Remove
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="grid"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                >
+                  {filteredMembers.map((m, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.25, delay: i * 0.05 }}
+                      className="group relative rounded-xl border border-border bg-card p-5 flex flex-col items-center text-center hover:shadow-md hover:border-primary/20 transition-all duration-300"
+                    >
+                      {/* Three dot menu on card */}
+                      <div className="absolute top-3 right-3">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <button className="text-muted-foreground hover:text-foreground">
+                            <button className="text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity">
                               <MoreHorizontal className="h-4 w-4" />
                             </button>
                           </DropdownMenuTrigger>
@@ -391,109 +594,61 @@ export default function CommunityPage() {
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </td>
-                    </tr>
+                      </div>
+
+                      {/* Avatar */}
+                      <Avatar className="h-16 w-16 mb-3 ring-2 ring-border">
+                        <AvatarImage src={m.avatar} alt={m.name} />
+                        <AvatarFallback className={cn("text-lg font-semibold text-primary-foreground", avatarColors[i % avatarColors.length])}>
+                          {getInitials(m.name)}
+                        </AvatarFallback>
+                      </Avatar>
+
+                      {/* Name & Role */}
+                      <h3 className="text-sm font-semibold text-foreground">{m.name}</h3>
+                      <p className="text-xs text-muted-foreground mt-0.5">{m.role} · {m.country}</p>
+
+                      {/* Location */}
+                      <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+                        <MapPin className="h-3 w-3" />
+                        {m.country}
+                      </div>
+
+                      {/* Follow counts */}
+                      <div className="flex items-center gap-4 mt-3 text-xs">
+                        <div>
+                          <span className="font-semibold text-foreground">{m.followers}</span>
+                          <span className="text-muted-foreground ml-1">Followers</span>
+                        </div>
+                        <div className="w-px h-3 bg-border" />
+                        <div>
+                          <span className="font-semibold text-foreground">{m.following}</span>
+                          <span className="text-muted-foreground ml-1">Following</span>
+                        </div>
+                      </div>
+
+                      {/* Message button */}
+                      <button
+                        onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                        className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+                      >
+                        <MessageCircle className="h-3.5 w-3.5" />
+                        Message
+                      </button>
+                    </motion.div>
                   ))}
-                </tbody>
-              </table>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="grid"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-            >
-              {members.map((m, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.25, delay: i * 0.05 }}
-                  className="group relative rounded-xl border border-border bg-card p-5 flex flex-col items-center text-center hover:shadow-md hover:border-primary/20 transition-all duration-300"
-                >
-                  {/* Three dot menu on card */}
-                  <div className="absolute top-3 right-3">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <button className="text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
-                        <DropdownMenuItem onClick={() => toast({ title: "Profile", description: `Viewing ${m.name}'s profile.` })}>
-                          <User className="h-4 w-4 mr-2" /> View profile
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}>
-                          <MessageCircle className="h-4 w-4 mr-2" /> Send message
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setMembers((prev) => prev.filter((_, idx) => idx !== i));
-                            toast({ title: "Removed", description: `${m.name} has been removed.` });
-                          }}
-                          className="text-destructive focus:text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4 mr-2" /> Remove
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-
-                  {/* Avatar */}
-                  <Avatar className="h-16 w-16 mb-3 ring-2 ring-border">
-                    <AvatarImage src={m.avatar} alt={m.name} />
-                    <AvatarFallback className={cn("text-lg font-semibold text-primary-foreground", avatarColors[i % avatarColors.length])}>
-                      {getInitials(m.name)}
-                    </AvatarFallback>
-                  </Avatar>
-
-                  {/* Name & Role */}
-                  <h3 className="text-sm font-semibold text-foreground">{m.name}</h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">{m.role} · {m.country}</p>
-
-                  {/* Location */}
-                  <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
-                    <MapPin className="h-3 w-3" />
-                    {m.country}
-                  </div>
-
-                  {/* Follow counts */}
-                  <div className="flex items-center gap-4 mt-3 text-xs">
-                    <div>
-                      <span className="font-semibold text-foreground">{m.followers}</span>
-                      <span className="text-muted-foreground ml-1">Followers</span>
-                    </div>
-                    <div className="w-px h-3 bg-border" />
-                    <div>
-                      <span className="font-semibold text-foreground">{m.following}</span>
-                      <span className="text-muted-foreground ml-1">Following</span>
-                    </div>
-                  </div>
-
-                  {/* Message button */}
-                  <button
-                    onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
-                    className="mt-4 w-full flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
-                  >
-                    <MessageCircle className="h-3.5 w-3.5" />
-                    Message
-                  </button>
                 </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+              )}
+            </AnimatePresence>
+          </>
+        )}
       </div>
 
-      {/* Add Member Dialog */}
+      {/* Invite Member Dialog */}
       <Dialog open={addMemberOpen} onOpenChange={setAddMemberOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add new member</DialogTitle>
+            <DialogTitle>Invite new member</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
@@ -504,27 +659,31 @@ export default function CommunityPage() {
               <Label>Email *</Label>
               <Input type="email" placeholder="email@example.com" value={newMember.email} onChange={(e) => setNewMember((p) => ({ ...p, email: e.target.value }))} />
             </div>
-            <div className="space-y-2">
-              <Label>Country</Label>
-              <Input placeholder="Country" value={newMember.country} onChange={(e) => setNewMember((p) => ({ ...p, country: e.target.value }))} />
-            </div>
-            <div className="space-y-2">
-              <Label>Role</Label>
-              <Select value={newMember.role} onValueChange={(v) => setNewMember((p) => ({ ...p, role: v }))}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="z-50 bg-popover border border-border">
-                  <SelectItem value="Member">Member</SelectItem>
-                  <SelectItem value="Moderator">Moderator</SelectItem>
-                  <SelectItem value="Admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {!isInvitedTab && (
+              <>
+                <div className="space-y-2">
+                  <Label>Country</Label>
+                  <Input placeholder="Country" value={newMember.country} onChange={(e) => setNewMember((p) => ({ ...p, country: e.target.value }))} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Role</Label>
+                  <Select value={newMember.role} onValueChange={(v) => setNewMember((p) => ({ ...p, role: v }))}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="z-50 bg-popover border border-border">
+                      <SelectItem value="Member">Member</SelectItem>
+                      <SelectItem value="Moderator">Moderator</SelectItem>
+                      <SelectItem value="Admin">Admin</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </>
+            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setAddMemberOpen(false)}>Cancel</Button>
-            <Button onClick={handleAddMember}>Add member</Button>
+            <Button onClick={handleAddMember}>Invite</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
