@@ -171,7 +171,7 @@ export default function LeaderboardPage() {
                 <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
                 <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Member</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Level</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">XP</th>
+                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Streak</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Change</th>
               </tr>
