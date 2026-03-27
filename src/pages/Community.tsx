@@ -435,7 +435,8 @@ export default function CommunityPage() {
                   </div>
 
                   {/* Avatar */}
-                  <Avatar className="h-16 w-16 mb-3">
+                  <Avatar className="h-16 w-16 mb-3 ring-2 ring-border">
+                    <img src={m.avatar} alt={m.name} className="aspect-square h-full w-full object-cover" />
                     <AvatarFallback className={cn("text-lg font-semibold text-primary-foreground", avatarColors[i % avatarColors.length])}>
                       {getInitials(m.name)}
                     </AvatarFallback>
