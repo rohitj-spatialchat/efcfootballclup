@@ -133,7 +133,7 @@ export default function KnowledgePage() {
           {/* Course Grid */}
           <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {courses.map((course, i) => (
-              <div key={i} className="group cursor-pointer">
+              <div key={i} className="group cursor-pointer flex flex-col">
                 {/* Image */}
                 <div className="relative rounded-xl overflow-hidden aspect-[4/3] mb-3">
                   <img
@@ -148,16 +148,16 @@ export default function KnowledgePage() {
                   )}
                 </div>
 
-                {/* Title */}
-                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
+                {/* Title - fixed height for alignment */}
+                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug min-h-[2.5rem] line-clamp-2">
                   {course.title}
                 </h3>
 
-                {/* Status row */}
-                <div className="space-y-1.5">
+                {/* Status row - push to bottom with mt-auto */}
+                <div className="mt-auto space-y-1.5">
                   {course.progress === 100 ? (
                     <div className="flex items-center gap-1.5">
-                      <CheckCircle2 className="h-4 w-4 text-success" />
+                      <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
                       <span className="text-xs text-muted-foreground">Completed {course.completedDate}</span>
                     </div>
                   ) : course.progress > 0 ? (
