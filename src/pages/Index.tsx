@@ -146,6 +146,78 @@ const Index = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
+  // Poll state
+  const [createPollOpen, setCreatePollOpen] = useState(false);
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [pollOptions, setPollOptions] = useState(["", ""]);
+  const [pollDuration, setPollDuration] = useState("1 day");
+
+  const addPollOption = () => {
+    if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
+  };
+
+  const removePollOption = (index: number) => {
+    if (pollOptions.length > 2) setPollOptions(pollOptions.filter((_, i) => i !== index));
+  };
+
+  const updatePollOption = (index: number, value: string) => {
+    setPollOptions(pollOptions.map((o, i) => (i === index ? value : o)));
+  };
+
+  const handleCreatePoll = () => {
+    if (!pollQuestion.trim()) {
+      toast({ title: "Poll question is required", variant: "destructive" });
+      return;
+    }
+    const validOptions = pollOptions.filter((o) => o.trim());
+    if (validOptions.length < 2) {
+      toast({ title: "At least 2 options are required", variant: "destructive" });
+      return;
+    }
+    const newPoll = {
+      id: Date.now(),
+      author: "Demo User",
+      avatar: "DE",
+      time: "Just now",
+      channel: "Feed",
+      tags: ["Poll"],
+      title: pollQuestion,
+      body: "",
+      image: null,
+      likes: 0,
+      comments: 0,
+      liked: false,
+      saved: false,
+      following: true,
+      poll: {
+        options: validOptions.map((o) => ({ text: o, votes: 0 })),
+        totalVotes: 0,
+        votedOption: null as number | null,
+        duration: pollDuration,
+      },
+    };
+    setFeedPosts([newPoll as any, ...feedPosts]);
+    setPollQuestion("");
+    setPollOptions(["", ""]);
+    setCreatePollOpen(false);
+    toast({ title: "Poll published!", description: "Your poll is now live in the feed." });
+  };
+
+  const handleVotePoll = (postId: number, optionIndex: number) => {
+    setFeedPosts((prev) =>
+      prev.map((p) => {
+        if (p.id !== postId || !(p as any).poll || (p as any).poll.votedOption !== null) return p;
+        const poll = { ...(p as any).poll };
+        poll.options = poll.options.map((o: any, i: number) =>
+          i === optionIndex ? { ...o, votes: o.votes + 1 } : o
+        );
+        poll.totalVotes += 1;
+        poll.votedOption = optionIndex;
+        return { ...p, poll };
+      })
+    );
+  };
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
