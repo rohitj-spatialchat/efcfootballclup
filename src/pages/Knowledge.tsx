@@ -9,7 +9,7 @@ const courses = [
   {
     title: "Desk to deep breath: Midday movement for grounded energy",
     description: "Recovery techniques and stretching routines for peak athletic performance.",
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1600679472829-3044539ce8ed?w=400&h=300&fit=crop",
     type: "WATCH" as const,
     tags: ["Fitness & Exercise Physiology"],
     progress: 100,
