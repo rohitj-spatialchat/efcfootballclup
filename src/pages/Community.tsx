@@ -386,7 +386,7 @@ export default function CommunityPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {invited.map((inv, i) => (
+                  {filteredInvited.map((inv, i) => (
                     <tr key={i} className="hover:bg-muted/20 transition-colors">
                       <td className="px-4 py-4 text-sm font-medium text-foreground">{inv.name}</td>
                       <td className="px-4 py-4 text-sm text-muted-foreground">{inv.subscribed ? "Subscribed" : "Unsubscribed"}</td>
