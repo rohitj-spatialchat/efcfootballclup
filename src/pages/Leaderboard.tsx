@@ -49,15 +49,16 @@ export default function LeaderboardPage() {
   const [selectedRegion, setSelectedRegion] = useState("All Regions");
   const [timePeriod, setTimePeriod] = useState("This Month");
 
-  const filteredLeaderboard = selectedRegion === "All Regions"
-    ? leaderboard
-    : leaderboard.filter((m) => m.region === selectedRegion);
+  const filteredLeaderboard =
+    selectedRegion === "All Regions" ? leaderboard : leaderboard.filter((m) => m.region === selectedRegion);
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.div variants={item}>
         <h1 className="text-2xl font-semibold text-foreground">Leaderboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Earn MPU through likes, comments & reposts. Level up and unlock badges!</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          Earn MPU Points through likes, comments & reposts. Level up and unlock badges!
+        </p>
       </motion.div>
 
       {/* Your Level Card */}
@@ -92,7 +93,9 @@ export default function LeaderboardPage() {
         <div className="mt-5 space-y-2">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>Level {currentUser.level}</span>
-            <span>{currentUser.mpu} / {currentUser.nextLevelMpu} MPU</span>
+            <span>
+              {currentUser.mpu} / {currentUser.nextLevelMpu} MPU
+            </span>
             <span>Level {currentUser.level + 1}</span>
           </div>
           <Progress value={getLevelProgress(currentUser.mpu)} className="h-2" />
@@ -107,9 +110,7 @@ export default function LeaderboardPage() {
                 key={lvl.level}
                 className={cn(
                   "rounded-lg border p-3 text-center transition-colors",
-                  unlocked
-                    ? "border-primary/30 bg-primary/5"
-                    : "border-border bg-muted/30 opacity-60"
+                  unlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/30 opacity-60",
                 )}
               >
                 <span className="text-xl">{lvl.badge}</span>
@@ -128,7 +129,7 @@ export default function LeaderboardPage() {
       <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="rounded-lg border border-border bg-card p-5 shadow-card">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-            <Star className="h-4 w-4 text-warning" /> Total MPU
+            <Star className="h-4 w-4 text-warning" /> Total MPU Points
           </div>
           <p className="text-2xl font-semibold text-foreground">{currentUser.mpu}</p>
           <p className="text-xs text-success mt-1">+65 this week</p>
@@ -163,7 +164,7 @@ export default function LeaderboardPage() {
                   onClick={() => setTimePeriod(f)}
                   className={cn(
                     "rounded-md px-3 py-1 text-xs font-medium transition-all",
-                    timePeriod === f ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+                    timePeriod === f ? "bg-card text-foreground shadow-sm" : "text-muted-foreground",
                   )}
                 >
                   {f}
@@ -176,7 +177,9 @@ export default function LeaderboardPage() {
               className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {regions.map((r) => (
-                <option key={r} value={r}>{r}</option>
+                <option key={r} value={r}>
+                  {r}
+                </option>
               ))}
             </select>
           </div>
@@ -188,9 +191,8 @@ export default function LeaderboardPage() {
                 <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
                 <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Member</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Level</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU</th>
+                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
                 <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Streak</th>
-                
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -198,12 +200,16 @@ export default function LeaderboardPage() {
                 <tr key={m.rank} className="hover:bg-muted/30 transition-colors">
                   <td className="px-5 py-3 text-sm">
                     {m.rank <= 3 ? (
-                      <span className={cn(
-                        "inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold",
-                        m.rank === 1 && "bg-yellow-100 text-yellow-700",
-                        m.rank === 2 && "bg-gray-100 text-gray-600",
-                        m.rank === 3 && "bg-orange-100 text-orange-700"
-                      )}>{m.rank}</span>
+                      <span
+                        className={cn(
+                          "inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold",
+                          m.rank === 1 && "bg-yellow-100 text-yellow-700",
+                          m.rank === 2 && "bg-gray-100 text-gray-600",
+                          m.rank === 3 && "bg-orange-100 text-orange-700",
+                        )}
+                      >
+                        {m.rank}
+                      </span>
                     ) : (
                       <span className="text-muted-foreground">#{m.rank}</span>
                     )}
@@ -211,7 +217,10 @@ export default function LeaderboardPage() {
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">
-                        {m.name.split(" ").map(n => n[0]).join("")}
+                        {m.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </div>
                       <span className="text-sm font-medium text-foreground">{m.name}</span>
                     </div>
@@ -225,7 +234,6 @@ export default function LeaderboardPage() {
                   <td className="px-5 py-3 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
                     <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                   </td>
-                  
                 </tr>
               ))}
             </tbody>
