@@ -244,6 +244,7 @@ export default function CommunityPage() {
   const [showInviteBanner, setShowInviteBanner] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
+  const [followedMembers, setFollowedMembers] = useState<Set<string>>(new Set());
 
   const handleAddMember = () => {
     if (!newMember.name || !newMember.email) {
