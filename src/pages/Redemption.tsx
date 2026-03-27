@@ -325,7 +325,7 @@ export default function Redemption() {
 
         {/* Category Tabs */}
         <section>
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide mb-6">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {categories.map(cat => (
               <button
                 key={cat.key}
