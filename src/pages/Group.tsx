@@ -203,6 +203,22 @@ export default function Group() {
   const [newPostBody, setNewPostBody] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"recent" | "popular">("recent");
+  const [postMode, setPostMode] = useState<"post" | "poll">("post");
+
+  // Poll state for groups
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [pollOptions, setPollOptions] = useState(["", ""]);
+  const [pollDuration, setPollDuration] = useState("1 day");
+
+  const addPollOption = () => {
+    if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
+  };
+  const removePollOption = (index: number) => {
+    if (pollOptions.length > 2) setPollOptions(pollOptions.filter((_, i) => i !== index));
+  };
+  const updatePollOption = (index: number, value: string) => {
+    setPollOptions(pollOptions.map((o, i) => (i === index ? value : o)));
+  };
 
   if (!group) {
     return (
