@@ -9,7 +9,7 @@ const courses = [
   {
     title: "Desk to deep breath: Midday movement for grounded energy",
     description: "Recovery techniques and stretching routines for peak athletic performance.",
-    image: "https://images.unsplash.com/photo-1600679472829-3044539ce8ed?w=400&h=300&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/440px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg",
     type: "WATCH" as const,
     tags: ["Fitness & Exercise Physiology"],
     progress: 100,
@@ -20,7 +20,7 @@ const courses = [
   {
     title: "Simple nourishment: Wholesome eating for life in motion",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Cristiano_Ronaldo_2018.jpg/440px-Cristiano_Ronaldo_2018.jpg",
     type: "WATCH" as const,
     tags: ["Nutrition"],
     progress: 50,
@@ -31,7 +31,7 @@ const courses = [
   {
     title: "The rest ritual: Reclaiming sleep as sacred restoration",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=300&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg/440px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg",
     type: "LISTEN" as const,
     tags: ["Healing Circles"],
     progress: 0,
@@ -42,7 +42,7 @@ const courses = [
   {
     title: "Nutrition for performance: Fueling the footballer's body",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=400&h=300&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg/440px-2022_FIFA_World_Cup_France_4%E2%80%931_Australia_-_%2817%29.jpg",
     type: "WATCH" as const,
     tags: ["Nutrition", "Sport & Exercise Science"],
     progress: 75,
@@ -53,7 +53,7 @@ const courses = [
   {
     title: "ACL recovery & rehabilitation: A footballer's journey back",
     description: "Build Muscle, Enhance Strength, and Improve Athletic Power.",
-    image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=400&h=300&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Erling_Haaland_2023.jpg/440px-Erling_Haaland_2023.jpg",
     type: "LISTEN" as const,
     tags: ["Sportmedicine & Physiotherapy"],
     progress: 30,
@@ -64,7 +64,7 @@ const courses = [
   {
     title: "Strength & conditioning: Building the complete athlete",
     description: "Learn Techniques for Recovery, Rehabilitation and Injury Management.",
-    image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&h=300&fit=crop",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Mohamed_Salah_2018.jpg/440px-Mohamed_Salah_2018.jpg",
     type: "READ" as const,
     tags: ["Strength & Power"],
     progress: 100,
