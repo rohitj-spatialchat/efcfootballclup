@@ -66,6 +66,7 @@ const App = () => (
           } />
         </Routes>
       </BrowserRouter>
+      <HelpChatWidget />
     </TooltipProvider>
   </QueryClientProvider>
 );
