@@ -91,10 +91,10 @@ export default function LeaderboardPage() {
         <div className="mt-5 space-y-2">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>Level {currentUser.level}</span>
-            <span>{currentUser.xp} / {currentUser.nextLevelXp} XP</span>
+            <span>{currentUser.mpu} / {currentUser.nextLevelMpu} MPU</span>
             <span>Level {currentUser.level + 1}</span>
           </div>
-          <Progress value={getLevelProgress(currentUser.xp)} className="h-2" />
+          <Progress value={getLevelProgress(currentUser.mpu)} className="h-2" />
         </div>
 
         {/* Level milestones */}
