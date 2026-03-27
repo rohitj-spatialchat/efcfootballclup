@@ -195,25 +195,27 @@ export default function LeaderboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-t border-border">
-                <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
-                <th className="px-5 py-2.5 text-left text-xs font-medium text-muted-foreground">Member</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Level</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
-                <th className="px-5 py-2.5 text-right text-xs font-medium text-muted-foreground">Streak</th>
+              <tr className="border-t border-border bg-muted/40">
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground w-16">Rank</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">Level</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-muted-foreground">Streak</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {filteredLeaderboard.map((m) => (
-                <tr key={m.rank} className="hover:bg-muted/30 transition-colors">
-                  <td className="px-5 py-3 text-sm">
+              {filteredLeaderboard.map((m, i) => (
+                <tr key={m.rank} className={cn("hover:bg-muted/30 transition-colors", i % 2 === 0 && "bg-muted/10")}>
+                  <td className="px-5 py-3.5 text-sm">
                     {m.rank <= 3 ? (
                       <span
                         className={cn(
                           "inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold",
-                          m.rank === 1 && "bg-yellow-100 text-yellow-700",
-                          m.rank === 2 && "bg-gray-100 text-gray-600",
-                          m.rank === 3 && "bg-orange-100 text-orange-700",
+                          m.rank === 1 && "bg-primary/20 text-primary",
+                          m.rank === 2 && "bg-muted text-muted-foreground",
+                          m.rank === 3 && "bg-accent text-accent-foreground",
                         )}
                       >
                         {m.rank}
@@ -222,7 +224,7 @@ export default function LeaderboardPage() {
                       <span className="text-muted-foreground">#{m.rank}</span>
                     )}
                   </td>
-                  <td className="px-5 py-3">
+                  <td className="px-5 py-3.5">
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">
                         {m.name
@@ -233,13 +235,15 @@ export default function LeaderboardPage() {
                       <span className="text-sm font-medium text-foreground">{m.name}</span>
                     </div>
                   </td>
-                  <td className="px-5 py-3 text-right">
+                  <td className="px-5 py-3.5 text-sm text-muted-foreground">{m.region}</td>
+                  <td className="px-5 py-3.5 text-sm text-foreground">{m.team}</td>
+                  <td className="px-5 py-3.5 text-right">
                     <span className="inline-flex items-center gap-1 text-xs font-medium rounded-full bg-primary/10 text-primary px-2 py-0.5">
                       {m.badge} Lv.{m.level}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-sm text-foreground text-right font-medium">{m.mpu}</td>
-                  <td className="px-5 py-3 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
+                  <td className="px-5 py-3.5 text-sm text-foreground text-right font-medium">{m.mpu}</td>
+                  <td className="px-5 py-3.5 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
                     <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                   </td>
                 </tr>
