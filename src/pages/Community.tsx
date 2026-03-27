@@ -167,8 +167,6 @@ export default function CommunityPage() {
                 View as Member
               </button>
             </div>
-              </button>
-            </div>
 
             {/* More (header) dropdown */}
             <DropdownMenu>
