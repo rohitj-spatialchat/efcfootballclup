@@ -204,7 +204,7 @@ export default function LeaderboardPage() {
                       {m.badge} Lv.{m.level}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-sm text-foreground text-right font-medium">{m.xp}</td>
+                  <td className="px-5 py-3 text-sm text-foreground text-right font-medium">{m.mpu}</td>
                   <td className="px-5 py-3 text-sm text-muted-foreground text-right flex items-center justify-end gap-1">
                     <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                   </td>
