@@ -30,7 +30,7 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 // Current user stats
-const currentUser = { name: "Sarah Mitchell", xp: 190, level: 3, nextLevelXp: 400, rank: 4 };
+const currentUser = { name: "Sarah Mitchell", mpu: 190, level: 3, nextLevelMpu: 400, rank: 4 };
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
