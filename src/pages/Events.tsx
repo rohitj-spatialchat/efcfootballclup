@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import EventRegistration from "@/components/EventRegistration";
 import EventPeople from "@/components/EventPeople";
+import EventAnalytics from "@/components/events/EventAnalytics";
 const filterTabs = [
   { label: "All", count: 7, active: true },
   { label: "Live", count: 1 },
