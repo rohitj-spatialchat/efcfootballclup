@@ -401,6 +401,56 @@ export default function CommunityPage() {
               </table>
             </div>
           </motion.div>
+        ) : isBlockedTab ? (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-semibold text-foreground">{filteredBlocked.length} blocked</span>
+            </div>
+
+            <div className="rounded-lg border border-border bg-card overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border bg-muted/30">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Reason</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Blocked At</th>
+                    <th className="px-4 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {filteredBlocked.map((b, i) => (
+                    <tr key={i} className="hover:bg-muted/20 transition-colors">
+                      <td className="px-4 py-4 text-sm font-medium text-foreground">{b.name}</td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground">{b.email}</td>
+                      <td className="px-4 py-4">
+                        <span className="inline-flex items-center rounded-full bg-destructive/10 px-2.5 py-0.5 text-[10px] font-semibold text-destructive">
+                          {b.reason}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 text-sm text-muted-foreground whitespace-nowrap">{b.blockedAt}</td>
+                      <td className="px-4 py-4">
+                        <button
+                          onClick={() => {
+                            setBlocked((prev) => prev.filter((_, idx) => idx !== i));
+                            toast({ title: "Unblocked", description: `${b.name} has been unblocked.` });
+                          }}
+                          className="text-xs font-medium text-primary hover:underline"
+                        >
+                          Unblock
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
         ) : (
           <>
             {/* Action bar */}
