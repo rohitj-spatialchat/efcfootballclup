@@ -170,7 +170,7 @@ export default function Redemption() {
       </AnimatePresence>
 
       {/* Sticky Balance Header */}
-      <div className="sticky top-14 z-30 border-b border-border bg-card/95 backdrop-blur-xl shadow-sm">
+      <div className="sticky top-0 z-30 mb-6 border-b border-border bg-card/95 backdrop-blur-xl shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-4">
             <motion.div
@@ -235,7 +235,7 @@ export default function Redemption() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 pt-10 pb-8 space-y-10">
+      <div className="max-w-7xl mx-auto px-4 pb-8 space-y-10">
         {/* Featured Carousel */}
         <section>
           <div className="flex items-center justify-between mb-5">
