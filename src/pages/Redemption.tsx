@@ -471,9 +471,9 @@ export default function Redemption() {
 
           {/* Redemption History */}
           <section className="rounded-2xl border border-border bg-card p-6">
-            <h3 className="text-lg font-bold mb-5 flex items-center gap-2">
-              <Clock className="h-5 w-5 text-primary" /> Redemption History
-            </h3>
+             <h3 className="text-lg font-bold mb-5 flex items-center gap-2">
+413:               <Clock className="h-5 w-5 text-primary" /> Reward History
+414:             </h3>
             <div className="relative">
               {/* Timeline line */}
               <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-primary via-info to-accent" />
