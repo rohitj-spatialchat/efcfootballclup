@@ -22,13 +22,13 @@ const communitySidebar = [
 ];
 
 const initialMembers = [
-  { name: "Kwame Adebayo", email: "adebayo@gmail.com", team: "AFC Ajax", country: "Netherlands", score: 9.2, role: "Member", joined: "Apr 12, 2024", flag: "🇳🇱", followers: 142, following: 89 },
-  { name: "Robert Fox", email: "robertfox@gmail.com", team: "AC Milan", country: "Italy", score: 9.4, role: "Member", joined: "Mar 5, 2024", flag: "🇮🇹", followers: 230, following: 115 },
-  { name: "Mei Wong", email: "meiwong@gmail.com", team: "Juventus FC", country: "Italy", score: 8.0, role: "Member", joined: "Jun 22, 2024", flag: "🇮🇹", followers: 67, following: 43 },
-  { name: "Dianne Russell", email: "drussell@yahoo.com", team: "S.C. Braga", country: "Portugal", score: 9.2, role: "Moderator", joined: "Mar 9, 2023", flag: "🇵🇹", followers: 312, following: 178 },
-  { name: "Kristin Watson", email: "kristin@watson.com", team: "FC Porto", country: "Portugal", score: 9.2, role: "Admin", joined: "Sep 19, 2022", flag: "🇵🇹", followers: 456, following: 201 },
-  { name: "Carlos Ramirez", email: "ramirez@yahoo.com", team: "Chelsea F.C.", country: "England", score: 6.7, role: "Member", joined: "Jul 8, 2024", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", followers: 34, following: 22 },
-  { name: "Ravi Patel", email: "ravi@email.com", team: "Manchester City", country: "United Kingdom", score: 9.2, role: "Moderator", joined: "Dec 1, 2023", flag: "🇬🇧", followers: 189, following: 97 },
+  { name: "Kwame Adebayo", email: "adebayo@gmail.com", team: "AFC Ajax", country: "Netherlands", score: 9.2, role: "Member", joined: "Apr 12, 2024", flag: "🇳🇱", followers: 142, following: 89, avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+  { name: "Robert Fox", email: "robertfox@gmail.com", team: "AC Milan", country: "Italy", score: 9.4, role: "Member", joined: "Mar 5, 2024", flag: "🇮🇹", followers: 230, following: 115, avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
+  { name: "Mei Wong", email: "meiwong@gmail.com", team: "Juventus FC", country: "Italy", score: 8.0, role: "Member", joined: "Jun 22, 2024", flag: "🇮🇹", followers: 67, following: 43, avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { name: "Dianne Russell", email: "drussell@yahoo.com", team: "S.C. Braga", country: "Portugal", score: 9.2, role: "Moderator", joined: "Mar 9, 2023", flag: "🇵🇹", followers: 312, following: 178, avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
+  { name: "Kristin Watson", email: "kristin@watson.com", team: "FC Porto", country: "Portugal", score: 9.2, role: "Admin", joined: "Sep 19, 2022", flag: "🇵🇹", followers: 456, following: 201, avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+  { name: "Carlos Ramirez", email: "ramirez@yahoo.com", team: "Chelsea F.C.", country: "England", score: 6.7, role: "Member", joined: "Jul 8, 2024", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", followers: 34, following: 22, avatar: "https://randomuser.me/api/portraits/men/22.jpg" },
+  { name: "Ravi Patel", email: "ravi@email.com", team: "Manchester City", country: "United Kingdom", score: 9.2, role: "Moderator", joined: "Dec 1, 2023", flag: "🇬🇧", followers: 189, following: 97, avatar: "https://randomuser.me/api/portraits/men/36.jpg" },
 ];
 
 const avatarColors = [
