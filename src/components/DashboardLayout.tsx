@@ -427,15 +427,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
                       <User className="h-4 w-4 text-muted-foreground" /> My Profile
                     </button>
-                    <button
-                      onClick={() => {
-                        setProfileOpen(false);
-                        navigate("/settings");
-                      }}
-                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-                    >
-                      <Settings className="h-4 w-4 text-muted-foreground" /> Settings
-                    </button>
+                    {isAdmin && (
+                      <button
+                        onClick={() => {
+                          setProfileOpen(false);
+                          navigate("/settings");
+                        }}
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                      >
+                        <Settings className="h-4 w-4 text-muted-foreground" /> Settings
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         setProfileOpen(false);
