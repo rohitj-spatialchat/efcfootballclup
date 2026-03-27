@@ -403,9 +403,11 @@ export default function Group() {
       {/* Tab Content */}
       {activeTab === "discussions" && (
         <div className="space-y-4">
-          {/* Create Post + Sort */}
-          <motion.div variants={itemAnim} className="flex items-center gap-3">
-            <div
+          {/* Create Post Button + Sort */}
+          <motion.div variants={itemAnim} className="flex items-center justify-between">
+            <Button onClick={() => { setPostMode("post"); setCreatePostOpen(true); }} className="rounded-full">
+              <Plus className="h-4 w-4 mr-1" /> Create Post
+            </Button>
               className="flex-1 rounded-lg border border-border bg-card p-3 cursor-pointer hover:bg-muted/50 transition-colors"
               onClick={() => setCreatePostOpen(true)}
             >
