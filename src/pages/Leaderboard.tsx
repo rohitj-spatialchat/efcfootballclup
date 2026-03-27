@@ -3,6 +3,9 @@ import { Trophy, TrendingUp, Star, Flame, Lock, Award } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
+import TopPodium from "@/components/leaderboard/TopPodium";
+import LiveActivityFeed from "@/components/leaderboard/LiveActivityFeed";
+import RewardsPreview from "@/components/leaderboard/RewardsPreview";
 
 const levels = [
   { level: 1, title: "Member", pointsRequired: 0, badge: "⚽" },
