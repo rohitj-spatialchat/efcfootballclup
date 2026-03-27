@@ -35,9 +35,9 @@ const avatarColors = [
   "bg-primary/80", "bg-accent/80", "bg-destructive/40", "bg-secondary", "bg-muted-foreground/30", "bg-primary/50", "bg-accent/50",
 ];
 
-const scoreColor = (score: number) => {
-  if (score >= 9) return "bg-success text-success-foreground";
-  if (score >= 7) return "bg-warning text-warning-foreground";
+const mpuColor = (mpu: number) => {
+  if (mpu >= 900) return "bg-success text-success-foreground";
+  if (mpu >= 700) return "bg-warning text-warning-foreground";
   return "bg-muted text-muted-foreground";
 };
 
