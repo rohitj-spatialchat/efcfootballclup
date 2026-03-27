@@ -20,7 +20,7 @@ const courses = [
   {
     title: "Simple nourishment: Wholesome eating for life in motion",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop",
     type: "WATCH" as const,
     tags: ["Nutrition"],
     progress: 50,
