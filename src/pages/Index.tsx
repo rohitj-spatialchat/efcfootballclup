@@ -824,6 +824,69 @@ const Index = () => {
                 </div>
               )}
 
+              {/* Poll UI */}
+              {(post as any).poll && (() => {
+                const poll = (post as any).poll;
+                const hasVoted = poll.votedOption !== null;
+                return (
+                  <div className="px-4 pb-3">
+                    <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-4 space-y-3">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <BarChart3 className="h-3.5 w-3.5 text-primary" />
+                        <span className="font-medium">Poll • {poll.duration}</span>
+                        {hasVoted && <span className="ml-auto">{poll.totalVotes} vote{poll.totalVotes !== 1 ? "s" : ""}</span>}
+                      </div>
+                      <div className="space-y-2">
+                        {poll.options.map((opt: any, i: number) => {
+                          const pct = hasVoted && poll.totalVotes > 0 ? Math.round((opt.votes / poll.totalVotes) * 100) : 0;
+                          const isWinner = hasVoted && opt.votes === Math.max(...poll.options.map((o: any) => o.votes));
+                          return (
+                            <button
+                              key={i}
+                              onClick={() => !hasVoted && handleVotePoll(post.id, i)}
+                              disabled={hasVoted}
+                              className={`relative w-full text-left rounded-lg border px-4 py-3 text-sm font-medium transition-all overflow-hidden ${
+                                hasVoted
+                                  ? poll.votedOption === i
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-border text-foreground"
+                                  : "border-border hover:border-primary/50 hover:bg-primary/5 text-foreground cursor-pointer"
+                              }`}
+                            >
+                              {hasVoted && (
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${pct}%` }}
+                                  transition={{ duration: 0.6, ease: "easeOut" }}
+                                  className={`absolute left-0 top-0 bottom-0 rounded-lg ${isWinner ? "bg-primary/15" : "bg-muted/50"}`}
+                                />
+                              )}
+                              <span className="relative flex items-center justify-between">
+                                <span className="flex items-center gap-2">
+                                  {!hasVoted && (
+                                    <span className="h-5 w-5 rounded-full border-2 border-muted-foreground/30 flex items-center justify-center text-[10px]">
+                                      {String.fromCharCode(65 + i)}
+                                    </span>
+                                  )}
+                                  {hasVoted && poll.votedOption === i && (
+                                    <span className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-[10px] text-primary-foreground">✓</span>
+                                  )}
+                                  {opt.text}
+                                </span>
+                                {hasVoted && <span className="text-xs font-semibold">{pct}%</span>}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {!hasVoted && (
+                        <p className="text-[10px] text-muted-foreground text-center">Select an option to vote</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Engagement counts */}
               <div className="px-4 pb-2 flex items-center justify-between text-xs text-muted-foreground">
                 <span>{post.likes} likes</span>
