@@ -219,32 +219,6 @@ export default function CommunityPage() {
         <motion.div variants={item} className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
           <div className="flex items-center gap-3">
-            {/* View toggle - only show on member tabs */}
-            {!isInvitedTab && !isBlockedTab && (
-              <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
-                <button
-                  onClick={() => setViewMode("list")}
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                    viewMode === "list" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <Shield className="h-3.5 w-3.5" />
-                  View as Admin
-                </button>
-                <button
-                  onClick={() => setViewMode("grid")}
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                    viewMode === "grid" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <User className="h-3.5 w-3.5" />
-                  View as Member
-                </button>
-              </div>
-            )}
-
             {/* More (header) dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
