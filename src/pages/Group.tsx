@@ -187,7 +187,9 @@ const groupsData: Record<string, {
       { name: "Oscar Nilsson", avatar: "ON", role: "Member", online: true },
     ],
     posts: [
-      { id: 1, author: "Dr. Lisa Park", avatar: "LP", time: "12h ago", title: "Heart rate variability as a readiness indicator", body: "3-season longitudinal data on HRV monitoring in our first team. Strong predictive value for illness susceptibility when combined with subjective wellness scores.", image: null, likes: 38, comments: 14, pinned: true },
+      { id: 1, author: "Dr. Lisa Park", avatar: "LP", time: "12h ago", title: "Heart rate variability as a readiness indicator", body: "3-season longitudinal data on HRV monitoring in our first team. Strong predictive value for illness susceptibility when combined with subjective wellness scores.", image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop", likes: 38, comments: 14, pinned: true },
+      { id: 2, author: "Oscar Nilsson", avatar: "ON", time: "1d ago", title: "Repeated sprint ability vs single sprint speed", body: "Our GPS data from 120 matches shows RSA is a far better predictor of match performance than peak speed. Players in the top quartile for RSA covered 15% more high-intensity distance in the final 15 minutes.", image: "https://images.unsplash.com/photo-1461896836934-bd45ba7d8f73?w=800&h=400&fit=crop", likes: 42, comments: 16, pinned: false },
+      { id: 3, author: "Dr. Lisa Park", avatar: "LP", time: "3d ago", title: "🗳️ POLL: Best wearable for monitoring training load?", body: "A. Catapult/STATSports GPS\nB. WHOOP strap\nC. Polar heart rate monitors\nD. Garmin wearables", image: null, likes: 29, comments: 20, pinned: false },
     ],
     events: [
       { title: "Endurance Training Symposium", date: "Apr 10, 2026", attendees: 40 },
