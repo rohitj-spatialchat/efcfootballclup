@@ -139,6 +139,7 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { viewMode, isAdmin, toggleViewMode } = useViewMode();
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [spatialOpen, setSpatialOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
