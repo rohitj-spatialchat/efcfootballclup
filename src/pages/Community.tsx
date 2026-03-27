@@ -65,12 +65,12 @@ type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "modera
 
 export default function CommunityPage() {
   const { toast } = useToast();
+  const { isAdmin } = useViewMode();
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
   const [blocked, setBlocked] = useState(initialBlocked);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [activeTab, setActiveTab] = useState<ActiveTab>("all");
   const [showInviteBanner, setShowInviteBanner] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
