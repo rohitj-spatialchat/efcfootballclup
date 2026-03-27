@@ -153,6 +153,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const dmRef = useRef<HTMLDivElement>(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
