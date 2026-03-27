@@ -453,7 +453,7 @@ export default function CommunityPage() {
 
                   {/* Name & Role */}
                   <h3 className="text-sm font-semibold text-foreground">{m.name}</h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">{m.role} · {m.team}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{m.role} · {m.country}</p>
 
                   {/* Location */}
                   <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
