@@ -654,20 +654,22 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             )}
           </div>
 
-          {/* Start Live Session Button - at bottom */}
-          <div className={cn("px-3 py-4 mt-auto", sidebarCollapsed && "px-2")}>
-            <button
-              onClick={() => setLiveSessionOpen(true)}
-              title="Start live session"
-              className={cn(
-                "flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors",
-                sidebarCollapsed && "px-0",
-              )}
-            >
-              <Video className="h-4 w-4 shrink-0" />
-              {!sidebarCollapsed && "Start live session"}
-            </button>
-          </div>
+          {/* Start Live Session Button - at bottom (admin only) */}
+          {isAdmin && (
+            <div className={cn("px-3 py-4 mt-auto", sidebarCollapsed && "px-2")}>
+              <button
+                onClick={() => setLiveSessionOpen(true)}
+                title="Start live session"
+                className={cn(
+                  "flex items-center justify-center gap-2.5 w-full rounded-lg border-2 border-dashed border-border px-3 py-3 text-sm font-medium text-foreground hover:bg-muted hover:border-primary/30 transition-colors",
+                  sidebarCollapsed && "px-0",
+                )}
+              >
+                <Video className="h-4 w-4 shrink-0" />
+                {!sidebarCollapsed && "Start live session"}
+              </button>
+            </div>
+          )}
         </aside>
 
         {/* Event Sub-Sidebar */}
