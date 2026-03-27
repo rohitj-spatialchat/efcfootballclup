@@ -5,6 +5,7 @@ import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
   Pin, ImagePlus, X, BookmarkPlus, Flag, EyeOff, Dumbbell, FlaskConical, Apple,
   Brain, Stethoscope, Zap, HeartPulse, UserPlus, Settings, Search, ChevronDown,
+  Plus, BarChart3, Trash2, PenTool,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -202,6 +203,22 @@ export default function Group() {
   const [newPostBody, setNewPostBody] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"recent" | "popular">("recent");
+  const [postMode, setPostMode] = useState<"post" | "poll">("post");
+
+  // Poll state for groups
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [pollOptions, setPollOptions] = useState(["", ""]);
+  const [pollDuration, setPollDuration] = useState("1 day");
+
+  const addPollOption = () => {
+    if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
+  };
+  const removePollOption = (index: number) => {
+    if (pollOptions.length > 2) setPollOptions(pollOptions.filter((_, i) => i !== index));
+  };
+  const updatePollOption = (index: number, value: string) => {
+    setPollOptions(pollOptions.map((o, i) => (i === index ? value : o)));
+  };
 
   if (!group) {
     return (
@@ -219,6 +236,36 @@ export default function Group() {
   const Icon = group.icon;
 
   const handleCreatePost = () => {
+    if (postMode === "poll") {
+      if (!pollQuestion.trim()) {
+        toast({ title: "Poll question is required", variant: "destructive" });
+        return;
+      }
+      const validOptions = pollOptions.filter(o => o.trim());
+      if (validOptions.length < 2) {
+        toast({ title: "At least 2 options are required", variant: "destructive" });
+        return;
+      }
+      const newPost = {
+        id: Date.now(),
+        author: "Demo User",
+        avatar: "DE",
+        time: "Just now",
+        title: pollQuestion,
+        body: validOptions.map((o, i) => `${String.fromCharCode(65 + i)}. ${o}`).join("\n"),
+        image: null,
+        likes: 0,
+        comments: 0,
+        pinned: false,
+      };
+      setPosts([newPost, ...posts]);
+      setPollQuestion("");
+      setPollOptions(["", ""]);
+      setPostMode("post");
+      setCreatePostOpen(false);
+      toast({ title: "Poll published!", description: `Your poll is now live in ${group.label}.` });
+      return;
+    }
     if (!newPostBody.trim()) {
       toast({ title: "Post cannot be empty", variant: "destructive" });
       return;
@@ -238,6 +285,7 @@ export default function Group() {
     setPosts([newPost, ...posts]);
     setNewPostTitle("");
     setNewPostBody("");
+    setPostMode("post");
     setCreatePostOpen(false);
     toast({ title: "Post published!", description: `Your post is now live in ${group.label}.` });
   };
@@ -355,17 +403,12 @@ export default function Group() {
       {/* Tab Content */}
       {activeTab === "discussions" && (
         <div className="space-y-4">
-          {/* Create Post + Sort */}
-          <motion.div variants={itemAnim} className="flex items-center gap-3">
-            <div
+          {/* Create Post Button + Sort */}
+          <motion.div variants={itemAnim} className="flex items-center justify-between">
+            <Button onClick={() => { setPostMode("post"); setCreatePostOpen(true); }} className="rounded-full">
+              <Plus className="h-4 w-4 mr-1" /> Create Post
+            </Button>
               className="flex-1 rounded-lg border border-border bg-card p-3 cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => setCreatePostOpen(true)}
-            >
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">DE</div>
-                <span className="text-sm text-muted-foreground">Start a discussion in {group.label}...</span>
-              </div>
-            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="shrink-0">
@@ -515,32 +558,110 @@ export default function Group() {
       )}
 
       {/* Create Post Dialog */}
-      <Dialog open={createPostOpen} onOpenChange={setCreatePostOpen}>
+      <Dialog open={createPostOpen} onOpenChange={(open) => { setCreatePostOpen(open); if (!open) setPostMode("post"); }}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Icon className="h-5 w-5 text-primary" />
-              Post in {group.label}
+              Create in {group.label}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Discussion title"
-              value={newPostTitle}
-              onChange={e => setNewPostTitle(e.target.value)}
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
-            />
-            <Textarea
-              placeholder="Share your thoughts..."
-              value={newPostBody}
-              onChange={e => setNewPostBody(e.target.value)}
-              className="min-h-[120px] resize-none"
-            />
+            {/* Post / Poll toggle */}
+            <div className="flex gap-1 p-1 rounded-lg bg-muted">
+              <button
+                onClick={() => setPostMode("post")}
+                className={cn(
+                  "flex-1 flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  postMode === "post" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <PenTool className="h-3.5 w-3.5" /> Post
+              </button>
+              <button
+                onClick={() => setPostMode("poll")}
+                className={cn(
+                  "flex-1 flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  postMode === "poll" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <BarChart3 className="h-3.5 w-3.5" /> Poll
+              </button>
+            </div>
+
+            {postMode === "post" ? (
+              <>
+                <input
+                  type="text"
+                  placeholder="Discussion title"
+                  value={newPostTitle}
+                  onChange={e => setNewPostTitle(e.target.value)}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+                />
+                <Textarea
+                  placeholder="Share your thoughts..."
+                  value={newPostBody}
+                  onChange={e => setNewPostBody(e.target.value)}
+                  className="min-h-[120px] resize-none"
+                />
+              </>
+            ) : (
+              <>
+                <Textarea
+                  placeholder="Ask your question..."
+                  value={pollQuestion}
+                  onChange={e => setPollQuestion(e.target.value)}
+                  className="min-h-[80px] resize-none text-base font-medium"
+                />
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                    <BarChart3 className="h-3 w-3" /> Poll Options
+                  </p>
+                  {pollOptions.map((opt, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="h-6 w-6 rounded-full border-2 border-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">
+                        {String.fromCharCode(65 + i)}
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={`Option ${i + 1}`}
+                        value={opt}
+                        onChange={e => updatePollOption(i, e.target.value)}
+                        className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+                      />
+                      {pollOptions.length > 2 && (
+                        <button onClick={() => removePollOption(i)} className="text-muted-foreground hover:text-destructive transition-colors">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  {pollOptions.length < 6 && (
+                    <button onClick={addPollOption} className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors mt-1">
+                      <Plus className="h-3.5 w-3.5" /> Add option
+                    </button>
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-muted-foreground mb-1.5">Poll Duration</p>
+                  <select
+                    value={pollDuration}
+                    onChange={e => setPollDuration(e.target.value)}
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
+                  >
+                    <option>1 day</option>
+                    <option>3 days</option>
+                    <option>1 week</option>
+                    <option>2 weeks</option>
+                  </select>
+                </div>
+              </>
+            )}
+
             <div className="flex justify-end gap-2 pt-2 border-t border-border">
               <Button variant="outline" onClick={() => setCreatePostOpen(false)}>Cancel</Button>
               <Button onClick={handleCreatePost}>
-                <Send className="h-4 w-4 mr-1" /> Post
+                <Send className="h-4 w-4 mr-1" /> {postMode === "poll" ? "Post Poll" : "Post"}
               </Button>
             </div>
           </div>

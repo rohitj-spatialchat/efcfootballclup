@@ -147,7 +147,7 @@ const Index = () => {
   const { toast } = useToast();
 
   // Poll state
-  const [createPollOpen, setCreatePollOpen] = useState(false);
+  const [postMode, setPostMode] = useState<"post" | "poll">("post");
   const [pollQuestion, setPollQuestion] = useState("");
   const [pollOptions, setPollOptions] = useState(["", ""]);
   const [pollDuration, setPollDuration] = useState("1 day");
@@ -199,7 +199,8 @@ const Index = () => {
     setFeedPosts([newPoll as any, ...feedPosts]);
     setPollQuestion("");
     setPollOptions(["", ""]);
-    setCreatePollOpen(false);
+    setPostMode("post");
+    setCreatePostOpen(false);
     toast({ title: "Poll published!", description: "Your poll is now live in the feed." });
   };
 
@@ -452,7 +453,7 @@ const Index = () => {
         </motion.div>
 
         {/* Create Post Dialog */}
-        <Dialog open={createPostOpen} onOpenChange={setCreatePostOpen}>
+        <Dialog open={createPostOpen} onOpenChange={(open) => { setCreatePostOpen(open); if (!open) setPostMode("post"); }}>
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
@@ -471,159 +472,134 @@ const Index = () => {
                 </div>
               </div>
 
-              <input
-                type="text"
-                placeholder="Post title (optional)"
-                value={postTitle}
-                onChange={(e) => setPostTitle(e.target.value)}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
-              />
-
-              <Textarea
-                placeholder="Write something..."
-                value={postContent}
-                onChange={(e) => setPostContent(e.target.value)}
-                className="min-h-[120px] resize-none"
-              />
-
-              {selectedImage && (
-                <div className="relative rounded-lg overflow-hidden border border-border">
-                  <img src={selectedImage} alt="Selected" className="w-full max-h-48 object-cover" />
-                  <button
-                    onClick={() => setSelectedImage(null)}
-                    className="absolute top-2 right-2 h-6 w-6 rounded-full bg-foreground/70 flex items-center justify-center hover:bg-foreground/90 transition-colors"
-                  >
-                    <X className="h-3 w-3 text-background" />
-                  </button>
-                </div>
-              )}
-
-              <div>
-                <p className="text-xs font-semibold text-muted-foreground mb-2 flex items-center gap-1">
-                  <Tag className="h-3 w-3" /> Select Topics
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {predefinedTags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant={selectedTags.includes(tag) ? "default" : "outline"}
-                      className="cursor-pointer text-xs transition-colors"
-                      onClick={() => toggleTag(tag)}
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
+              {/* Post / Poll toggle */}
+              <div className="flex gap-1 p-1 rounded-lg bg-muted">
+                <button
+                  onClick={() => setPostMode("post")}
+                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    postMode === "post" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <PenTool className="h-3.5 w-3.5" /> Post
+                </button>
+                <button
+                  onClick={() => setPostMode("poll")}
+                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    postMode === "poll" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <BarChart3 className="h-3.5 w-3.5" /> Poll
+                </button>
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-border">
-                <div className="flex items-center gap-2">
+              {postMode === "post" ? (
+                <>
                   <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageSelect}
+                    type="text"
+                    placeholder="Post title (optional)"
+                    value={postTitle}
+                    onChange={(e) => setPostTitle(e.target.value)}
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
                   />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="text-muted-foreground"
-                  >
-                    <ImagePlus className="h-4 w-4 mr-1" />
-                    Image
-                  </Button>
-                </div>
-                <Button onClick={handleCreatePost} className="rounded-full px-6">
-                  <Send className="h-4 w-4 mr-1" />
-                  Post
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-        {/* Create Poll Dialog */}
-        <Dialog open={createPollOpen} onOpenChange={setCreatePollOpen}>
-          <DialogContent className="sm:max-w-lg">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5 text-primary" />
-                Create a Poll
-              </DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
-                  DE
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">Demo User</p>
-                  <p className="text-xs text-muted-foreground">Posting a poll to Feed</p>
-                </div>
-              </div>
-
-              <Textarea
-                placeholder="Ask your question..."
-                value={pollQuestion}
-                onChange={(e) => setPollQuestion(e.target.value)}
-                className="min-h-[80px] resize-none text-base font-medium"
-              />
-
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
-                  <BarChart3 className="h-3 w-3" /> Poll Options
-                </p>
-                {pollOptions.map((opt, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-full border-2 border-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">
-                      {String.fromCharCode(65 + i)}
+                  <Textarea
+                    placeholder="Write something..."
+                    value={postContent}
+                    onChange={(e) => setPostContent(e.target.value)}
+                    className="min-h-[120px] resize-none"
+                  />
+                  {selectedImage && (
+                    <div className="relative rounded-lg overflow-hidden border border-border">
+                      <img src={selectedImage} alt="Selected" className="w-full max-h-48 object-cover" />
+                      <button
+                        onClick={() => setSelectedImage(null)}
+                        className="absolute top-2 right-2 h-6 w-6 rounded-full bg-foreground/70 flex items-center justify-center hover:bg-foreground/90 transition-colors"
+                      >
+                        <X className="h-3 w-3 text-background" />
+                      </button>
                     </div>
-                    <input
-                      type="text"
-                      placeholder={`Option ${i + 1}`}
-                      value={opt}
-                      onChange={(e) => updatePollOption(i, e.target.value)}
-                      className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
-                    />
-                    {pollOptions.length > 2 && (
-                      <button onClick={() => removePollOption(i)} className="text-muted-foreground hover:text-destructive transition-colors">
-                        <Trash2 className="h-4 w-4" />
+                  )}
+                  <div>
+                    <p className="text-xs font-semibold text-muted-foreground mb-2 flex items-center gap-1">
+                      <Tag className="h-3 w-3" /> Select Topics
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {predefinedTags.map((tag) => (
+                        <Badge
+                          key={tag}
+                          variant={selectedTags.includes(tag) ? "default" : "outline"}
+                          className="cursor-pointer text-xs transition-colors"
+                          onClick={() => toggleTag(tag)}
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-border">
+                    <div className="flex items-center gap-2">
+                      <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageSelect} />
+                      <Button variant="ghost" size="sm" onClick={() => fileInputRef.current?.click()} className="text-muted-foreground">
+                        <ImagePlus className="h-4 w-4 mr-1" /> Image
+                      </Button>
+                    </div>
+                    <Button onClick={handleCreatePost} className="rounded-full px-6">
+                      <Send className="h-4 w-4 mr-1" /> Post
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Textarea
+                    placeholder="Ask your question..."
+                    value={pollQuestion}
+                    onChange={(e) => setPollQuestion(e.target.value)}
+                    className="min-h-[80px] resize-none text-base font-medium"
+                  />
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                      <BarChart3 className="h-3 w-3" /> Poll Options
+                    </p>
+                    {pollOptions.map((opt, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <div className="h-6 w-6 rounded-full border-2 border-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">
+                          {String.fromCharCode(65 + i)}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder={`Option ${i + 1}`}
+                          value={opt}
+                          onChange={(e) => updatePollOption(i, e.target.value)}
+                          className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+                        />
+                        {pollOptions.length > 2 && (
+                          <button onClick={() => removePollOption(i)} className="text-muted-foreground hover:text-destructive transition-colors">
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    {pollOptions.length < 6 && (
+                      <button onClick={addPollOption} className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors mt-1">
+                        <Plus className="h-3.5 w-3.5" /> Add option
                       </button>
                     )}
                   </div>
-                ))}
-                {pollOptions.length < 6 && (
-                  <button
-                    onClick={addPollOption}
-                    className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors mt-1"
-                  >
-                    <Plus className="h-3.5 w-3.5" /> Add option
-                  </button>
-                )}
-              </div>
-
-              <div>
-                <p className="text-xs font-semibold text-muted-foreground mb-1.5">Poll Duration</p>
-                <select
-                  value={pollDuration}
-                  onChange={(e) => setPollDuration(e.target.value)}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
-                >
-                  <option>1 day</option>
-                  <option>3 days</option>
-                  <option>1 week</option>
-                  <option>2 weeks</option>
-                </select>
-              </div>
-
-              <div className="flex items-center justify-end pt-2 border-t border-border">
-                <Button onClick={handleCreatePoll} className="rounded-full px-6">
-                  <BarChart3 className="h-4 w-4 mr-1" />
-                  Post Poll
-                </Button>
-              </div>
+                  <div>
+                    <p className="text-xs font-semibold text-muted-foreground mb-1.5">Poll Duration</p>
+                    <select value={pollDuration} onChange={(e) => setPollDuration(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30">
+                      <option>1 day</option>
+                      <option>3 days</option>
+                      <option>1 week</option>
+                      <option>2 weeks</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-end pt-2 border-t border-border">
+                    <Button onClick={handleCreatePoll} className="rounded-full px-6">
+                      <BarChart3 className="h-4 w-4 mr-1" /> Post Poll
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </DialogContent>
         </Dialog>
@@ -967,25 +943,13 @@ const Index = () => {
               <Video className="h-4 w-4" />
               Go Live
             </button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
-                  <Plus className="h-4 w-4" />
-                  Create Post
-                  <ChevronDown className="h-3 w-3" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setCreatePostOpen(true)}>
-                  <PenTool className="h-4 w-4 mr-2" />
-                  Create Post
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCreatePollOpen(true)}>
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Create Poll
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <button
+              onClick={() => setCreatePostOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="h-4 w-4" />
+              Create Post
+            </button>
           </motion.div>
 
           {/* Karma / Rank / Streak Stats */}
