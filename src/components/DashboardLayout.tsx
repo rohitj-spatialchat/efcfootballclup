@@ -74,7 +74,7 @@ const navItems = [
   { label: "Memeber Directory", path: "/community" },
   { label: "Leaderboard", path: "/leaderboard" },
   { label: "Networking", path: "/networking" },
-  { label: "Redemption", path: "/redemption" },
+  { label: "Rewards", path: "/redemption" },
   { label: "AI Search", path: "/ai-search" },
 ];
 
