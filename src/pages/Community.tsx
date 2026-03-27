@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Plus, Settings, ChevronDown, MoreHorizontal, Globe, Users, Link2, Tag, User, BarChart3, Mail, Shield, Download, Trash2, UserPlus, Ban, RefreshCw, X, MessageCircle, LayoutGrid, List, MapPin, Info } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useViewMode } from "@/contexts/ViewModeContext";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
@@ -64,12 +65,12 @@ type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "modera
 
 export default function CommunityPage() {
   const { toast } = useToast();
+  const { isAdmin } = useViewMode();
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
   const [blocked, setBlocked] = useState(initialBlocked);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [addMemberOpen, setAddMemberOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [activeTab, setActiveTab] = useState<ActiveTab>("all");
   const [showInviteBanner, setShowInviteBanner] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -184,89 +185,67 @@ export default function CommunityPage() {
   const isInvitedTab = activeTab === "invited";
   const isBlockedTab = activeTab === "blocked";
 
-  const tabs: { key: ActiveTab; label: string; count: number; isNew?: boolean }[] = [
+  const allTabs: { key: ActiveTab; label: string; count: number; isNew?: boolean; adminOnly?: boolean }[] = [
     { key: "all", label: "All", count: members.length },
     { key: "contacts", label: "Contacts", count: members.length - 1, isNew: true },
     { key: "members", label: "Members", count: members.filter(m => m.role === "Member").length },
-    { key: "invited", label: "Invited", count: invited.length },
-    { key: "admins", label: "Admins", count: members.filter(m => m.role === "Admin").length },
-    { key: "moderators", label: "Moderators", count: members.filter(m => m.role === "Moderator").length },
-    { key: "blocked", label: "Blocked", count: blocked.length },
+    { key: "invited", label: "Invited", count: invited.length, adminOnly: true },
+    { key: "admins", label: "Admins", count: members.filter(m => m.role === "Admin").length, adminOnly: true },
+    { key: "moderators", label: "Moderators", count: members.filter(m => m.role === "Moderator").length, adminOnly: true },
+    { key: "blocked", label: "Blocked", count: blocked.length, adminOnly: true },
   ];
+  const tabs = allTabs.filter(t => !t.adminOnly || isAdmin);
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-0 -m-6">
-      {/* Community Sidebar */}
-      <div className="hidden md:flex w-48 shrink-0 flex-col border-r border-border bg-card p-3 space-y-0.5 min-h-[calc(100vh-3.5rem)]">
-        {communitySidebar.map((sideItem) => (
-          <button
-            key={sideItem.label}
-            className={cn(
-              "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm w-full text-left transition-colors",
-              sideItem.active ? "bg-primary/10 text-primary font-medium" : "text-foreground hover:bg-muted"
-            )}
-          >
-            <sideItem.icon className="h-4 w-4" />
-            {sideItem.label}
-          </button>
-        ))}
-      </div>
+      {/* Community Sidebar - admin only */}
+      {isAdmin && (
+        <div className="hidden md:flex w-48 shrink-0 flex-col border-r border-border bg-card p-3 space-y-0.5 min-h-[calc(100vh-3.5rem)]">
+          {communitySidebar.map((sideItem) => (
+            <button
+              key={sideItem.label}
+              className={cn(
+                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm w-full text-left transition-colors",
+                sideItem.active ? "bg-primary/10 text-primary font-medium" : "text-foreground hover:bg-muted"
+              )}
+            >
+              <sideItem.icon className="h-4 w-4" />
+              {sideItem.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="flex-1 p-6 space-y-5">
         {/* Header */}
         <motion.div variants={item} className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-foreground">Manage audience</h1>
-          <div className="flex items-center gap-3">
-            {/* View toggle - only show on member tabs */}
-            {!isInvitedTab && !isBlockedTab && (
-              <div className="flex items-center rounded-lg border-2 border-border bg-muted/30 p-0.5">
-                <button
-                  onClick={() => setViewMode("list")}
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                    viewMode === "list" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <Shield className="h-3.5 w-3.5" />
-                  View as Admin
-                </button>
-                <button
-                  onClick={() => setViewMode("grid")}
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200",
-                    viewMode === "grid" ? "bg-card text-foreground shadow-sm border border-primary" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <User className="h-3.5 w-3.5" />
-                  View as Member
-                </button>
-              </div>
-            )}
-
-            {/* More (header) dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="text-muted-foreground hover:text-foreground">
-                  <MoreHorizontal className="h-5 w-5" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
-                <DropdownMenuItem onClick={handleExport}>
-                  <Download className="h-4 w-4 mr-2" /> Export all
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { setMembers(initialMembers); toast({ title: "Reset", description: "Member list restored to defaults." }); }}>
-                  <RefreshCw className="h-4 w-4 mr-2" /> Reset list
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <button
-              onClick={() => setAddMemberOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
-            >
-              Invite
-            </button>
-          </div>
+          <h1 className="text-2xl font-semibold text-foreground">{isAdmin ? "Manage audience" : "Member Directory"}</h1>
+          {isAdmin && (
+            <div className="flex items-center gap-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="text-muted-foreground hover:text-foreground">
+                    <MoreHorizontal className="h-5 w-5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
+                  <DropdownMenuItem onClick={handleExport}>
+                    <Download className="h-4 w-4 mr-2" /> Export all
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setMembers(initialMembers); toast({ title: "Reset", description: "Member list restored to defaults." }); }}>
+                    <RefreshCw className="h-4 w-4 mr-2" /> Reset list
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <button
+                onClick={() => setAddMemberOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
+              >
+                Invite
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* Tabs */}
@@ -535,7 +514,7 @@ export default function CommunityPage() {
 
             {/* Members - List / Grid View */}
             <AnimatePresence mode="wait">
-              {viewMode === "list" ? (
+              {isAdmin ? (
                 <motion.div
                   key="list"
                   variants={item}
