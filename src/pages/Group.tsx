@@ -409,13 +409,6 @@ export default function Group() {
               <Plus className="h-4 w-4 mr-1" /> Create Post
             </Button>
               className="flex-1 rounded-lg border border-border bg-card p-3 cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => setCreatePostOpen(true)}
-            >
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">DE</div>
-                <span className="text-sm text-muted-foreground">Start a discussion in {group.label}...</span>
-              </div>
-            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="shrink-0">
