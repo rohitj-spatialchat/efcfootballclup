@@ -83,19 +83,6 @@ const tiers = [
   { name: "Elite", min: 150000, color: "bg-primary text-primary-foreground" },
 ];
 
-const leaderboard = [
-  { name: "Marcus R.", points: 187500, tier: "Elite" },
-  { name: "Sarah K.", points: 162300, tier: "Elite" },
-  { name: "James O.", points: 145100, tier: "Gold" },
-  { name: "Priya M.", points: 98900, tier: "Gold" },
-  { name: "You", points: USER_POINTS, tier: "Gold" },
-];
-
-const history = [
-  { date: "Mar 15, 2026", reward: "Members-Only Limited Kit", cost: 80000 },
-  { date: "Feb 28, 2026", reward: "Training Ground VIP Access", cost: 100000 },
-  { date: "Jan 10, 2026", reward: "Away Match Travel Package", cost: 250000 },
-];
 
 function formatPoints(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}K` : String(n);
