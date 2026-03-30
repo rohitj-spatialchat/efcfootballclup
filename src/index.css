@@ -36,12 +36,12 @@
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 220 12% 40%;
-    --sidebar-primary: 172 50% 36%;
+    --sidebar-primary: 217 91% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 172 40% 94%;
-    --sidebar-accent-foreground: 172 50% 26%;
+    --sidebar-accent: 217 40% 94%;
+    --sidebar-accent-foreground: 217 91% 40%;
     --sidebar-border: 214 18% 92%;
-    --sidebar-ring: 172 50% 36%;
+    --sidebar-ring: 217 91% 50%;
 
     /* Custom tokens */
     --success: 152 55% 42%;
