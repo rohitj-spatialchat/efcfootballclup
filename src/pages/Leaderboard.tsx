@@ -429,7 +429,7 @@ export default function LeaderboardPage() {
                 const mpu = getMpu(m);
                 return (
                   <tr key={m.rank} className={cn("hover:bg-muted/30 transition-colors", i % 2 === 0 && "bg-muted/10")}>
-                    <td className="px-4 py-3.5 text-sm">
+                    <td className="px-3 py-3 text-sm">
                       {m.rank <= 3 ? (
                         <span
                           className={cn(
