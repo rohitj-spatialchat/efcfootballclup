@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Shuffle, Search, MapPin, Linkedin, UserPlus, Send, Trophy, Flag } from "lucide-react";
+import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const onlineUsers = [
@@ -180,12 +180,6 @@ export default function NetworkingPage() {
               ))}
             </div>
 
-            <a
-              href="#"
-              className="inline-flex items-center gap-1.5 text-sm text-primary font-medium mt-3 hover:underline"
-            >
-              <Linkedin className="h-4 w-4" /> View LinkedIn Profile
-            </a>
           </motion.div>
         </AnimatePresence>
 
@@ -281,15 +275,6 @@ export default function NetworkingPage() {
                 ))}
               </div>
 
-              {/* Footer */}
-              {/* <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
-                <div className="flex items-center gap-3">
-                  <a href="#" className="text-xs text-primary font-medium flex items-center gap-1 hover:underline">
-                    <Linkedin className="h-3 w-3" /> LinkedIn
-                  </a>
-                  {/* <span className="text-xs text-muted-foreground">{u.mutualConnections} mutual</span> */}
-                </div>
-              </div> */}
 
               {/* Buttons */}
               <div className="flex gap-2 mt-3">
