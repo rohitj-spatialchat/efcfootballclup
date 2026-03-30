@@ -277,12 +277,7 @@ export default function NetworkingPage() {
 
               {/* Footer */}
               <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
-                <div className="flex items-center gap-3">
-                  <a href="#" className="text-xs text-primary font-medium flex items-center gap-1 hover:underline">
-                    <Linkedin className="h-3 w-3" /> LinkedIn
-                  </a>
-                  <span className="text-xs text-muted-foreground">{u.mutualConnections} mutual</span>
-                </div>
+                <span className="text-xs text-muted-foreground">{u.mutualConnections} mutual connections</span>
               </div>
 
               {/* Buttons */}
