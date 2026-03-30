@@ -642,14 +642,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {sidebarCollapsed && (
               <div className="mt-0.5 space-y-0.5 pb-4">
                 {spatialRooms.map((room) => (
-                  <button
+                  <a
                     key={room.name}
-                    onClick={() => setSpatialRoomOpen(room.name)}
+                    href="https://app.spatial.chat/s/RCg3AlBcmcqAPTeHxDXN?room=rxTXTyLCcNoTM0zYde35"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     title={room.name}
                     className="flex items-center justify-center w-full rounded-md py-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                   >
                     <room.icon className="h-3.5 w-3.5" />
-                  </button>
+                  </a>
                 ))}
               </div>
             )}
