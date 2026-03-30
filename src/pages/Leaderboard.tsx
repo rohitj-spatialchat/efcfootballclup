@@ -36,33 +36,224 @@ const realPhotos: Record<string, string> = {
 };
 
 const leaderboard = [
-  { rank: 1, name: "Casey Nguyen", likes: 620, comments: 530, networking: 450, level: 6, streak: 45, badge: "👑", change: "+120", region: "Asia", team: "FC Tokyo" },
-  { rank: 2, name: "Jamie Lawson", likes: 380, comments: 310, networking: 260, level: 5, streak: 38, badge: "💎", change: "+95", region: "Europe", team: "AC Milan" },
-  { rank: 3, name: "Chris Rodriguez", likes: 210, comments: 170, networking: 140, level: 4, streak: 22, badge: "🏆", change: "+80", region: "Americas", team: "LA Galaxy" },
-  { rank: 4, name: "Sarah Mitchell", likes: 75, comments: 65, networking: 50, level: 3, streak: 30, badge: "🥇", change: "+65", region: "Europe", team: "Chelsea FC" },
-  { rank: 5, name: "Alex Chen", likes: 48, comments: 40, networking: 32, level: 2, streak: 18, badge: "🥈", change: "+50", region: "Asia", team: "Shanghai SIPG" },
-  { rank: 6, name: "Morgan Davis", likes: 35, comments: 28, networking: 22, level: 2, streak: 12, badge: "🥈", change: "+40", region: "Americas", team: "Toronto FC" },
-  { rank: 7, name: "Taylor Kim", likes: 16, comments: 14, networking: 10, level: 1, streak: 8, badge: "⚽", change: "+35", region: "Asia", team: "Ulsan HD" },
-  { rank: 8, name: "Jordan Blake", likes: 8, comments: 7, networking: 5, level: 1, streak: 5, badge: "⚽", change: "+20", region: "Africa", team: "Al Ahly" },
-  { rank: 9, name: "Lucas Fernandez", likes: 560, comments: 480, networking: 410, level: 6, streak: 40, badge: "👑", change: "+110", region: "Americas", team: "Inter Miami" },
-  { rank: 10, name: "Yuki Tanaka", likes: 340, comments: 290, networking: 240, level: 5, streak: 35, badge: "💎", change: "+88", region: "Asia", team: "Yokohama FM" },
-  { rank: 11, name: "Oliver Smith", likes: 190, comments: 160, networking: 130, level: 4, streak: 20, badge: "🏆", change: "+72", region: "Europe", team: "Arsenal FC" },
-  { rank: 12, name: "Fatima Al-Rashid", likes: 140, comments: 115, networking: 95, level: 3, streak: 28, badge: "🥇", change: "+60", region: "Africa", team: "Wydad AC" },
-  { rank: 13, name: "Liam O'Brien", likes: 105, comments: 85, networking: 70, level: 3, streak: 15, badge: "🥇", change: "+55", region: "Europe", team: "Celtic FC" },
-  { rank: 14, name: "Diego Morales", likes: 70, comments: 58, networking: 47, level: 3, streak: 10, badge: "🥇", change: "+45", region: "Americas", team: "Boca Juniors" },
-  { rank: 15, name: "Priya Sharma", likes: 38, comments: 32, networking: 25, level: 2, streak: 14, badge: "🥈", change: "+38", region: "Asia", team: "Mumbai City" },
-  { rank: 16, name: "Noah Williams", likes: 24, comments: 20, networking: 16, level: 2, streak: 9, badge: "🥈", change: "+30", region: "Oceania", team: "Melbourne City" },
+  {
+    rank: 1,
+    name: "Casey Nguyen",
+    likes: 620,
+    comments: 530,
+    networking: 450,
+    level: 6,
+    streak: 45,
+    badge: "👑",
+    change: "+120",
+    region: "Asia",
+    team: "FC Tokyo",
+  },
+  {
+    rank: 2,
+    name: "Jamie Lawson",
+    likes: 380,
+    comments: 310,
+    networking: 260,
+    level: 5,
+    streak: 38,
+    badge: "💎",
+    change: "+95",
+    region: "Europe",
+    team: "AC Milan",
+  },
+  {
+    rank: 3,
+    name: "Chris Rodriguez",
+    likes: 210,
+    comments: 170,
+    networking: 140,
+    level: 4,
+    streak: 22,
+    badge: "🏆",
+    change: "+80",
+    region: "Americas",
+    team: "LA Galaxy",
+  },
+  {
+    rank: 4,
+    name: "Sarah Mitchell",
+    likes: 75,
+    comments: 65,
+    networking: 50,
+    level: 3,
+    streak: 30,
+    badge: "🥇",
+    change: "+65",
+    region: "Europe",
+    team: "Chelsea FC",
+  },
+  {
+    rank: 5,
+    name: "Alex Chen",
+    likes: 48,
+    comments: 40,
+    networking: 32,
+    level: 2,
+    streak: 18,
+    badge: "🥈",
+    change: "+50",
+    region: "Asia",
+    team: "Shanghai SIPG",
+  },
+  {
+    rank: 6,
+    name: "Morgan Davis",
+    likes: 35,
+    comments: 28,
+    networking: 22,
+    level: 2,
+    streak: 12,
+    badge: "🥈",
+    change: "+40",
+    region: "Americas",
+    team: "Toronto FC",
+  },
+  {
+    rank: 7,
+    name: "Taylor Kim",
+    likes: 16,
+    comments: 14,
+    networking: 10,
+    level: 1,
+    streak: 8,
+    badge: "⚽",
+    change: "+35",
+    region: "Asia",
+    team: "Ulsan HD",
+  },
+  {
+    rank: 8,
+    name: "Jordan Blake",
+    likes: 8,
+    comments: 7,
+    networking: 5,
+    level: 1,
+    streak: 5,
+    badge: "⚽",
+    change: "+20",
+    region: "Africa",
+    team: "Al Ahly",
+  },
+  {
+    rank: 9,
+    name: "Lucas Fernandez",
+    likes: 560,
+    comments: 480,
+    networking: 410,
+    level: 6,
+    streak: 40,
+    badge: "👑",
+    change: "+110",
+    region: "Americas",
+    team: "Inter Miami",
+  },
+  {
+    rank: 10,
+    name: "Yuki Tanaka",
+    likes: 340,
+    comments: 290,
+    networking: 240,
+    level: 5,
+    streak: 35,
+    badge: "💎",
+    change: "+88",
+    region: "Scotland",
+    team: "Aberdeen FC",
+  },
+  {
+    rank: 11,
+    name: "Oliver Smith",
+    likes: 190,
+    comments: 160,
+    networking: 130,
+    level: 4,
+    streak: 20,
+    badge: "🏆",
+    change: "+72",
+    region: "Europe",
+    team: "Arsenal FC",
+  },
+  {
+    rank: 12,
+    name: "Fatima Al-Rashid",
+    likes: 140,
+    comments: 115,
+    networking: 95,
+    level: 3,
+    streak: 28,
+    badge: "🥇",
+    change: "+60",
+    region: "Africa",
+    team: "Wydad AC",
+  },
+  {
+    rank: 13,
+    name: "Liam O'Brien",
+    likes: 105,
+    comments: 85,
+    networking: 70,
+    level: 3,
+    streak: 15,
+    badge: "🥇",
+    change: "+55",
+    region: "Europe",
+    team: "Celtic FC",
+  },
+  {
+    rank: 14,
+    name: "Diego Morales",
+    likes: 70,
+    comments: 58,
+    networking: 47,
+    level: 3,
+    streak: 10,
+    badge: "🥇",
+    change: "+45",
+    region: "Americas",
+    team: "Boca Juniors",
+  },
+  {
+    rank: 15,
+    name: "Priya Sharma",
+    likes: 38,
+    comments: 32,
+    networking: 25,
+    level: 2,
+    streak: 14,
+    badge: "🥈",
+    change: "+38",
+    region: "Itly",
+    team: "Juventus",
+  },
+  {
+    rank: 16,
+    name: "Noah Williams",
+    likes: 24,
+    comments: 20,
+    networking: 16,
+    level: 2,
+    streak: 9,
+    badge: "🥈",
+    change: "+30",
+    region: "Oceania",
+    team: "Melbourne City",
+  },
 ];
 
-const getMpu = (m: typeof leaderboard[0]) => m.likes + m.comments + m.networking;
+const getMpu = (m: (typeof leaderboard)[0]) => m.likes + m.comments + m.networking;
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 const currentUser = { name: "Sarah Mitchell", level: 3, nextLevelMpu: 400, rank: 4 };
-const currentUserData = leaderboard.find(m => m.name === currentUser.name)!;
+const currentUserData = leaderboard.find((m) => m.name === currentUser.name)!;
 const currentMpu = getMpu(currentUserData);
-
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
@@ -124,7 +315,9 @@ export default function LeaderboardPage() {
           <div className="mt-5 space-y-2">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>Level {currentUser.level}</span>
-              <span>{currentMpu} / {currentUser.nextLevelMpu} MPU Points</span>
+              <span>
+                {currentMpu} / {currentUser.nextLevelMpu} MPU Points
+              </span>
               <span>Level {currentUser.level + 1}</span>
             </div>
             <Progress value={getLevelProgress(currentMpu)} className="h-2" />
@@ -201,13 +394,19 @@ export default function LeaderboardPage() {
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">Level</th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">
-                  <span className="inline-flex items-center gap-1"><Heart className="h-3 w-3" /> Likes</span>
+                  <span className="inline-flex items-center gap-1">
+                    <Heart className="h-3 w-3" /> Likes
+                  </span>
                 </th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">
-                  <span className="inline-flex items-center gap-1"><MessageCircle className="h-3 w-3" /> Comments</span>
+                  <span className="inline-flex items-center gap-1">
+                    <MessageCircle className="h-3 w-3" /> Comments
+                  </span>
                 </th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">
-                  <span className="inline-flex items-center gap-1"><Users className="h-3 w-3" /> Networking</span>
+                  <span className="inline-flex items-center gap-1">
+                    <Users className="h-3 w-3" /> Networking
+                  </span>
                 </th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">Streak</th>
@@ -239,7 +438,10 @@ export default function LeaderboardPage() {
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={realPhotos[m.name]} alt={m.name} />
                           <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
-                            {m.name.split(" ").map((n) => n[0]).join("")}
+                            {m.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
                           </AvatarFallback>
                         </Avatar>
                         <span className="text-sm font-medium text-foreground">{m.name}</span>
