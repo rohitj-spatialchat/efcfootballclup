@@ -1,9 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Trophy, Star, Gift, ChevronLeft, ChevronRight, 
-  Sparkles, Crown, Zap, Timer, Check, X,
-  Award, Shield, Flame, PartyPopper
+import {
+  Trophy,
+  Star,
+  Gift,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  Crown,
+  Zap,
+  Timer,
+  Check,
+  X,
+  Award,
+  Shield,
+  Flame,
+  PartyPopper,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,36 +48,92 @@ interface Reward {
 
 const rewards: Reward[] = [
   {
-    id: 1, title: "VIP Matchday + Tunnel Walk", description: "Walk through the players' tunnel and experience matchday like a VIP with premium hospitality.",
-    cost: 150000, image: vipMatchday, availability: "Limited", availabilityCount: 5, category: "experiences", countdown: "2d 14h", featured: true,
+    id: 1,
+    title: "VIP Matchday + Tunnel Walk",
+    description: "Walk through the players' tunnel and experience matchday like a VIP with premium hospitality.",
+    cost: 150000,
+    image: vipMatchday,
+    availability: "Limited",
+    availabilityCount: 5,
+    category: "experiences",
+    countdown: "2d 14h",
+    featured: true,
   },
   {
-    id: 2, title: "Meet & Greet with Legends", description: "An exclusive face-to-face session with club legends and first-team players.",
-    cost: 200000, image: meetGreet, availability: "Only 3 left", availabilityCount: 3, category: "experiences", featured: true,
+    id: 2,
+    title: "Meet & Greet with Legends",
+    description: "An exclusive face-to-face session with club legends and first-team players.",
+    cost: 200000,
+    image: meetGreet,
+    availability: "Only 3 left",
+    availabilityCount: 3,
+    category: "experiences",
+    featured: true,
   },
   {
-    id: 3, title: "Player-Worn Signed Jersey", description: "Authentic match-used jersey, hand-signed by the player. Certificate of authenticity included.",
-    cost: 350000, image: signedJersey, availability: "Rare", availabilityCount: 2, category: "merchandise", countdown: "5d 8h", featured: true,
+    id: 3,
+    title: "Player-Worn Signed Jersey",
+    description: "Authentic match-used jersey, hand-signed by the player. Certificate of authenticity included.",
+    cost: 350000,
+    image: signedJersey,
+    availability: "Rare",
+    availabilityCount: 2,
+    category: "merchandise",
+    countdown: "5d 8h",
+    featured: true,
   },
   {
-    id: 4, title: "Training Ground VIP Access", description: "Spend a day at the training facility. Watch sessions, meet staff, and tour the grounds.",
-    cost: 100000, image: trainingGround, availability: "Available", category: "experiences",
+    id: 4,
+    title: "Training Ground VIP Access",
+    description: "Spend a day at the training facility. Watch sessions, meet staff, and tour the grounds.",
+    cost: 100000,
+    image: trainingGround,
+    availability: "Available",
+    category: "experiences",
   },
   {
-    id: 5, title: "Members-Only Limited Kit", description: "Exclusive limited-edition kit available only through MPU redemption. Not sold anywhere.",
-    cost: 80000, image: limitedKit, availability: "Limited", availabilityCount: 12, category: "merchandise", featured: true,
+    id: 5,
+    title: "Members-Only Limited Kit",
+    description: "Exclusive limited-edition kit available only through MPU redemption. Not sold anywhere.",
+    cost: 80000,
+    image: limitedKit,
+    availability: "Limited",
+    availabilityCount: 12,
+    category: "merchandise",
+    featured: true,
   },
   {
-    id: 6, title: "Away Match Travel Package", description: "Travel with fellow fans to an away fixture. Includes transport, ticket, and hospitality.",
-    cost: 250000, image: awayTravel, availability: "Only 5 left", availabilityCount: 5, category: "exclusives",
+    id: 6,
+    title: "Away Match Travel Package",
+    description: "Travel with fellow fans to an away fixture. Includes transport, ticket, and hospitality.",
+    cost: 250000,
+    image: awayTravel,
+    availability: "Only 5 left",
+    availabilityCount: 5,
+    category: "exclusives",
   },
   {
-    id: 7, title: "Locker Room Access", description: "Go behind the scenes into the inner sanctum. See where matchday preparation happens.",
-    cost: 120000, image: lockerRoom, availability: "Limited", availabilityCount: 8, category: "exclusives", countdown: "1d 6h",
+    id: 7,
+    title: "Locker Room Access",
+    description: "Go behind the scenes into the inner sanctum. See where matchday preparation happens.",
+    cost: 120000,
+    image: lockerRoom,
+    availability: "Limited",
+    availabilityCount: 8,
+    category: "exclusives",
+    countdown: "1d 6h",
   },
   {
-    id: 8, title: "Ultimate Fan Bundle", description: "The complete package: VIP ticket, signed merch, meet & greet, and premium hospitality.",
-    cost: 500000, image: ultimateBundle, availability: "Only 1 left", availabilityCount: 1, category: "limited", countdown: "12h 30m", featured: true,
+    id: 8,
+    title: "Ultimate Fan Bundle",
+    description: "The complete package: VIP ticket, signed merch, meet & greet, and premium hospitality.",
+    cost: 500000,
+    image: ultimateBundle,
+    availability: "Only 1 left",
+    availabilityCount: 1,
+    category: "limited",
+    countdown: "12h 30m",
+    featured: true,
   },
 ];
 
@@ -83,7 +151,6 @@ const tiers = [
   { name: "Elite", min: 150000, color: "bg-primary text-primary-foreground" },
 ];
 
-
 function formatPoints(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}K` : String(n);
 }
@@ -97,8 +164,8 @@ export default function Redemption() {
   const [isLoaded, setIsLoaded] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const featuredRewards = rewards.filter(r => r.featured);
-  const filteredRewards = activeCategory === "all" ? rewards : rewards.filter(r => r.category === activeCategory);
+  const featuredRewards = rewards.filter((r) => r.featured);
+  const filteredRewards = activeCategory === "all" ? rewards : rewards.filter((r) => r.category === activeCategory);
 
   useEffect(() => {
     const t = setTimeout(() => setIsLoaded(true), 300);
@@ -111,8 +178,8 @@ export default function Redemption() {
     setTimeout(() => setShowConfetti(false), 3000);
   };
 
-  const currentTier = tiers.reduce((acc, t) => USER_POINTS >= t.min ? t : acc, tiers[0]);
-  const nextTier = tiers.find(t => t.min > USER_POINTS);
+  const currentTier = tiers.reduce((acc, t) => (USER_POINTS >= t.min ? t : acc), tiers[0]);
+  const nextTier = tiers.find((t) => t.min > USER_POINTS);
   const tierProgress = nextTier ? ((USER_POINTS - currentTier.min) / (nextTier.min - currentTier.min)) * 100 : 100;
 
   const scrollCarousel = (dir: number) => {
@@ -148,7 +215,13 @@ export default function Redemption() {
                   width: 8 + Math.random() * 8,
                   height: 8 + Math.random() * 8,
                   borderRadius: Math.random() > 0.5 ? "50%" : "2px",
-                  background: ["hsl(var(--primary))", "hsl(var(--warning))", "hsl(var(--info))", "hsl(var(--destructive))", "hsl(var(--success))"][Math.floor(Math.random() * 5)],
+                  background: [
+                    "hsl(var(--primary))",
+                    "hsl(var(--warning))",
+                    "hsl(var(--info))",
+                    "hsl(var(--destructive))",
+                    "hsl(var(--success))",
+                  ][Math.floor(Math.random() * 5)],
                 }}
               />
             ))}
@@ -160,11 +233,7 @@ export default function Redemption() {
       <div className="sticky top-0 z-30 mb-6 border-b border-border bg-card/95 backdrop-blur-xl shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-4">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="relative"
-            >
+            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="relative">
               <div className="h-14 w-14 rounded-2xl bg-primary flex items-center justify-center shadow-lg">
                 <Trophy className="h-7 w-7 text-primary-foreground" />
               </div>
@@ -179,10 +248,8 @@ export default function Redemption() {
                 animate={{ y: 0, opacity: 1 }}
                 className="text-3xl font-black tracking-tight"
               >
-                <span className="text-primary">
-                  {USER_POINTS.toLocaleString()}
-                </span>
-                <span className="text-sm font-medium text-muted-foreground ml-2">MPU</span>
+                <span className="text-primary">{USER_POINTS.toLocaleString()}</span>
+                <span className="text-sm font-medium text-muted-foreground ml-2">MPU Points</span>
               </motion.p>
             </div>
           </div>
@@ -258,13 +325,23 @@ export default function Redemption() {
                   key={reward.id}
                   whileHover={{ scale: 1.03, y: -4 }}
                   className="min-w-[calc(33.333%-14px)] shrink-0 group cursor-pointer"
-                  onClick={() => { setSelectedReward(reward); setRedeemed(false); }}
+                  onClick={() => {
+                    setSelectedReward(reward);
+                    setRedeemed(false);
+                  }}
                 >
                   <div className="relative rounded-2xl overflow-hidden border border-border bg-card hover:border-primary/40 transition-all shadow-card hover:shadow-elevated">
                     <div className="relative h-48 overflow-hidden">
-                      <img src={reward.image} alt={reward.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" width={640} height={512} />
+                      <img
+                        src={reward.image}
+                        alt={reward.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        loading="lazy"
+                        width={640}
+                        height={512}
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
-                      
+
                       {/* Badges */}
                       <div className="absolute top-3 left-3 flex gap-2">
                         {reward.availability && (
@@ -281,12 +358,12 @@ export default function Redemption() {
                     </div>
 
                     <div className="p-5">
-                      <h3 className="font-bold text-base mb-1.5 group-hover:text-primary transition-colors">{reward.title}</h3>
+                      <h3 className="font-bold text-base mb-1.5 group-hover:text-primary transition-colors">
+                        {reward.title}
+                      </h3>
                       <p className="text-xs text-muted-foreground line-clamp-2 mb-4">{reward.description}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-black text-primary">
-                          {formatPoints(reward.cost)} MPU
-                        </span>
+                        <span className="text-lg font-black text-primary">{formatPoints(reward.cost)} MPU</span>
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
@@ -295,9 +372,13 @@ export default function Redemption() {
                             "px-4 py-2 rounded-lg text-xs font-bold transition-all",
                             USER_POINTS >= reward.cost
                               ? "bg-primary text-primary-foreground shadow-md"
-                              : "bg-secondary text-muted-foreground border border-border cursor-not-allowed"
+                              : "bg-secondary text-muted-foreground border border-border cursor-not-allowed",
                           )}
-                          onClick={(e) => { e.stopPropagation(); setSelectedReward(reward); setRedeemed(false); }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedReward(reward);
+                            setRedeemed(false);
+                          }}
                         >
                           {USER_POINTS >= reward.cost ? "Redeem Now" : "Locked"}
                         </motion.button>
@@ -312,8 +393,11 @@ export default function Redemption() {
 
         {/* Category Tabs */}
         <section>
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {categories.map(cat => (
+          <div
+            className="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {categories.map((cat) => (
               <button
                 key={cat.key}
                 onClick={() => setActiveCategory(cat.key)}
@@ -321,7 +405,7 @@ export default function Redemption() {
                   "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all",
                   activeCategory === cat.key
                     ? "bg-primary text-primary-foreground shadow-md"
-                    : "bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/30"
+                    : "bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/30",
                 )}
               >
                 {cat.icon} {cat.label}
@@ -342,20 +426,32 @@ export default function Redemption() {
                   whileHover={{ y: -6 }}
                   transition={{ duration: 0.25 }}
                   className="group cursor-pointer"
-                  onClick={() => { setSelectedReward(reward); setRedeemed(false); }}
+                  onClick={() => {
+                    setSelectedReward(reward);
+                    setRedeemed(false);
+                  }}
                 >
                   <div className="rounded-2xl overflow-hidden border border-border bg-card hover:border-primary/30 shadow-card hover:shadow-elevated transition-all h-full flex flex-col">
                     <div className="relative h-40 overflow-hidden">
-                      <img src={reward.image} alt={reward.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" width={640} height={512} />
+                      <img
+                        src={reward.image}
+                        alt={reward.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                        width={640}
+                        height={512}
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                      
+
                       <div className="absolute top-2.5 left-2.5 flex gap-1.5">
-                        <span className={cn(
-                          "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase backdrop-blur-sm",
-                          reward.availabilityCount && reward.availabilityCount <= 3
-                            ? "bg-destructive/90 text-destructive-foreground"
-                            : "bg-card/70 text-primary"
-                        )}>
+                        <span
+                          className={cn(
+                            "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase backdrop-blur-sm",
+                            reward.availabilityCount && reward.availabilityCount <= 3
+                              ? "bg-destructive/90 text-destructive-foreground"
+                              : "bg-card/70 text-primary",
+                          )}
+                        >
                           {reward.availability}
                         </span>
                         {reward.countdown && (
@@ -367,13 +463,13 @@ export default function Redemption() {
                     </div>
 
                     <div className="p-4 flex flex-col flex-1">
-                      <h3 className="font-bold text-sm mb-1 group-hover:text-primary transition-colors">{reward.title}</h3>
+                      <h3 className="font-bold text-sm mb-1 group-hover:text-primary transition-colors">
+                        {reward.title}
+                      </h3>
                       <p className="text-[11px] text-muted-foreground line-clamp-2 mb-3 flex-1">{reward.description}</p>
-                      
+
                       <div className="flex items-center justify-between">
-                        <span className="font-black text-sm text-primary">
-                          {formatPoints(reward.cost)}
-                        </span>
+                        <span className="font-black text-sm text-primary">{formatPoints(reward.cost)}</span>
                         {USER_POINTS >= reward.cost ? (
                           <span className="text-[10px] font-semibold text-success flex items-center gap-1">
                             <Check className="h-3 w-3" /> Redeemable
@@ -391,7 +487,6 @@ export default function Redemption() {
             </AnimatePresence>
           </div>
         </section>
-
       </div>
 
       {/* Redemption Modal */}
@@ -410,7 +505,7 @@ export default function Redemption() {
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               className="w-full max-w-md rounded-2xl border border-border bg-card overflow-hidden shadow-2xl"
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               {!redeemed ? (
                 <>
@@ -440,11 +535,15 @@ export default function Redemption() {
                       </div>
                       <div className="border-t border-border pt-3 flex justify-between text-sm">
                         <span className="text-muted-foreground">After Redemption</span>
-                        <span className={cn("font-bold", USER_POINTS >= selectedReward.cost ? "text-success" : "text-destructive")}>
+                        <span
+                          className={cn(
+                            "font-bold",
+                            USER_POINTS >= selectedReward.cost ? "text-success" : "text-destructive",
+                          )}
+                        >
                           {USER_POINTS >= selectedReward.cost
                             ? `${(USER_POINTS - selectedReward.cost).toLocaleString()} MPU`
-                            : `Insufficient (need ${(selectedReward.cost - USER_POINTS).toLocaleString()} more)`
-                          }
+                            : `Insufficient (need ${(selectedReward.cost - USER_POINTS).toLocaleString()} more)`}
                         </span>
                       </div>
                     </div>
@@ -465,7 +564,7 @@ export default function Redemption() {
                           "flex-1 py-3 rounded-xl text-sm font-bold transition-all",
                           USER_POINTS >= selectedReward.cost
                             ? "bg-primary text-primary-foreground shadow-lg"
-                            : "bg-muted text-muted-foreground cursor-not-allowed"
+                            : "bg-muted text-muted-foreground cursor-not-allowed",
                         )}
                       >
                         Confirm Redemption
@@ -474,7 +573,7 @@ export default function Redemption() {
                   </div>
                 </>
               ) : (
-              <div className="p-8 text-center">
+                <div className="p-8 text-center">
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
@@ -520,7 +619,9 @@ export default function Redemption() {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Remaining Balance</span>
-                      <span className="font-bold text-success">{(USER_POINTS - selectedReward.cost).toLocaleString()} MPU</span>
+                      <span className="font-bold text-success">
+                        {(USER_POINTS - selectedReward.cost).toLocaleString()} MPU
+                      </span>
                     </div>
                   </motion.div>
 
