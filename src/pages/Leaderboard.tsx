@@ -99,7 +99,7 @@ const leaderboard = [
     badge: "🥈",
     change: "+50",
     region: "Asia",
-    team: "Shanghai SIPG",
+    team: "Shanghai Port",
   },
   {
     rank: 6,
