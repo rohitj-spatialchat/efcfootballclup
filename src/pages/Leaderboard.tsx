@@ -385,31 +385,43 @@ export default function LeaderboardPage() {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full table-fixed min-w-[900px]">
+            <colgroup>
+              <col className="w-[5%]" />
+              <col className="w-[18%]" />
+              <col className="w-[10%]" />
+              <col className="w-[13%]" />
+              <col className="w-[9%]" />
+              <col className="w-[9%]" />
+              <col className="w-[11%]" />
+              <col className="w-[11%]" />
+              <col className="w-[9%]" />
+              <col className="w-[7%]" />
+            </colgroup>
             <thead>
               <tr className="border-t border-border bg-muted/40">
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground w-14">Rank</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">Level</th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">
+                <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Rank</th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
+                <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">Level</th>
+                <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">
                   <span className="inline-flex items-center gap-1">
                     <Heart className="h-3 w-3" /> Likes
                   </span>
                 </th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">
+                <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">
                   <span className="inline-flex items-center gap-1">
                     <MessageCircle className="h-3 w-3" /> Comments
                   </span>
                 </th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">
+                <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">
                   <span className="inline-flex items-center gap-1">
                     <Users className="h-3 w-3" /> Networking
                   </span>
                 </th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">MPU Points</th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">Streak</th>
+                <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">MPU Points</th>
+                <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">Streak</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
