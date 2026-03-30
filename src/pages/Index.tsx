@@ -957,7 +957,7 @@ const Index = () => {
             <div className="rounded-lg border border-border bg-card p-4 shadow-card">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <Star className="h-4 w-4 text-amber-400" />
-                <span className="text-sm">Your Karma</span>
+                <span className="text-sm">Your MPU Points</span>
               </div>
               <p className="text-2xl font-bold text-foreground">1,240</p>
               <p className="text-xs text-emerald-500 font-medium">+65 this week</p>
