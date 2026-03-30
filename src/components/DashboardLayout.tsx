@@ -184,7 +184,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-0.5 ml-4">
+            <nav className="hidden lg:flex items-center gap-0.5 ml-4 overflow-x-auto scrollbar-hide">
               {navItems.map((item) => {
                 const active = location.pathname === item.path;
                 return (
@@ -192,7 +192,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     key={item.path}
                     to={item.path}
                     className={cn(
-                      "px-3 py-1.5 text-sm rounded-md whitespace-nowrap transition-colors",
+                      "px-2.5 py-1.5 text-[13px] rounded-md whitespace-nowrap transition-colors shrink-0",
                       active
                         ? "bg-primary text-primary-foreground font-medium"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground",
