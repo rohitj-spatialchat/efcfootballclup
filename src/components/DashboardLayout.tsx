@@ -176,7 +176,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur-sm">
         <div className="flex h-14 items-center justify-between px-4 lg:px-6">
           {/* Logo + Nav */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 min-w-0 flex-1">
             <div className="flex items-center gap-2 shrink-0">
               <img src={efcLogo} alt="EFC Logo" className="h-8 w-8 rounded-full object-cover" />
               <span className="font-semibold text-foreground text-sm">EFC MPU Community</span>
