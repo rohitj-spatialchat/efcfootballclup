@@ -180,12 +180,6 @@ export default function NetworkingPage() {
               ))}
             </div>
 
-            <a
-              href="#"
-              className="inline-flex items-center gap-1.5 text-sm text-primary font-medium mt-3 hover:underline"
-            >
-              <Linkedin className="h-4 w-4" /> View LinkedIn Profile
-            </a>
           </motion.div>
         </AnimatePresence>
 
