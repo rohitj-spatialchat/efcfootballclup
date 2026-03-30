@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Trophy, Star, Gift, Clock, ChevronLeft, ChevronRight, 
-  Sparkles, Crown, Zap, Timer, Check, X, TrendingUp,
+  Trophy, Star, Gift, ChevronLeft, ChevronRight, 
+  Sparkles, Crown, Zap, Timer, Check, X,
   Award, Shield, Flame, PartyPopper
 } from "lucide-react";
 import { cn } from "@/lib/utils";
