@@ -202,7 +202,7 @@ export default function KnowledgePage() {
           {[
             { label: "Topics", options: ["All", "Fitness & Conditioning", "Nutrition & Diet", "Recovery & Rehabilitation", "Strength & Power", "Mental Performance", "Tactical Analysis", "Youth Development"] },
             { label: "Formats", options: ["All", "Watch", "Listen", "Read"] },
-            { label: "Discipline", options: ["All", "Football", "Athletics", "Swimming", "Basketball", "Rugby", "Tennis", "Cycling"] },
+            { label: "Discipline", options: ["All", "Sport Science", "Coaching & Tactics", "Sport Psychology", "Physiotherapy", "Performance Analysis", "Strength & Conditioning", "Biomechanics", "Injury Prevention"] },
             { label: "Country", options: ["All", "United Kingdom", "Spain", "Germany", "France", "Brazil", "Argentina", "Italy", "Netherlands", "Portugal"] },
             { label: "Region", options: ["All", "Europe", "South America", "North America", "Asia", "Africa", "Oceania"] },
           ].map((filter) => (
