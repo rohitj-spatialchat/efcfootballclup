@@ -5,50 +5,92 @@ import { cn } from "@/lib/utils";
 
 const onlineUsers = [
   {
-    name: "Dr. Marco Rossi", team: "AC Milan", country: "Italy", role: "Sports Medicine",
-    location: "Milan, Italy", score: 9.4, mpuPoints: 87500, mutualConnections: 12,
+    name: "Dr. Marco Rossi",
+    team: "AC Milan",
+    country: "Italy",
+    role: "Sports Medicine",
+    location: "Milan, Italy",
+    score: 9.4,
+    mpuPoints: 87500,
+    mutualConnections: 12,
     bio: "Leading sports medicine specialist at AC Milan. Passionate about injury prevention and athlete longevity.",
     skills: ["Sports Medicine", "Injury Prevention", "Rehabilitation"],
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face",
   },
   {
-    name: "Sarah Mitchell", team: "Manchester City", country: "England", role: "Physiotherapist",
-    location: "Manchester, UK", score: 9.2, mpuPoints: 72300, mutualConnections: 8,
+    name: "Sarah Mitchell",
+    team: "Manchester City",
+    country: "England",
+    role: "Physiotherapist",
+    location: "Manchester, UK",
+    score: 9.2,
+    mpuPoints: 72300,
+    mutualConnections: 8,
     bio: "Lead physiotherapist specializing in elite athlete recovery and return-to-play protocols.",
     skills: ["Physiotherapy", "Recovery", "Biomechanics"],
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face",
   },
   {
-    name: "Alex Chen", team: "Bayern Munich", country: "Germany", role: "Performance Analyst",
-    location: "Munich, Germany", score: 8.5, mpuPoints: 54800, mutualConnections: 5,
+    name: "Alex Chen",
+    team: "Bayern Munich",
+    country: "Germany",
+    role: "Performance Analyst",
+    location: "Munich, Germany",
+    score: 8.5,
+    mpuPoints: 54800,
+    mutualConnections: 5,
     bio: "Engineering lead building next-gen performance analysis infrastructure. 10+ years in sports analytics.",
     skills: ["Data Analytics", "Performance Tracking", "GPS Monitoring"],
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
   },
   {
-    name: "Emma Johansson", team: "Chelsea FC", country: "Sweden", role: "Sports Scientist",
-    location: "London, UK", score: 8.0, mpuPoints: 41200, mutualConnections: 3,
+    name: "Emma Johansson",
+    team: "Chelsea FC",
+    country: "Sweden",
+    role: "Sports Scientist",
+    location: "London, UK",
+    score: 8.0,
+    mpuPoints: 41200,
+    mutualConnections: 3,
     bio: "Sports scientist specializing in load management and periodization strategies for elite football.",
     skills: ["Load Management", "Periodization", "Testing"],
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face",
   },
   {
-    name: "Carlos Mendez", team: "Real Madrid", country: "Spain", role: "S&C Coach",
-    location: "Madrid, Spain", score: 7.8, mpuPoints: 63400, mutualConnections: 6,
+    name: "Carlos Mendez",
+    team: "AC Sparta Praha",
+    country: "Spain",
+    role: "S&C Coach",
+    location: "Madrid, Spain",
+    score: 7.8,
+    mpuPoints: 63400,
+    mutualConnections: 6,
     bio: "Strength & conditioning specialist focused on power development and injury risk reduction.",
     skills: ["S&C Training", "Power Development", "Injury Prevention"],
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face",
   },
   {
-    name: "Amara Diallo", team: "Juventus", country: "Senegal", role: "Team Doctor",
-    location: "Turin, Italy", score: 9.1, mpuPoints: 95100, mutualConnections: 10,
+    name: "Amara Diallo",
+    team: "Juventus",
+    country: "Senegal",
+    role: "Team Doctor",
+    location: "Turin, Italy",
+    score: 9.1,
+    mpuPoints: 95100,
+    mutualConnections: 10,
     bio: "Head team doctor with expertise in acute sports injuries and return-to-play protocols.",
     skills: ["Sports Medicine", "Acute Care", "Return to Play"],
     image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face",
   },
   {
-    name: "Liam O'Connor", team: "Liverpool FC", country: "Ireland", role: "Nutritionist",
-    location: "Liverpool, UK", score: 7.2, mpuPoints: 38700, mutualConnections: 4,
+    name: "Liam O'Connor",
+    team: "Liverpool FC",
+    country: "Ireland",
+    role: "Nutritionist",
+    location: "Liverpool, UK",
+    score: 7.2,
+    mpuPoints: 38700,
+    mutualConnections: 4,
     bio: "Performance nutritionist crafting individualized fueling strategies for elite football players.",
     skills: ["Sports Nutrition", "Supplementation", "Body Composition"],
     image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face",
@@ -86,13 +128,16 @@ export default function NetworkingPage() {
       u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.team.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      u.country.toLowerCase().includes(searchQuery.toLowerCase())
+      u.country.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
       {/* Hero Match Card */}
-      <motion.div variants={itemAnim} className="rounded-2xl border border-border bg-card shadow-sm p-8 text-center max-w-xl mx-auto">
+      <motion.div
+        variants={itemAnim}
+        className="rounded-2xl border border-border bg-card shadow-sm p-8 text-center max-w-xl mx-auto"
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -114,26 +159,41 @@ export default function NetworkingPage() {
             <p className="text-sm text-foreground">{currentUser.role}</p>
 
             <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Flag className="h-3 w-3" /> {currentUser.country}</span>
-              <span className="flex items-center gap-1"><Trophy className="h-3 w-3 text-primary" /> {formatPoints(currentUser.mpuPoints)} MPU</span>
+              <span className="flex items-center gap-1">
+                <Flag className="h-3 w-3" /> {currentUser.country}
+              </span>
+              <span className="flex items-center gap-1">
+                <Trophy className="h-3 w-3 text-primary" /> {formatPoints(currentUser.mpuPoints)} MPU
+              </span>
             </div>
 
             <p className="text-sm text-muted-foreground mt-3 max-w-md leading-relaxed">{currentUser.bio}</p>
 
             <div className="flex flex-wrap justify-center gap-2 mt-4">
               {currentUser.skills.map((skill) => (
-                <span key={skill} className="rounded-full border border-border px-3 py-1 text-xs font-medium text-foreground">{skill}</span>
+                <span
+                  key={skill}
+                  className="rounded-full border border-border px-3 py-1 text-xs font-medium text-foreground"
+                >
+                  {skill}
+                </span>
               ))}
             </div>
 
-            <a href="#" className="inline-flex items-center gap-1.5 text-sm text-primary font-medium mt-3 hover:underline">
+            <a
+              href="#"
+              className="inline-flex items-center gap-1.5 text-sm text-primary font-medium mt-3 hover:underline"
+            >
               <Linkedin className="h-4 w-4" /> View LinkedIn Profile
             </a>
           </motion.div>
         </AnimatePresence>
 
         <div className="flex items-center justify-center gap-3 mt-6">
-          <button onClick={handleShuffle} className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm">
+          <button
+            onClick={handleShuffle}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+          >
             <Shuffle className="h-4 w-4" /> Shuffle & Match
           </button>
           <button className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors">
@@ -168,7 +228,11 @@ export default function NetworkingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredUsers.map((u) => (
-            <motion.div key={u.name} variants={itemAnim} className="rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-shadow">
+            <motion.div
+              key={u.name}
+              variants={itemAnim}
+              className="rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-shadow"
+            >
               {/* Header */}
               <div className="flex items-start gap-3">
                 <div className="relative shrink-0">
@@ -178,7 +242,14 @@ export default function NetworkingPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-semibold text-foreground truncate">{u.name}</h3>
-                    <span className={cn("shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold", scoreColor(u.score))}>{u.score}</span>
+                    <span
+                      className={cn(
+                        "shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold",
+                        scoreColor(u.score),
+                      )}
+                    >
+                      {u.score}
+                    </span>
                   </div>
                   <p className="text-xs font-medium text-primary">{u.team}</p>
                   <p className="text-xs text-muted-foreground">{u.role}</p>
@@ -187,8 +258,12 @@ export default function NetworkingPage() {
 
               {/* Details row */}
               <div className="flex items-center gap-3 mt-2.5 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1"><Flag className="h-3 w-3" /> {u.country}</span>
-                <span className="flex items-center gap-1"><Trophy className="h-3 w-3 text-primary" /> {formatPoints(u.mpuPoints)} MPU</span>
+                <span className="flex items-center gap-1">
+                  <Flag className="h-3 w-3" /> {u.country}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Trophy className="h-3 w-3 text-primary" /> {formatPoints(u.mpuPoints)} MPU
+                </span>
               </div>
 
               {/* Bio */}
@@ -197,7 +272,12 @@ export default function NetworkingPage() {
               {/* Skills */}
               <div className="flex flex-wrap gap-1.5 mt-3">
                 {u.skills.map((skill) => (
-                  <span key={skill} className="rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-secondary-foreground">{skill}</span>
+                  <span
+                    key={skill}
+                    className="rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-secondary-foreground"
+                  >
+                    {skill}
+                  </span>
                 ))}
               </div>
 
