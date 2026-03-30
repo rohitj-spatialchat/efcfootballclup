@@ -389,10 +389,10 @@ export default function LeaderboardPage() {
             <thead>
               <tr className="border-t border-border bg-muted/40">
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground w-14">Rank</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">Level</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground w-[180px]">Member</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground w-[100px]">Region</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground w-[130px]">Team</th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-muted-foreground w-[80px]">Level</th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-muted-foreground">
                   <span className="inline-flex items-center gap-1">
                     <Heart className="h-3 w-3" /> Likes
