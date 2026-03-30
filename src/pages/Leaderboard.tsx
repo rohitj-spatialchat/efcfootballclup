@@ -449,7 +449,7 @@ export default function LeaderboardPage() {
                     </td>
                     <td className="px-4 py-3.5 text-sm text-muted-foreground">{m.region}</td>
                     <td className="px-4 py-3.5 text-sm text-foreground">{m.team}</td>
-                    <td className="px-4 py-3.5 text-right">
+                    <td className="px-4 py-3.5 text-center">
                       <span className="inline-flex items-center gap-1 text-xs font-medium rounded-full bg-primary/10 text-primary px-2 py-0.5">
                         {m.badge} Lv.{m.level}
                       </span>
