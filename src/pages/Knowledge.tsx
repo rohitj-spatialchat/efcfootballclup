@@ -200,18 +200,19 @@ export default function KnowledgePage() {
           </div>
 
           {[
-            { label: "Topics", value: "All", options: ["Fitness", "Nutrition", "Recovery", "Strength"] },
-            { label: "Formats", value: "All", options: ["Watch", "Listen", "Read"] },
-            { label: "Discipline", value: "All", options: ["Football", "Athletics", "Swimming", "Basketball"] },
-            { label: "Country", value: "All", options: ["United Kingdom", "Spain", "Germany", "France", "Brazil"] },
-            { label: "Region", value: "All", options: ["Europe", "South America", "North America", "Asia", "Africa"] },
+            { label: "Topics", options: ["All", "Fitness & Conditioning", "Nutrition & Diet", "Recovery & Rehabilitation", "Strength & Power", "Mental Performance", "Tactical Analysis", "Youth Development"] },
+            { label: "Formats", options: ["All", "Watch", "Listen", "Read"] },
+            { label: "Discipline", options: ["All", "Football", "Athletics", "Swimming", "Basketball", "Rugby", "Tennis", "Cycling"] },
+            { label: "Country", options: ["All", "United Kingdom", "Spain", "Germany", "France", "Brazil", "Argentina", "Italy", "Netherlands", "Portugal"] },
+            { label: "Region", options: ["All", "Europe", "South America", "North America", "Asia", "Africa", "Oceania"] },
           ].map((filter) => (
             <div key={filter.label}>
               <label className="text-xs font-medium text-foreground">{filter.label}:</label>
-              <div className="mt-1 flex items-center justify-between rounded-md border border-input bg-background px-3 py-1.5 text-xs text-muted-foreground cursor-pointer hover:border-primary/30 transition-colors">
-                {filter.value}
-                <ChevronDown className="h-3 w-3" />
-              </div>
+              <select className="mt-1 w-full rounded-md border border-input bg-background px-3 py-1.5 text-xs text-foreground cursor-pointer hover:border-primary/30 transition-colors focus:outline-none focus:ring-2 focus:ring-primary appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23888%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[right_8px_center]">
+                {filter.options.map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
             </div>
           ))}
 
