@@ -63,11 +63,6 @@ const currentUser = { name: "Sarah Mitchell", level: 3, nextLevelMpu: 400, rank:
 const currentUserData = leaderboard.find(m => m.name === currentUser.name)!;
 const currentMpu = getMpu(currentUserData);
 
-const top3 = leaderboard
-  .map(m => ({ ...m, mpu: getMpu(m) }))
-  .sort((a, b) => b.mpu - a.mpu)
-  .slice(0, 3)
-  .sort((a, b) => a.rank - b.rank);
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
