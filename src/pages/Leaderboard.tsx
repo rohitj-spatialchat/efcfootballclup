@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Lock, Award, Crown, Heart, MessageCircle, Users } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -63,11 +63,6 @@ const currentUser = { name: "Sarah Mitchell", level: 3, nextLevelMpu: 400, rank:
 const currentUserData = leaderboard.find(m => m.name === currentUser.name)!;
 const currentMpu = getMpu(currentUserData);
 
-const top3 = leaderboard
-  .map(m => ({ ...m, mpu: getMpu(m) }))
-  .sort((a, b) => b.mpu - a.mpu)
-  .slice(0, 3)
-  .sort((a, b) => a.rank - b.rank);
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
@@ -99,9 +94,9 @@ export default function LeaderboardPage() {
       </motion.div>
 
       {/* Your Level Card + Podium */}
-      <motion.div variants={item} className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <motion.div variants={item}>
         {/* Your Level Card */}
-        <div className="lg:col-span-3 rounded-lg border border-border bg-card p-6 shadow-card">
+        <div className="rounded-lg border border-border bg-card p-6 shadow-card">
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
             <div className="flex items-center gap-4">
               <div className="relative">
@@ -115,7 +110,7 @@ export default function LeaderboardPage() {
               </div>
               <div>
                 <p className="font-semibold text-foreground">{currentUser.name}</p>
-                <p className="text-sm text-muted-foreground">{currentMpu} MPU</p>
+                <p className="text-sm text-muted-foreground">{currentMpu} MPU Points</p>
               </div>
             </div>
             <div className="sm:ml-auto text-center sm:text-right">
@@ -129,89 +124,10 @@ export default function LeaderboardPage() {
           <div className="mt-5 space-y-2">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>Level {currentUser.level}</span>
-              <span>{currentMpu} / {currentUser.nextLevelMpu} MPU</span>
+              <span>{currentMpu} / {currentUser.nextLevelMpu} MPU Points</span>
               <span>Level {currentUser.level + 1}</span>
             </div>
             <Progress value={getLevelProgress(currentMpu)} className="h-2" />
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {levels.map((lvl) => {
-              const unlocked = currentMpu >= lvl.pointsRequired;
-              return (
-                <div
-                  key={lvl.level}
-                  className={cn(
-                    "rounded-lg border p-3 text-center transition-colors",
-                    unlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/30 opacity-60",
-                  )}
-                >
-                  <span className="text-xl">{lvl.badge}</span>
-                  <p className="text-xs font-medium text-foreground mt-1">{lvl.title}</p>
-                  <p className="text-xs text-muted-foreground flex items-center justify-center gap-1 mt-0.5">
-                    {!unlocked && <Lock className="h-3 w-3" />}
-                    {lvl.pointsRequired} pts
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Top 3 Podium */}
-        <div className="lg:col-span-2 rounded-lg border border-border bg-card p-6 shadow-card flex flex-col">
-          <h3 className="font-semibold text-foreground flex items-center gap-2 mb-4">
-            <Trophy className="h-4 w-4 text-primary" /> Top Performers
-          </h3>
-          <div className="flex-1 flex items-end justify-center gap-4">
-            {/* 2nd place */}
-            <div className="flex flex-col items-center">
-              <Avatar className="h-14 w-14 border-2 border-muted-foreground/40">
-                <AvatarImage src={realPhotos[top3[1].name]} alt={top3[1].name} />
-                <AvatarFallback className="bg-muted text-muted-foreground text-sm font-bold">
-                  {top3[1].name.split(" ").map(n => n[0]).join("")}
-                </AvatarFallback>
-              </Avatar>
-              <p className="text-xs font-medium text-foreground mt-1.5 text-center max-w-[80px] truncate">{top3[1].name}</p>
-              <p className="text-xs text-muted-foreground">{top3[1].mpu} MPU</p>
-              <div className="mt-2 w-24 bg-muted/60 rounded-t-lg flex flex-col items-center justify-end pt-4 pb-3" style={{ height: 120 }}>
-                <span className="text-xl">🥈</span>
-                <span className="text-sm font-bold text-muted-foreground">#2</span>
-              </div>
-            </div>
-            {/* 1st place */}
-            <div className="flex flex-col items-center">
-              <div className="relative">
-                <Crown className="h-6 w-6 text-primary absolute -top-6 left-1/2 -translate-x-1/2" />
-                <Avatar className="h-16 w-16 border-3 border-primary">
-                  <AvatarImage src={realPhotos[top3[0].name]} alt={top3[0].name} />
-                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-bold">
-                    {top3[0].name.split(" ").map(n => n[0]).join("")}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-              <p className="text-xs font-medium text-foreground mt-1.5 text-center max-w-[80px] truncate">{top3[0].name}</p>
-              <p className="text-xs text-muted-foreground">{top3[0].mpu} MPU</p>
-              <div className="mt-2 w-24 bg-primary/15 rounded-t-lg flex flex-col items-center justify-end pt-4 pb-3" style={{ height: 160 }}>
-                <span className="text-xl">🥇</span>
-                <span className="text-sm font-bold text-primary">#1</span>
-              </div>
-            </div>
-            {/* 3rd place */}
-            <div className="flex flex-col items-center">
-              <Avatar className="h-14 w-14 border-2 border-accent">
-                <AvatarImage src={realPhotos[top3[2].name]} alt={top3[2].name} />
-                <AvatarFallback className="bg-accent text-accent-foreground text-sm font-bold">
-                  {top3[2].name.split(" ").map(n => n[0]).join("")}
-                </AvatarFallback>
-              </Avatar>
-              <p className="text-xs font-medium text-foreground mt-1.5 text-center max-w-[80px] truncate">{top3[2].name}</p>
-              <p className="text-xs text-muted-foreground">{top3[2].mpu} MPU</p>
-              <div className="mt-2 w-24 bg-accent/20 rounded-t-lg flex flex-col items-center justify-end pt-4 pb-3" style={{ height: 90 }}>
-                <span className="text-xl">🥉</span>
-                <span className="text-sm font-bold text-accent-foreground">#3</span>
-              </div>
-            </div>
           </div>
         </div>
       </motion.div>
