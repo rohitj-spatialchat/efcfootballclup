@@ -445,9 +445,9 @@ export default function LeaderboardPage() {
                         <span className="text-muted-foreground">#{m.rank}</span>
                       )}
                     </td>
-                    <td className="px-4 py-3.5">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8">
+                    <td className="px-3 py-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <Avatar className="h-8 w-8 shrink-0">
                           <AvatarImage src={realPhotos[m.name]} alt={m.name} />
                           <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
                             {m.name
@@ -456,21 +456,21 @@ export default function LeaderboardPage() {
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
-                        <span className="text-sm font-medium text-foreground">{m.name}</span>
+                        <span className="text-sm font-medium text-foreground truncate">{m.name}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-3.5 text-sm text-muted-foreground">{m.region}</td>
-                    <td className="px-4 py-3.5 text-sm text-foreground">{m.team}</td>
-                    <td className="px-4 py-3.5 text-right">
+                    <td className="px-3 py-3 text-sm text-muted-foreground truncate">{m.region}</td>
+                    <td className="px-3 py-3 text-sm text-foreground truncate">{m.team}</td>
+                    <td className="px-3 py-3 text-center">
                       <span className="inline-flex items-center gap-1 text-xs font-medium rounded-full bg-primary/10 text-primary px-2 py-0.5">
                         {m.badge} Lv.{m.level}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 text-sm text-muted-foreground text-right">{m.likes}</td>
-                    <td className="px-4 py-3.5 text-sm text-muted-foreground text-right">{m.comments}</td>
-                    <td className="px-4 py-3.5 text-sm text-muted-foreground text-right">{m.networking}</td>
-                    <td className="px-4 py-3.5 text-sm text-foreground text-right font-semibold">{mpu}</td>
-                    <td className="px-4 py-3.5 text-sm text-muted-foreground text-right">
+                    <td className="px-3 py-3 text-sm text-muted-foreground text-center">{m.likes}</td>
+                    <td className="px-3 py-3 text-sm text-muted-foreground text-center">{m.comments}</td>
+                    <td className="px-3 py-3 text-sm text-muted-foreground text-center">{m.networking}</td>
+                    <td className="px-3 py-3 text-sm text-foreground text-center font-semibold">{mpu}</td>
+                    <td className="px-3 py-3 text-sm text-muted-foreground text-center">
                       <span className="inline-flex items-center gap-1">
                         <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
                       </span>
