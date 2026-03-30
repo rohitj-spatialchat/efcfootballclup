@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Shuffle, Search, MapPin, Linkedin, UserPlus, Send, Trophy, Flag } from "lucide-react";
+import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const onlineUsers = [
