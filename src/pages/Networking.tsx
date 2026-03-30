@@ -163,7 +163,7 @@ export default function NetworkingPage() {
                 <Flag className="h-3 w-3" /> {currentUser.country}
               </span>
               <span className="flex items-center gap-1">
-                <Trophy className="h-3 w-3 text-primary" /> {formatPoints(currentUser.mpuPoints)} MPU
+                <Trophy className="h-3 w-3 text-primary" /> {formatPoints(currentUser.mpuPoints)} MPU Points
               </span>
             </div>
 
@@ -262,7 +262,7 @@ export default function NetworkingPage() {
                   <Flag className="h-3 w-3" /> {u.country}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Trophy className="h-3 w-3 text-primary" /> {formatPoints(u.mpuPoints)} MPU
+                  <Trophy className="h-3 w-3 text-primary" /> {formatPoints(u.mpuPoints)} MPU Points
                 </span>
               </div>
 
