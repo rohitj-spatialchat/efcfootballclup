@@ -72,8 +72,8 @@ const leaderboard = [
     streak: 22,
     badge: "🏆",
     change: "+80",
-    region: "Americas",
-    team: "LA Galaxy",
+    region: "Spain",
+    team: "Sevilla FC",
   },
   {
     rank: 4,
@@ -111,8 +111,8 @@ const leaderboard = [
     streak: 12,
     badge: "🥈",
     change: "+40",
-    region: "Americas",
-    team: "Toronto FC",
+    region: "Germany",
+    team: "RB Leipzig",
   },
   // {
   //   rank: 7,
