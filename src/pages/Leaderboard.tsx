@@ -163,7 +163,7 @@ const leaderboard = [
     streak: 35,
     badge: "💎",
     change: "+88",
-    region: "Scotland",
+    region: "Europe",
     team: "Aberdeen FC",
   },
   {
