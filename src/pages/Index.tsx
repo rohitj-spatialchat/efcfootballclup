@@ -307,8 +307,14 @@ const Index = () => {
     setPostTitle("");
     setSelectedTags([]);
     setSelectedImage(null);
+    setSelectedVideo(null);
+    setSelectedVideoName(null);
+    setSelectedPdf(null);
+    setSelectedPdfName(null);
+    setSelectedGif(null);
+    setPostDestination("Feed");
     setCreatePostOpen(false);
-    toast({ title: "Post published!", description: "Your post is now live in the feed." });
+    toast({ title: "Post published!", description: `Your post is now live in ${postDestination}.` });
   };
 
   const handleLike = (postId: number) => {
