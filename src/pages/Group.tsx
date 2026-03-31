@@ -308,6 +308,15 @@ const groupsData: Record<string, {
       { title: "Heat Preparation Workshop", date: "May 5, 2026", attendees: 35 },
     ],
     rules: ["Use standardized terminology when discussing physiological concepts"],
+    chatMessages: [
+      { id: 1, author: "Dr. Lisa Park", avatar: "LP", message: "HRV data from this week's training looks solid. Recovery scores all green.", time: "6:00 PM" },
+      { id: 2, author: "Oscar Nilsson", avatar: "ON", message: "Great to hear! The SSG session yesterday was intense though. Expected some amber flags.", time: "6:05 PM" },
+      { id: 3, author: "Priya Sharma", avatar: "PS", message: "Two players showed slightly elevated resting HR this morning. Monitoring closely.", time: "6:10 PM" },
+      { id: 4, author: "Ethan Wright", avatar: "EW", message: "Could be the heat. It was 32°C during training today.", time: "6:15 PM" },
+      { id: 5, author: "Dr. Lisa Park", avatar: "LP", message: "Good point. Adjusting tomorrow's session intensity. Adding extra hydration breaks.", time: "6:20 PM" },
+      { id: 6, author: "Oscar Nilsson", avatar: "ON", message: "Should we move the Yo-Yo test to next week when it's cooler?", time: "6:25 PM" },
+      { id: 7, author: "Dr. Lisa Park", avatar: "LP", message: "Yes, let's postpone. No point testing in extreme heat — it won't reflect true fitness.", time: "6:30 PM" },
+    ],
   },
 };
 
