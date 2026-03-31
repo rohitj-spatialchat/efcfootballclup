@@ -144,13 +144,31 @@ const Index = () => {
   const [commentingPost, setCommentingPost] = useState<number | null>(null);
   const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const pdfInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  // Poll state
+  // Post state
   const [postMode, setPostMode] = useState<"post" | "poll">("post");
   const [pollQuestion, setPollQuestion] = useState("");
   const [pollOptions, setPollOptions] = useState(["", ""]);
   const [pollDuration, setPollDuration] = useState("1 day");
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [selectedVideoName, setSelectedVideoName] = useState<string | null>(null);
+  const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
+  const [selectedPdfName, setSelectedPdfName] = useState<string | null>(null);
+  const [selectedGif, setSelectedGif] = useState<string | null>(null);
+  const [postDestination, setPostDestination] = useState("Feed");
+
+  const feedDestinations = [
+    "Feed",
+    "Sport & Exercise",
+    "Science",
+    "Nutrition",
+    "Sport Psychology",
+    "Sport Medicine",
+    "Rehabilitation",
+  ];
 
   const addPollOption = () => {
     if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
