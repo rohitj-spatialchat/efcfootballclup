@@ -656,6 +656,58 @@ export default function Group() {
         </div>
       )}
 
+      {activeTab === "chat" && (
+        <motion.div variants={itemAnim} className="rounded-lg border border-border bg-card shadow-card flex flex-col" style={{ height: "500px" }}>
+          <div className="p-4 border-b border-border">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <MessageSquare className="h-4 w-4 text-primary" />
+              {group.label} — Group Chat
+            </h3>
+            <p className="text-xs text-muted-foreground mt-0.5">{chatMessages.length} messages</p>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            {chatMessages.map((msg) => {
+              const isMe = msg.author === "Demo User";
+              return (
+                <div key={msg.id} className={cn("flex gap-3", isMe && "flex-row-reverse")}>
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0">
+                    {msg.avatar}
+                  </div>
+                  <div className={cn("max-w-[75%]", isMe && "text-right")}>
+                    <div className="flex items-center gap-2 mb-0.5" style={isMe ? { justifyContent: "flex-end" } : {}}>
+                      <span className="text-xs font-semibold text-foreground">{msg.author}</span>
+                      <span className="text-[10px] text-muted-foreground">{msg.time}</span>
+                    </div>
+                    <div className={cn(
+                      "rounded-xl px-3 py-2 text-sm leading-relaxed inline-block",
+                      isMe
+                        ? "bg-primary text-primary-foreground rounded-tr-sm"
+                        : "bg-muted text-foreground rounded-tl-sm"
+                    )}>
+                      {msg.message}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            <div ref={chatEndRef} />
+          </div>
+          <div className="p-3 border-t border-border flex items-center gap-2">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={chatInput}
+              onChange={e => setChatInput(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && handleSendChat()}
+              className="flex-1 h-9 rounded-full border border-input bg-background px-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+            />
+            <Button size="icon" className="h-9 w-9 rounded-full shrink-0" onClick={handleSendChat}>
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
       {activeTab === "members" && (
         <motion.div variants={itemAnim} className="rounded-lg border border-border bg-card shadow-card">
           <div className="p-4 border-b border-border flex items-center gap-3">
