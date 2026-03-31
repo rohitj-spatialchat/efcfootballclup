@@ -26,6 +26,7 @@ const groupsData: Record<string, {
   posts: { id: number; author: string; avatar: string; time: string; title: string; body: string; image: string | null; likes: number; comments: number; pinned: boolean }[];
   events: { title: string; date: string; attendees: number }[];
   rules: string[];
+  chatMessages: { id: number; author: string; avatar: string; message: string; time: string }[];
 }> = {
   "sport-exercise": {
     label: "Sport & Exercise",
