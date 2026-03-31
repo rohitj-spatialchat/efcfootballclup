@@ -71,7 +71,7 @@ const navItems = [
   { label: "Home", path: "/" },
   { label: "Events", path: "/events" },
   { label: "Knowledge Hub", path: "/knowledge" },
-  { label: "Memeber Directory", path: "/community" },
+  { label: "Member Directory", path: "/community" },
   { label: "Leaderboard", path: "/leaderboard" },
   { label: "Networking", path: "/networking" },
   { label: "Rewards", path: "/redemption" },
@@ -214,7 +214,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 "hidden lg:flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-colors mr-2",
                 isAdmin
                   ? "bg-primary/10 text-primary border border-primary/20"
-                  : "bg-muted text-muted-foreground border border-border"
+                  : "bg-muted text-muted-foreground border border-border",
               )}
             >
               {isAdmin ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
@@ -497,10 +497,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       <div className="flex flex-1">
         {/* Left Sidebar */}
-        <aside className={cn(
-          "hidden lg:flex shrink-0 flex-col border-r border-border bg-card overflow-y-auto transition-all duration-300 relative",
-          sidebarCollapsed ? "w-14" : "w-56"
-        )}>
+        <aside
+          className={cn(
+            "hidden lg:flex shrink-0 flex-col border-r border-border bg-card overflow-y-auto transition-all duration-300 relative",
+            sidebarCollapsed ? "w-14" : "w-56",
+          )}
+        >
           {/* Collapse Toggle */}
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -565,7 +567,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Users className="h-4 w-4 shrink-0" />
                 {!sidebarCollapsed && "Groups"}
               </span>
-              {!sidebarCollapsed && (groupsOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />)}
+              {!sidebarCollapsed &&
+                (groupsOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />)}
             </button>
             {groupsOpen && !sidebarCollapsed && (
               <div className="ml-3 mt-0.5 space-y-0.5">
@@ -621,7 +624,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Globe className="h-4 w-4 shrink-0" />
                 {!sidebarCollapsed && "Spatial Room"}
               </span>
-              {!sidebarCollapsed && (spatialOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />)}
+              {!sidebarCollapsed &&
+                (spatialOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />)}
             </button>
             {spatialOpen && !sidebarCollapsed && (
               <div className="ml-3 mt-0.5 space-y-0.5 pb-4">
@@ -690,26 +694,28 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 { label: "Analytics", icon: BarChart3, tab: "analytics", adminOnly: true },
                 { label: "Recording", icon: MonitorPlay, tab: "recording", adminOnly: true },
                 { label: "Settings", icon: Cog, tab: "settings", adminOnly: true },
-              ].filter((item) => !item.adminOnly || isAdmin).map((item) => {
-                const params = new URLSearchParams(location.search);
-                const currentTab = params.get("tab") || "";
-                const isActive = currentTab === item.tab;
-                return (
-                  <button
-                    key={item.label}
-                    onClick={() => navigate(item.tab ? `/events?tab=${item.tab}` : "/events")}
-                    className={cn(
-                      "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-sm transition-colors",
-                      isActive
-                        ? "bg-primary text-primary-foreground font-medium"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                    )}
-                  >
-                    <item.icon className="h-4 w-4 shrink-0" />
-                    {item.label}
-                  </button>
-                );
-              })}
+              ]
+                .filter((item) => !item.adminOnly || isAdmin)
+                .map((item) => {
+                  const params = new URLSearchParams(location.search);
+                  const currentTab = params.get("tab") || "";
+                  const isActive = currentTab === item.tab;
+                  return (
+                    <button
+                      key={item.label}
+                      onClick={() => navigate(item.tab ? `/events?tab=${item.tab}` : "/events")}
+                      className={cn(
+                        "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-sm transition-colors",
+                        isActive
+                          ? "bg-primary text-primary-foreground font-medium"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                      )}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" />
+                      {item.label}
+                    </button>
+                  );
+                })}
             </nav>
           </aside>
         )}
