@@ -154,6 +154,15 @@ const groupsData: Record<string, {
       "Respect individual dietary choices and cultural considerations",
       "Evidence-based recommendations only",
     ],
+    chatMessages: [
+      { id: 1, author: "Emma Johansson", avatar: "EJ", message: "Reminder: match-day meal prep for Saturday needs to be finalized by Thursday.", time: "8:00 AM" },
+      { id: 2, author: "Raj Patel", avatar: "RP", message: "I've updated the menu. Added a new rice bowl option for players who prefer lighter meals.", time: "8:15 AM" },
+      { id: 3, author: "Sophie Laurent", avatar: "SL", message: "Perfect. Can we also add a gluten-free pasta option? Two new players have celiac.", time: "8:22 AM" },
+      { id: 4, author: "Dr. Kwame Adebayo", avatar: "KA", message: "Don't forget the hydration station setup. Forecast shows 30°C for Saturday.", time: "8:30 AM" },
+      { id: 5, author: "Emma Johansson", avatar: "EJ", message: "Already on it! Sodium-loaded drinks ready. Individual bottles labeled by player.", time: "8:35 AM" },
+      { id: 6, author: "Raj Patel", avatar: "RP", message: "Also, the new tart cherry juice supplier confirmed delivery for Friday morning 🍒", time: "8:42 AM" },
+      { id: 7, author: "Sophie Laurent", avatar: "SL", message: "Excellent! The players have been loving it for recovery. Great addition.", time: "8:50 AM" },
+    ],
   },
   "sport-psychology": {
     label: "Sport Psychology",
