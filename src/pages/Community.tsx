@@ -963,7 +963,7 @@ export default function CommunityPage() {
                       {/* Name & Role */}
                       <h3 className="text-sm font-semibold text-foreground">{m.name}</h3>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        {m.role} · {m.country}
+                        {m.role} · {m.position || m.country}
                       </p>
                       <p className="text-xs text-primary font-medium mt-1">
                         {m.team}
