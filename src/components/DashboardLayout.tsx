@@ -688,9 +688,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <nav className="space-y-0.5 px-2">
               {[
                 { label: "Event", icon: ClipboardList, tab: "" },
-                { label: "Registration", icon: UserCheck, tab: "registration" },
-                { label: "People", icon: UsersRound, tab: "people" },
-                { label: "Engagement", icon: Flame, tab: "engagement" },
+                { label: "Registration", icon: UserCheck, tab: "registration", adminOnly: true },
+                { label: "People", icon: UsersRound, tab: "people", adminOnly: true },
+                { label: "Engagement", icon: Flame, tab: "engagement", adminOnly: true },
                 { label: "Analytics", icon: BarChart3, tab: "analytics", adminOnly: true },
                 { label: "Recording", icon: MonitorPlay, tab: "recording", adminOnly: true },
                 { label: "Settings", icon: Cog, tab: "settings", adminOnly: true },
