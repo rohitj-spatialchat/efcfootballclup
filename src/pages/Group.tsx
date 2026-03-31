@@ -335,7 +335,9 @@ export default function Group() {
   const [posts, setPosts] = useState(group?.posts || []);
   const [chatMessages, setChatMessages] = useState(group?.chatMessages || []);
   const [chatInput, setChatInput] = useState("");
+  const [chatImage, setChatImage] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatImageInputRef = useRef<HTMLInputElement>(null);
 
   // Sync posts when slug/group changes
   useEffect(() => {
