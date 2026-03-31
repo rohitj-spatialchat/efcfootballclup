@@ -515,17 +515,28 @@ export default function Group() {
   ];
 
   const handleSendChat = () => {
-    if (!chatInput.trim()) return;
+    if (!chatInput.trim() && !chatImage) return;
     const newMsg = {
       id: Date.now(),
       author: "Demo User",
       avatar: "DU",
       message: chatInput,
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      image: chatImage || undefined,
     };
     setChatMessages(prev => [...prev, newMsg]);
     setChatInput("");
+    setChatImage(null);
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  };
+
+  const handleChatImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setChatImage(reader.result as string);
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
