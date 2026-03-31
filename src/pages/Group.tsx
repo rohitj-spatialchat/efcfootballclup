@@ -111,6 +111,16 @@ const groupsData: Record<string, {
       "Distinguish clearly between established evidence and preliminary data",
       "Be respectful of differing methodological approaches",
     ],
+    chatMessages: [
+      { id: 1, author: "Alex Chen", avatar: "AC", message: "Just finished reviewing the latest BJSM paper on hamstring rehab protocols. Really interesting findings.", time: "9:15 AM" },
+      { id: 2, author: "Prof. Nina Volkov", avatar: "NV", message: "Which one? The Askling et al. follow-up?", time: "9:18 AM" },
+      { id: 3, author: "Alex Chen", avatar: "AC", message: "Yes! They found the L-protocol had 28% faster RTP times compared to conventional approaches.", time: "9:22 AM" },
+      { id: 4, author: "Tom Bradley", avatar: "TB", message: "We've been using a modified version of that. Can confirm the results are promising.", time: "9:30 AM" },
+      { id: 5, author: "Yuki Tanaka", avatar: "YT", message: "Has anyone validated these protocols with female athletes specifically? Sample sizes are always small.", time: "9:35 AM" },
+      { id: 6, author: "Prof. Nina Volkov", avatar: "NV", message: "Great point Yuki. We're running a study with 60 female footballers currently. Data expected by Q3.", time: "9:40 AM" },
+      { id: 7, author: "Tom Bradley", avatar: "TB", message: "That's exciting! Would love to collaborate on the analysis if you need ML support.", time: "9:45 AM" },
+      { id: 8, author: "Alex Chen", avatar: "AC", message: "Let's set up a call this week to discuss the methodology. I'll send calendar invites.", time: "9:50 AM" },
+    ],
   },
   "nutrition": {
     label: "Nutrition",
