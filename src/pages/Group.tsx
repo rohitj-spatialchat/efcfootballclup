@@ -65,6 +65,18 @@ const groupsData: Record<string, {
       "Be constructive in discussions and debates",
       "No promotional or commercial content without admin approval",
     ],
+    chatMessages: [
+      { id: 1, author: "Dr. Marco Rossi", avatar: "MR", message: "Has anyone tried the new GPS vest from Catapult? We're evaluating it for next season.", time: "10:32 AM" },
+      { id: 2, author: "Sarah Mitchell", avatar: "SM", message: "Yes! We've been using it for 3 weeks. The data quality is excellent, especially for accelerations.", time: "10:35 AM" },
+      { id: 3, author: "Lena Schmidt", avatar: "LS", message: "Agreed. The battery life is a huge improvement over the previous model.", time: "10:38 AM" },
+      { id: 4, author: "James Parker", avatar: "JP", message: "How does it compare to STATSports? We're currently using Apex Pro.", time: "10:41 AM" },
+      { id: 5, author: "Dr. Marco Rossi", avatar: "MR", message: "Both are solid. Catapult has better raw data export, STATSports has a more intuitive dashboard.", time: "10:45 AM" },
+      { id: 6, author: "Carlos Garcia", avatar: "CG", message: "Quick question — anyone running concurrent HR monitoring with the vests? Any interference issues?", time: "10:52 AM" },
+      { id: 7, author: "Aisha Okafor", avatar: "AO", message: "We pair it with Polar H10 straps, no issues at all. Clean signal throughout.", time: "10:55 AM" },
+      { id: 8, author: "Sarah Mitchell", avatar: "SM", message: "Same here. The integration with our internal dashboard is seamless now 🙌", time: "11:02 AM" },
+      { id: 9, author: "Lena Schmidt", avatar: "LS", message: "Speaking of dashboards — Marco, are you presenting the new load monitoring tool at the roundtable?", time: "11:08 AM" },
+      { id: 10, author: "Dr. Marco Rossi", avatar: "MR", message: "Yes! I'll share the beta version next week. It auto-flags players exceeding their ACWR threshold.", time: "11:12 AM" },
+    ],
   },
   "science": {
     label: "Science",
