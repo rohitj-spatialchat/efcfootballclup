@@ -1,11 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
   Pin, ImagePlus, X, BookmarkPlus, Flag, EyeOff, Dumbbell, FlaskConical, Apple,
   Brain, Stethoscope, Zap, HeartPulse, UserPlus, Settings, Search, ChevronDown,
-  Plus, BarChart3, Trash2, PenTool,
+  Plus, BarChart3, Trash2, PenTool, Video, FileText, Paperclip, Smile,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -286,6 +286,51 @@ export default function Group() {
   const [pollQuestion, setPollQuestion] = useState("");
   const [pollOptions, setPollOptions] = useState(["", ""]);
   const [pollDuration, setPollDuration] = useState("1 day");
+
+  // Media state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const pdfInputRef = useRef<HTMLInputElement>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [selectedVideoName, setSelectedVideoName] = useState<string | null>(null);
+  const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
+  const [selectedPdfName, setSelectedPdfName] = useState<string | null>(null);
+  const [selectedGif, setSelectedGif] = useState<string | null>(null);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setSelectedImage(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 50 * 1024 * 1024) {
+        toast({ title: "Video too large", description: "Max 50MB allowed.", variant: "destructive" });
+        return;
+      }
+      setSelectedVideoName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => setSelectedVideo(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+  const handlePdfSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedPdfName(file.name);
+      setSelectedPdf(URL.createObjectURL(file));
+    }
+  };
+  const handleGifSearch = () => {
+    const sampleGif = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
+    setSelectedGif(sampleGif);
+    toast({ title: "GIF added!" });
+  };
 
   const addPollOption = () => {
     if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
@@ -634,7 +679,7 @@ export default function Group() {
       )}
 
       {/* Create Post Dialog */}
-      <Dialog open={createPostOpen} onOpenChange={(open) => { setCreatePostOpen(open); if (!open) setPostMode("post"); }}>
+      <Dialog open={createPostOpen} onOpenChange={(open) => { setCreatePostOpen(open); if (!open) { setPostMode("post"); setSelectedImage(null); setSelectedVideo(null); setSelectedVideoName(null); setSelectedPdf(null); setSelectedPdfName(null); setSelectedGif(null); } }}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -643,28 +688,6 @@ export default function Group() {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            {/* Post / Poll toggle */}
-            <div className="flex gap-1 p-1 rounded-lg bg-muted">
-              <button
-                onClick={() => setPostMode("post")}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  postMode === "post" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <PenTool className="h-3.5 w-3.5" /> Post
-              </button>
-              <button
-                onClick={() => setPostMode("poll")}
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  postMode === "poll" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <BarChart3 className="h-3.5 w-3.5" /> Poll
-              </button>
-            </div>
-
             {postMode === "post" ? (
               <>
                 <input
@@ -680,6 +703,76 @@ export default function Group() {
                   onChange={e => setNewPostBody(e.target.value)}
                   className="min-h-[120px] resize-none"
                 />
+
+                {/* Media Previews */}
+                {selectedImage && (
+                  <div className="relative rounded-lg overflow-hidden border border-border">
+                    <img src={selectedImage} alt="Selected" className="w-full max-h-48 object-cover" />
+                    <button onClick={() => setSelectedImage(null)} className="absolute top-2 right-2 h-6 w-6 rounded-full bg-foreground/70 flex items-center justify-center hover:bg-foreground/90 transition-colors">
+                      <X className="h-3 w-3 text-background" />
+                    </button>
+                  </div>
+                )}
+                {selectedVideo && (
+                  <div className="relative rounded-lg overflow-hidden border border-border bg-muted p-3">
+                    <div className="flex items-center gap-2">
+                      <Video className="h-5 w-5 text-primary" />
+                      <span className="text-sm text-foreground truncate flex-1">{selectedVideoName}</span>
+                      <button onClick={() => { setSelectedVideo(null); setSelectedVideoName(null); }} className="h-6 w-6 rounded-full bg-foreground/70 flex items-center justify-center hover:bg-foreground/90 transition-colors">
+                        <X className="h-3 w-3 text-background" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {selectedPdf && (
+                  <div className="relative rounded-lg overflow-hidden border border-border bg-muted p-3">
+                    <div className="flex items-center gap-2">
+                      <FileText className="h-5 w-5 text-destructive" />
+                      <span className="text-sm text-foreground truncate flex-1">{selectedPdfName}</span>
+                      <button onClick={() => { setSelectedPdf(null); setSelectedPdfName(null); }} className="h-6 w-6 rounded-full bg-foreground/70 flex items-center justify-center hover:bg-foreground/90 transition-colors">
+                        <X className="h-3 w-3 text-background" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {selectedGif && (
+                  <div className="relative rounded-lg overflow-hidden border border-border">
+                    <img src={selectedGif} alt="GIF" className="w-full max-h-48 object-cover" />
+                    <button onClick={() => setSelectedGif(null)} className="absolute top-2 right-2 h-6 w-6 rounded-full bg-foreground/70 flex items-center justify-center hover:bg-foreground/90 transition-colors">
+                      <X className="h-3 w-3 text-background" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Media Toolbar */}
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <div className="flex items-center gap-1">
+                    <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageSelect} />
+                    <input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={handleVideoSelect} />
+                    <input ref={pdfInputRef} type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handlePdfSelect} />
+                    <button onClick={() => fileInputRef.current?.click()} className="h-9 w-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Add Image">
+                      <ImagePlus className="h-[18px] w-[18px]" />
+                    </button>
+                    <button onClick={() => videoInputRef.current?.click()} className="h-9 w-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Add Video">
+                      <Video className="h-[18px] w-[18px]" />
+                    </button>
+                    <button onClick={() => pdfInputRef.current?.click()} className="h-9 w-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Attach File">
+                      <Paperclip className="h-[18px] w-[18px]" />
+                    </button>
+                    <button onClick={() => setPostMode("poll")} className="h-9 w-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Create Poll">
+                      <BarChart3 className="h-[18px] w-[18px]" />
+                    </button>
+                    <button onClick={handleGifSearch} className="h-9 rounded-lg flex items-center justify-center px-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors border border-border text-xs font-bold" title="Add GIF">
+                      Gif
+                    </button>
+                    <button className="h-9 w-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Add Emoji">
+                      <Smile className="h-[18px] w-[18px]" />
+                    </button>
+                  </div>
+                  <Button onClick={handleCreatePost}>
+                    <Send className="h-4 w-4 mr-1" /> Post
+                  </Button>
+                </div>
               </>
             ) : (
               <>
@@ -720,26 +813,23 @@ export default function Group() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-muted-foreground mb-1.5">Poll Duration</p>
-                  <select
-                    value={pollDuration}
-                    onChange={e => setPollDuration(e.target.value)}
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30"
-                  >
+                  <select value={pollDuration} onChange={e => setPollDuration(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30">
                     <option>1 day</option>
                     <option>3 days</option>
                     <option>1 week</option>
                     <option>2 weeks</option>
                   </select>
                 </div>
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <button onClick={() => setPostMode("post")} className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
+                    <PenTool className="h-3.5 w-3.5" /> Back to Post
+                  </button>
+                  <Button onClick={handleCreatePost}>
+                    <Send className="h-4 w-4 mr-1" /> Post Poll
+                  </Button>
+                </div>
               </>
             )}
-
-            <div className="flex justify-end gap-2 pt-2 border-t border-border">
-              <Button variant="outline" onClick={() => setCreatePostOpen(false)}>Cancel</Button>
-              <Button onClick={handleCreatePost}>
-                <Send className="h-4 w-4 mr-1" /> {postMode === "poll" ? "Post Poll" : "Post"}
-              </Button>
-            </div>
           </div>
         </DialogContent>
       </Dialog>
