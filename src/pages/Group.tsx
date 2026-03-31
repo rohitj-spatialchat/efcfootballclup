@@ -231,6 +231,14 @@ const groupsData: Record<string, {
       { title: "Pitch-Side Emergency Training", date: "Apr 8, 2026", attendees: 48 },
     ],
     rules: ["No specific medical advice for individual cases", "Respect patient confidentiality at all times"],
+    chatMessages: [
+      { id: 1, author: "Dr. Anna Weber", avatar: "AW", message: "Heads up — new UEFA medical regulations drop next month. I'll circulate a summary.", time: "7:30 AM" },
+      { id: 2, author: "Paulo Mendes", avatar: "PM", message: "Thanks Anna. Any changes to concussion protocols?", time: "7:35 AM" },
+      { id: 3, author: "Dr. Fatima Al-Hassan", avatar: "FA", message: "Yes, the minimum stand-down period is now extended to 11 days.", time: "7:40 AM" },
+      { id: 4, author: "Chris O'Brien", avatar: "CO", message: "About time. Player safety should always come first.", time: "7:45 AM" },
+      { id: 5, author: "Dr. Anna Weber", avatar: "AW", message: "Agreed. Also, new requirements for pitch-side defibrillator checks before every match.", time: "7:50 AM" },
+      { id: 6, author: "Paulo Mendes", avatar: "PM", message: "We're already compliant on that. Good to see it becoming mandatory.", time: "7:55 AM" },
+    ],
   },
   "strength-power": {
     label: "Strength & Power",
