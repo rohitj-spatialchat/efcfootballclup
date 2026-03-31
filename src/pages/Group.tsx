@@ -193,6 +193,14 @@ const groupsData: Record<string, {
       { title: "Resilience & Recovery Seminar", date: "Apr 12, 2026", attendees: 55 },
     ],
     rules: ["Maintain confidentiality about specific athlete cases", "Be sensitive when discussing mental health topics"],
+    chatMessages: [
+      { id: 1, author: "Dr. Ravi Patel", avatar: "RP", message: "Quick update — the mindfulness app pilot has been extended to the U21s as well.", time: "11:00 AM" },
+      { id: 2, author: "Mei Wong", avatar: "MW", message: "That's great news! The senior players gave really positive feedback.", time: "11:05 AM" },
+      { id: 3, author: "David Osei", avatar: "DO", message: "Any chance we can get aggregate data for the workshop next month?", time: "11:12 AM" },
+      { id: 4, author: "Laura Bianchi", avatar: "LB", message: "I can prepare anonymized summaries. Will share by end of week.", time: "11:18 AM" },
+      { id: 5, author: "Dr. Ravi Patel", avatar: "RP", message: "Perfect. Also, the penalty-taking psychology session is confirmed for Friday 🎯", time: "11:25 AM" },
+      { id: 6, author: "Mei Wong", avatar: "MW", message: "Looking forward to it! I've prepared some visualization exercises for the players.", time: "11:30 AM" },
+    ],
   },
   "medical-physiotherapy": {
     label: "Medical & Physiotherapy",
