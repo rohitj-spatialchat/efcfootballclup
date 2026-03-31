@@ -246,6 +246,35 @@ const Index = () => {
     }
   };
 
+  const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 50 * 1024 * 1024) {
+        toast({ title: "Video too large", description: "Max 50MB allowed.", variant: "destructive" });
+        return;
+      }
+      setSelectedVideoName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => setSelectedVideo(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePdfSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedPdfName(file.name);
+      setSelectedPdf(URL.createObjectURL(file));
+    }
+  };
+
+  const handleGifSearch = () => {
+    // Placeholder: In a real app you'd open a GIF picker (e.g. Giphy API)
+    const sampleGif = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
+    setSelectedGif(sampleGif);
+    toast({ title: "GIF added!" });
+  };
+
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
