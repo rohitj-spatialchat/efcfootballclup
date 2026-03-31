@@ -5,7 +5,7 @@ import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
   Pin, ImagePlus, X, BookmarkPlus, Flag, EyeOff, Dumbbell, FlaskConical, Apple,
   Brain, Stethoscope, Zap, HeartPulse, UserPlus, Settings, Search, ChevronDown,
-  Plus, BarChart3, Trash2, PenTool,
+  Plus, BarChart3, Trash2, PenTool, Video, FileText, Paperclip, Smile,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
