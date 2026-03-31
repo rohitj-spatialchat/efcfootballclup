@@ -330,9 +330,12 @@ export default function Group() {
   const { slug } = useParams();
   const { toast } = useToast();
   const group = slug ? groupsData[slug] : null;
-  const [activeTab, setActiveTab] = useState<"discussions" | "members" | "events" | "about">("discussions");
+  const [activeTab, setActiveTab] = useState<"discussions" | "chat" | "members" | "events" | "about">("discussions");
   const [joined, setJoined] = useState(true);
   const [posts, setPosts] = useState(group?.posts || []);
+  const [chatMessages, setChatMessages] = useState(group?.chatMessages || []);
+  const [chatInput, setChatInput] = useState("");
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Sync posts when slug/group changes
   useEffect(() => {
