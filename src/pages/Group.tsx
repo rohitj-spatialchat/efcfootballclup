@@ -698,7 +698,10 @@ export default function Group() {
                         ? "bg-primary text-primary-foreground rounded-tr-sm"
                         : "bg-muted text-foreground rounded-tl-sm"
                     )}>
-                      {msg.message}
+                      {msg.image && (
+                        <img src={msg.image} alt="Shared" className="rounded-lg max-w-[240px] max-h-[180px] object-cover mb-1" />
+                      )}
+                      {msg.message && <span>{msg.message}</span>}
                     </div>
                   </div>
                 </div>
@@ -706,7 +709,29 @@ export default function Group() {
             })}
             <div ref={chatEndRef} />
           </div>
+          {chatImage && (
+            <div className="px-3 pt-2 flex items-center gap-2">
+              <div className="relative">
+                <img src={chatImage} alt="Preview" className="h-16 w-16 rounded-lg object-cover border border-border" />
+                <button
+                  onClick={() => setChatImage(null)}
+                  className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center text-[10px]"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            </div>
+          )}
           <div className="p-3 border-t border-border flex items-center gap-2">
+            <input ref={chatImageInputRef} type="file" accept="image/*" className="hidden" onChange={handleChatImageSelect} />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 rounded-full shrink-0"
+              onClick={() => chatImageInputRef.current?.click()}
+            >
+              <ImagePlus className="h-4 w-4" />
+            </Button>
             <input
               type="text"
               placeholder="Type a message..."
