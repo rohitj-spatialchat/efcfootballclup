@@ -282,6 +282,7 @@ export default function CommunityPage() {
     } else {
       const member = {
         ...newMember,
+        position: "",
         mpu: Math.floor(Math.random() * 400 + 600),
         joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
         flag: "🏳️",
