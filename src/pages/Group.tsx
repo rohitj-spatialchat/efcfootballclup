@@ -506,10 +506,25 @@ export default function Group() {
 
   const tabs = [
     { key: "discussions" as const, label: "Discussions", icon: MessageSquare, count: posts.length },
+    { key: "chat" as const, label: "Group Chat", icon: MessageSquare, count: chatMessages.length },
     { key: "members" as const, label: "Members", icon: Users, count: group.memberCount },
     { key: "events" as const, label: "Events", icon: Calendar, count: group.events.length },
     { key: "about" as const, label: "About", icon: Info },
   ];
+
+  const handleSendChat = () => {
+    if (!chatInput.trim()) return;
+    const newMsg = {
+      id: Date.now(),
+      author: "Demo User",
+      avatar: "DU",
+      message: chatInput,
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    };
+    setChatMessages(prev => [...prev, newMsg]);
+    setChatInput("");
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  };
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto space-y-5">
