@@ -60,6 +60,7 @@ const initialMembers = [
     country: "Netherlands",
     mpu: 920,
     role: "Member",
+    position: "Nutritionist",
     joined: "Apr 12, 2024",
     flag: "🇳🇱",
     followers: 142,
@@ -74,6 +75,7 @@ const initialMembers = [
     country: "Italy",
     mpu: 940,
     role: "Member",
+    position: "Physiotherapist",
     joined: "Mar 5, 2024",
     flag: "🇮🇹",
     followers: 230,
@@ -88,6 +90,7 @@ const initialMembers = [
     country: "Italy",
     mpu: 800,
     role: "Member",
+    position: "Fitness Coach",
     joined: "Jun 22, 2024",
     flag: "🇮🇹",
     followers: 67,
@@ -102,6 +105,7 @@ const initialMembers = [
     country: "Portugal",
     mpu: 920,
     role: "Moderator",
+    position: "Head Scout",
     joined: "Mar 9, 2023",
     flag: "🇵🇹",
     followers: 312,
@@ -116,6 +120,7 @@ const initialMembers = [
     country: "Portugal",
     mpu: 920,
     role: "Admin",
+    position: "Team Manager",
     joined: "Sep 19, 2022",
     flag: "🇵🇹",
     followers: 456,
@@ -130,6 +135,7 @@ const initialMembers = [
     country: "England",
     mpu: 670,
     role: "Member",
+    position: "Performance Analyst",
     joined: "Jul 8, 2024",
     flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     followers: 34,
@@ -144,6 +150,7 @@ const initialMembers = [
     country: "United Kingdom",
     mpu: 920,
     role: "Moderator",
+    position: "Goalkeeper Coach",
     joined: "Dec 1, 2023",
     flag: "🇬🇧",
     followers: 189,
@@ -275,6 +282,7 @@ export default function CommunityPage() {
     } else {
       const member = {
         ...newMember,
+        position: "",
         mpu: Math.floor(Math.random() * 400 + 600),
         joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
         flag: "🏳️",
@@ -956,7 +964,7 @@ export default function CommunityPage() {
                       {/* Name & Role */}
                       <h3 className="text-sm font-semibold text-foreground">{m.name}</h3>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        {m.role} · {m.country}
+                        {m.role} · {m.position || m.country}
                       </p>
                       <p className="text-xs text-primary font-medium mt-1">
                         {m.team}
