@@ -26,7 +26,7 @@ const groupsData: Record<string, {
   posts: { id: number; author: string; avatar: string; time: string; title: string; body: string; image: string | null; likes: number; comments: number; pinned: boolean }[];
   events: { title: string; date: string; attendees: number }[];
   rules: string[];
-  chatMessages: { id: number; author: string; avatar: string; message: string; time: string }[];
+  chatMessages: { id: number; author: string; avatar: string; message: string; time: string; image?: string }[];
 }> = {
   "sport-exercise": {
     label: "Sport & Exercise",
@@ -335,13 +335,16 @@ export default function Group() {
   const [posts, setPosts] = useState(group?.posts || []);
   const [chatMessages, setChatMessages] = useState(group?.chatMessages || []);
   const [chatInput, setChatInput] = useState("");
+  const [chatImage, setChatImage] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatImageInputRef = useRef<HTMLInputElement>(null);
 
   // Sync posts when slug/group changes
   useEffect(() => {
     setPosts(group?.posts || []);
     setChatMessages(group?.chatMessages || []);
     setChatInput("");
+    setChatImage(null);
     setActiveTab("discussions");
     setSearchQuery("");
     setSortBy("recent");
@@ -513,17 +516,28 @@ export default function Group() {
   ];
 
   const handleSendChat = () => {
-    if (!chatInput.trim()) return;
+    if (!chatInput.trim() && !chatImage) return;
     const newMsg = {
       id: Date.now(),
       author: "Demo User",
       avatar: "DU",
       message: chatInput,
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      image: chatImage || undefined,
     };
     setChatMessages(prev => [...prev, newMsg]);
     setChatInput("");
+    setChatImage(null);
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  };
+
+  const handleChatImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setChatImage(reader.result as string);
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -684,7 +698,10 @@ export default function Group() {
                         ? "bg-primary text-primary-foreground rounded-tr-sm"
                         : "bg-muted text-foreground rounded-tl-sm"
                     )}>
-                      {msg.message}
+                      {msg.image && (
+                        <img src={msg.image} alt="Shared" className="rounded-lg max-w-[240px] max-h-[180px] object-cover mb-1" />
+                      )}
+                      {msg.message && <span>{msg.message}</span>}
                     </div>
                   </div>
                 </div>
@@ -692,7 +709,29 @@ export default function Group() {
             })}
             <div ref={chatEndRef} />
           </div>
+          {chatImage && (
+            <div className="px-3 pt-2 flex items-center gap-2">
+              <div className="relative">
+                <img src={chatImage} alt="Preview" className="h-16 w-16 rounded-lg object-cover border border-border" />
+                <button
+                  onClick={() => setChatImage(null)}
+                  className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center text-[10px]"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            </div>
+          )}
           <div className="p-3 border-t border-border flex items-center gap-2">
+            <input ref={chatImageInputRef} type="file" accept="image/*" className="hidden" onChange={handleChatImageSelect} />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 rounded-full shrink-0"
+              onClick={() => chatImageInputRef.current?.click()}
+            >
+              <ImagePlus className="h-4 w-4" />
+            </Button>
             <input
               type="text"
               placeholder="Type a message..."
