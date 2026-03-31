@@ -340,6 +340,8 @@ export default function Group() {
   // Sync posts when slug/group changes
   useEffect(() => {
     setPosts(group?.posts || []);
+    setChatMessages(group?.chatMessages || []);
+    setChatInput("");
     setActiveTab("discussions");
     setSearchQuery("");
     setSortBy("recent");
