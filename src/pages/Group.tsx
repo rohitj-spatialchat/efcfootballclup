@@ -26,6 +26,7 @@ const groupsData: Record<string, {
   posts: { id: number; author: string; avatar: string; time: string; title: string; body: string; image: string | null; likes: number; comments: number; pinned: boolean }[];
   events: { title: string; date: string; attendees: number }[];
   rules: string[];
+  chatMessages: { id: number; author: string; avatar: string; message: string; time: string }[];
 }> = {
   "sport-exercise": {
     label: "Sport & Exercise",
@@ -64,6 +65,18 @@ const groupsData: Record<string, {
       "Be constructive in discussions and debates",
       "No promotional or commercial content without admin approval",
     ],
+    chatMessages: [
+      { id: 1, author: "Dr. Marco Rossi", avatar: "MR", message: "Has anyone tried the new GPS vest from Catapult? We're evaluating it for next season.", time: "10:32 AM" },
+      { id: 2, author: "Sarah Mitchell", avatar: "SM", message: "Yes! We've been using it for 3 weeks. The data quality is excellent, especially for accelerations.", time: "10:35 AM" },
+      { id: 3, author: "Lena Schmidt", avatar: "LS", message: "Agreed. The battery life is a huge improvement over the previous model.", time: "10:38 AM" },
+      { id: 4, author: "James Parker", avatar: "JP", message: "How does it compare to STATSports? We're currently using Apex Pro.", time: "10:41 AM" },
+      { id: 5, author: "Dr. Marco Rossi", avatar: "MR", message: "Both are solid. Catapult has better raw data export, STATSports has a more intuitive dashboard.", time: "10:45 AM" },
+      { id: 6, author: "Carlos Garcia", avatar: "CG", message: "Quick question — anyone running concurrent HR monitoring with the vests? Any interference issues?", time: "10:52 AM" },
+      { id: 7, author: "Aisha Okafor", avatar: "AO", message: "We pair it with Polar H10 straps, no issues at all. Clean signal throughout.", time: "10:55 AM" },
+      { id: 8, author: "Sarah Mitchell", avatar: "SM", message: "Same here. The integration with our internal dashboard is seamless now 🙌", time: "11:02 AM" },
+      { id: 9, author: "Lena Schmidt", avatar: "LS", message: "Speaking of dashboards — Marco, are you presenting the new load monitoring tool at the roundtable?", time: "11:08 AM" },
+      { id: 10, author: "Dr. Marco Rossi", avatar: "MR", message: "Yes! I'll share the beta version next week. It auto-flags players exceeding their ACWR threshold.", time: "11:12 AM" },
+    ],
   },
   "science": {
     label: "Science",
@@ -98,6 +111,16 @@ const groupsData: Record<string, {
       "Distinguish clearly between established evidence and preliminary data",
       "Be respectful of differing methodological approaches",
     ],
+    chatMessages: [
+      { id: 1, author: "Alex Chen", avatar: "AC", message: "Just finished reviewing the latest BJSM paper on hamstring rehab protocols. Really interesting findings.", time: "9:15 AM" },
+      { id: 2, author: "Prof. Nina Volkov", avatar: "NV", message: "Which one? The Askling et al. follow-up?", time: "9:18 AM" },
+      { id: 3, author: "Alex Chen", avatar: "AC", message: "Yes! They found the L-protocol had 28% faster RTP times compared to conventional approaches.", time: "9:22 AM" },
+      { id: 4, author: "Tom Bradley", avatar: "TB", message: "We've been using a modified version of that. Can confirm the results are promising.", time: "9:30 AM" },
+      { id: 5, author: "Yuki Tanaka", avatar: "YT", message: "Has anyone validated these protocols with female athletes specifically? Sample sizes are always small.", time: "9:35 AM" },
+      { id: 6, author: "Prof. Nina Volkov", avatar: "NV", message: "Great point Yuki. We're running a study with 60 female footballers currently. Data expected by Q3.", time: "9:40 AM" },
+      { id: 7, author: "Tom Bradley", avatar: "TB", message: "That's exciting! Would love to collaborate on the analysis if you need ML support.", time: "9:45 AM" },
+      { id: 8, author: "Alex Chen", avatar: "AC", message: "Let's set up a call this week to discuss the methodology. I'll send calendar invites.", time: "9:50 AM" },
+    ],
   },
   "nutrition": {
     label: "Nutrition",
@@ -131,6 +154,15 @@ const groupsData: Record<string, {
       "Respect individual dietary choices and cultural considerations",
       "Evidence-based recommendations only",
     ],
+    chatMessages: [
+      { id: 1, author: "Emma Johansson", avatar: "EJ", message: "Reminder: match-day meal prep for Saturday needs to be finalized by Thursday.", time: "8:00 AM" },
+      { id: 2, author: "Raj Patel", avatar: "RP", message: "I've updated the menu. Added a new rice bowl option for players who prefer lighter meals.", time: "8:15 AM" },
+      { id: 3, author: "Sophie Laurent", avatar: "SL", message: "Perfect. Can we also add a gluten-free pasta option? Two new players have celiac.", time: "8:22 AM" },
+      { id: 4, author: "Dr. Kwame Adebayo", avatar: "KA", message: "Don't forget the hydration station setup. Forecast shows 30°C for Saturday.", time: "8:30 AM" },
+      { id: 5, author: "Emma Johansson", avatar: "EJ", message: "Already on it! Sodium-loaded drinks ready. Individual bottles labeled by player.", time: "8:35 AM" },
+      { id: 6, author: "Raj Patel", avatar: "RP", message: "Also, the new tart cherry juice supplier confirmed delivery for Friday morning 🍒", time: "8:42 AM" },
+      { id: 7, author: "Sophie Laurent", avatar: "SL", message: "Excellent! The players have been loving it for recovery. Great addition.", time: "8:50 AM" },
+    ],
   },
   "sport-psychology": {
     label: "Sport Psychology",
@@ -161,6 +193,14 @@ const groupsData: Record<string, {
       { title: "Resilience & Recovery Seminar", date: "Apr 12, 2026", attendees: 55 },
     ],
     rules: ["Maintain confidentiality about specific athlete cases", "Be sensitive when discussing mental health topics"],
+    chatMessages: [
+      { id: 1, author: "Dr. Ravi Patel", avatar: "RP", message: "Quick update — the mindfulness app pilot has been extended to the U21s as well.", time: "11:00 AM" },
+      { id: 2, author: "Mei Wong", avatar: "MW", message: "That's great news! The senior players gave really positive feedback.", time: "11:05 AM" },
+      { id: 3, author: "David Osei", avatar: "DO", message: "Any chance we can get aggregate data for the workshop next month?", time: "11:12 AM" },
+      { id: 4, author: "Laura Bianchi", avatar: "LB", message: "I can prepare anonymized summaries. Will share by end of week.", time: "11:18 AM" },
+      { id: 5, author: "Dr. Ravi Patel", avatar: "RP", message: "Perfect. Also, the penalty-taking psychology session is confirmed for Friday 🎯", time: "11:25 AM" },
+      { id: 6, author: "Mei Wong", avatar: "MW", message: "Looking forward to it! I've prepared some visualization exercises for the players.", time: "11:30 AM" },
+    ],
   },
   "medical-physiotherapy": {
     label: "Medical & Physiotherapy",
@@ -191,6 +231,14 @@ const groupsData: Record<string, {
       { title: "Pitch-Side Emergency Training", date: "Apr 8, 2026", attendees: 48 },
     ],
     rules: ["No specific medical advice for individual cases", "Respect patient confidentiality at all times"],
+    chatMessages: [
+      { id: 1, author: "Dr. Anna Weber", avatar: "AW", message: "Heads up — new UEFA medical regulations drop next month. I'll circulate a summary.", time: "7:30 AM" },
+      { id: 2, author: "Paulo Mendes", avatar: "PM", message: "Thanks Anna. Any changes to concussion protocols?", time: "7:35 AM" },
+      { id: 3, author: "Dr. Fatima Al-Hassan", avatar: "FA", message: "Yes, the minimum stand-down period is now extended to 11 days.", time: "7:40 AM" },
+      { id: 4, author: "Chris O'Brien", avatar: "CO", message: "About time. Player safety should always come first.", time: "7:45 AM" },
+      { id: 5, author: "Dr. Anna Weber", avatar: "AW", message: "Agreed. Also, new requirements for pitch-side defibrillator checks before every match.", time: "7:50 AM" },
+      { id: 6, author: "Paulo Mendes", avatar: "PM", message: "We're already compliant on that. Good to see it becoming mandatory.", time: "7:55 AM" },
+    ],
   },
   "strength-power": {
     label: "Strength & Power",
@@ -221,6 +269,15 @@ const groupsData: Record<string, {
       { title: "VBT Practical Workshop", date: "Apr 15, 2026", attendees: 30 },
     ],
     rules: ["Safety first — always discuss proper form and progressions", "Share programming rationale, not just exercises"],
+    chatMessages: [
+      { id: 1, author: "Jake Morrison", avatar: "JM", message: "VBT encoder just arrived! Setting it up for tomorrow's session.", time: "2:00 PM" },
+      { id: 2, author: "Viktor Petrov", avatar: "VP", message: "Which model did you go with? We're deciding between GymAware and Push Band.", time: "2:05 PM" },
+      { id: 3, author: "Jake Morrison", avatar: "JM", message: "GymAware FLEX. More expensive but the accuracy is unmatched.", time: "2:10 PM" },
+      { id: 4, author: "Tanya Brooks", avatar: "TB", message: "We use the same. The cloud dashboard makes team monitoring super easy.", time: "2:15 PM" },
+      { id: 5, author: "Hiroshi Sato", avatar: "HS", message: "Can it track isometric holds too? That'd be useful for our tendon work.", time: "2:20 PM" },
+      { id: 6, author: "Jake Morrison", avatar: "JM", message: "Yes! RFD and peak force during isometrics. Really clean data output.", time: "2:25 PM" },
+      { id: 7, author: "Viktor Petrov", avatar: "VP", message: "Sold. Ordering one today 💪", time: "2:30 PM" },
+    ],
   },
   "fitness-exercise-physiology": {
     label: "Fitness & Exercise Physiology",
@@ -251,6 +308,15 @@ const groupsData: Record<string, {
       { title: "Heat Preparation Workshop", date: "May 5, 2026", attendees: 35 },
     ],
     rules: ["Use standardized terminology when discussing physiological concepts"],
+    chatMessages: [
+      { id: 1, author: "Dr. Lisa Park", avatar: "LP", message: "HRV data from this week's training looks solid. Recovery scores all green.", time: "6:00 PM" },
+      { id: 2, author: "Oscar Nilsson", avatar: "ON", message: "Great to hear! The SSG session yesterday was intense though. Expected some amber flags.", time: "6:05 PM" },
+      { id: 3, author: "Priya Sharma", avatar: "PS", message: "Two players showed slightly elevated resting HR this morning. Monitoring closely.", time: "6:10 PM" },
+      { id: 4, author: "Ethan Wright", avatar: "EW", message: "Could be the heat. It was 32°C during training today.", time: "6:15 PM" },
+      { id: 5, author: "Dr. Lisa Park", avatar: "LP", message: "Good point. Adjusting tomorrow's session intensity. Adding extra hydration breaks.", time: "6:20 PM" },
+      { id: 6, author: "Oscar Nilsson", avatar: "ON", message: "Should we move the Yo-Yo test to next week when it's cooler?", time: "6:25 PM" },
+      { id: 7, author: "Dr. Lisa Park", avatar: "LP", message: "Yes, let's postpone. No point testing in extreme heat — it won't reflect true fitness.", time: "6:30 PM" },
+    ],
   },
 };
 
@@ -264,13 +330,18 @@ export default function Group() {
   const { slug } = useParams();
   const { toast } = useToast();
   const group = slug ? groupsData[slug] : null;
-  const [activeTab, setActiveTab] = useState<"discussions" | "members" | "events" | "about">("discussions");
+  const [activeTab, setActiveTab] = useState<"discussions" | "chat" | "members" | "events" | "about">("discussions");
   const [joined, setJoined] = useState(true);
   const [posts, setPosts] = useState(group?.posts || []);
+  const [chatMessages, setChatMessages] = useState(group?.chatMessages || []);
+  const [chatInput, setChatInput] = useState("");
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Sync posts when slug/group changes
   useEffect(() => {
     setPosts(group?.posts || []);
+    setChatMessages(group?.chatMessages || []);
+    setChatInput("");
     setActiveTab("discussions");
     setSearchQuery("");
     setSortBy("recent");
@@ -435,10 +506,25 @@ export default function Group() {
 
   const tabs = [
     { key: "discussions" as const, label: "Discussions", icon: MessageSquare, count: posts.length },
+    { key: "chat" as const, label: "Group Chat", icon: MessageSquare, count: chatMessages.length },
     { key: "members" as const, label: "Members", icon: Users, count: group.memberCount },
     { key: "events" as const, label: "Events", icon: Calendar, count: group.events.length },
     { key: "about" as const, label: "About", icon: Info },
   ];
+
+  const handleSendChat = () => {
+    if (!chatInput.trim()) return;
+    const newMsg = {
+      id: Date.now(),
+      author: "Demo User",
+      avatar: "DU",
+      message: chatInput,
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    };
+    setChatMessages(prev => [...prev, newMsg]);
+    setChatInput("");
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+  };
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto space-y-5">
@@ -568,6 +654,58 @@ export default function Group() {
             </div>
           )}
         </div>
+      )}
+
+      {activeTab === "chat" && (
+        <motion.div variants={itemAnim} className="rounded-lg border border-border bg-card shadow-card flex flex-col" style={{ height: "500px" }}>
+          <div className="p-4 border-b border-border">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <MessageSquare className="h-4 w-4 text-primary" />
+              {group.label} — Group Chat
+            </h3>
+            <p className="text-xs text-muted-foreground mt-0.5">{chatMessages.length} messages</p>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            {chatMessages.map((msg) => {
+              const isMe = msg.author === "Demo User";
+              return (
+                <div key={msg.id} className={cn("flex gap-3", isMe && "flex-row-reverse")}>
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0">
+                    {msg.avatar}
+                  </div>
+                  <div className={cn("max-w-[75%]", isMe && "text-right")}>
+                    <div className="flex items-center gap-2 mb-0.5" style={isMe ? { justifyContent: "flex-end" } : {}}>
+                      <span className="text-xs font-semibold text-foreground">{msg.author}</span>
+                      <span className="text-[10px] text-muted-foreground">{msg.time}</span>
+                    </div>
+                    <div className={cn(
+                      "rounded-xl px-3 py-2 text-sm leading-relaxed inline-block",
+                      isMe
+                        ? "bg-primary text-primary-foreground rounded-tr-sm"
+                        : "bg-muted text-foreground rounded-tl-sm"
+                    )}>
+                      {msg.message}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            <div ref={chatEndRef} />
+          </div>
+          <div className="p-3 border-t border-border flex items-center gap-2">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={chatInput}
+              onChange={e => setChatInput(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && handleSendChat()}
+              className="flex-1 h-9 rounded-full border border-input bg-background px-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+            />
+            <Button size="icon" className="h-9 w-9 rounded-full shrink-0" onClick={handleSendChat}>
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </motion.div>
       )}
 
       {activeTab === "members" && (
