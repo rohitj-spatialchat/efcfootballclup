@@ -287,6 +287,51 @@ export default function Group() {
   const [pollOptions, setPollOptions] = useState(["", ""]);
   const [pollDuration, setPollDuration] = useState("1 day");
 
+  // Media state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const pdfInputRef = useRef<HTMLInputElement>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [selectedVideoName, setSelectedVideoName] = useState<string | null>(null);
+  const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
+  const [selectedPdfName, setSelectedPdfName] = useState<string | null>(null);
+  const [selectedGif, setSelectedGif] = useState<string | null>(null);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setSelectedImage(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 50 * 1024 * 1024) {
+        toast({ title: "Video too large", description: "Max 50MB allowed.", variant: "destructive" });
+        return;
+      }
+      setSelectedVideoName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => setSelectedVideo(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+  const handlePdfSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedPdfName(file.name);
+      setSelectedPdf(URL.createObjectURL(file));
+    }
+  };
+  const handleGifSearch = () => {
+    const sampleGif = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
+    setSelectedGif(sampleGif);
+    toast({ title: "GIF added!" });
+  };
+
   const addPollOption = () => {
     if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
   };
