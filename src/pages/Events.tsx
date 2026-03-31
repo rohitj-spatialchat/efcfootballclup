@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { Plus, Search, Pencil, Settings, Video, Play, Download, Clock, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Navigate } from "react-router-dom";
+import { useViewMode } from "@/contexts/ViewModeContext";
 import EventRegistration from "@/components/EventRegistration";
 import EventPeople from "@/components/EventPeople";
 import EventAnalytics from "@/components/events/EventAnalytics";
@@ -38,6 +39,10 @@ export default function EventsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "";
+  const { isAdmin } = useViewMode();
+
+  // Admin-only tabs: redirect to events list in user view
+  if (!isAdmin && activeTab && activeTab !== "") return <Navigate to="/events" replace />;
 
   if (activeTab === "registration") return <EventRegistration />;
   if (activeTab === "people") return <EventPeople />;
@@ -94,11 +99,13 @@ export default function EventsPage() {
       <motion.div variants={item} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Events</h1>
-          <p className="text-sm text-muted-foreground mt-1">Manage all your webinars, conferences, and meetings</p>
+          <p className="text-sm text-muted-foreground mt-1">{isAdmin ? "Manage all your webinars, conferences, and meetings" : "Browse upcoming webinars, conferences, and meetings"}</p>
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-          <Plus className="h-4 w-4" /> Create New Event
-        </button>
+        {isAdmin && (
+          <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            <Plus className="h-4 w-4" /> Create New Event
+          </button>
+        )}
       </motion.div>
 
       {/* Filters + Search */}
@@ -139,8 +146,8 @@ export default function EventsPage() {
               <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
               <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Registrations</th>
               <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Capacity</th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Revenue</th>
-              <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
+              {isAdmin && <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Revenue</th>}
+              {isAdmin && <th className="px-5 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -168,13 +175,15 @@ export default function EventsPage() {
                     </div>
                   </td>
                   <td className="px-5 py-4 text-sm text-muted-foreground">{e.capacity}</td>
-                  <td className="px-5 py-4 text-sm text-muted-foreground">{e.revenue}</td>
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-2">
-                      <button className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
-                      <button className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
-                    </div>
-                  </td>
+                  {isAdmin && <td className="px-5 py-4 text-sm text-muted-foreground">{e.revenue}</td>}
+                  {isAdmin && (
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-2">
+                        <button className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
+                        <button className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               );
             })}
