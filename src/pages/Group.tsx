@@ -344,6 +344,7 @@ export default function Group() {
     setPosts(group?.posts || []);
     setChatMessages(group?.chatMessages || []);
     setChatInput("");
+    setChatImage(null);
     setActiveTab("discussions");
     setSearchQuery("");
     setSortBy("recent");
