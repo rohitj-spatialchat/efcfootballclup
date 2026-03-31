@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +12,21 @@ const levels = [
   { level: 4, title: "Platinum", pointsRequired: 400, badge: "🏆" },
   { level: 5, title: "Diamond", pointsRequired: 800, badge: "💎" },
   { level: 6, title: "Elite", pointsRequired: 1500, badge: "👑" },
+];
+
+const allBadges = [
+  { id: "first-post", label: "First Post", icon: "📝", description: "Published your first post" },
+  { id: "10-likes", label: "10 Likes", icon: "❤️", description: "Received 10 likes" },
+  { id: "50-likes", label: "50 Likes", icon: "💖", description: "Received 50 likes" },
+  { id: "100-likes", label: "Century Club", icon: "💯", description: "Received 100 likes" },
+  { id: "commenter", label: "Commenter", icon: "💬", description: "Left 25 comments" },
+  { id: "networker", label: "Networker", icon: "🤝", description: "Connected with 10 people" },
+  { id: "streak-7", label: "7-Day Streak", icon: "🔥", description: "7-day activity streak" },
+  { id: "streak-30", label: "30-Day Streak", icon: "⚡", description: "30-day activity streak" },
+  { id: "event-star", label: "Event Star", icon: "🌟", description: "Attended 5 events" },
+  { id: "team-player", label: "Team Player", icon: "⛹️", description: "Active in 3+ groups" },
+  { id: "top-10", label: "Top 10", icon: "🏅", description: "Reached top 10 ranking" },
+  { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
 const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
@@ -36,19 +51,6 @@ const realPhotos: Record<string, string> = {
 };
 
 const leaderboard = [
-  // {
-  //   rank: 1,
-  //   name: "Casey Nguyen",
-  //   likes: 620,
-  //   comments: 530,
-  //   networking: 450,
-  //   level: 6,
-  //   streak: 45,
-  //   badge: "👑",
-  //   change: "+120",
-  //   region: "Asia",
-  //   team: "FC Tokyo",
-  // },
   {
     rank: 2,
     name: "Jamie Lawson",
@@ -61,6 +63,7 @@ const leaderboard = [
     change: "+95",
     region: "Europe",
     team: "AC Milan",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "top-10"],
   },
   {
     rank: 3,
@@ -74,6 +77,7 @@ const leaderboard = [
     change: "+80",
     region: "Spain",
     team: "Sevilla FC",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"],
   },
   {
     rank: 4,
@@ -87,20 +91,8 @@ const leaderboard = [
     change: "+65",
     region: "Europe",
     team: "Chelsea FC",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "streak-30"],
   },
-  // {
-  //   rank: 5,
-  //   name: "Alex Chen",
-  //   likes: 48,
-  //   comments: 40,
-  //   networking: 32,
-  //   level: 2,
-  //   streak: 18,
-  //   badge: "🥈",
-  //   change: "+50",
-  //   region: "Asia",
-  //   team: "Shanghai Port",
-  // },
   {
     rank: 6,
     name: "Morgan Davis",
@@ -113,20 +105,8 @@ const leaderboard = [
     change: "+40",
     region: "Germany",
     team: "RB Leipzig",
+    earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
   },
-  // {
-  //   rank: 7,
-  //   name: "Taylor Kim",
-  //   likes: 16,
-  //   comments: 14,
-  //   networking: 10,
-  //   level: 1,
-  //   streak: 8,
-  //   badge: "⚽",
-  //   change: "+35",
-  //   region: "Asia",
-  //   team: "Ulsan HD",
-  // },
   {
     rank: 8,
     name: "Jordan Blake",
@@ -139,20 +119,8 @@ const leaderboard = [
     change: "+20",
     region: "Africa",
     team: "Al Ahly",
+    earnedBadges: ["first-post", "10-likes"],
   },
-  // {
-  //   rank: 9,
-  //   name: "Lucas Fernandez",
-  //   likes: 560,
-  //   comments: 480,
-  //   networking: 410,
-  //   level: 6,
-  //   streak: 40,
-  //   badge: "👑",
-  //   change: "+110",
-  //   region: "Americas",
-  //   team: "Inter Miami",
-  // },
   {
     rank: 10,
     name: "Yuki Tanaka",
@@ -165,6 +133,7 @@ const leaderboard = [
     change: "+88",
     region: "Europe",
     team: "Aberdeen FC",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "top-10"],
   },
   {
     rank: 11,
@@ -178,6 +147,7 @@ const leaderboard = [
     change: "+72",
     region: "Europe",
     team: "Arsenal FC",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star", "team-player"],
   },
   {
     rank: 12,
@@ -191,6 +161,7 @@ const leaderboard = [
     change: "+60",
     region: "Africa",
     team: "Wydad AC",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "event-star"],
   },
   {
     rank: 13,
@@ -204,20 +175,8 @@ const leaderboard = [
     change: "+55",
     region: "Europe",
     team: "Celtic FC",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"],
   },
-  // {
-  //   rank: 14,
-  //   name: "Diego Morales",
-  //   likes: 70,
-  //   comments: 58,
-  //   networking: 47,
-  //   level: 3,
-  //   streak: 10,
-  //   badge: "🥇",
-  //   change: "+45",
-  //   region: "Americas",
-  //   team: "Boca Juniors",
-  // },
   {
     rank: 15,
     name: "Priya Sharma",
@@ -230,20 +189,8 @@ const leaderboard = [
     change: "+38",
     region: "Itly",
     team: "Juventus",
+    earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
   },
-  // {
-  //   rank: 16,
-  //   name: "Noah Williams",
-  //   likes: 24,
-  //   comments: 20,
-  //   networking: 16,
-  //   level: 2,
-  //   streak: 9,
-  //   badge: "🥈",
-  //   change: "+30",
-  //   region: "Oceania",
-  //   team: "Melbourne City",
-  // },
 ];
 
 const getMpu = (m: (typeof leaderboard)[0]) => m.likes + m.comments + m.networking;
@@ -252,8 +199,6 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 const currentUser = { name: "Sarah Mitchell", level: 3, nextLevelMpu: 400, rank: 4 };
-const currentUserData = leaderboard.find((m) => m.name === currentUser.name)!;
-const currentMpu = getMpu(currentUserData);
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
@@ -268,12 +213,44 @@ function getLevelProgress(xp: number) {
   return Math.round((progress / range) * 100);
 }
 
+function getNextLevelMpu(level: number) {
+  const next = levels.find((l) => l.level === level + 1);
+  return next ? next.pointsRequired : 9999;
+}
+
+function EarnedBadges({ badgeIds }: { badgeIds: string[] }) {
+  const earned = allBadges.filter((b) => badgeIds.includes(b.id));
+  return (
+    <div className="mt-4">
+      <p className="text-xs font-medium text-muted-foreground mb-2">Earned Badges</p>
+      <div className="flex flex-wrap gap-2">
+        {earned.map((b) => (
+          <div
+            key={b.id}
+            title={b.description}
+            className="group relative inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/50 px-2.5 py-1 text-xs font-medium text-foreground hover:bg-primary/10 hover:border-primary/30 transition-colors cursor-default"
+          >
+            <span className="text-sm">{b.icon}</span>
+            <span>{b.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function LeaderboardPage() {
   const [selectedRegion, setSelectedRegion] = useState("All Regions");
   const [timePeriod, setTimePeriod] = useState("This Month");
+  const [selectedMember, setSelectedMember] = useState<(typeof leaderboard)[0] | null>(null);
 
   const filteredLeaderboard =
     selectedRegion === "All Regions" ? leaderboard : leaderboard.filter((m) => m.region === selectedRegion);
+
+  const displayMember = selectedMember || leaderboard.find((m) => m.name === currentUser.name)!;
+  const displayMpu = getMpu(displayMember);
+  const displayNextMpu = selectedMember ? getNextLevelMpu(displayMember.level) : currentUser.nextLevelMpu;
+  const isViewingOther = selectedMember && selectedMember.name !== currentUser.name;
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
@@ -284,44 +261,57 @@ export default function LeaderboardPage() {
         </p>
       </motion.div>
 
-      {/* Your Level Card + Podium */}
+      {/* Profile Card */}
       <motion.div variants={item}>
-        {/* Your Level Card */}
-        <div className="rounded-lg border border-border bg-card p-6 shadow-card">
+        <div className="rounded-lg border border-border bg-card p-6 shadow-card relative">
+          {isViewingOther && (
+            <button
+              onClick={() => setSelectedMember(null)}
+              className="absolute top-3 right-3 p-1 rounded-full hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
             <div className="flex items-center gap-4">
               <div className="relative">
                 <Avatar className="h-16 w-16 border-2 border-primary">
-                  <AvatarImage src={realPhotos[currentUser.name]} alt={currentUser.name} />
-                  <AvatarFallback className="bg-primary/10 text-primary text-lg font-bold">SM</AvatarFallback>
+                  <AvatarImage src={realPhotos[displayMember.name]} alt={displayMember.name} />
+                  <AvatarFallback className="bg-primary/10 text-primary text-lg font-bold">
+                    {displayMember.name.split(" ").map((n) => n[0]).join("")}
+                  </AvatarFallback>
                 </Avatar>
                 <span className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">
-                  {currentUser.level}
+                  {displayMember.level}
                 </span>
               </div>
               <div>
-                <p className="font-semibold text-foreground">{currentUser.name}</p>
-                <p className="text-sm text-muted-foreground">{currentMpu} MPU Points</p>
+                <p className="font-semibold text-foreground">{displayMember.name}</p>
+                <p className="text-sm text-muted-foreground">{displayMpu} MPU Points</p>
               </div>
             </div>
             <div className="sm:ml-auto text-center sm:text-right">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-medium">
-                <Award className="h-4 w-4" /> Level {currentUser.level} — {getLevelTitle(currentUser.level)}
+                <Award className="h-4 w-4" /> Level {displayMember.level} — {getLevelTitle(displayMember.level)}
               </span>
-              <p className="text-xs text-muted-foreground mt-1">Top 36% of members</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {isViewingOther ? `Rank #${displayMember.rank}` : "Top 36% of members"}
+              </p>
             </div>
           </div>
 
           <div className="mt-5 space-y-2">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Level {currentUser.level}</span>
+              <span>Level {displayMember.level}</span>
               <span>
-                {currentMpu} / {currentUser.nextLevelMpu} MPU Points
+                {displayMpu} / {displayNextMpu} MPU Points
               </span>
-              <span>Level {currentUser.level + 1}</span>
+              <span>Level {displayMember.level + 1}</span>
             </div>
-            <Progress value={getLevelProgress(currentMpu)} className="h-2" />
+            <Progress value={getLevelProgress(displayMpu)} className="h-2" />
           </div>
+
+          <EarnedBadges badgeIds={displayMember.earnedBadges} />
         </div>
       </motion.div>
 
@@ -331,22 +321,22 @@ export default function LeaderboardPage() {
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
             <Star className="h-4 w-4 text-warning" /> Total MPU Points
           </div>
-          <p className="text-2xl font-semibold text-foreground">{currentMpu}</p>
-          <p className="text-xs text-success mt-1">+65 this week</p>
+          <p className="text-2xl font-semibold text-foreground">{displayMpu}</p>
+          <p className="text-xs text-success mt-1">{displayMember.change} this week</p>
         </div>
         <div className="rounded-lg border border-border bg-card p-5 shadow-card">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-            <TrendingUp className="h-4 w-4 text-primary" /> Your Rank
+            <TrendingUp className="h-4 w-4 text-primary" /> {isViewingOther ? "Their" : "Your"} Rank
           </div>
-          <p className="text-2xl font-semibold text-foreground">#{currentUser.rank}</p>
+          <p className="text-2xl font-semibold text-foreground">#{displayMember.rank}</p>
           <p className="text-xs text-success mt-1">↑ 2 positions</p>
         </div>
         <div className="rounded-lg border border-border bg-card p-5 shadow-card">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
             <Flame className="h-4 w-4 text-destructive" /> Streak
           </div>
-          <p className="text-2xl font-semibold text-foreground">30 days</p>
-          <p className="text-xs text-muted-foreground mt-1">Personal best!</p>
+          <p className="text-2xl font-semibold text-foreground">{displayMember.streak} days</p>
+          <p className="text-xs text-muted-foreground mt-1">{displayMember.streak >= 30 ? "Personal best!" : "Keep it up!"}</p>
         </div>
       </motion.div>
 
@@ -427,8 +417,17 @@ export default function LeaderboardPage() {
             <tbody className="divide-y divide-border">
               {filteredLeaderboard.map((m, i) => {
                 const mpu = getMpu(m);
+                const isSelected = selectedMember?.name === m.name;
                 return (
-                  <tr key={m.rank} className={cn("hover:bg-muted/30 transition-colors", i % 2 === 0 && "bg-muted/10")}>
+                  <tr
+                    key={m.rank}
+                    onClick={() => setSelectedMember(m)}
+                    className={cn(
+                      "hover:bg-muted/30 transition-colors cursor-pointer",
+                      i % 2 === 0 && "bg-muted/10",
+                      isSelected && "bg-primary/5 ring-1 ring-inset ring-primary/20",
+                    )}
+                  >
                     <td className="px-3 py-3 text-sm">
                       {m.rank <= 3 ? (
                         <span
