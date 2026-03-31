@@ -175,13 +175,15 @@ export default function EventsPage() {
                     </div>
                   </td>
                   <td className="px-5 py-4 text-sm text-muted-foreground">{e.capacity}</td>
-                  <td className="px-5 py-4 text-sm text-muted-foreground">{e.revenue}</td>
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-2">
-                      <button className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
-                      <button className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
-                    </div>
-                  </td>
+                  {isAdmin && <td className="px-5 py-4 text-sm text-muted-foreground">{e.revenue}</td>}
+                  {isAdmin && (
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-2">
+                        <button className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
+                        <button className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               );
             })}
