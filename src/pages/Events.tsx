@@ -39,6 +39,10 @@ export default function EventsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "";
+  const { isAdmin } = useViewMode();
+
+  // Admin-only tabs: redirect to events list in user view
+  if (!isAdmin && activeTab && activeTab !== "") return <Navigate to="/events" replace />;
 
   if (activeTab === "registration") return <EventRegistration />;
   if (activeTab === "people") return <EventPeople />;
