@@ -99,11 +99,13 @@ export default function EventsPage() {
       <motion.div variants={item} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Events</h1>
-          <p className="text-sm text-muted-foreground mt-1">Manage all your webinars, conferences, and meetings</p>
+          <p className="text-sm text-muted-foreground mt-1">{isAdmin ? "Manage all your webinars, conferences, and meetings" : "Browse upcoming webinars, conferences, and meetings"}</p>
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-          <Plus className="h-4 w-4" /> Create New Event
-        </button>
+        {isAdmin && (
+          <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            <Plus className="h-4 w-4" /> Create New Event
+          </button>
+        )}
       </motion.div>
 
       {/* Filters + Search */}
