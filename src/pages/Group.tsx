@@ -269,6 +269,15 @@ const groupsData: Record<string, {
       { title: "VBT Practical Workshop", date: "Apr 15, 2026", attendees: 30 },
     ],
     rules: ["Safety first — always discuss proper form and progressions", "Share programming rationale, not just exercises"],
+    chatMessages: [
+      { id: 1, author: "Jake Morrison", avatar: "JM", message: "VBT encoder just arrived! Setting it up for tomorrow's session.", time: "2:00 PM" },
+      { id: 2, author: "Viktor Petrov", avatar: "VP", message: "Which model did you go with? We're deciding between GymAware and Push Band.", time: "2:05 PM" },
+      { id: 3, author: "Jake Morrison", avatar: "JM", message: "GymAware FLEX. More expensive but the accuracy is unmatched.", time: "2:10 PM" },
+      { id: 4, author: "Tanya Brooks", avatar: "TB", message: "We use the same. The cloud dashboard makes team monitoring super easy.", time: "2:15 PM" },
+      { id: 5, author: "Hiroshi Sato", avatar: "HS", message: "Can it track isometric holds too? That'd be useful for our tendon work.", time: "2:20 PM" },
+      { id: 6, author: "Jake Morrison", avatar: "JM", message: "Yes! RFD and peak force during isometrics. Really clean data output.", time: "2:25 PM" },
+      { id: 7, author: "Viktor Petrov", avatar: "VP", message: "Sold. Ordering one today 💪", time: "2:30 PM" },
+    ],
   },
   "fitness-exercise-physiology": {
     label: "Fitness & Exercise Physiology",
