@@ -584,7 +584,6 @@ function PostsTab() {
             <span className="flex items-center gap-1"><Heart className="h-3 w-3 text-rose-400" />Likes</span>
             <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3 text-blue-400" />Comments</span>
             <span className="flex items-center gap-1"><ArrowUpRight className="h-3 w-3 text-emerald-500" />Shares</span>
-            <span className="flex items-center gap-1"><Eye className="h-3 w-3 text-muted-foreground" />Views</span>
           </div>
         </div>
         <div className="divide-y divide-border">
