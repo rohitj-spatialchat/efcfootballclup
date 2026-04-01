@@ -99,7 +99,7 @@ const pastEvents: EventItem[] = [
     title: "EFC Webinar 19th March 2026 | Developing Professional Judgment...",
     date: "19 March, 2026",
     time: "2:54 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/Berlin (CET)",
     thumbnail: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
