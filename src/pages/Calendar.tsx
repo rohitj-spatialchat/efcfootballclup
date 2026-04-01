@@ -40,7 +40,7 @@ const upcomingEvents: EventItem[] = [
     title: "EFC Webinar | Tactical Analysis: Modern Football Formations",
     date: "22 April, 2026",
     time: "3:00 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/Berlin (CET)",
     thumbnail: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
