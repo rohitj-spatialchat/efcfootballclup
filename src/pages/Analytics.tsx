@@ -46,13 +46,17 @@ const teamData = [
   { name: "SL Benfica", members: 18, posts: 220, mpuPoints: 8800, engagement: 76 },
 ];
 
-const postTypeData = [
-  { type: "Discussion", count: 3240, engagement: 85, avgLikes: 12.4, avgComments: 8.2 },
-  { type: "Research", count: 1860, engagement: 92, avgLikes: 18.6, avgComments: 14.1 },
-  { type: "Case Study", count: 980, engagement: 88, avgLikes: 15.2, avgComments: 11.8 },
-  { type: "Question", count: 2140, engagement: 79, avgLikes: 8.4, avgComments: 16.3 },
-  { type: "Media", count: 1420, engagement: 94, avgLikes: 22.1, avgComments: 6.5 },
-  { type: "Poll", count: 640, engagement: 76, avgLikes: 6.8, avgComments: 4.2 },
+const topPostsData = [
+  { rank: 1, title: "ACL Recovery Protocol: 6-Month Data Review", author: "Carlos Ramirez", team: "Arsenal FC", type: "Research", likes: 248, comments: 96, shares: 42, views: 3820, engagement: 98 },
+  { rank: 2, title: "Nutrition Periodization for Match-Day Performance", author: "Mei Wong", team: "Manchester City", type: "Research", likes: 221, comments: 84, shares: 38, views: 3540, engagement: 96 },
+  { rank: 3, title: "GPS Load Monitoring – Are We Over-Relying on Data?", author: "Robert Fox", team: "Chelsea FC", type: "Discussion", likes: 198, comments: 112, shares: 31, views: 3120, engagement: 94 },
+  { rank: 4, title: "Mental Resilience Training: Pre-Season Framework", author: "Dianne Russell", team: "Liverpool FC", type: "Case Study", likes: 187, comments: 73, shares: 28, views: 2890, engagement: 91 },
+  { rank: 5, title: "Hamstring Injury Prevention – Nordic Curl Variations", author: "Kwame Adebayo", team: "Bayern Munich", type: "Media", likes: 176, comments: 58, shares: 45, views: 2740, engagement: 89 },
+  { rank: 6, title: "Sleep Quality Impact on Youth Player Development", author: "Ravi Patel", team: "AFC Ajax", type: "Research", likes: 162, comments: 67, shares: 24, views: 2560, engagement: 87 },
+  { rank: 7, title: "Creatine Supplementation in Elite Football – Meta Analysis", author: "Esther Howard", team: "AC Milan", type: "Research", likes: 154, comments: 52, shares: 33, views: 2380, engagement: 85 },
+  { rank: 8, title: "Return-to-Play Decision Making: Who Has Final Say?", author: "Carlos Ramirez", team: "Arsenal FC", type: "Discussion", likes: 143, comments: 98, shares: 19, views: 2210, engagement: 83 },
+  { rank: 9, title: "Hydration Strategies for Hot-Climate Matches", author: "Mei Wong", team: "Manchester City", type: "Case Study", likes: 131, comments: 44, shares: 21, views: 1980, engagement: 80 },
+  { rank: 10, title: "Plyometric Progressions for Post-Surgery Athletes", author: "Robert Fox", team: "Chelsea FC", type: "Media", likes: 124, comments: 39, shares: 27, views: 1840, engagement: 78 },
 ];
 
 const topContributors = [
@@ -561,41 +565,93 @@ function TeamsTab() {
 // ── Posts Tab ──────────────────────────────────────────────────────────
 
 function PostsTab() {
+  const maxViews = Math.max(...topPostsData.map((p) => p.views));
+  const typeColor: Record<string, string> = {
+    Research: "bg-blue-500/10 text-blue-600",
+    Discussion: "bg-emerald-500/10 text-emerald-600",
+    "Case Study": "bg-purple-500/10 text-purple-600",
+    Media: "bg-amber-500/10 text-amber-600",
+  };
+
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }} className="space-y-6">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {postTypeData.map((p, i) => (
-          <motion.div
-            key={p.type}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.06 }}
-            className="rounded-xl border border-border bg-card p-5 shadow-card hover:shadow-md transition-all"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-sm font-semibold text-foreground">{p.type}</h4>
-              <span className={cn(
-                "text-[10px] font-semibold px-2 py-0.5 rounded-full",
-                p.engagement >= 90 ? "bg-emerald-500/10 text-emerald-600" : p.engagement >= 80 ? "bg-blue-500/10 text-blue-600" : "bg-muted text-muted-foreground"
-              )}>
-                {p.engagement}% eng.
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-foreground mb-2">{p.count.toLocaleString()}</p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Heart className="h-3 w-3 text-rose-400" />{p.avgLikes} avg</span>
-              <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3 text-blue-400" />{p.avgComments} avg</span>
-            </div>
-            <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${p.engagement}%` }}
-                transition={{ duration: 0.6, delay: i * 0.06 }}
-                className="h-full rounded-full bg-gradient-to-r from-primary/60 to-primary"
-              />
-            </div>
-          </motion.div>
-        ))}
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        <div className="p-5 border-b border-border flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">Top 10 Post Engagement</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">Ranked by total engagement score</p>
+          </div>
+          <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+            <span className="flex items-center gap-1"><Heart className="h-3 w-3 text-rose-400" />Likes</span>
+            <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3 text-blue-400" />Comments</span>
+            <span className="flex items-center gap-1"><ArrowUpRight className="h-3 w-3 text-emerald-500" />Shares</span>
+            <span className="flex items-center gap-1"><Eye className="h-3 w-3 text-muted-foreground" />Views</span>
+          </div>
+        </div>
+        <div className="divide-y divide-border">
+          {topPostsData.map((p, i) => (
+            <motion.div
+              key={p.rank}
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.35 }}
+              className="flex items-start gap-4 px-5 py-4 hover:bg-muted/30 transition-colors"
+            >
+              {/* Rank */}
+              <div className="pt-0.5">
+                <span className={cn(
+                  "h-7 w-7 rounded-full inline-flex items-center justify-center text-[11px] font-bold shrink-0",
+                  i < 3 ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+                )}>{p.rank}</span>
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-semibold text-foreground leading-snug truncate">{p.title}</h4>
+                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                  <span className="text-xs text-muted-foreground">{p.author}</span>
+                  <span className="text-muted-foreground/40">·</span>
+                  <span className="text-xs text-muted-foreground flex items-center gap-1"><Shield className="h-3 w-3" />{p.team}</span>
+                  <span className={cn("text-[10px] font-medium px-2 py-0.5 rounded-full", typeColor[p.type] || "bg-muted text-muted-foreground")}>{p.type}</span>
+                </div>
+                {/* Views bar */}
+                <div className="mt-2.5 flex items-center gap-2">
+                  <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(p.views / maxViews) * 100}%` }}
+                      transition={{ duration: 0.6, delay: i * 0.05 }}
+                      className="h-full rounded-full bg-gradient-to-r from-primary/50 to-primary"
+                    />
+                  </div>
+                  <span className="text-[10px] text-muted-foreground whitespace-nowrap">{p.views.toLocaleString()} views</span>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="flex items-center gap-4 shrink-0 pt-0.5">
+                <div className="flex flex-col items-center gap-0.5">
+                  <Heart className="h-3.5 w-3.5 text-rose-400" />
+                  <span className="text-xs font-semibold text-foreground">{p.likes}</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  <MessageSquare className="h-3.5 w-3.5 text-blue-400" />
+                  <span className="text-xs font-semibold text-foreground">{p.comments}</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  <ArrowUpRight className="h-3.5 w-3.5 text-emerald-500" />
+                  <span className="text-xs font-semibold text-foreground">{p.shares}</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5 min-w-[32px]">
+                  <span className={cn(
+                    "text-[10px] font-bold px-1.5 py-0.5 rounded",
+                    p.engagement >= 90 ? "bg-emerald-500/10 text-emerald-600" : p.engagement >= 80 ? "bg-blue-500/10 text-blue-600" : "bg-muted text-muted-foreground"
+                  )}>{p.engagement}%</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
