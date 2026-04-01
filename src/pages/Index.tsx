@@ -125,6 +125,7 @@ const predefinedTags = [
 ];
 
 const Index = () => {
+  const { isAdmin } = useViewMode();
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [liveEventOpen, setLiveEventOpen] = useState(false);
   const [chatMessage, setChatMessage] = useState("");
