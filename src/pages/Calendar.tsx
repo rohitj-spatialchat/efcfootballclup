@@ -54,7 +54,7 @@ const upcomingEvents: EventItem[] = [
     title: "EFC Youth Academy | Open Training Session & Tryouts",
     date: "28 April, 2026",
     time: "10:00 AM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/London (GMT)",
     thumbnail: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=300&h=180&fit=crop",
     organizer: "Youth Academy Coach",
     organizerAvatar: "",
