@@ -305,6 +305,9 @@ export default function CommunityPage() {
       const member = {
         ...newMember,
         position: "",
+        region: "Unknown",
+        discipline: "General",
+        format: "Full-time",
         mpu: Math.floor(Math.random() * 400 + 600),
         joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
         flag: "🏳️",
