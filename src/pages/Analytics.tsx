@@ -565,7 +565,6 @@ function TeamsTab() {
 // ── Posts Tab ──────────────────────────────────────────────────────────
 
 function PostsTab() {
-  const maxViews = Math.max(...topPostsData.map((p) => p.views));
   const typeColor: Record<string, string> = {
     Research: "bg-blue-500/10 text-blue-600",
     Discussion: "bg-emerald-500/10 text-emerald-600",
@@ -585,7 +584,6 @@ function PostsTab() {
             <span className="flex items-center gap-1"><Heart className="h-3 w-3 text-rose-400" />Likes</span>
             <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3 text-blue-400" />Comments</span>
             <span className="flex items-center gap-1"><ArrowUpRight className="h-3 w-3 text-emerald-500" />Shares</span>
-            <span className="flex items-center gap-1"><Eye className="h-3 w-3 text-muted-foreground" />Views</span>
           </div>
         </div>
         <div className="divide-y divide-border">
@@ -613,18 +611,6 @@ function PostsTab() {
                   <span className="text-muted-foreground/40">·</span>
                   <span className="text-xs text-muted-foreground flex items-center gap-1"><Shield className="h-3 w-3" />{p.team}</span>
                   <span className={cn("text-[10px] font-medium px-2 py-0.5 rounded-full", typeColor[p.type] || "bg-muted text-muted-foreground")}>{p.type}</span>
-                </div>
-                {/* Views bar */}
-                <div className="mt-2.5 flex items-center gap-2">
-                  <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(p.views / maxViews) * 100}%` }}
-                      transition={{ duration: 0.6, delay: i * 0.05 }}
-                      className="h-full rounded-full bg-gradient-to-r from-primary/50 to-primary"
-                    />
-                  </div>
-                  <span className="text-[10px] text-muted-foreground whitespace-nowrap">{p.views.toLocaleString()} views</span>
                 </div>
               </div>
 
