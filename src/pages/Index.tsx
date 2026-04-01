@@ -836,7 +836,7 @@ const Index = () => {
               {/* Post Header */}
               <div className="flex items-start justify-between p-4 pb-2">
                 <div className="flex items-center gap-3">
-                  <div className={`${!isAdmin ? "h-8 w-8 text-[10px]" : "h-10 w-10 text-xs"} rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold`}>
+                  <div className="h-10 w-10 text-xs rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
                     {post.avatar}
                   </div>
                   <div>
