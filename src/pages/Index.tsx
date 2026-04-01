@@ -882,26 +882,18 @@ const Index = () => {
               )}
 
               {/* Post Content */}
-              <div className={`${!isAdmin ? "px-3 pb-2" : "px-4 pb-3"}`}>
-                <h3 className={`${!isAdmin ? "text-xs" : "text-sm"} font-semibold text-foreground mb-1`}>{post.title}</h3>
-                {isAdmin ? (
-                  <>
-                    <p className={`text-sm text-muted-foreground leading-relaxed whitespace-pre-line ${expandedPosts.has(post.id) ? "" : "line-clamp-4"}`}>
-                      {post.body}
-                    </p>
-                    {post.body.length > 200 && (
-                      <button
-                        onClick={() => toggleExpand(post.id)}
-                        className="text-xs font-bold text-foreground mt-1 hover:text-primary transition-colors"
-                      >
-                        {expandedPosts.has(post.id) ? "SHOW LESS" : "READ MORE..."}
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                    {post.body}
-                  </p>
+              <div className="px-4 pb-3">
+                <h3 className="text-sm font-semibold text-foreground mb-2">{post.title}</h3>
+                <p className={`text-sm text-muted-foreground leading-relaxed whitespace-pre-line ${expandedPosts.has(post.id) ? "" : "line-clamp-4"}`}>
+                  {post.body}
+                </p>
+                {post.body.length > 200 && (
+                  <button
+                    onClick={() => toggleExpand(post.id)}
+                    className="text-xs font-bold text-foreground mt-1 hover:text-primary transition-colors"
+                  >
+                    {expandedPosts.has(post.id) ? "SHOW LESS" : "READ MORE..."}
+                  </button>
                 )}
               </div>
 
