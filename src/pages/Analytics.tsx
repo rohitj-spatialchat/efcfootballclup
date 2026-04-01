@@ -612,18 +612,6 @@ function PostsTab() {
                   <span className="text-xs text-muted-foreground flex items-center gap-1"><Shield className="h-3 w-3" />{p.team}</span>
                   <span className={cn("text-[10px] font-medium px-2 py-0.5 rounded-full", typeColor[p.type] || "bg-muted text-muted-foreground")}>{p.type}</span>
                 </div>
-                {/* Views bar */}
-                <div className="mt-2.5 flex items-center gap-2">
-                  <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(p.views / maxViews) * 100}%` }}
-                      transition={{ duration: 0.6, delay: i * 0.05 }}
-                      className="h-full rounded-full bg-gradient-to-r from-primary/50 to-primary"
-                    />
-                  </div>
-                  <span className="text-[10px] text-muted-foreground whitespace-nowrap">{p.views.toLocaleString()} views</span>
-                </div>
               </div>
 
               {/* Stats */}
