@@ -909,7 +909,7 @@ const Index = () => {
                 const poll = (post as any).poll;
                 const hasVoted = poll.votedOption !== null;
                 return (
-                  <div className={`${!isAdmin ? "px-3 pb-2" : "px-4 pb-3"}`}>
+                  <div className="px-4 pb-3">
                     <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-4 space-y-3">
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <BarChart3 className="h-3.5 w-3.5 text-primary" />
