@@ -565,41 +565,93 @@ function TeamsTab() {
 // ── Posts Tab ──────────────────────────────────────────────────────────
 
 function PostsTab() {
+  const maxViews = Math.max(...topPostsData.map((p) => p.views));
+  const typeColor: Record<string, string> = {
+    Research: "bg-blue-500/10 text-blue-600",
+    Discussion: "bg-emerald-500/10 text-emerald-600",
+    "Case Study": "bg-purple-500/10 text-purple-600",
+    Media: "bg-amber-500/10 text-amber-600",
+  };
+
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }} className="space-y-6">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {postTypeData.map((p, i) => (
-          <motion.div
-            key={p.type}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.06 }}
-            className="rounded-xl border border-border bg-card p-5 shadow-card hover:shadow-md transition-all"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-sm font-semibold text-foreground">{p.type}</h4>
-              <span className={cn(
-                "text-[10px] font-semibold px-2 py-0.5 rounded-full",
-                p.engagement >= 90 ? "bg-emerald-500/10 text-emerald-600" : p.engagement >= 80 ? "bg-blue-500/10 text-blue-600" : "bg-muted text-muted-foreground"
-              )}>
-                {p.engagement}% eng.
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-foreground mb-2">{p.count.toLocaleString()}</p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Heart className="h-3 w-3 text-rose-400" />{p.avgLikes} avg</span>
-              <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3 text-blue-400" />{p.avgComments} avg</span>
-            </div>
-            <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${p.engagement}%` }}
-                transition={{ duration: 0.6, delay: i * 0.06 }}
-                className="h-full rounded-full bg-gradient-to-r from-primary/60 to-primary"
-              />
-            </div>
-          </motion.div>
-        ))}
+      <div className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
+        <div className="p-5 border-b border-border flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">Top 10 Post Engagement</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">Ranked by total engagement score</p>
+          </div>
+          <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+            <span className="flex items-center gap-1"><Heart className="h-3 w-3 text-rose-400" />Likes</span>
+            <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3 text-blue-400" />Comments</span>
+            <span className="flex items-center gap-1"><ArrowUpRight className="h-3 w-3 text-emerald-500" />Shares</span>
+            <span className="flex items-center gap-1"><Eye className="h-3 w-3 text-muted-foreground" />Views</span>
+          </div>
+        </div>
+        <div className="divide-y divide-border">
+          {topPostsData.map((p, i) => (
+            <motion.div
+              key={p.rank}
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.35 }}
+              className="flex items-start gap-4 px-5 py-4 hover:bg-muted/30 transition-colors"
+            >
+              {/* Rank */}
+              <div className="pt-0.5">
+                <span className={cn(
+                  "h-7 w-7 rounded-full inline-flex items-center justify-center text-[11px] font-bold shrink-0",
+                  i < 3 ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+                )}>{p.rank}</span>
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-semibold text-foreground leading-snug truncate">{p.title}</h4>
+                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                  <span className="text-xs text-muted-foreground">{p.author}</span>
+                  <span className="text-muted-foreground/40">·</span>
+                  <span className="text-xs text-muted-foreground flex items-center gap-1"><Shield className="h-3 w-3" />{p.team}</span>
+                  <span className={cn("text-[10px] font-medium px-2 py-0.5 rounded-full", typeColor[p.type] || "bg-muted text-muted-foreground")}>{p.type}</span>
+                </div>
+                {/* Views bar */}
+                <div className="mt-2.5 flex items-center gap-2">
+                  <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(p.views / maxViews) * 100}%` }}
+                      transition={{ duration: 0.6, delay: i * 0.05 }}
+                      className="h-full rounded-full bg-gradient-to-r from-primary/50 to-primary"
+                    />
+                  </div>
+                  <span className="text-[10px] text-muted-foreground whitespace-nowrap">{p.views.toLocaleString()} views</span>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="flex items-center gap-4 shrink-0 pt-0.5">
+                <div className="flex flex-col items-center gap-0.5">
+                  <Heart className="h-3.5 w-3.5 text-rose-400" />
+                  <span className="text-xs font-semibold text-foreground">{p.likes}</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  <MessageSquare className="h-3.5 w-3.5 text-blue-400" />
+                  <span className="text-xs font-semibold text-foreground">{p.comments}</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  <ArrowUpRight className="h-3.5 w-3.5 text-emerald-500" />
+                  <span className="text-xs font-semibold text-foreground">{p.shares}</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5 min-w-[32px]">
+                  <span className={cn(
+                    "text-[10px] font-bold px-1.5 py-0.5 rounded",
+                    p.engagement >= 90 ? "bg-emerald-500/10 text-emerald-600" : p.engagement >= 80 ? "bg-blue-500/10 text-blue-600" : "bg-muted text-muted-foreground"
+                  )}>{p.engagement}%</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
