@@ -85,7 +85,7 @@ const pastEvents: EventItem[] = [
     title: "EFC Webinar 26th March 2026 | Football Analytics Masterclass: Building...",
     date: "26 March, 2026",
     time: "2:54 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/London (GMT)",
     thumbnail: "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
