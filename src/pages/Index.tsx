@@ -401,7 +401,7 @@ const Index = () => {
   const displayedPosts = getFilteredPosts();
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
+    <motion.div variants={container} initial="hidden" animate="show" className={`transition-all duration-500 ease-in-out ${!isAdmin ? "max-w-2xl mx-auto" : "flex gap-6"}`}>
       {/* Main Feed Column */}
       <div className="flex-1 space-y-5 min-w-0">
         {/* Hero Banner */}
@@ -830,25 +830,18 @@ const Index = () => {
         )}
 
         {/* Posts Feed - Scrollable */}
-        <div className={`max-h-[calc(100vh-200px)] overflow-y-auto pr-1 ${!isAdmin ? "grid grid-cols-2 gap-4" : "space-y-4"}`}>
+        <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
           {displayedPosts.map((post) => (
-            <motion.div key={post.id} variants={item} className={`rounded-lg border border-border bg-card shadow-card overflow-hidden ${!isAdmin ? "flex flex-col" : ""}`}>
-              {/* Post Image - shown first in user/grid view */}
-              {!isAdmin && post.image && (
-                <div className="aspect-square w-full overflow-hidden">
-                  <img src={post.image} alt="" className="w-full h-full object-cover" />
-                </div>
-              )}
-
+            <motion.div key={post.id} variants={item} className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
               {/* Post Header */}
-              <div className={`flex items-start justify-between ${!isAdmin ? "p-3 pb-1" : "p-4 pb-2"}`}>
+              <div className="flex items-start justify-between p-4 pb-2">
                 <div className="flex items-center gap-3">
-                  <div className={`${!isAdmin ? "h-8 w-8 text-[10px]" : "h-10 w-10 text-xs"} rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold`}>
+                  <div className="h-10 w-10 text-xs rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
                     {post.avatar}
                   </div>
                   <div>
-                    <p className={`${!isAdmin ? "text-xs" : "text-sm"} font-semibold text-foreground uppercase`}>{post.author}</p>
-                    <p className="text-xs text-muted-foreground">{!isAdmin ? post.time : `Posted in ${post.channel} • ${post.time}`}</p>
+                    <p className="text-sm font-semibold text-foreground uppercase">{post.author}</p>
+                    <p className="text-xs text-muted-foreground">Posted in {post.channel} • {post.time}</p>
                   </div>
                 </div>
                 <DropdownMenu>
@@ -881,7 +874,7 @@ const Index = () => {
 
               {/* Post Tags */}
               {post.tags && post.tags.length > 0 && (
-                <div className={`${!isAdmin ? "px-3" : "px-4"} pb-1 flex flex-wrap gap-1`}>
+                <div className="px-4 pb-1 flex flex-wrap gap-1">
                   {post.tags.map(tag => (
                     <Badge key={tag} variant="outline" className="text-[10px] px-1.5 py-0">{tag}</Badge>
                   ))}
@@ -889,31 +882,23 @@ const Index = () => {
               )}
 
               {/* Post Content */}
-              <div className={`${!isAdmin ? "px-3 pb-2" : "px-4 pb-3"}`}>
-                <h3 className={`${!isAdmin ? "text-xs" : "text-sm"} font-semibold text-foreground mb-1`}>{post.title}</h3>
-                {isAdmin ? (
-                  <>
-                    <p className={`text-sm text-muted-foreground leading-relaxed whitespace-pre-line ${expandedPosts.has(post.id) ? "" : "line-clamp-4"}`}>
-                      {post.body}
-                    </p>
-                    {post.body.length > 200 && (
-                      <button
-                        onClick={() => toggleExpand(post.id)}
-                        className="text-xs font-bold text-foreground mt-1 hover:text-primary transition-colors"
-                      >
-                        {expandedPosts.has(post.id) ? "SHOW LESS" : "READ MORE..."}
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                    {post.body}
-                  </p>
+              <div className="px-4 pb-3">
+                <h3 className="text-sm font-semibold text-foreground mb-2">{post.title}</h3>
+                <p className={`text-sm text-muted-foreground leading-relaxed whitespace-pre-line ${expandedPosts.has(post.id) ? "" : "line-clamp-4"}`}>
+                  {post.body}
+                </p>
+                {post.body.length > 200 && (
+                  <button
+                    onClick={() => toggleExpand(post.id)}
+                    className="text-xs font-bold text-foreground mt-1 hover:text-primary transition-colors"
+                  >
+                    {expandedPosts.has(post.id) ? "SHOW LESS" : "READ MORE..."}
+                  </button>
                 )}
               </div>
 
-              {/* Post Image - admin view (original position) */}
-              {isAdmin && post.image && (
+              {/* Post Image */}
+              {post.image && (
                 <div className="px-4 pb-3">
                   <img src={post.image} alt="" className="w-full rounded-lg object-cover max-h-80" />
                 </div>
@@ -924,7 +909,7 @@ const Index = () => {
                 const poll = (post as any).poll;
                 const hasVoted = poll.votedOption !== null;
                 return (
-                  <div className={`${!isAdmin ? "px-3 pb-2" : "px-4 pb-3"}`}>
+                  <div className="px-4 pb-3">
                     <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-4 space-y-3">
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <BarChart3 className="h-3.5 w-3.5 text-primary" />
@@ -983,7 +968,7 @@ const Index = () => {
               })()}
 
               {/* Engagement counts */}
-              <div className={`${!isAdmin ? "px-3 pb-1" : "px-4 pb-2"} flex items-center justify-between text-xs text-muted-foreground`}>
+              <div className="px-4 pb-2 flex items-center justify-between text-xs text-muted-foreground">
                 <span>{post.likes} likes</span>
                 <span>{post.comments} comments</span>
               </div>
@@ -1051,7 +1036,7 @@ const Index = () => {
       </div>
 
       {/* Right Sidebar */}
-      <div className="hidden lg:block w-72 shrink-0">
+      <div className={`w-72 shrink-0 transition-all duration-500 ease-in-out ${!isAdmin ? "hidden" : "hidden lg:block"}`}>
         <div className="sticky top-4 space-y-4">
           {/* Quick Action Buttons */}
           <motion.div variants={item} className="flex gap-2">
