@@ -194,6 +194,7 @@ function groupByMonth(events: EventItem[]) {
 
 export default function Calendar() {
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+  const [createOpen, setCreateOpen] = useState(false);
   const navigate = useNavigate();
   const events = activeTab === "upcoming" ? upcomingEvents : pastEvents;
   const grouped = groupByMonth(events);
