@@ -1036,7 +1036,7 @@ const Index = () => {
       </div>
 
       {/* Right Sidebar */}
-      <div className="hidden lg:block w-72 shrink-0">
+      <div className={`w-72 shrink-0 transition-all duration-500 ease-in-out ${!isAdmin ? "hidden" : "hidden lg:block"}`}>
         <div className="sticky top-4 space-y-4">
           {/* Quick Action Buttons */}
           <motion.div variants={item} className="flex gap-2">
