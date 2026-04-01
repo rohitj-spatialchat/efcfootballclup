@@ -127,7 +127,7 @@ const pastEvents: EventItem[] = [
     title: "EFC Webinar 5th March 2026 | Networking without Noise 📌",
     date: "05 March, 2026",
     time: "2:54 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/London (GMT)",
     thumbnail: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
