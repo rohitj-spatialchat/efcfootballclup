@@ -113,7 +113,7 @@ const pastEvents: EventItem[] = [
     title: "EFC Webinar 12th March 2026 | Fitness Matters for Everyone: E...",
     date: "12 March, 2026",
     time: "2:54 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/Paris (CET)",
     thumbnail: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
