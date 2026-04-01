@@ -155,7 +155,12 @@ export default function NetworkingPage() {
             </div>
 
             <h2 className="text-xl font-bold text-foreground">{currentUser.name}</h2>
-            <p className="text-sm font-semibold text-primary mt-0.5">{currentUser.team}</p>
+            <div className="flex items-center justify-center gap-1.5 mt-0.5">
+              {getTeamLogo(currentUser.team) && (
+                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-5 w-5 object-contain" />
+              )}
+              <p className="text-sm font-semibold text-primary">{currentUser.team}</p>
+            </div>
             <p className="text-sm text-foreground">{currentUser.role}</p>
 
             <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
