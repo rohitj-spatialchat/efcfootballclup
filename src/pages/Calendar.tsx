@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CalendarDays, Clock, MapPin, Users, MoreHorizontal, ChevronRight } from "lucide-react";
+import { CalendarDays, Clock, MapPin, Users, MoreHorizontal, ChevronRight, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import CreateEventModal from "@/components/CreateEventModal";
 
 interface EventItem {
   id: string;
@@ -128,7 +130,7 @@ const pastEvents: EventItem[] = [
     date: "05 March, 2026",
     time: "2:54 PM",
     timezone: "Europe/London (GMT)",
-    thumbnail: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=300&h=180&fit=crop",
+    thumbnail: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
     attendees: 203,
@@ -192,6 +194,7 @@ function groupByMonth(events: EventItem[]) {
 
 export default function Calendar() {
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+  const [createOpen, setCreateOpen] = useState(false);
   const navigate = useNavigate();
   const events = activeTab === "upcoming" ? upcomingEvents : pastEvents;
   const grouped = groupByMonth(events);
@@ -204,6 +207,10 @@ export default function Calendar() {
           <CalendarDays className="h-6 w-6 text-primary" />
           <h1 className="text-2xl font-bold text-foreground">Events</h1>
         </div>
+        <Button onClick={() => setCreateOpen(true)} size="sm" className="gap-1.5">
+          <Plus className="h-4 w-4" />
+          Create Event
+        </Button>
       </div>
 
       {/* Tabs */}
@@ -311,6 +318,7 @@ export default function Calendar() {
           ))}
         </motion.div>
       </AnimatePresence>
+      <CreateEventModal open={createOpen} onOpenChange={setCreateOpen} />
     </div>
   );
 }
