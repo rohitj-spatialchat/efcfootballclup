@@ -281,6 +281,31 @@ export default function CommunityPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
   const [followedMembers, setFollowedMembers] = useState<Set<string>>(new Set());
+  const [filters, setFilters] = useState<Record<string, string>>({
+    region: "",
+    discipline: "",
+    country: "",
+    team: "",
+    format: "",
+    role: "",
+    emailMarketing: "",
+  });
+
+  // Derive unique filter options from members data
+  const filterOptions = {
+    region: [...new Set(members.map((m) => m.region))].sort(),
+    discipline: [...new Set(members.map((m) => m.discipline))].sort(),
+    country: [...new Set(members.map((m) => m.country))].sort(),
+    team: [...new Set(members.map((m) => m.team))].sort(),
+    format: [...new Set(members.map((m) => m.format))].sort(),
+    role: [...new Set(members.map((m) => m.role))].sort(),
+    emailMarketing: ["Subscribed", "Unsubscribed"],
+  };
+
+  const activeFilterCount = Object.values(filters).filter(Boolean).length;
+
+  const clearFilters = () =>
+    setFilters({ region: "", discipline: "", country: "", team: "", format: "", role: "", emailMarketing: "" });
 
   const handleAddMember = () => {
     if (!newMember.name || !newMember.email) {
