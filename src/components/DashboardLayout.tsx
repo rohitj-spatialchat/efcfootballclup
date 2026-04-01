@@ -551,6 +551,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <Send className="h-4 w-4 shrink-0" />
               {!sidebarCollapsed && "Direct Message EFC MPU"}
             </Link>
+            <Link
+              to="/explore-groups"
+              title="Explore Groups"
+              className={cn(
+                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                sidebarCollapsed && "justify-center px-0",
+                location.pathname === "/explore-groups"
+                  ? "bg-primary text-primary-foreground font-medium"
+                  : "text-foreground hover:bg-muted",
+              )}
+            >
+              <Compass className="h-4 w-4 shrink-0" />
+              {!sidebarCollapsed && "Explore Groups"}
+            </Link>
           </div>
 
           {/* Groups */}
@@ -572,18 +586,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </button>
             {groupsOpen && !sidebarCollapsed && (
               <div className="ml-3 mt-0.5 space-y-0.5">
-                <Link
-                  to="/explore-groups"
-                  className={cn(
-                    "flex items-center gap-2.5 w-full rounded-md px-3 py-2 text-xs font-medium transition-colors",
-                    location.pathname === "/explore-groups"
-                      ? "bg-primary text-primary-foreground"
-                      : "text-primary hover:bg-primary/10",
-                  )}
-                >
-                  <Compass className="h-3.5 w-3.5 shrink-0" />
-                  <span className="text-left">Explore Groups</span>
-                </Link>
                 {groups.map((g) => (
                   <Link
                     key={g.label}
