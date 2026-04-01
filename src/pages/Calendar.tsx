@@ -141,7 +141,7 @@ const pastEvents: EventItem[] = [
     title: "EFC Webinar 26th February 2026 | How to Use the Career Serv...",
     date: "26 February, 2026",
     time: "2:54 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/Berlin (CET)",
     thumbnail: "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
