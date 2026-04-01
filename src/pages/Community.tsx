@@ -555,31 +555,98 @@ export default function CommunityPage() {
           ))}
         </motion.div>
 
-        {/* Search bar */}
-        <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder={`Search ${activeTab === "invited" ? "invited" : activeTab === "blocked" ? "blocked" : "members"}...`}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 h-9 text-sm"
-            />
+        {/* Search bar + Filters */}
+        <motion.div variants={item} className="space-y-3">
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder={`Search ${activeTab === "invited" ? "invited" : activeTab === "blocked" ? "blocked" : "members"}...`}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 h-9 text-sm"
+              />
+            </div>
           </div>
-          {(isInvitedTab
-            ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
-            : isBlockedTab
-              ? ["+ Name", "+ Email", "+ Reason"]
-              : ["+ Name", "+ Email marketing", "+ Member", "+ Source", "+ Data added"]
-          ).map((f) => (
-            <button
-              key={f}
-              className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors"
-            >
-              {f}
-            </button>
-          ))}
-          <button className="text-xs text-muted-foreground hover:text-foreground">+ Add filter</button>
+
+          {/* Filter dropdowns - only for member tabs */}
+          {!isInvitedTab && !isBlockedTab && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {([
+                { key: "region", label: "Region", options: filterOptions.region },
+                { key: "discipline", label: "Discipline", options: filterOptions.discipline },
+                { key: "country", label: "Country", options: filterOptions.country },
+                { key: "team", label: "Football Team", options: filterOptions.team },
+                { key: "format", label: "Format", options: filterOptions.format },
+                { key: "role", label: "Role", options: filterOptions.role },
+                { key: "emailMarketing", label: "Email Marketing", options: filterOptions.emailMarketing },
+              ] as const).map((filter) => (
+                <DropdownMenu key={filter.key}>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors",
+                        filters[filter.key]
+                          ? "border-primary bg-primary/10 text-primary font-medium"
+                          : "border-border text-muted-foreground hover:bg-muted"
+                      )}
+                    >
+                      {filters[filter.key] || `+ ${filter.label}`}
+                      <ChevronDown className="h-3 w-3" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg max-h-64 overflow-y-auto">
+                    {filters[filter.key] && (
+                      <>
+                        <DropdownMenuItem
+                          onClick={() => setFilters((prev) => ({ ...prev, [filter.key]: "" }))}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <X className="h-3.5 w-3.5 mr-2" /> Clear {filter.label}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {filter.options.map((opt) => (
+                      <DropdownMenuItem
+                        key={opt}
+                        onClick={() => setFilters((prev) => ({ ...prev, [filter.key]: opt }))}
+                        className={cn(filters[filter.key] === opt && "bg-primary/10 text-primary font-medium")}
+                      >
+                        {opt}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ))}
+
+              {activeFilterCount > 0 && (
+                <button
+                  onClick={clearFilters}
+                  className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/20 transition-colors"
+                >
+                  <X className="h-3 w-3" /> Clear all ({activeFilterCount})
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Invited/Blocked static filters */}
+          {(isInvitedTab || isBlockedTab) && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {(isInvitedTab
+                ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
+                : ["+ Name", "+ Email", "+ Reason"]
+              ).map((f) => (
+                <button
+                  key={f}
+                  className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors"
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Invited Tab Content */}
