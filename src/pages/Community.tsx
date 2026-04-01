@@ -42,6 +42,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getTeamLogo } from "@/lib/teamLogos";
 
 const communitySidebar = [
   { label: "Audience", icon: Users },
@@ -966,9 +967,12 @@ export default function CommunityPage() {
                       <p className="text-xs text-muted-foreground mt-0.5">
                         {m.role} · {m.position || m.country}
                       </p>
-                      <p className="text-xs text-primary font-medium mt-1">
-                        {m.team}
-                      </p>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        {getTeamLogo(m.team) && (
+                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" />
+                        )}
+                        <p className="text-xs text-primary font-medium">{m.team}</p>
+                      </div>
 
                       {/* Location */}
                       <div className="flex items-center gap-1 mt-1.5 text-xs text-muted-foreground">

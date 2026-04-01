@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getTeamLogo } from "@/lib/teamLogos";
 
 const onlineUsers = [
   {
@@ -155,7 +156,12 @@ export default function NetworkingPage() {
             </div>
 
             <h2 className="text-xl font-bold text-foreground">{currentUser.name}</h2>
-            <p className="text-sm font-semibold text-primary mt-0.5">{currentUser.team}</p>
+            <div className="flex items-center justify-center gap-1.5 mt-0.5">
+              {getTeamLogo(currentUser.team) && (
+                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-5 w-5 object-contain" />
+              )}
+              <p className="text-sm font-semibold text-primary">{currentUser.team}</p>
+            </div>
             <p className="text-sm text-foreground">{currentUser.role}</p>
 
             <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
@@ -245,7 +251,12 @@ export default function NetworkingPage() {
                       {u.score}
                     </span>
                   </div>
-                  <p className="text-xs font-medium text-primary">{u.team}</p>
+                  <div className="flex items-center gap-1.5">
+                    {getTeamLogo(u.team) && (
+                      <img src={getTeamLogo(u.team)} alt={u.team} className="h-4 w-4 object-contain" />
+                    )}
+                    <p className="text-xs font-medium text-primary">{u.team}</p>
+                  </div>
                   <p className="text-xs text-muted-foreground">{u.role}</p>
                 </div>
               </div>
