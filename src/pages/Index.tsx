@@ -840,8 +840,8 @@ const Index = () => {
                     {post.avatar}
                   </div>
                   <div>
-                    <p className={`${!isAdmin ? "text-xs" : "text-sm"} font-semibold text-foreground uppercase`}>{post.author}</p>
-                    <p className="text-xs text-muted-foreground">{!isAdmin ? post.time : `Posted in ${post.channel} • ${post.time}`}</p>
+                    <p className="text-sm font-semibold text-foreground uppercase">{post.author}</p>
+                    <p className="text-xs text-muted-foreground">Posted in {post.channel} • {post.time}</p>
                   </div>
                 </div>
                 <DropdownMenu>
