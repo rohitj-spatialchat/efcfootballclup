@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CalendarDays, Clock, MapPin, Users, MoreHorizontal, ChevronRight } from "lucide-react";
+import { CalendarDays, Clock, MapPin, Users, MoreHorizontal, ChevronRight, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import CreateEventModal from "@/components/CreateEventModal";
 
 interface EventItem {
   id: string;
