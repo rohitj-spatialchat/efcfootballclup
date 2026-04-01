@@ -27,6 +27,8 @@ import Announcements from "./pages/Announcements";
 import Group from "./pages/Group";
 import Redemption from "./pages/Redemption";
 import ExploreGroups from "./pages/ExploreGroups";
+import CalendarPage from "./pages/Calendar";
+import EventDetail from "./pages/EventDetail";
 import HelpChatWidget from "./components/HelpChatWidget";
 
 const queryClient = new QueryClient();

@@ -41,6 +41,7 @@ import {
   Activity,
   RotateCcw,
   CalendarClock,
+  CalendarDays,
   ClipboardList,
   UserCheck,
   UsersRound,
