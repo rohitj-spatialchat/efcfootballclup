@@ -207,6 +207,10 @@ export default function Calendar() {
           <CalendarDays className="h-6 w-6 text-primary" />
           <h1 className="text-2xl font-bold text-foreground">Events</h1>
         </div>
+        <Button onClick={() => setCreateOpen(true)} size="sm" className="gap-1.5">
+          <Plus className="h-4 w-4" />
+          Create Event
+        </Button>
       </div>
 
       {/* Tabs */}
