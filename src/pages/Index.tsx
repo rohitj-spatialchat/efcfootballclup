@@ -833,15 +833,8 @@ const Index = () => {
         <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
           {displayedPosts.map((post) => (
             <motion.div key={post.id} variants={item} className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
-              {/* Post Image - shown first in user/grid view */}
-              {!isAdmin && post.image && (
-                <div className="aspect-square w-full overflow-hidden">
-                  <img src={post.image} alt="" className="w-full h-full object-cover" />
-                </div>
-              )}
-
               {/* Post Header */}
-              <div className={`flex items-start justify-between ${!isAdmin ? "p-3 pb-1" : "p-4 pb-2"}`}>
+              <div className="flex items-start justify-between p-4 pb-2">
                 <div className="flex items-center gap-3">
                   <div className={`${!isAdmin ? "h-8 w-8 text-[10px]" : "h-10 w-10 text-xs"} rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold`}>
                     {post.avatar}
