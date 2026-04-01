@@ -41,6 +41,7 @@ import {
   Activity,
   RotateCcw,
   CalendarClock,
+  CalendarDays,
   ClipboardList,
   UserCheck,
   UsersRound,
@@ -564,6 +565,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             >
               <Compass className="h-4 w-4 shrink-0" />
               {!sidebarCollapsed && "Explore Groups"}
+            </Link>
+            <Link
+              to="/calendar"
+              title="Calendar"
+              className={cn(
+                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors",
+                sidebarCollapsed && "justify-center px-0",
+                location.pathname.startsWith("/calendar")
+                  ? "bg-primary text-primary-foreground font-medium"
+                  : "text-foreground hover:bg-muted",
+              )}
+            >
+              <CalendarDays className="h-4 w-4 shrink-0" />
+              {!sidebarCollapsed && "Calendar"}
             </Link>
           </div>
 
