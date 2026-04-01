@@ -401,7 +401,7 @@ const Index = () => {
   const displayedPosts = getFilteredPosts();
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="flex gap-6">
+    <motion.div variants={container} initial="hidden" animate="show" className={`transition-all duration-500 ease-in-out ${!isAdmin ? "max-w-2xl mx-auto" : "flex gap-6"}`}>
       {/* Main Feed Column */}
       <div className="flex-1 space-y-5 min-w-0">
         {/* Hero Banner */}
