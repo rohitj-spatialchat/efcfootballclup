@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import CreateEventModal from "@/components/CreateEventModal";
+import CreateEventModal, { type NewEventData } from "@/components/CreateEventModal";
 
 interface EventItem {
   id: string;
@@ -22,7 +22,7 @@ interface EventItem {
   year: string;
 }
 
-const upcomingEvents: EventItem[] = [
+const defaultUpcomingEvents: EventItem[] = [
   {
     id: "1",
     title: "EFC Championship Match Day | Quarter Finals Live Stream",
@@ -195,9 +195,15 @@ function groupByMonth(events: EventItem[]) {
 export default function Calendar() {
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
   const [createOpen, setCreateOpen] = useState(false);
+  const [upcomingEvents, setUpcomingEvents] = useState<EventItem[]>(defaultUpcomingEvents);
   const navigate = useNavigate();
   const events = activeTab === "upcoming" ? upcomingEvents : pastEvents;
   const grouped = groupByMonth(events);
+
+  const handleEventCreated = (newEvent: NewEventData) => {
+    setUpcomingEvents((prev) => [newEvent, ...prev]);
+    setActiveTab("upcoming");
+  };
 
   return (
     <div className="max-w-4xl mx-auto py-6 px-4">
@@ -318,7 +324,7 @@ export default function Calendar() {
           ))}
         </motion.div>
       </AnimatePresence>
-      <CreateEventModal open={createOpen} onOpenChange={setCreateOpen} />
+      <CreateEventModal open={createOpen} onOpenChange={setCreateOpen} onEventCreated={handleEventCreated} />
     </div>
   );
 }

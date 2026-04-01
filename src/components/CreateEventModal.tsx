@@ -10,12 +10,45 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 
+export interface NewEventData {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  timezone: string;
+  thumbnail: string;
+  organizer: string;
+  organizerAvatar: string;
+  attendees: number;
+  type: "webinar" | "match" | "training" | "social";
+  month: string;
+  year: string;
+}
+
 interface CreateEventModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onEventCreated: (event: NewEventData) => void;
 }
 
-export default function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) {
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+function formatDate(dateStr: string): { formatted: string; month: string; year: string } {
+  const d = new Date(dateStr);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = months[d.getMonth()];
+  const year = String(d.getFullYear());
+  return { formatted: `${day} ${month}, ${year}`, month, year };
+}
+
+function formatTime(timeStr: string): string {
+  const [h, m] = timeStr.split(":").map(Number);
+  const ampm = h >= 12 ? "PM" : "AM";
+  const hour = h % 12 || 12;
+  return `${hour}:${String(m).padStart(2, "0")} ${ampm}`;
+}
+
+export default function CreateEventModal({ open, onOpenChange, onEventCreated }: CreateEventModalProps) {
   const [eventName, setEventName] = useState("");
   const [description, setDescription] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -39,6 +72,24 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
       toast.error("Please set the start date and time");
       return;
     }
+
+    const { formatted, month, year } = formatDate(fromDate);
+    const newEvent: NewEventData = {
+      id: `custom-${Date.now()}`,
+      title: eventName,
+      date: formatted,
+      time: formatTime(fromTime),
+      timezone: "Europe/London (GMT)",
+      thumbnail: "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=300&h=180&fit=crop",
+      organizer: "Community Admin",
+      organizerAvatar: "",
+      attendees: 0,
+      type: webinarLink ? "webinar" : videoCall ? "training" : "social",
+      month,
+      year,
+    };
+
+    onEventCreated(newEvent);
     toast.success("Event created successfully!");
     onOpenChange(false);
     resetForm();
@@ -132,13 +183,14 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
                       type="date"
                       value={fromDate}
                       onChange={(e) => setFromDate(e.target.value)}
-                      className="bg-background text-xs"
+                      className="bg-background text-xs flex-1"
                     />
                     <Input
                       type="time"
+                      step="60"
                       value={fromTime}
                       onChange={(e) => setFromTime(e.target.value)}
-                      className="bg-background text-xs w-28"
+                      className="bg-background text-xs w-24"
                     />
                   </div>
                 </div>
@@ -151,15 +203,14 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
                       type="date"
                       value={toDate}
                       onChange={(e) => setToDate(e.target.value)}
-                      className="bg-background text-xs"
-                      placeholder="End date"
+                      className="bg-background text-xs flex-1"
                     />
                     <Input
                       type="time"
+                      step="60"
                       value={toTime}
                       onChange={(e) => setToTime(e.target.value)}
-                      className="bg-background text-xs w-28"
-                      placeholder="time"
+                      className="bg-background text-xs w-24"
                     />
                   </div>
                 </div>
