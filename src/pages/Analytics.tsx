@@ -565,7 +565,6 @@ function TeamsTab() {
 // ── Posts Tab ──────────────────────────────────────────────────────────
 
 function PostsTab() {
-  const maxViews = Math.max(...topPostsData.map((p) => p.views));
   const typeColor: Record<string, string> = {
     Research: "bg-blue-500/10 text-blue-600",
     Discussion: "bg-emerald-500/10 text-emerald-600",
