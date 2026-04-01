@@ -419,9 +419,20 @@ export default function CommunityPage() {
               : members;
 
   const query = searchQuery.toLowerCase().trim();
-  const filteredMembers = query
-    ? preFilteredMembers.filter((m) => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
-    : preFilteredMembers;
+  const filteredMembers = preFilteredMembers.filter((m) => {
+    if (query && !m.name.toLowerCase().includes(query) && !m.email.toLowerCase().includes(query)) return false;
+    if (filters.region && m.region !== filters.region) return false;
+    if (filters.discipline && m.discipline !== filters.discipline) return false;
+    if (filters.country && m.country !== filters.country) return false;
+    if (filters.team && m.team !== filters.team) return false;
+    if (filters.format && m.format !== filters.format) return false;
+    if (filters.role && m.role !== filters.role) return false;
+    if (filters.emailMarketing) {
+      const isSub = filters.emailMarketing === "Subscribed";
+      if (m.subscribed !== isSub) return false;
+    }
+    return true;
+  });
 
   const filteredInvited = query
     ? invited.filter((m) => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
