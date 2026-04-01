@@ -1,17 +1,17 @@
-// Using logo.clearbit.com for reliable team logos
+// Using API-Football CDN for reliable team crest images
 export const teamLogos: Record<string, string> = {
-  "AFC Ajax": "https://img.icons8.com/color/48/ajax.png",
-  "AC Milan": "https://img.icons8.com/color/48/ac-milan.png",
-  "Inter Milan": "https://img.icons8.com/color/48/inter-milan.png",
-  "SL Benfica": "https://img.icons8.com/color/48/benfica.png",
-  "FC Porto": "https://img.icons8.com/color/48/fc-porto.png",
-  "Arsenal FC": "https://img.icons8.com/color/48/arsenal.png",
-  "Chelsea FC": "https://img.icons8.com/color/48/chelsea.png",
-  "Manchester City": "https://img.icons8.com/color/48/manchester-city.png",
-  "Bayern Munich": "https://img.icons8.com/color/48/bayern-munich.png",
-  "Liverpool FC": "https://img.icons8.com/color/48/liverpool.png",
-  "Juventus": "https://img.icons8.com/color/48/juventus.png",
-  "AC Sparta Praha": "https://img.icons8.com/color/48/ac-sparta-praha.png",
+  "AFC Ajax": "https://media.api-sports.io/football/teams/194.png",
+  "AC Milan": "https://media.api-sports.io/football/teams/489.png",
+  "Inter Milan": "https://media.api-sports.io/football/teams/505.png",
+  "SL Benfica": "https://media.api-sports.io/football/teams/211.png",
+  "FC Porto": "https://media.api-sports.io/football/teams/212.png",
+  "Arsenal FC": "https://media.api-sports.io/football/teams/42.png",
+  "Chelsea FC": "https://media.api-sports.io/football/teams/49.png",
+  "Manchester City": "https://media.api-sports.io/football/teams/50.png",
+  "Bayern Munich": "https://media.api-sports.io/football/teams/157.png",
+  "Liverpool FC": "https://media.api-sports.io/football/teams/40.png",
+  "Juventus": "https://media.api-sports.io/football/teams/496.png",
+  "AC Sparta Praha": "https://media.api-sports.io/football/teams/553.png",
 };
 
 export const getTeamLogo = (team: string): string | undefined => teamLogos[team];
