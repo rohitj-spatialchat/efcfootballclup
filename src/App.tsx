@@ -26,6 +26,7 @@ import Chat from "./pages/Chat";
 import Announcements from "./pages/Announcements";
 import Group from "./pages/Group";
 import Redemption from "./pages/Redemption";
+import ExploreGroups from "./pages/ExploreGroups";
 import HelpChatWidget from "./components/HelpChatWidget";
 
 const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ const App = () => (
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/announcements" element={<Announcements />} />
                 <Route path="/groups/:slug" element={<Group />} />
+                <Route path="/explore-groups" element={<ExploreGroups />} />
                 <Route path="/redemption" element={<Redemption />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
