@@ -64,6 +64,7 @@ const App = () => (
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/announcements" element={<Announcements />} />
                 <Route path="/groups/:slug" element={<Group />} />
+                <Route path="/explore-groups" element={<ExploreGroups />} />
                 <Route path="/redemption" element={<Redemption />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
