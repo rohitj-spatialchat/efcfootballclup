@@ -874,7 +874,7 @@ const Index = () => {
 
               {/* Post Tags */}
               {post.tags && post.tags.length > 0 && (
-                <div className={`${!isAdmin ? "px-3" : "px-4"} pb-1 flex flex-wrap gap-1`}>
+                <div className="px-4 pb-1 flex flex-wrap gap-1">
                   {post.tags.map(tag => (
                     <Badge key={tag} variant="outline" className="text-[10px] px-1.5 py-0">{tag}</Badge>
                   ))}
