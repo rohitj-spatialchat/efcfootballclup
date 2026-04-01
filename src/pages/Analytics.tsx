@@ -46,13 +46,17 @@ const teamData = [
   { name: "SL Benfica", members: 18, posts: 220, mpuPoints: 8800, engagement: 76 },
 ];
 
-const postTypeData = [
-  { type: "Discussion", count: 3240, engagement: 85, avgLikes: 12.4, avgComments: 8.2 },
-  { type: "Research", count: 1860, engagement: 92, avgLikes: 18.6, avgComments: 14.1 },
-  { type: "Case Study", count: 980, engagement: 88, avgLikes: 15.2, avgComments: 11.8 },
-  { type: "Question", count: 2140, engagement: 79, avgLikes: 8.4, avgComments: 16.3 },
-  { type: "Media", count: 1420, engagement: 94, avgLikes: 22.1, avgComments: 6.5 },
-  { type: "Poll", count: 640, engagement: 76, avgLikes: 6.8, avgComments: 4.2 },
+const topPostsData = [
+  { rank: 1, title: "ACL Recovery Protocol: 6-Month Data Review", author: "Carlos Ramirez", team: "Arsenal FC", type: "Research", likes: 248, comments: 96, shares: 42, views: 3820, engagement: 98 },
+  { rank: 2, title: "Nutrition Periodization for Match-Day Performance", author: "Mei Wong", team: "Manchester City", type: "Research", likes: 221, comments: 84, shares: 38, views: 3540, engagement: 96 },
+  { rank: 3, title: "GPS Load Monitoring – Are We Over-Relying on Data?", author: "Robert Fox", team: "Chelsea FC", type: "Discussion", likes: 198, comments: 112, shares: 31, views: 3120, engagement: 94 },
+  { rank: 4, title: "Mental Resilience Training: Pre-Season Framework", author: "Dianne Russell", team: "Liverpool FC", type: "Case Study", likes: 187, comments: 73, shares: 28, views: 2890, engagement: 91 },
+  { rank: 5, title: "Hamstring Injury Prevention – Nordic Curl Variations", author: "Kwame Adebayo", team: "Bayern Munich", type: "Media", likes: 176, comments: 58, shares: 45, views: 2740, engagement: 89 },
+  { rank: 6, title: "Sleep Quality Impact on Youth Player Development", author: "Ravi Patel", team: "AFC Ajax", type: "Research", likes: 162, comments: 67, shares: 24, views: 2560, engagement: 87 },
+  { rank: 7, title: "Creatine Supplementation in Elite Football – Meta Analysis", author: "Esther Howard", team: "AC Milan", type: "Research", likes: 154, comments: 52, shares: 33, views: 2380, engagement: 85 },
+  { rank: 8, title: "Return-to-Play Decision Making: Who Has Final Say?", author: "Carlos Ramirez", team: "Arsenal FC", type: "Discussion", likes: 143, comments: 98, shares: 19, views: 2210, engagement: 83 },
+  { rank: 9, title: "Hydration Strategies for Hot-Climate Matches", author: "Mei Wong", team: "Manchester City", type: "Case Study", likes: 131, comments: 44, shares: 21, views: 1980, engagement: 80 },
+  { rank: 10, title: "Plyometric Progressions for Post-Surgery Athletes", author: "Robert Fox", team: "Chelsea FC", type: "Media", likes: 124, comments: 39, shares: 27, views: 1840, engagement: 78 },
 ];
 
 const topContributors = [
