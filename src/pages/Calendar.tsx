@@ -318,6 +318,7 @@ export default function Calendar() {
           ))}
         </motion.div>
       </AnimatePresence>
+      <CreateEventModal open={createOpen} onOpenChange={setCreateOpen} />
     </div>
   );
 }
