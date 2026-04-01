@@ -59,6 +59,8 @@ const initialMembers = [
     name: "Kwame Adebayo",
     email: "adebayo@gmail.com",
     country: "Netherlands",
+    region: "Western Europe",
+    discipline: "Nutrition",
     mpu: 920,
     role: "Member",
     position: "Nutritionist",
@@ -69,11 +71,14 @@ const initialMembers = [
     avatar: "https://i.pravatar.cc/150?img=11",
     subscribed: true,
     team: "AFC Ajax",
+    format: "Full-time",
   },
   {
     name: "Robert Fox",
     email: "robertfox@gmail.com",
     country: "Italy",
+    region: "Southern Europe",
+    discipline: "Physiotherapy",
     mpu: 940,
     role: "Member",
     position: "Physiotherapist",
@@ -84,11 +89,14 @@ const initialMembers = [
     avatar: "https://i.pravatar.cc/150?img=12",
     subscribed: true,
     team: "AC Milan",
+    format: "Full-time",
   },
   {
     name: "Mei Wong",
     email: "meiwong@gmail.com",
     country: "Italy",
+    region: "Southern Europe",
+    discipline: "Fitness & Conditioning",
     mpu: 800,
     role: "Member",
     position: "Fitness Coach",
@@ -99,11 +107,14 @@ const initialMembers = [
     avatar: "https://i.pravatar.cc/150?img=5",
     subscribed: false,
     team: "Inter Milan",
+    format: "Contract",
   },
   {
     name: "Dianne Russell",
     email: "drussell@yahoo.com",
     country: "Portugal",
+    region: "Southern Europe",
+    discipline: "Scouting",
     mpu: 920,
     role: "Moderator",
     position: "Head Scout",
@@ -114,11 +125,14 @@ const initialMembers = [
     avatar: "https://i.pravatar.cc/150?img=23",
     subscribed: true,
     team: "SL Benfica",
+    format: "Full-time",
   },
   {
     name: "Kristin Watson",
     email: "kristin@watson.com",
     country: "Portugal",
+    region: "Southern Europe",
+    discipline: "Management",
     mpu: 920,
     role: "Admin",
     position: "Team Manager",
@@ -129,11 +143,14 @@ const initialMembers = [
     avatar: "https://i.pravatar.cc/150?img=32",
     subscribed: true,
     team: "FC Porto",
+    format: "Full-time",
   },
   {
     name: "Carlos Ramirez",
     email: "ramirez@yahoo.com",
     country: "England",
+    region: "Northern Europe",
+    discipline: "Performance Analysis",
     mpu: 670,
     role: "Member",
     position: "Performance Analyst",
@@ -144,11 +161,14 @@ const initialMembers = [
     avatar: "https://i.pravatar.cc/150?img=53",
     subscribed: false,
     team: "Arsenal FC",
+    format: "Part-time",
   },
   {
     name: "Ravi Patel",
     email: "ravi@email.com",
     country: "United Kingdom",
+    region: "Northern Europe",
+    discipline: "Coaching",
     mpu: 920,
     role: "Moderator",
     position: "Goalkeeper Coach",
@@ -159,6 +179,7 @@ const initialMembers = [
     avatar: "https://i.pravatar.cc/150?img=59",
     subscribed: true,
     team: "Chelsea FC",
+    format: "Full-time",
   },
 ];
 
@@ -260,6 +281,31 @@ export default function CommunityPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [newMember, setNewMember] = useState({ name: "", email: "", country: "", role: "Member" });
   const [followedMembers, setFollowedMembers] = useState<Set<string>>(new Set());
+  const [filters, setFilters] = useState<Record<string, string>>({
+    region: "",
+    discipline: "",
+    country: "",
+    team: "",
+    format: "",
+    role: "",
+    emailMarketing: "",
+  });
+
+  // Derive unique filter options from members data
+  const filterOptions = {
+    region: [...new Set(members.map((m) => m.region))].sort(),
+    discipline: [...new Set(members.map((m) => m.discipline))].sort(),
+    country: [...new Set(members.map((m) => m.country))].sort(),
+    team: [...new Set(members.map((m) => m.team))].sort(),
+    format: [...new Set(members.map((m) => m.format))].sort(),
+    role: [...new Set(members.map((m) => m.role))].sort(),
+    emailMarketing: ["Subscribed", "Unsubscribed"],
+  };
+
+  const activeFilterCount = Object.values(filters).filter(Boolean).length;
+
+  const clearFilters = () =>
+    setFilters({ region: "", discipline: "", country: "", team: "", format: "", role: "", emailMarketing: "" });
 
   const handleAddMember = () => {
     if (!newMember.name || !newMember.email) {
@@ -284,6 +330,9 @@ export default function CommunityPage() {
       const member = {
         ...newMember,
         position: "",
+        region: "Unknown",
+        discipline: "General",
+        format: "Full-time",
         mpu: Math.floor(Math.random() * 400 + 600),
         joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
         flag: "🏳️",
@@ -370,9 +419,20 @@ export default function CommunityPage() {
               : members;
 
   const query = searchQuery.toLowerCase().trim();
-  const filteredMembers = query
-    ? preFilteredMembers.filter((m) => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
-    : preFilteredMembers;
+  const filteredMembers = preFilteredMembers.filter((m) => {
+    if (query && !m.name.toLowerCase().includes(query) && !m.email.toLowerCase().includes(query)) return false;
+    if (filters.region && m.region !== filters.region) return false;
+    if (filters.discipline && m.discipline !== filters.discipline) return false;
+    if (filters.country && m.country !== filters.country) return false;
+    if (filters.team && m.team !== filters.team) return false;
+    if (filters.format && m.format !== filters.format) return false;
+    if (filters.role && m.role !== filters.role) return false;
+    if (filters.emailMarketing) {
+      const isSub = filters.emailMarketing === "Subscribed";
+      if (m.subscribed !== isSub) return false;
+    }
+    return true;
+  });
 
   const filteredInvited = query
     ? invited.filter((m) => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
@@ -495,31 +555,98 @@ export default function CommunityPage() {
           ))}
         </motion.div>
 
-        {/* Search bar */}
-        <motion.div variants={item} className="flex items-center gap-2 flex-wrap">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder={`Search ${activeTab === "invited" ? "invited" : activeTab === "blocked" ? "blocked" : "members"}...`}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 h-9 text-sm"
-            />
+        {/* Search bar + Filters */}
+        <motion.div variants={item} className="space-y-3">
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder={`Search ${activeTab === "invited" ? "invited" : activeTab === "blocked" ? "blocked" : "members"}...`}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 h-9 text-sm"
+              />
+            </div>
           </div>
-          {(isInvitedTab
-            ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
-            : isBlockedTab
-              ? ["+ Name", "+ Email", "+ Reason"]
-              : ["+ Name", "+ Email marketing", "+ Member", "+ Source", "+ Data added"]
-          ).map((f) => (
-            <button
-              key={f}
-              className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors"
-            >
-              {f}
-            </button>
-          ))}
-          <button className="text-xs text-muted-foreground hover:text-foreground">+ Add filter</button>
+
+          {/* Filter dropdowns - only for member tabs */}
+          {!isInvitedTab && !isBlockedTab && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {([
+                { key: "region", label: "Region", options: filterOptions.region },
+                { key: "discipline", label: "Discipline", options: filterOptions.discipline },
+                { key: "country", label: "Country", options: filterOptions.country },
+                { key: "team", label: "Football Team", options: filterOptions.team },
+                { key: "format", label: "Format", options: filterOptions.format },
+                { key: "role", label: "Role", options: filterOptions.role },
+                { key: "emailMarketing", label: "Email Marketing", options: filterOptions.emailMarketing },
+              ] as const).map((filter) => (
+                <DropdownMenu key={filter.key}>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors",
+                        filters[filter.key]
+                          ? "border-primary bg-primary/10 text-primary font-medium"
+                          : "border-border text-muted-foreground hover:bg-muted"
+                      )}
+                    >
+                      {filters[filter.key] || `+ ${filter.label}`}
+                      <ChevronDown className="h-3 w-3" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg max-h-64 overflow-y-auto">
+                    {filters[filter.key] && (
+                      <>
+                        <DropdownMenuItem
+                          onClick={() => setFilters((prev) => ({ ...prev, [filter.key]: "" }))}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <X className="h-3.5 w-3.5 mr-2" /> Clear {filter.label}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {filter.options.map((opt) => (
+                      <DropdownMenuItem
+                        key={opt}
+                        onClick={() => setFilters((prev) => ({ ...prev, [filter.key]: opt }))}
+                        className={cn(filters[filter.key] === opt && "bg-primary/10 text-primary font-medium")}
+                      >
+                        {opt}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ))}
+
+              {activeFilterCount > 0 && (
+                <button
+                  onClick={clearFilters}
+                  className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/20 transition-colors"
+                >
+                  <X className="h-3 w-3" /> Clear all ({activeFilterCount})
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Invited/Blocked static filters */}
+          {(isInvitedTab || isBlockedTab) && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {(isInvitedTab
+                ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
+                : ["+ Name", "+ Email", "+ Reason"]
+              ).map((f) => (
+                <button
+                  key={f}
+                  className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors"
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Invited Tab Content */}
