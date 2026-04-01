@@ -830,7 +830,7 @@ const Index = () => {
         )}
 
         {/* Posts Feed - Scrollable */}
-        <div className={`max-h-[calc(100vh-200px)] overflow-y-auto pr-1 ${!isAdmin ? "grid grid-cols-2 gap-4" : "space-y-4"}`}>
+        <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
           {displayedPosts.map((post) => (
             <motion.div key={post.id} variants={item} className={`rounded-lg border border-border bg-card shadow-card overflow-hidden ${!isAdmin ? "flex flex-col" : ""}`}>
               {/* Post Image - shown first in user/grid view */}
