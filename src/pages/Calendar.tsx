@@ -26,7 +26,7 @@ const upcomingEvents: EventItem[] = [
     title: "EFC Championship Match Day | Quarter Finals Live Stream",
     date: "15 April, 2026",
     time: "7:00 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/London (GMT)",
     thumbnail: "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
