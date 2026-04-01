@@ -897,8 +897,8 @@ const Index = () => {
                 )}
               </div>
 
-              {/* Post Image - admin view (original position) */}
-              {isAdmin && post.image && (
+              {/* Post Image */}
+              {post.image && (
                 <div className="px-4 pb-3">
                   <img src={post.image} alt="" className="w-full rounded-lg object-cover max-h-80" />
                 </div>
