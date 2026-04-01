@@ -968,7 +968,7 @@ const Index = () => {
               })()}
 
               {/* Engagement counts */}
-              <div className={`${!isAdmin ? "px-3 pb-1" : "px-4 pb-2"} flex items-center justify-between text-xs text-muted-foreground`}>
+              <div className="px-4 pb-2 flex items-center justify-between text-xs text-muted-foreground">
                 <span>{post.likes} likes</span>
                 <span>{post.comments} comments</span>
               </div>
