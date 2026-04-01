@@ -45,7 +45,8 @@ const courses = [
   {
     title: "Nutrition for performance: Fueling the footballer's body",
     description: "Optimize Athletic Performance with Proper Diet and Nutrition.",
-    image: "https://www.shutterstock.com/image-photo/close-sportsman-having-healthy-fruit-600nw-2675007961.jpg",
+    image:
+      "https://img.fcbayern.com/image/upload/f_auto/q_auto/ar_2:1,c_fill,g_custom,w_1280/v1766237673/cms/public/images/fcbayern-com/homepage/Saison-25-26/Magazin-51/Januar/251015-melf-carstensen-ernaehrungsberater-noever.jpg",
     type: "WATCH" as const,
     tags: ["Nutrition", "Sport & Exercise Science"],
     progress: 75,
