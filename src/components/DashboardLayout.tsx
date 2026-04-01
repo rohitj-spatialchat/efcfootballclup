@@ -432,6 +432,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <button
                       onClick={() => {
                         setProfileOpen(false);
+                        navigate("/analytics");
+                      }}
+                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                    >
+                      <BarChart3 className="h-4 w-4 text-muted-foreground" /> Analytics
+                    </button>
+                    <button
+                      onClick={() => {
+                        setProfileOpen(false);
                         navigate("/settings");
                       }}
                       className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
