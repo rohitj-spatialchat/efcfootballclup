@@ -155,7 +155,7 @@ const pastEvents: EventItem[] = [
     title: "EFC Webinar 19th February 2026 | Personal Branding in the D...",
     date: "19 February, 2026",
     time: "2:54 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/Paris (CET)",
     thumbnail: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
