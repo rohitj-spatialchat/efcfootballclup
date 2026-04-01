@@ -68,7 +68,7 @@ const upcomingEvents: EventItem[] = [
     title: "EFC Community Social | Fan Meet & Greet with Players",
     date: "05 May, 2026",
     time: "5:00 PM",
-    timezone: "Asia/Kolkata",
+    timezone: "Europe/Madrid (CET)",
     thumbnail: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
