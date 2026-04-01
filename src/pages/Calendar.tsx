@@ -130,7 +130,7 @@ const pastEvents: EventItem[] = [
     date: "05 March, 2026",
     time: "2:54 PM",
     timezone: "Europe/London (GMT)",
-    thumbnail: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=300&h=180&fit=crop",
+    thumbnail: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=180&fit=crop",
     organizer: "EFC Admin",
     organizerAvatar: "",
     attendees: 203,
