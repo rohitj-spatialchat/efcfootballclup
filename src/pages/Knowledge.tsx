@@ -10,7 +10,7 @@ const courses = [
     title: "Desk to deep breath: Midday movement for grounded energy",
     description: "Recovery techniques and stretching routines for peak athletic performance.",
     image:
-      "https://assets-us-01.kc-usercontent.com/31dbcbc6-da4c-0033-328a-d7621d0fa726/143a1f0a-b490-4c16-8afd-f9617526a406/2025-09-16T193455Z_399216793_UP1EL9G1IE5UG_RTRMADP_3_SOCCER-CHAMPIONS-RMA-OM.JPG?ver=03-06-2025?w=3840&q=75",
+      "https://platform.acmilan.theoffside.com/wp-content/uploads/sites/4/chorus/uploads/chorus_asset/file/25913709/2204766664.jpg?quality=90&strip=all&crop=0%2C2.2016113921679%2C100%2C95.596777215664&w=2400",
     type: "WATCH" as const,
     tags: ["Fitness & Exercise Physiology"],
     progress: 100,
