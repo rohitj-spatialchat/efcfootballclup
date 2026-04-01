@@ -1,17 +1,17 @@
-// Using logo.clearbit.com for reliable team logos
+// Using football-data.org crests CDN (free, CORS-enabled)
 export const teamLogos: Record<string, string> = {
-  "AFC Ajax": "https://img.icons8.com/color/48/ajax.png",
-  "AC Milan": "https://img.icons8.com/color/48/ac-milan.png",
-  "Inter Milan": "https://img.icons8.com/color/48/inter-milan.png",
-  "SL Benfica": "https://img.icons8.com/color/48/benfica.png",
-  "FC Porto": "https://img.icons8.com/color/48/fc-porto.png",
-  "Arsenal FC": "https://img.icons8.com/color/48/arsenal.png",
-  "Chelsea FC": "https://img.icons8.com/color/48/chelsea.png",
-  "Manchester City": "https://img.icons8.com/color/48/manchester-city.png",
-  "Bayern Munich": "https://img.icons8.com/color/48/bayern-munich.png",
-  "Liverpool FC": "https://img.icons8.com/color/48/liverpool.png",
-  "Juventus": "https://img.icons8.com/color/48/juventus.png",
-  "AC Sparta Praha": "https://img.icons8.com/color/48/ac-sparta-praha.png",
+  "AFC Ajax": "https://crests.football-data.org/678.png",
+  "AC Milan": "https://crests.football-data.org/98.png",
+  "Inter Milan": "https://crests.football-data.org/108.png",
+  "SL Benfica": "https://crests.football-data.org/1903.png",
+  "FC Porto": "https://crests.football-data.org/503.png",
+  "Arsenal FC": "https://crests.football-data.org/57.png",
+  "Chelsea FC": "https://crests.football-data.org/61.png",
+  "Manchester City": "https://crests.football-data.org/65.png",
+  "Bayern Munich": "https://crests.football-data.org/5.png",
+  "Liverpool FC": "https://crests.football-data.org/64.png",
+  "Juventus": "https://crests.football-data.org/109.png",
+  "AC Sparta Praha": "https://crests.football-data.org/747.png",
 };
 
 export const getTeamLogo = (team: string): string | undefined => teamLogos[team];
