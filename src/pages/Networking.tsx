@@ -250,7 +250,12 @@ export default function NetworkingPage() {
                       {u.score}
                     </span>
                   </div>
-                  <p className="text-xs font-medium text-primary">{u.team}</p>
+                  <div className="flex items-center gap-1.5">
+                    {getTeamLogo(u.team) && (
+                      <img src={getTeamLogo(u.team)} alt={u.team} className="h-4 w-4 object-contain" />
+                    )}
+                    <p className="text-xs font-medium text-primary">{u.team}</p>
+                  </div>
                   <p className="text-xs text-muted-foreground">{u.role}</p>
                 </div>
               </div>
