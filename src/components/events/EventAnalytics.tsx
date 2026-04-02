@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import {
   Calendar, Download, Star, Clock, Diamond, TrendingUp, TrendingDown,
   Users, Eye, Play, BarChart3, Brain, Sparkles, Video, Settings,
@@ -110,6 +112,13 @@ type Tab = "overview" | "ai" | "recordings" | "engagement" | "settings";
 export default function EventAnalytics() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [settingsState, setSettingsState] = useState(settingsConfig);
+  const { toast } = useToast();
+
+  // Date Range
+  const [dateRangeOpen, setDateRangeOpen] = useState(false);
+  const [dateFrom, setDateFrom] = useState("2026-01-01");
+  const [dateTo, setDateTo] = useState("2026-03-31");
+  const [appliedRange, setAppliedRange] = useState("Jan 1 – Mar 31, 2026");
 
   const tabs: { label: string; id: Tab; icon: typeof BarChart3 }[] = [
     { label: "Overview", id: "overview", icon: BarChart3 },
@@ -128,10 +137,11 @@ export default function EventAnalytics() {
           <p className="text-sm text-muted-foreground mt-1">Comprehensive insights into your event performance</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+          <span className="text-xs text-muted-foreground">{appliedRange}</span>
+          <button onClick={() => setDateRangeOpen(true)} className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
             <Calendar className="h-3.5 w-3.5" /> Date Range
           </button>
-          <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+          <button onClick={() => toast({ title: "Exporting report", description: "Your analytics report is being generated..." })} className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
             <Download className="h-3.5 w-3.5" /> Export Report
           </button>
         </div>
@@ -528,6 +538,49 @@ export default function EventAnalytics() {
           </div>
         </div>
       )}
+
+      {/* Date Range Dialog */}
+      <Dialog open={dateRangeOpen} onOpenChange={setDateRangeOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Select Date Range</DialogTitle>
+            <DialogDescription>Choose a time period for analytics data.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex gap-3">
+              {["Last 7 days", "Last 30 days", "Last 90 days", "This Year"].map(preset => (
+                <button key={preset} onClick={() => {
+                  setAppliedRange(preset);
+                  setDateRangeOpen(false);
+                  toast({ title: "Date range updated", description: `Showing data for: ${preset}` });
+                }} className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted transition-colors text-foreground">
+                  {preset}
+                </button>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-sm font-medium text-foreground">From</label>
+                <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">To</label>
+                <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDateRangeOpen(false)} className="flex-1 rounded-md border border-border px-4 py-2 text-sm hover:bg-muted transition-colors">Cancel</button>
+              <button onClick={() => {
+                const from = new Date(dateFrom).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                const to = new Date(dateTo).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+                setAppliedRange(`${from} – ${to}`);
+                setDateRangeOpen(false);
+                toast({ title: "Date range applied", description: `${from} – ${to}` });
+              }} className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Apply</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
