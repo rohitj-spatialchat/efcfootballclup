@@ -143,11 +143,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { viewMode, isAdmin, toggleViewMode } = useViewMode();
-  const toast = (opts: { title: string; description?: string }) => {
-    // Simple inline toast - uses the imported toast from child pages
-    const event = new CustomEvent("show-toast", { detail: opts });
-    window.dispatchEvent(event);
-  };
+  const { toast } = useToast();
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [spatialOpen, setSpatialOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
