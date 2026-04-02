@@ -137,10 +137,11 @@ export default function EventAnalytics() {
           <p className="text-sm text-muted-foreground mt-1">Comprehensive insights into your event performance</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+          <span className="text-xs text-muted-foreground">{appliedRange}</span>
+          <button onClick={() => setDateRangeOpen(true)} className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
             <Calendar className="h-3.5 w-3.5" /> Date Range
           </button>
-          <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+          <button onClick={() => toast({ title: "Exporting report", description: "Your analytics report is being generated..." })} className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
             <Download className="h-3.5 w-3.5" /> Export Report
           </button>
         </div>
