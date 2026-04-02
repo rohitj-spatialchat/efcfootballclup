@@ -647,13 +647,13 @@ function ToggleRow({ label, description, checked, onChange, disabled }: {
   );
 }
 
-function IntegrationRow({ name, description, connected, onChange, icon }: {
-  name: string; description: string; connected: boolean; onChange: (val: boolean) => void; icon: string;
+function IntegrationRow({ name, description, connected, onChange, icon, iconImage }: {
+  name: string; description: string; connected: boolean; onChange: (val: boolean) => void; icon?: string; iconImage?: string;
 }) {
   return (
     <div className="flex items-center justify-between py-3.5 border-b border-border last:border-0">
       <div className="flex items-center gap-3">
-        <span className="text-xl">{icon}</span>
+        {iconImage ? <img src={iconImage} alt={name} className="w-6 h-6 rounded" /> : <span className="text-xl">{icon}</span>}
         <div>
           <p className="text-sm font-medium text-foreground">{name}</p>
           <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
