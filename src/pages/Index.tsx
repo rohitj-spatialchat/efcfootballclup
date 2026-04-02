@@ -1106,9 +1106,12 @@ const Index = () => {
               ].map((src, i) => (
                 <img key={i} src={src} alt="" className="h-8 w-8 rounded-full border-2 border-card object-cover" />
               ))}
-              <div className="h-8 w-8 rounded-full border-2 border-card bg-muted flex items-center justify-center text-[10px] font-medium text-muted-foreground">
+              <button
+                onClick={() => setOnlineUsersOpen(true)}
+                className="h-8 w-8 rounded-full border-2 border-card bg-muted flex items-center justify-center text-[10px] font-medium text-muted-foreground hover:bg-accent transition-colors cursor-pointer"
+              >
                 +120
-              </div>
+              </button>
             </div>
           </motion.div>
 
@@ -1138,10 +1141,13 @@ const Index = () => {
                 </div>
               ))}
             </div>
-            <a href="/leaderboard" className="flex items-center justify-center gap-1.5 mt-3 pt-3 border-t border-border text-xs font-medium text-primary hover:underline">
+            <button
+              onClick={() => navigate("/leaderboard")}
+              className="flex items-center justify-center gap-1.5 mt-3 pt-3 border-t border-border text-xs font-medium text-primary hover:underline w-full"
+            >
               <ExternalLink className="h-3 w-3" />
               View Leaderboard
-            </a>
+            </button>
           </motion.div>
 
           {/* Trending News */}
