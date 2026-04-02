@@ -73,14 +73,16 @@ export default function EventsPage() {
           { title: "Periodization Masterclass", speaker: "Emma Johansson", date: "Feb 15, 2026", duration: "55:10", views: 198, thumb: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&h=225&fit=crop" },
         ].map((rec) => (
           <div key={rec.title} className="rounded-lg border border-border bg-card overflow-hidden hover:shadow-md transition-shadow group">
-            <div className="relative aspect-video">
-              <img src={rec.thumb} alt={rec.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center">
-                  <Play className="h-5 w-5 text-primary-foreground ml-0.5" />
+          <div className="relative aspect-video">
+                <img src={rec.thumb} alt={rec.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                  onClick={() => toast({ title: "Playing recording", description: `Now playing: ${rec.title}` })}
+                >
+                  <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center">
+                    <Play className="h-5 w-5 text-primary-foreground ml-0.5" />
+                  </div>
                 </div>
-              </div>
-              <div className="absolute bottom-2 right-2 bg-black/70 rounded px-1.5 py-0.5 text-[10px] text-white font-medium">{rec.duration}</div>
+                <div className="absolute bottom-2 right-2 bg-black/70 rounded px-1.5 py-0.5 text-[10px] text-white font-medium">{rec.duration}</div>
             </div>
             <div className="p-4">
               <h3 className="text-sm font-semibold text-foreground truncate">{rec.title}</h3>
