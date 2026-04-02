@@ -130,7 +130,10 @@ export default function KnowledgePage() {
                 {cat}
               </button>
             ))}
-            <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <button
+              onClick={() => toast({ title: "More categories", description: "Additional categories would appear here." })}
+              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
               More <ChevronDown className="h-3 w-3" />
             </button>
           </motion.div>
