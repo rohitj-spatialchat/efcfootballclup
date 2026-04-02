@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import EventRegistration from "@/components/EventRegistration";
 import EventPeople from "@/components/EventPeople";
 import EventAnalytics from "@/components/events/EventAnalytics";
+import EventSettings from "@/components/events/EventSettings";
 const filterTabs = [
   { label: "All", count: 7, active: true },
   { label: "Live", count: 1 },
@@ -55,6 +56,7 @@ export default function EventsPage() {
   if (activeTab === "registration") return <EventRegistration />;
   if (activeTab === "people") return <EventPeople />;
   if (activeTab === "analytics") return <EventAnalytics />;
+  if (activeTab === "settings") return <EventSettings />;
   if (activeTab === "recording") return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.div variants={item} className="flex items-center justify-between">
