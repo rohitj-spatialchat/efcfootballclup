@@ -42,6 +42,12 @@ export default function EventsPage() {
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "";
   const { isAdmin } = useViewMode();
+  const { toast } = useToast();
+  const [createEventOpen, setCreateEventOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [eventName, setEventName] = useState("");
+  const [eventType, setEventType] = useState("Webinar");
+  const [eventDate, setEventDate] = useState("");
 
   // Admin-only tabs: redirect to events list in user view
   if (!isAdmin && activeTab && activeTab !== "") return <Navigate to="/events" replace />;
