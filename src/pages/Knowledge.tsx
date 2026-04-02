@@ -141,7 +141,7 @@ export default function KnowledgePage() {
           {/* Course Grid */}
           <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {courses.map((course, i) => (
-              <div key={i} className="group cursor-pointer flex flex-col">
+              <div key={i} className="group cursor-pointer flex flex-col" onClick={() => setSelectedCourse(course)}>
                 {/* Image */}
                 <div className="relative rounded-xl overflow-hidden aspect-[4/3] mb-3">
                   <img
