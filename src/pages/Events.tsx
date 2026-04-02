@@ -1,15 +1,17 @@
 import { motion } from "framer-motion";
-import { Plus, Search, Pencil, Settings, Video, Play, Download, Clock, Eye } from "lucide-react";
+import { Plus, Search, Pencil, Settings, Video, Play, Download, Clock, Eye, X, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { useViewMode } from "@/contexts/ViewModeContext";
 import { useToast } from "@/hooks/use-toast";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import EventRegistration from "@/components/EventRegistration";
 import EventPeople from "@/components/EventPeople";
 import EventAnalytics from "@/components/events/EventAnalytics";
 import EventSettings from "@/components/events/EventSettings";
+import EngagementPage from "@/pages/Engagement";
+
 const filterTabs = [
   { label: "All", count: 7, active: true },
   { label: "Live", count: 1 },
@@ -18,7 +20,7 @@ const filterTabs = [
   { label: "Ended", count: 1 },
 ];
 
-const events = [
+const initialEvents = [
   { name: "EFC MPU Annual Summit 2026", type: "Conference", date: "Feb 18, 2026", status: "Live", registrations: 312, capacity: 500, revenue: "$2,450" },
   { name: "Sports Science Masterclass", type: "Webinar", date: "Feb 22, 2026", status: "Scheduled", registrations: 156, capacity: 200, revenue: "-" },
   { name: "Injury Prevention Workshop", type: "Workshop", date: "Feb 25, 2026", status: "Scheduled", registrations: 412, capacity: 1000, revenue: "$8,900" },
@@ -49,12 +51,73 @@ export default function EventsPage() {
   const [eventName, setEventName] = useState("");
   const [eventType, setEventType] = useState("Webinar");
   const [eventDate, setEventDate] = useState("");
+  const [events, setEvents] = useState(initialEvents);
 
-  // Admin-only tabs: redirect to events list in user view
+  // Edit Event Dialog
+  const [editOpen, setEditOpen] = useState(false);
+  const [editIdx, setEditIdx] = useState<number | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editType, setEditType] = useState("");
+  const [editDate, setEditDate] = useState("");
+  const [editCapacity, setEditCapacity] = useState("");
+  const [editStatus, setEditStatus] = useState("");
+
+  // Event Settings Dialog
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsIdx, setSettingsIdx] = useState<number | null>(null);
+  const [settingsQA, setSettingsQA] = useState(true);
+  const [settingsChat, setSettingsChat] = useState(true);
+  const [settingsRecording, setSettingsRecording] = useState(false);
+  const [settingsPasscode, setSettingsPasscode] = useState("");
+
+  const openEdit = (idx: number) => {
+    const e = events[idx];
+    setEditIdx(idx);
+    setEditName(e.name);
+    setEditType(e.type);
+    setEditDate(e.date);
+    setEditCapacity(String(e.capacity));
+    setEditStatus(e.status);
+    setEditOpen(true);
+  };
+
+  const saveEdit = () => {
+    if (editIdx === null) return;
+    const updated = [...events];
+    updated[editIdx] = {
+      ...updated[editIdx],
+      name: editName,
+      type: editType,
+      date: editDate,
+      capacity: parseInt(editCapacity) || updated[editIdx].capacity,
+      status: editStatus,
+    };
+    setEvents(updated);
+    setEditOpen(false);
+    toast({ title: "Event updated", description: `"${editName}" has been saved.` });
+  };
+
+  const openSettings = (idx: number) => {
+    setSettingsIdx(idx);
+    setSettingsQA(true);
+    setSettingsChat(true);
+    setSettingsRecording(false);
+    setSettingsPasscode("");
+    setSettingsOpen(true);
+  };
+
+  const saveSettings = () => {
+    if (settingsIdx === null) return;
+    setSettingsOpen(false);
+    toast({ title: "Settings saved", description: `Settings for "${events[settingsIdx].name}" updated.` });
+  };
+
+  // Admin-only tabs
   if (!isAdmin && activeTab && activeTab !== "") return <Navigate to="/events" replace />;
 
   if (activeTab === "registration") return <EventRegistration />;
   if (activeTab === "people") return <EventPeople />;
+  if (activeTab === "engagement") return <EngagementPage />;
   if (activeTab === "analytics") return <EventAnalytics />;
   if (activeTab === "settings") return <EventSettings />;
   if (activeTab === "recording") return (
@@ -75,16 +138,16 @@ export default function EventsPage() {
           { title: "Periodization Masterclass", speaker: "Emma Johansson", date: "Feb 15, 2026", duration: "55:10", views: 198, thumb: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&h=225&fit=crop" },
         ].map((rec) => (
           <div key={rec.title} className="rounded-lg border border-border bg-card overflow-hidden hover:shadow-md transition-shadow group">
-          <div className="relative aspect-video">
-                <img src={rec.thumb} alt={rec.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
-                  onClick={() => toast({ title: "Playing recording", description: `Now playing: ${rec.title}` })}
-                >
-                  <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center">
-                    <Play className="h-5 w-5 text-primary-foreground ml-0.5" />
-                  </div>
+            <div className="relative aspect-video">
+              <img src={rec.thumb} alt={rec.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                onClick={() => toast({ title: "Playing recording", description: `Now playing: ${rec.title}` })}
+              >
+                <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center">
+                  <Play className="h-5 w-5 text-primary-foreground ml-0.5" />
                 </div>
-                <div className="absolute bottom-2 right-2 bg-black/70 rounded px-1.5 py-0.5 text-[10px] text-white font-medium">{rec.duration}</div>
+              </div>
+              <div className="absolute bottom-2 right-2 bg-black/70 rounded px-1.5 py-0.5 text-[10px] text-white font-medium">{rec.duration}</div>
             </div>
             <div className="p-4">
               <h3 className="text-sm font-semibold text-foreground truncate">{rec.title}</h3>
@@ -94,10 +157,7 @@ export default function EventsPage() {
                   <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{rec.date}</span>
                   <span className="flex items-center gap-1"><Eye className="h-3 w-3" />{rec.views}</span>
                 </div>
-                <button
-                  onClick={() => toast({ title: "Download started", description: `Downloading ${rec.title}...` })}
-                  className="text-muted-foreground hover:text-foreground"
-                >
+                <button onClick={() => toast({ title: "Download started", description: `Downloading ${rec.title}...` })} className="text-muted-foreground hover:text-foreground">
                   <Download className="h-3.5 w-3.5" />
                 </button>
               </div>
@@ -108,6 +168,12 @@ export default function EventsPage() {
     </motion.div>
   );
 
+  const filteredEvents = events.filter(e => {
+    const matchesSearch = !searchQuery || e.name.toLowerCase().includes(searchQuery.toLowerCase()) || e.type.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = activeFilter === "All" || e.status === activeFilter;
+    return matchesSearch && matchesFilter;
+  });
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       {/* Header */}
@@ -117,10 +183,7 @@ export default function EventsPage() {
           <p className="text-sm text-muted-foreground mt-1">{isAdmin ? "Manage all your webinars, conferences, and meetings" : "Browse upcoming webinars, conferences, and meetings"}</p>
         </div>
         {isAdmin && (
-          <button
-            onClick={() => setCreateEventOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-          >
+          <button onClick={() => setCreateEventOpen(true)} className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
             <Plus className="h-4 w-4" /> Create New Event
           </button>
         )}
@@ -130,29 +193,14 @@ export default function EventsPage() {
       <motion.div variants={item} className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           {filterTabs.map((f) => (
-            <button
-              key={f.label}
-              onClick={() => setActiveFilter(f.label)}
-              className={cn(
-                "text-sm transition-colors",
-                activeFilter === f.label
-                  ? "text-primary font-medium"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
+            <button key={f.label} onClick={() => setActiveFilter(f.label)} className={cn("text-sm transition-colors", activeFilter === f.label ? "text-primary font-medium" : "text-muted-foreground hover:text-foreground")}>
               {f.label} <span className="text-muted-foreground">{f.count}</span>
             </button>
           ))}
         </div>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search events..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-9 w-56 rounded-md border border-input bg-background pl-9 pr-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
-          />
+          <input type="text" placeholder="Search events..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="h-9 w-56 rounded-md border border-input bg-background pl-9 pr-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30" />
         </div>
       </motion.div>
 
@@ -171,7 +219,8 @@ export default function EventsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {events.filter(e => !searchQuery || e.name.toLowerCase().includes(searchQuery.toLowerCase()) || e.type.toLowerCase().includes(searchQuery.toLowerCase())).map((e) => {
+            {filteredEvents.map((e) => {
+              const realIdx = events.indexOf(e);
               const regPct = e.capacity > 0 ? (e.registrations / e.capacity) * 100 : 0;
               return (
                 <tr key={e.name} className="hover:bg-muted/20 transition-colors">
@@ -199,8 +248,8 @@ export default function EventsPage() {
                   {isAdmin && (
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
-                        <button onClick={() => toast({ title: "Edit event", description: `Opening editor for ${e.name}` })} className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
-                        <button onClick={() => toast({ title: "Event settings", description: `Opening settings for ${e.name}` })} className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
+                        <button onClick={() => openEdit(realIdx)} className="text-muted-foreground hover:text-foreground" title="Edit event"><Pencil className="h-4 w-4" /></button>
+                        <button onClick={() => openSettings(realIdx)} className="text-muted-foreground hover:text-foreground" title="Event settings"><Settings className="h-4 w-4" /></button>
                       </div>
                     </td>
                   )}
@@ -216,6 +265,7 @@ export default function EventsPage() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Create New Event</DialogTitle>
+            <DialogDescription>Fill in the details to create a new event.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
@@ -225,10 +275,7 @@ export default function EventsPage() {
             <div>
               <label className="text-sm font-medium text-foreground">Event Type</label>
               <select value={eventType} onChange={e => setEventType(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30">
-                <option>Webinar</option>
-                <option>Conference</option>
-                <option>Workshop</option>
-                <option>Meeting</option>
+                <option>Webinar</option><option>Conference</option><option>Workshop</option><option>Meeting</option>
               </select>
             </div>
             <div>
@@ -242,6 +289,89 @@ export default function EventsPage() {
                 toast({ title: "Event created!", description: `"${eventName}" has been created as a draft.` });
                 setEventName(""); setEventDate(""); setCreateEventOpen(false);
               }} className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Create Event</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Event Dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit Event</DialogTitle>
+            <DialogDescription>Update the event details below.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground">Event Name</label>
+              <input type="text" value={editName} onChange={e => setEditName(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-foreground">Type</label>
+                <select value={editType} onChange={e => setEditType(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30">
+                  <option>Webinar</option><option>Conference</option><option>Workshop</option><option>Meeting</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">Status</label>
+                <select value={editStatus} onChange={e => setEditStatus(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30">
+                  <option>Draft</option><option>Scheduled</option><option>Live</option><option>Ended</option>
+                </select>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-foreground">Date</label>
+                <input type="text" value={editDate} onChange={e => setEditDate(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">Capacity</label>
+                <input type="number" value={editCapacity} onChange={e => setEditCapacity(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+              </div>
+            </div>
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => setEditOpen(false)} className="flex-1 rounded-md border border-border px-4 py-2 text-sm hover:bg-muted transition-colors">Cancel</button>
+              <button onClick={saveEdit} className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors flex items-center justify-center gap-1.5">
+                <Check className="h-4 w-4" /> Save Changes
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Event Settings Dialog */}
+      <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Event Settings</DialogTitle>
+            <DialogDescription>{settingsIdx !== null ? `Configure settings for "${events[settingsIdx]?.name}"` : ""}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-5">
+            {[
+              { label: "Enable Q&A", desc: "Allow attendees to ask questions", value: settingsQA, set: setSettingsQA },
+              { label: "Enable Chat", desc: "Live chat during sessions", value: settingsChat, set: setSettingsChat },
+              { label: "Auto-Record", desc: "Automatically record all sessions", value: settingsRecording, set: setSettingsRecording },
+            ].map((s) => (
+              <div key={s.label} className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-foreground">{s.label}</p>
+                  <p className="text-xs text-muted-foreground">{s.desc}</p>
+                </div>
+                <button onClick={() => s.set(!s.value)} className={cn("relative h-6 w-11 rounded-full transition-colors", s.value ? "bg-primary" : "bg-muted")}>
+                  <span className={cn("absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-card shadow transition-transform", s.value && "translate-x-5")} />
+                </button>
+              </div>
+            ))}
+            <div>
+              <label className="text-sm font-medium text-foreground">Event Passcode (optional)</label>
+              <input type="text" value={settingsPasscode} onChange={e => setSettingsPasscode(e.target.value)} placeholder="Leave empty for no passcode" className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30" />
+            </div>
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => setSettingsOpen(false)} className="flex-1 rounded-md border border-border px-4 py-2 text-sm hover:bg-muted transition-colors">Cancel</button>
+              <button onClick={saveSettings} className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors flex items-center justify-center gap-1.5">
+                <Check className="h-4 w-4" /> Save Settings
+              </button>
             </div>
           </div>
         </DialogContent>
