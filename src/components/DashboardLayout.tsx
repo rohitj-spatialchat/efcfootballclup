@@ -426,7 +426,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     </div>
                   </div>
                   <div className="py-1">
-                    <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
+                    <button
+                      onClick={() => {
+                        setProfileOpen(false);
+                        toast({ title: "My Profile", description: "Profile page coming soon!" });
+                      }}
+                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                    >
                       <User className="h-4 w-4 text-muted-foreground" /> My Profile
                     </button>
                     <button
@@ -456,7 +462,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     >
                       <Users className="h-4 w-4 text-muted-foreground" /> Community Members
                     </button>
-                    <button className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
+                    <button
+                      onClick={() => {
+                        document.documentElement.classList.toggle("dark");
+                        setProfileOpen(false);
+                      }}
+                      className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                    >
                       <span className="flex items-center gap-3">
                         <Moon className="h-4 w-4 text-muted-foreground" /> Dark Mode
                       </span>
@@ -464,7 +476,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                         <div className="absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-card shadow-sm transition-transform" />
                       </div>
                     </button>
-                    <button className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors">
+                    <button
+                      onClick={() => {
+                        setProfileOpen(false);
+                        toast({ title: "Support", description: "Use the help chat widget in the bottom-right corner for support." });
+                      }}
+                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                    >
                       <HelpCircle className="h-4 w-4 text-muted-foreground" /> Support
                     </button>
                   </div>
