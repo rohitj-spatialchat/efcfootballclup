@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import spatialChatLogo from "@/assets/spatialchat-logo.png";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -114,6 +115,7 @@ export default function EventSettings() {
     outlookCalendar: false,
     zoom: true,
     teams: false,
+    spatialChat: false,
     slack: false,
     stripe: true,
     mailchimp: false,
@@ -551,6 +553,7 @@ export default function EventSettings() {
                 <div className="space-y-0">
                   <IntegrationRow name="Zoom" description="Host events via Zoom meetings & webinars" connected={integrations.zoom} onChange={(v) => setIntegrations({ ...integrations, zoom: v })} icon="🎥" />
                   <IntegrationRow name="Microsoft Teams" description="Host events via Teams meetings" connected={integrations.teams} onChange={(v) => setIntegrations({ ...integrations, teams: v })} icon="💬" />
+                  <IntegrationRow name="SpatialChat" description="Host events via SpatialChat virtual spaces" connected={integrations.spatialChat} onChange={(v) => setIntegrations({ ...integrations, spatialChat: v })} iconImage={spatialChatLogo} />
                 </div>
               </SettingsCard>
 
@@ -645,13 +648,13 @@ function ToggleRow({ label, description, checked, onChange, disabled }: {
   );
 }
 
-function IntegrationRow({ name, description, connected, onChange, icon }: {
-  name: string; description: string; connected: boolean; onChange: (val: boolean) => void; icon: string;
+function IntegrationRow({ name, description, connected, onChange, icon, iconImage }: {
+  name: string; description: string; connected: boolean; onChange: (val: boolean) => void; icon?: string; iconImage?: string;
 }) {
   return (
     <div className="flex items-center justify-between py-3.5 border-b border-border last:border-0">
       <div className="flex items-center gap-3">
-        <span className="text-xl">{icon}</span>
+        {iconImage ? <img src={iconImage} alt={name} className="w-6 h-6 rounded" /> : <span className="text-xl">{icon}</span>}
         <div>
           <p className="text-sm font-medium text-foreground">{name}</p>
           <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
