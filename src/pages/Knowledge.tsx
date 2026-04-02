@@ -103,6 +103,8 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 export default function KnowledgePage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedTags, setSelectedTags] = useState<string[]>(allTags.slice(0, 4));
+  const [selectedCourse, setSelectedCourse] = useState<typeof courses[0] | null>(null);
+  const { toast } = useToast();
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
