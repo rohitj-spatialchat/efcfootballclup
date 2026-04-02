@@ -115,7 +115,10 @@ export default function EventsPage() {
           <p className="text-sm text-muted-foreground mt-1">{isAdmin ? "Manage all your webinars, conferences, and meetings" : "Browse upcoming webinars, conferences, and meetings"}</p>
         </div>
         {isAdmin && (
-          <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+          <button
+            onClick={() => setCreateEventOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
             <Plus className="h-4 w-4" /> Create New Event
           </button>
         )}
