@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { useViewMode } from "@/contexts/ViewModeContext";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import EventRegistration from "@/components/EventRegistration";
 import EventPeople from "@/components/EventPeople";
 import EventAnalytics from "@/components/events/EventAnalytics";
