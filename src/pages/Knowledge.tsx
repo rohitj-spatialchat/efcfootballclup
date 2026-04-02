@@ -275,6 +275,46 @@ export default function KnowledgePage() {
           </div>
         </motion.div>
       </div>
+
+      {/* Course Detail Dialog */}
+      <Dialog open={!!selectedCourse} onOpenChange={(open) => !open && setSelectedCourse(null)}>
+        <DialogContent className="sm:max-w-lg">
+          {selectedCourse && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selectedCourse.title}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <img src={selectedCourse.image} alt={selectedCourse.title} className="w-full h-48 object-cover rounded-lg" />
+                <p className="text-sm text-muted-foreground">{selectedCourse.description}</p>
+                <div className="flex items-center gap-2">
+                  <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[selectedCourse.type]}`}>
+                    {selectedCourse.type === "LISTEN" ? "🎧 " : selectedCourse.type === "WATCH" ? "▶ " : "📖 "}{selectedCourse.type}
+                  </span>
+                  {selectedCourse.tags.map(t => (
+                    <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">{t}</span>
+                  ))}
+                </div>
+                {selectedCourse.progress > 0 && selectedCourse.progress < 100 && (
+                  <div className="flex items-center gap-2">
+                    <Progress value={selectedCourse.progress} className="h-2 flex-1" />
+                    <span className="text-xs text-muted-foreground">{selectedCourse.progress}%</span>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    toast({ title: selectedCourse.progress === 100 ? "Reopening course" : "Starting course", description: `Launching "${selectedCourse.title}"...` });
+                    setSelectedCourse(null);
+                  }}
+                  className="w-full rounded-md bg-primary py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                >
+                  {selectedCourse.progress === 100 ? "Review Again" : selectedCourse.progress > 0 ? "Continue Learning" : "Start Course"}
+                </button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
