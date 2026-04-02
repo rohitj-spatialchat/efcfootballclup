@@ -112,6 +112,13 @@ type Tab = "overview" | "ai" | "recordings" | "engagement" | "settings";
 export default function EventAnalytics() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [settingsState, setSettingsState] = useState(settingsConfig);
+  const { toast } = useToast();
+
+  // Date Range
+  const [dateRangeOpen, setDateRangeOpen] = useState(false);
+  const [dateFrom, setDateFrom] = useState("2026-01-01");
+  const [dateTo, setDateTo] = useState("2026-03-31");
+  const [appliedRange, setAppliedRange] = useState("Jan 1 – Mar 31, 2026");
 
   const tabs: { label: string; id: Tab; icon: typeof BarChart3 }[] = [
     { label: "Overview", id: "overview", icon: BarChart3 },
