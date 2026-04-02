@@ -92,7 +92,10 @@ export default function EventsPage() {
                   <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{rec.date}</span>
                   <span className="flex items-center gap-1"><Eye className="h-3 w-3" />{rec.views}</span>
                 </div>
-                <button className="text-muted-foreground hover:text-foreground">
+                <button
+                  onClick={() => toast({ title: "Download started", description: `Downloading ${rec.title}...` })}
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   <Download className="h-3.5 w-3.5" />
                 </button>
               </div>
