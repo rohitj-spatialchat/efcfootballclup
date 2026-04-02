@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Megaphone, Pin, Calendar, MessageSquare, Heart, Share2, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-const announcements = [
+const initialAnnouncements = [
   {
     id: 1,
     pinned: true,
@@ -18,6 +21,7 @@ const announcements = [
     date: "Feb 26, 2026",
     likes: 48,
     comments: 12,
+    liked: false,
   },
   {
     id: 2,
@@ -31,6 +35,7 @@ const announcements = [
     date: "Feb 25, 2026",
     likes: 36,
     comments: 8,
+    liked: false,
   },
   {
     id: 3,
@@ -44,6 +49,7 @@ const announcements = [
     date: "Feb 24, 2026",
     likes: 22,
     comments: 5,
+    liked: false,
   },
   {
     id: 4,
@@ -57,6 +63,7 @@ const announcements = [
     date: "Feb 23, 2026",
     likes: 55,
     comments: 19,
+    liked: false,
   },
   {
     id: 5,
@@ -70,6 +77,7 @@ const announcements = [
     date: "Feb 22, 2026",
     likes: 31,
     comments: 7,
+    liked: false,
   },
   {
     id: 6,
@@ -83,6 +91,7 @@ const announcements = [
     date: "Feb 21, 2026",
     likes: 8,
     comments: 2,
+    liked: false,
   },
 ];
 
@@ -96,6 +105,52 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function Announcements() {
+  const { toast } = useToast();
+  const [announcements, setAnnouncements] = useState(initialAnnouncements);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState<typeof initialAnnouncements[0] | null>(null);
+
+  const handleLike = (id: number) => {
+    setAnnouncements(prev => prev.map(a =>
+      a.id === id ? { ...a, liked: !a.liked, likes: a.liked ? a.likes - 1 : a.likes + 1 } : a
+    ));
+  };
+
+  const handleComment = (id: number) => {
+    const a = announcements.find(x => x.id === id);
+    if (a) setSelectedAnnouncement(a);
+  };
+
+  const handleShare = (id: number) => {
+    const a = announcements.find(x => x.id === id);
+    if (navigator.clipboard && a) {
+      navigator.clipboard.writeText(`Check out "${a.title}" on EFC Community`);
+      toast({ title: "Link copied!", description: "Announcement link copied to clipboard." });
+    }
+  };
+
+  const renderActions = (a: typeof initialAnnouncements[0]) => (
+    <div className="flex items-center gap-3 text-muted-foreground">
+      <button
+        onClick={(e) => { e.stopPropagation(); handleLike(a.id); }}
+        className={`flex items-center gap-1 text-xs transition-colors ${a.liked ? "text-primary font-medium" : "hover:text-primary"}`}
+      >
+        <Heart className={`h-3.5 w-3.5 ${a.liked ? "fill-primary text-primary" : ""}`} /> {a.likes}
+      </button>
+      <button
+        onClick={(e) => { e.stopPropagation(); handleComment(a.id); }}
+        className="flex items-center gap-1 text-xs hover:text-primary transition-colors"
+      >
+        <MessageSquare className="h-3.5 w-3.5" /> {a.comments}
+      </button>
+      <button
+        onClick={(e) => { e.stopPropagation(); handleShare(a.id); }}
+        className="hover:text-primary transition-colors"
+      >
+        <Share2 className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  );
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -128,7 +183,8 @@ export default function Announcements() {
               .map((a) => (
                 <Card
                   key={a.id}
-                  className="border-primary/20 bg-gradient-to-br from-accent/40 to-card transition-shadow hover:shadow-card-hover"
+                  className="border-primary/20 bg-gradient-to-br from-accent/40 to-card transition-shadow hover:shadow-card-hover cursor-pointer"
+                  onClick={() => setSelectedAnnouncement(a)}
                 >
                   <CardContent className="p-5 space-y-4">
                     <div className="flex items-start justify-between gap-3">
@@ -156,17 +212,7 @@ export default function Announcements() {
                         <span className="text-xs font-medium text-foreground">{a.author}</span>
                         <span className="text-xs text-muted-foreground">· {a.date}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-muted-foreground">
-                        <button className="flex items-center gap-1 text-xs hover:text-primary transition-colors">
-                          <Heart className="h-3.5 w-3.5" /> {a.likes}
-                        </button>
-                        <button className="flex items-center gap-1 text-xs hover:text-primary transition-colors">
-                          <MessageSquare className="h-3.5 w-3.5" /> {a.comments}
-                        </button>
-                        <button className="hover:text-primary transition-colors">
-                          <Share2 className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
+                      {renderActions(a)}
                     </div>
                   </CardContent>
                 </Card>
@@ -182,7 +228,7 @@ export default function Announcements() {
           {announcements
             .filter((a) => !a.pinned)
             .map((a) => (
-              <Card key={a.id} className="transition-shadow hover:shadow-card-hover">
+              <Card key={a.id} className="transition-shadow hover:shadow-card-hover cursor-pointer" onClick={() => setSelectedAnnouncement(a)}>
                 <CardContent className="p-5">
                   <div className="flex items-start gap-4">
                     <Avatar className="h-9 w-9 mt-0.5">
@@ -205,20 +251,10 @@ export default function Announcements() {
                       <p className="text-sm text-muted-foreground leading-relaxed">{a.content}</p>
                       <div className="flex items-center justify-between pt-1">
                         <span className="text-xs text-muted-foreground">{a.author}</span>
-                        <div className="flex items-center gap-3 text-muted-foreground">
-                          <button className="flex items-center gap-1 text-xs hover:text-primary transition-colors">
-                            <Heart className="h-3.5 w-3.5" /> {a.likes}
-                          </button>
-                          <button className="flex items-center gap-1 text-xs hover:text-primary transition-colors">
-                            <MessageSquare className="h-3.5 w-3.5" /> {a.comments}
-                          </button>
-                          <button className="hover:text-primary transition-colors">
-                            <Share2 className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
+                        {renderActions(a)}
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon" className="shrink-0 mt-1">
+                    <Button variant="ghost" size="icon" className="shrink-0 mt-1" onClick={(e) => { e.stopPropagation(); setSelectedAnnouncement(a); }}>
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -227,6 +263,38 @@ export default function Announcements() {
             ))}
         </div>
       </div>
+
+      {/* Detail Dialog */}
+      <Dialog open={!!selectedAnnouncement} onOpenChange={(open) => !open && setSelectedAnnouncement(null)}>
+        <DialogContent className="sm:max-w-lg">
+          {selectedAnnouncement && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${categoryColors[selectedAnnouncement.category]}`}>
+                    {selectedAnnouncement.category}
+                  </span>
+                  <span className="text-xs text-muted-foreground">{selectedAnnouncement.date}</span>
+                </div>
+                <DialogTitle>{selectedAnnouncement.title}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="text-xs bg-primary/10 text-primary font-bold">{selectedAnnouncement.initials}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium text-foreground">{selectedAnnouncement.author}</span>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{selectedAnnouncement.content}</p>
+                <Separator />
+                <div className="flex items-center justify-between">
+                  {renderActions(selectedAnnouncement)}
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

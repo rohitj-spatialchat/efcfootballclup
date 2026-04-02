@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { useViewMode } from "@/contexts/ViewModeContext";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import EventRegistration from "@/components/EventRegistration";
 import EventPeople from "@/components/EventPeople";
 import EventAnalytics from "@/components/events/EventAnalytics";
@@ -40,6 +42,12 @@ export default function EventsPage() {
   const [searchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "";
   const { isAdmin } = useViewMode();
+  const { toast } = useToast();
+  const [createEventOpen, setCreateEventOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [eventName, setEventName] = useState("");
+  const [eventType, setEventType] = useState("Webinar");
+  const [eventDate, setEventDate] = useState("");
 
   // Admin-only tabs: redirect to events list in user view
   if (!isAdmin && activeTab && activeTab !== "") return <Navigate to="/events" replace />;
@@ -65,14 +73,16 @@ export default function EventsPage() {
           { title: "Periodization Masterclass", speaker: "Emma Johansson", date: "Feb 15, 2026", duration: "55:10", views: 198, thumb: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&h=225&fit=crop" },
         ].map((rec) => (
           <div key={rec.title} className="rounded-lg border border-border bg-card overflow-hidden hover:shadow-md transition-shadow group">
-            <div className="relative aspect-video">
-              <img src={rec.thumb} alt={rec.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center">
-                  <Play className="h-5 w-5 text-primary-foreground ml-0.5" />
+          <div className="relative aspect-video">
+                <img src={rec.thumb} alt={rec.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                  onClick={() => toast({ title: "Playing recording", description: `Now playing: ${rec.title}` })}
+                >
+                  <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center">
+                    <Play className="h-5 w-5 text-primary-foreground ml-0.5" />
+                  </div>
                 </div>
-              </div>
-              <div className="absolute bottom-2 right-2 bg-black/70 rounded px-1.5 py-0.5 text-[10px] text-white font-medium">{rec.duration}</div>
+                <div className="absolute bottom-2 right-2 bg-black/70 rounded px-1.5 py-0.5 text-[10px] text-white font-medium">{rec.duration}</div>
             </div>
             <div className="p-4">
               <h3 className="text-sm font-semibold text-foreground truncate">{rec.title}</h3>
@@ -82,7 +92,10 @@ export default function EventsPage() {
                   <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{rec.date}</span>
                   <span className="flex items-center gap-1"><Eye className="h-3 w-3" />{rec.views}</span>
                 </div>
-                <button className="text-muted-foreground hover:text-foreground">
+                <button
+                  onClick={() => toast({ title: "Download started", description: `Downloading ${rec.title}...` })}
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   <Download className="h-3.5 w-3.5" />
                 </button>
               </div>
@@ -102,7 +115,10 @@ export default function EventsPage() {
           <p className="text-sm text-muted-foreground mt-1">{isAdmin ? "Manage all your webinars, conferences, and meetings" : "Browse upcoming webinars, conferences, and meetings"}</p>
         </div>
         {isAdmin && (
-          <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+          <button
+            onClick={() => setCreateEventOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
             <Plus className="h-4 w-4" /> Create New Event
           </button>
         )}
@@ -131,6 +147,8 @@ export default function EventsPage() {
           <input
             type="text"
             placeholder="Search events..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="h-9 w-56 rounded-md border border-input bg-background pl-9 pr-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
           />
         </div>
@@ -151,7 +169,7 @@ export default function EventsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {events.map((e) => {
+            {events.filter(e => !searchQuery || e.name.toLowerCase().includes(searchQuery.toLowerCase()) || e.type.toLowerCase().includes(searchQuery.toLowerCase())).map((e) => {
               const regPct = e.capacity > 0 ? (e.registrations / e.capacity) * 100 : 0;
               return (
                 <tr key={e.name} className="hover:bg-muted/20 transition-colors">
@@ -179,8 +197,8 @@ export default function EventsPage() {
                   {isAdmin && (
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
-                        <button className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
-                        <button className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
+                        <button onClick={() => toast({ title: "Edit event", description: `Opening editor for ${e.name}` })} className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
+                        <button onClick={() => toast({ title: "Event settings", description: `Opening settings for ${e.name}` })} className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
                       </div>
                     </td>
                   )}
@@ -190,6 +208,42 @@ export default function EventsPage() {
           </tbody>
         </table>
       </motion.div>
+
+      {/* Create Event Dialog */}
+      <Dialog open={createEventOpen} onOpenChange={setCreateEventOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create New Event</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground">Event Name</label>
+              <input type="text" value={eventName} onChange={e => setEventName(e.target.value)} placeholder="Enter event name" className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30" />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">Event Type</label>
+              <select value={eventType} onChange={e => setEventType(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30">
+                <option>Webinar</option>
+                <option>Conference</option>
+                <option>Workshop</option>
+                <option>Meeting</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">Date</label>
+              <input type="date" value={eventDate} onChange={e => setEventDate(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+            </div>
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => setCreateEventOpen(false)} className="flex-1 rounded-md border border-border px-4 py-2 text-sm hover:bg-muted transition-colors">Cancel</button>
+              <button onClick={() => {
+                if (!eventName.trim()) { toast({ title: "Event name required", variant: "destructive" }); return; }
+                toast({ title: "Event created!", description: `"${eventName}" has been created as a draft.` });
+                setEventName(""); setEventDate(""); setCreateEventOpen(false);
+              }} className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Create Event</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }

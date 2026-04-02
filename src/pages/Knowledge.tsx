@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { ChevronDown, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const categories = ["All", "Fitness", "Meeting Circles", "Nutrition", "Guided Sessions"];
 
@@ -101,6 +103,8 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 export default function KnowledgePage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedTags, setSelectedTags] = useState<string[]>(allTags.slice(0, 4));
+  const [selectedCourse, setSelectedCourse] = useState<typeof courses[0] | null>(null);
+  const { toast } = useToast();
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
@@ -126,7 +130,10 @@ export default function KnowledgePage() {
                 {cat}
               </button>
             ))}
-            <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <button
+              onClick={() => toast({ title: "More categories", description: "Additional categories would appear here." })}
+              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
               More <ChevronDown className="h-3 w-3" />
             </button>
           </motion.div>
@@ -134,7 +141,7 @@ export default function KnowledgePage() {
           {/* Course Grid */}
           <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {courses.map((course, i) => (
-              <div key={i} className="group cursor-pointer flex flex-col">
+              <div key={i} className="group cursor-pointer flex flex-col" onClick={() => setSelectedCourse(course)}>
                 {/* Image */}
                 <div className="relative rounded-xl overflow-hidden aspect-[4/3] mb-3">
                   <img
@@ -268,6 +275,46 @@ export default function KnowledgePage() {
           </div>
         </motion.div>
       </div>
+
+      {/* Course Detail Dialog */}
+      <Dialog open={!!selectedCourse} onOpenChange={(open) => !open && setSelectedCourse(null)}>
+        <DialogContent className="sm:max-w-lg">
+          {selectedCourse && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selectedCourse.title}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <img src={selectedCourse.image} alt={selectedCourse.title} className="w-full h-48 object-cover rounded-lg" />
+                <p className="text-sm text-muted-foreground">{selectedCourse.description}</p>
+                <div className="flex items-center gap-2">
+                  <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[selectedCourse.type]}`}>
+                    {selectedCourse.type === "LISTEN" ? "🎧 " : selectedCourse.type === "WATCH" ? "▶ " : "📖 "}{selectedCourse.type}
+                  </span>
+                  {selectedCourse.tags.map(t => (
+                    <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">{t}</span>
+                  ))}
+                </div>
+                {selectedCourse.progress > 0 && selectedCourse.progress < 100 && (
+                  <div className="flex items-center gap-2">
+                    <Progress value={selectedCourse.progress} className="h-2 flex-1" />
+                    <span className="text-xs text-muted-foreground">{selectedCourse.progress}%</span>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    toast({ title: selectedCourse.progress === 100 ? "Reopening course" : "Starting course", description: `Launching "${selectedCourse.title}"...` });
+                    setSelectedCourse(null);
+                  }}
+                  className="w-full rounded-md bg-primary py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                >
+                  {selectedCourse.progress === 100 ? "Review Again" : selectedCourse.progress > 0 ? "Continue Learning" : "Start Course"}
+                </button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
