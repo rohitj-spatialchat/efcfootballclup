@@ -538,6 +538,49 @@ export default function EventAnalytics() {
           </div>
         </div>
       )}
+
+      {/* Date Range Dialog */}
+      <Dialog open={dateRangeOpen} onOpenChange={setDateRangeOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Select Date Range</DialogTitle>
+            <DialogDescription>Choose a time period for analytics data.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex gap-3">
+              {["Last 7 days", "Last 30 days", "Last 90 days", "This Year"].map(preset => (
+                <button key={preset} onClick={() => {
+                  setAppliedRange(preset);
+                  setDateRangeOpen(false);
+                  toast({ title: "Date range updated", description: `Showing data for: ${preset}` });
+                }} className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted transition-colors text-foreground">
+                  {preset}
+                </button>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-sm font-medium text-foreground">From</label>
+                <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground">To</label>
+                <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDateRangeOpen(false)} className="flex-1 rounded-md border border-border px-4 py-2 text-sm hover:bg-muted transition-colors">Cancel</button>
+              <button onClick={() => {
+                const from = new Date(dateFrom).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                const to = new Date(dateTo).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+                setAppliedRange(`${from} – ${to}`);
+                setDateRangeOpen(false);
+                toast({ title: "Date range applied", description: `${from} – ${to}` });
+              }} className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Apply</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
