@@ -169,7 +169,7 @@ export default function EventsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {events.map((e) => {
+            {events.filter(e => !searchQuery || e.name.toLowerCase().includes(searchQuery.toLowerCase()) || e.type.toLowerCase().includes(searchQuery.toLowerCase())).map((e) => {
               const regPct = e.capacity > 0 ? (e.registrations / e.capacity) * 100 : 0;
               return (
                 <tr key={e.name} className="hover:bg-muted/20 transition-colors">
