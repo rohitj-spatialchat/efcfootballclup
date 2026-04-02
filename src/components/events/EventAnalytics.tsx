@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import {
   Calendar, Download, Star, Clock, Diamond, TrendingUp, TrendingDown,
   Users, Eye, Play, BarChart3, Brain, Sparkles, Video, Settings,
