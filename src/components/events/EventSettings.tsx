@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import spatialChatLogo from "@/assets/spatialchat-logo.png";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
