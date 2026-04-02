@@ -208,6 +208,42 @@ export default function EventsPage() {
           </tbody>
         </table>
       </motion.div>
+
+      {/* Create Event Dialog */}
+      <Dialog open={createEventOpen} onOpenChange={setCreateEventOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create New Event</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground">Event Name</label>
+              <input type="text" value={eventName} onChange={e => setEventName(e.target.value)} placeholder="Enter event name" className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30" />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">Event Type</label>
+              <select value={eventType} onChange={e => setEventType(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30">
+                <option>Webinar</option>
+                <option>Conference</option>
+                <option>Workshop</option>
+                <option>Meeting</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">Date</label>
+              <input type="date" value={eventDate} onChange={e => setEventDate(e.target.value)} className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/30" />
+            </div>
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => setCreateEventOpen(false)} className="flex-1 rounded-md border border-border px-4 py-2 text-sm hover:bg-muted transition-colors">Cancel</button>
+              <button onClick={() => {
+                if (!eventName.trim()) { toast({ title: "Event name required", variant: "destructive" }); return; }
+                toast({ title: "Event created!", description: `"${eventName}" has been created as a draft.` });
+                setEventName(""); setEventDate(""); setCreateEventOpen(false);
+              }} className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">Create Event</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
