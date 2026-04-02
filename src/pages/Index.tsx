@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown, BarChart3, Trash2, FileText, Paperclip, Smile } from "lucide-react";
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -126,6 +127,8 @@ const predefinedTags = [
 
 const Index = () => {
   const { isAdmin } = useViewMode();
+  const navigate = useNavigate();
+  const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [liveEventOpen, setLiveEventOpen] = useState(false);
   const [chatMessage, setChatMessage] = useState("");
@@ -1105,9 +1108,12 @@ const Index = () => {
               ].map((src, i) => (
                 <img key={i} src={src} alt="" className="h-8 w-8 rounded-full border-2 border-card object-cover" />
               ))}
-              <div className="h-8 w-8 rounded-full border-2 border-card bg-muted flex items-center justify-center text-[10px] font-medium text-muted-foreground">
+              <button
+                onClick={() => setOnlineUsersOpen(true)}
+                className="h-8 w-8 rounded-full border-2 border-card bg-muted flex items-center justify-center text-[10px] font-medium text-muted-foreground hover:bg-accent transition-colors cursor-pointer"
+              >
                 +120
-              </div>
+              </button>
             </div>
           </motion.div>
 
@@ -1137,10 +1143,13 @@ const Index = () => {
                 </div>
               ))}
             </div>
-            <a href="/leaderboard" className="flex items-center justify-center gap-1.5 mt-3 pt-3 border-t border-border text-xs font-medium text-primary hover:underline">
+            <button
+              onClick={() => navigate("/leaderboard")}
+              className="flex items-center justify-center gap-1.5 mt-3 pt-3 border-t border-border text-xs font-medium text-primary hover:underline w-full"
+            >
               <ExternalLink className="h-3 w-3" />
               View Leaderboard
-            </a>
+            </button>
           </motion.div>
 
           {/* Trending News */}
@@ -1368,8 +1377,52 @@ const Index = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      {/* Online Users Dialog */}
+      <Dialog open={onlineUsersOpen} onOpenChange={setOnlineUsersOpen}>
+        <DialogContent className="max-w-md max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-primary" />
+              Online Now
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                127 online
+              </span>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2 overflow-y-auto max-h-[60vh] pr-1">
+            {[
+              { name: "Dr. Marco Rossi", role: "Medical Director", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" },
+              { name: "Sarah Mitchell", role: "Community Manager", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" },
+              { name: "Alex Chen", role: "Youth Coach", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" },
+              { name: "Emma Johansson", role: "Performance Analyst", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" },
+              { name: "Kwame Adebayo", role: "Scout", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" },
+              { name: "Sofia Rodriguez", role: "Physiotherapist", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" },
+              { name: "James Wilson", role: "Goalkeeping Coach", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=40&h=40&fit=crop&crop=face" },
+              { name: "Aisha Patel", role: "Nutritionist", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=40&h=40&fit=crop&crop=face" },
+              { name: "Lucas Fernandez", role: "First Team Coach", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face" },
+              { name: "Yuki Tanaka", role: "Data Scientist", image: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=40&h=40&fit=crop&crop=face" },
+              { name: "Omar Hassan", role: "Academy Director", image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=40&h=40&fit=crop&crop=face" },
+              { name: "Elena Volkov", role: "Sports Psychologist", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face" },
+            ].map((user, i) => (
+              <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors">
+                <div className="relative">
+                  <img src={user.image} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
+                  <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 border-2 border-card" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{user.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{user.role}</p>
+                </div>
+                <Button size="sm" variant="outline" className="text-xs h-7">Message</Button>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
+
 };
 
 export default Index;
