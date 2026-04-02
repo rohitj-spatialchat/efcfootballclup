@@ -552,6 +552,7 @@ export default function EventSettings() {
                 <div className="space-y-0">
                   <IntegrationRow name="Zoom" description="Host events via Zoom meetings & webinars" connected={integrations.zoom} onChange={(v) => setIntegrations({ ...integrations, zoom: v })} icon="🎥" />
                   <IntegrationRow name="Microsoft Teams" description="Host events via Teams meetings" connected={integrations.teams} onChange={(v) => setIntegrations({ ...integrations, teams: v })} icon="💬" />
+                  <IntegrationRow name="SpatialChat" description="Host events via SpatialChat virtual spaces" connected={integrations.spatialChat} onChange={(v) => setIntegrations({ ...integrations, spatialChat: v })} iconImage={spatialChatLogo} />
                 </div>
               </SettingsCard>
 
