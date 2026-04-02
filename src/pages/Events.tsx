@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import EventRegistration from "@/components/EventRegistration";
 import EventPeople from "@/components/EventPeople";
 import EventAnalytics from "@/components/events/EventAnalytics";
+import EventSettings from "@/components/events/EventSettings";
 const filterTabs = [
   { label: "All", count: 7, active: true },
   { label: "Live", count: 1 },
