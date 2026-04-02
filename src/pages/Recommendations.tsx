@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 
 const members = [
@@ -16,6 +18,28 @@ const recommended = [
 
 export default function Recommendations() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [connectedMembers, setConnectedMembers] = useState<Set<string>>(new Set());
+  const [registeredEvents, setRegisteredEvents] = useState<Set<string>>(new Set());
+
+  const handleConnect = (name: string) => {
+    if (connectedMembers.has(name)) {
+      setConnectedMembers(prev => { const n = new Set(prev); n.delete(name); return n; });
+      toast({ title: "Disconnected", description: `Removed connection with ${name}.` });
+    } else {
+      setConnectedMembers(prev => new Set(prev).add(name));
+      toast({ title: "Connected!", description: `You connected with ${name}.` });
+    }
+  };
+
+  const handleRegister = (item: string) => {
+    if (registeredEvents.has(item)) {
+      toast({ title: "Already registered", description: `You're already registered for "${item}".` });
+      return;
+    }
+    setRegisteredEvents(prev => new Set(prev).add(item));
+    toast({ title: "Registered!", description: `You've registered for "${item}".` });
+  };
 
   return (
     <div
@@ -59,8 +83,15 @@ export default function Recommendations() {
                     <p className="font-bold text-gray-900">{member.name}</p>
                     <p className="text-sm text-gray-500">{member.role}</p>
                   </div>
-                  <button className="px-5 py-1.5 rounded-full bg-gray-900 text-white text-xs font-semibold hover:bg-gray-800 transition-colors">
-                    Connect
+                  <button
+                    onClick={() => handleConnect(member.name)}
+                    className={`px-5 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                      connectedMembers.has(member.name)
+                        ? "bg-green-600 text-white hover:bg-green-700"
+                        : "bg-gray-900 text-white hover:bg-gray-800"
+                    }`}
+                  >
+                    {connectedMembers.has(member.name) ? "✓ Connected" : "Connect"}
                   </button>
                 </div>
               ))}
@@ -81,8 +112,15 @@ export default function Recommendations() {
               {recommended.map((item) => (
                 <div key={item} className="bg-white rounded-xl p-4 space-y-2">
                   <p className="font-bold text-gray-900 text-sm">{item}</p>
-                  <button className="px-4 py-1.5 rounded-full bg-gray-900 text-white text-xs font-semibold hover:bg-gray-800 transition-colors">
-                    Register now
+                  <button
+                    onClick={() => handleRegister(item)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                      registeredEvents.has(item)
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-900 text-white hover:bg-gray-800"
+                    }`}
+                  >
+                    {registeredEvents.has(item) ? "✓ Registered" : "Register now"}
                   </button>
                 </div>
               ))}
