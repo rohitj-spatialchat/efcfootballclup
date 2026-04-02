@@ -127,6 +127,8 @@ const predefinedTags = [
 
 const Index = () => {
   const { isAdmin } = useViewMode();
+  const navigate = useNavigate();
+  const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [liveEventOpen, setLiveEventOpen] = useState(false);
   const [chatMessage, setChatMessage] = useState("");
