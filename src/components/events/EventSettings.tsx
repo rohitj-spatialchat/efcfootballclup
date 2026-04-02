@@ -114,6 +114,7 @@ export default function EventSettings() {
     outlookCalendar: false,
     zoom: true,
     teams: false,
+    spatialChat: false,
     slack: false,
     stripe: true,
     mailchimp: false,
