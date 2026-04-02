@@ -1,8 +1,10 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag } from "lucide-react";
+import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getTeamLogo } from "@/lib/teamLogos";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const onlineUsers = [
   {
@@ -114,6 +116,9 @@ const itemAnim = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 export default function NetworkingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [connectedUsers, setConnectedUsers] = useState<Set<string>>(new Set());
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const currentUser = onlineUsers[currentIndex];
 
   const handleShuffle = useCallback(() => {
@@ -123,6 +128,21 @@ export default function NetworkingPage() {
     } while (next === currentIndex && onlineUsers.length > 1);
     setCurrentIndex(next);
   }, [currentIndex]);
+
+  const handleConnect = (name: string) => {
+    if (connectedUsers.has(name)) {
+      setConnectedUsers(prev => { const n = new Set(prev); n.delete(name); return n; });
+      toast({ title: "Connection removed", description: `You disconnected from ${name}.` });
+    } else {
+      setConnectedUsers(prev => new Set(prev).add(name));
+      toast({ title: "Connection request sent!", description: `You sent a connection request to ${name}.` });
+    }
+  };
+
+  const handleMessage = (name: string) => {
+    toast({ title: "Opening chat...", description: `Starting conversation with ${name}.` });
+    navigate("/chat");
+  };
 
   const filteredUsers = onlineUsers.filter(
     (u) =>
@@ -196,10 +216,22 @@ export default function NetworkingPage() {
           >
             <Shuffle className="h-4 w-4" /> Shuffle & Match
           </button>
-          <button className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors">
-            <UserPlus className="h-4 w-4" /> Connect
+          <button
+            onClick={() => handleConnect(currentUser.name)}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold transition-colors",
+              connectedUsers.has(currentUser.name)
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border bg-card text-foreground hover:bg-muted"
+            )}
+          >
+            {connectedUsers.has(currentUser.name) ? <Check className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}
+            {connectedUsers.has(currentUser.name) ? "Connected" : "Connect"}
           </button>
-          <button className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors">
+          <button
+            onClick={() => handleMessage(currentUser.name)}
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+          >
             <Send className="h-4 w-4" /> Message
           </button>
         </div>
@@ -286,13 +318,24 @@ export default function NetworkingPage() {
                 ))}
               </div>
 
-
               {/* Buttons */}
               <div className="flex gap-2 mt-3">
-                <button className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
-                  <UserPlus className="h-3.5 w-3.5" /> Connect
+                <button
+                  onClick={() => handleConnect(u.name)}
+                  className={cn(
+                    "flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors",
+                    connectedUsers.has(u.name)
+                      ? "bg-primary/10 text-primary border border-primary/30"
+                      : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  )}
+                >
+                  {connectedUsers.has(u.name) ? <Check className="h-3.5 w-3.5" /> : <UserPlus className="h-3.5 w-3.5" />}
+                  {connectedUsers.has(u.name) ? "Connected" : "Connect"}
                 </button>
-                <button className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted transition-colors">
+                <button
+                  onClick={() => handleMessage(u.name)}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                >
                   <Send className="h-3.5 w-3.5" /> Message
                 </button>
               </div>
