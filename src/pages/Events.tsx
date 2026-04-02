@@ -197,8 +197,8 @@ export default function EventsPage() {
                   {isAdmin && (
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
-                        <button className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
-                        <button className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
+                        <button onClick={() => toast({ title: "Edit event", description: `Opening editor for ${e.name}` })} className="text-muted-foreground hover:text-foreground"><Pencil className="h-4 w-4" /></button>
+                        <button onClick={() => toast({ title: "Event settings", description: `Opening settings for ${e.name}` })} className="text-muted-foreground hover:text-foreground"><Settings className="h-4 w-4" /></button>
                       </div>
                     </td>
                   )}
