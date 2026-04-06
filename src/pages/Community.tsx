@@ -272,6 +272,7 @@ type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "modera
 
 export default function CommunityPage() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { isAdmin } = useViewMode();
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
