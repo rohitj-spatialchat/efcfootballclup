@@ -671,7 +671,7 @@ export default function Group() {
       )}
 
       {activeTab === "chat" && (
-        <motion.div variants={itemAnim} className="rounded-lg border border-border bg-card shadow-card flex flex-col" style={{ height: "500px" }}>
+        <motion.div variants={itemAnim} className="rounded-lg border border-border bg-card shadow-card flex flex-col" style={{ height: "calc(100vh - 320px)", minHeight: "400px" }}>
           <div className="p-4 border-b border-border">
             <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
               <MessageSquare className="h-4 w-4 text-primary" />
