@@ -1148,7 +1148,7 @@ export default function CommunityPage() {
                           {followedMembers.has(m.name) ? "Unfollow" : "Follow"}
                         </button>
                         <button
-                          onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                          onClick={() => navigate("/chat")}
                           className="flex-1 flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
                         >
                           <MessageCircle className="h-3.5 w-3.5" />
