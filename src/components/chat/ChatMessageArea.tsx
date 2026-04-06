@@ -41,7 +41,7 @@ export default function ChatMessageArea({ activeContact, messages, onSend, onRea
       <div className="flex items-center justify-between px-5 py-3 border-b border-border">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-semibold text-foreground">{activeContact}</h3>
-          <span className="h-2 w-2 rounded-full bg-green-500" />
+          <span className="h-2 w-2 rounded-full bg-primary" />
         </div>
       </div>
 
