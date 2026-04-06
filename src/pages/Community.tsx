@@ -1000,14 +1000,12 @@ export default function CommunityPage() {
                                 className="z-50 bg-popover border border-border shadow-lg"
                               >
                                 <DropdownMenuItem
-                                  onClick={() =>
-                                    toast({ title: "Profile", description: `Viewing ${m.name}'s profile.` })
-                                  }
+                                  onClick={() => navigate(`/member/${nameToSlug(m.name)}`)}
                                 >
                                   <User className="h-4 w-4 mr-2" /> View profile
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                  onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                                  onClick={() => navigate("/chat")}
                                 >
                                   <MessageCircle className="h-4 w-4 mr-2" /> Send message
                                 </DropdownMenuItem>
@@ -1056,12 +1054,12 @@ export default function CommunityPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
                             <DropdownMenuItem
-                              onClick={() => toast({ title: "Profile", description: `Viewing ${m.name}'s profile.` })}
+                              onClick={() => navigate(`/member/${nameToSlug(m.name)}`)}
                             >
                               <User className="h-4 w-4 mr-2" /> View profile
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                              onClick={() => navigate("/chat")}
                             >
                               <MessageCircle className="h-4 w-4 mr-2" /> Send message
                             </DropdownMenuItem>
