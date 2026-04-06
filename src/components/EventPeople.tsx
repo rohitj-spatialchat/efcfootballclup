@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { getTeamLogo } from "@/lib/teamLogos";
 import { Plus, Upload, Search, UserPlus, MoreVertical, Mic, Check, Trash2, Mail } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -15,7 +16,7 @@ const stats = [
 const filters = ["All", "Checked In", "Registered", "VIP"];
 
 const initialAttendees = [
-  { initials: "SJ", name: "Sarah Johnson", email: "sarah.j@eurofootball.com", role: "Head of Sports Science", team: "FC Barcelona", event: "EFC MPU Annual Summit 2026", status: "CHECKED IN", engagement: 92, tags: ["VIP", "Speaker"], color: "bg-primary" },
+  { initials: "SJ", name: "Sarah Johnson", email: "sarah.j@eurofootball.com", role: "Head of Sports Science", team: "Bayern Munich", event: "EFC MPU Annual Summit 2026", status: "CHECKED IN", engagement: 92, tags: ["VIP", "Speaker"], color: "bg-primary" },
   { initials: "MC", name: "Michael Chen", email: "m.chen@sportsci.io", role: "Performance Analyst", team: "Bayern Munich", event: "Injury Prevention Workshop", status: "REGISTERED", engagement: 78, tags: ["Sponsor"], color: "bg-purple-500" },
   { initials: "ER", name: "Emily Rodriguez", email: "emily.r@physiolab.com", role: "Lead Physiotherapist", team: "Real Madrid", event: "EFC MPU Annual Summit 2026", status: "CHECKED IN", engagement: 85, tags: ["VIP"], color: "bg-primary" },
   { initials: "DK", name: "David Kim", email: "david.kim@athleteperf.com", role: "S&C Coach", team: "Manchester City", event: "Sports Science Masterclass", status: "REGISTERED", engagement: 65, tags: [], color: "bg-purple-500" },
@@ -36,7 +37,7 @@ const engagementColor = (val: number) => {
 };
 
 const speakers = [
-  { initials: "SJ", name: "Sarah Johnson", role: "Head of Sports Science", team: "FC Barcelona", topic: "Injury Prevention in Elite Football", session: "Main Stage", time: "10:00 AM", color: "bg-primary", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" },
+  { initials: "SJ", name: "Sarah Johnson", role: "Head of Sports Science", team: "Bayern Munich", topic: "Injury Prevention in Elite Football", session: "Main Stage", time: "10:00 AM", color: "bg-primary", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" },
   { initials: "MR", name: "Dr. Marco Rossi", role: "Sports Medicine Director", team: "AC Milan", topic: "Advances in ACL Rehabilitation", session: "Workshop Room A", time: "11:30 AM", color: "bg-amber-500", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" },
   { initials: "JW", name: "James Wilson", role: "Rehabilitation Specialist", team: "Liverpool FC", topic: "Return to Play Protocols", session: "Main Stage", time: "2:00 PM", color: "bg-muted-foreground", image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&h=100&fit=crop&crop=face" },
   { initials: "LA", name: "Lisa Anderson", role: "Nutritionist", team: "Juventus", topic: "Nutrition for Recovery", session: "Workshop Room B", time: "3:30 PM", color: "bg-purple-500", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face" },
@@ -247,7 +248,10 @@ export default function EventPeople() {
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-sm font-semibold text-foreground">{s.name}</p>
-                      <p className="text-xs text-primary font-medium">{s.team}</p>
+                      <p className="text-xs text-primary font-medium flex items-center gap-1.5">
+                        {getTeamLogo(s.team) && <img src={getTeamLogo(s.team)} alt={s.team} className="h-4 w-4 object-contain" />}
+                        {s.team}
+                      </p>
                       <p className="text-xs text-muted-foreground">{s.role}</p>
                     </div>
                     <button onClick={() => toast({ title: s.name, description: `Contact: ${s.name} — ${s.role} at ${s.team}` })} className="text-muted-foreground hover:text-foreground">
