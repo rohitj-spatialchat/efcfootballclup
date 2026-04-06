@@ -16,7 +16,7 @@ const stats = [
 const filters = ["All", "Checked In", "Registered", "VIP"];
 
 const initialAttendees = [
-  { initials: "SJ", name: "Sarah Johnson", email: "sarah.j@eurofootball.com", role: "Head of Sports Science", team: "FC Barcelona", event: "EFC MPU Annual Summit 2026", status: "CHECKED IN", engagement: 92, tags: ["VIP", "Speaker"], color: "bg-primary" },
+  { initials: "SJ", name: "Sarah Johnson", email: "sarah.j@eurofootball.com", role: "Head of Sports Science", team: "Bayern Munich", event: "EFC MPU Annual Summit 2026", status: "CHECKED IN", engagement: 92, tags: ["VIP", "Speaker"], color: "bg-primary" },
   { initials: "MC", name: "Michael Chen", email: "m.chen@sportsci.io", role: "Performance Analyst", team: "Bayern Munich", event: "Injury Prevention Workshop", status: "REGISTERED", engagement: 78, tags: ["Sponsor"], color: "bg-purple-500" },
   { initials: "ER", name: "Emily Rodriguez", email: "emily.r@physiolab.com", role: "Lead Physiotherapist", team: "Real Madrid", event: "EFC MPU Annual Summit 2026", status: "CHECKED IN", engagement: 85, tags: ["VIP"], color: "bg-primary" },
   { initials: "DK", name: "David Kim", email: "david.kim@athleteperf.com", role: "S&C Coach", team: "Manchester City", event: "Sports Science Masterclass", status: "REGISTERED", engagement: 65, tags: [], color: "bg-purple-500" },
