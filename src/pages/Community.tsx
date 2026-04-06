@@ -44,6 +44,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getTeamLogo } from "@/lib/teamLogos";
+import { nameToSlug } from "./MemberProfile";
 
 const communitySidebar = [
   { label: "Audience", icon: Users },
