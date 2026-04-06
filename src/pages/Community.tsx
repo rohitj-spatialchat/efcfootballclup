@@ -26,6 +26,7 @@ import {
   Info,
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useViewMode } from "@/contexts/ViewModeContext";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
@@ -43,6 +44,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getTeamLogo } from "@/lib/teamLogos";
+import { nameToSlug } from "./MemberProfile";
 
 const communitySidebar = [
   { label: "Audience", icon: Users },
@@ -270,6 +272,7 @@ type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "modera
 
 export default function CommunityPage() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { isAdmin } = useViewMode();
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
@@ -997,14 +1000,12 @@ export default function CommunityPage() {
                                 className="z-50 bg-popover border border-border shadow-lg"
                               >
                                 <DropdownMenuItem
-                                  onClick={() =>
-                                    toast({ title: "Profile", description: `Viewing ${m.name}'s profile.` })
-                                  }
+                                  onClick={() => navigate(`/member/${nameToSlug(m.name)}`)}
                                 >
                                   <User className="h-4 w-4 mr-2" /> View profile
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                  onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                                  onClick={() => navigate("/chat")}
                                 >
                                   <MessageCircle className="h-4 w-4 mr-2" /> Send message
                                 </DropdownMenuItem>
@@ -1053,12 +1054,12 @@ export default function CommunityPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="z-50 bg-popover border border-border shadow-lg">
                             <DropdownMenuItem
-                              onClick={() => toast({ title: "Profile", description: `Viewing ${m.name}'s profile.` })}
+                              onClick={() => navigate(`/member/${nameToSlug(m.name)}`)}
                             >
                               <User className="h-4 w-4 mr-2" /> View profile
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                              onClick={() => navigate("/chat")}
                             >
                               <MessageCircle className="h-4 w-4 mr-2" /> Send message
                             </DropdownMenuItem>
@@ -1147,7 +1148,7 @@ export default function CommunityPage() {
                           {followedMembers.has(m.name) ? "Unfollow" : "Follow"}
                         </button>
                         <button
-                          onClick={() => toast({ title: "Message", description: `Message sent to ${m.name}.` })}
+                          onClick={() => navigate("/chat")}
                           className="flex-1 flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
                         >
                           <MessageCircle className="h-3.5 w-3.5" />
