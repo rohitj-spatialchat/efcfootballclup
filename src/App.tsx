@@ -26,6 +26,7 @@ import Chat from "./pages/Chat";
 import Announcements from "./pages/Announcements";
 import Group from "./pages/Group";
 import Redemption from "./pages/Redemption";
+import MyProfile from "./pages/MyProfile";
 import ExploreGroups from "./pages/ExploreGroups";
 import CalendarPage from "./pages/Calendar";
 import EventDetail from "./pages/EventDetail";
@@ -70,6 +71,7 @@ const App = () => (
                 <Route path="/calendar" element={<CalendarPage />} />
                 <Route path="/calendar/:eventId" element={<EventDetail />} />
                 <Route path="/redemption" element={<Redemption />} />
+                <Route path="/profile" element={<MyProfile />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </DashboardLayout>

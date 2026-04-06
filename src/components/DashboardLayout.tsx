@@ -431,7 +431,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <button
                       onClick={() => {
                         setProfileOpen(false);
-                        toast({ title: "My Profile", description: "Profile page coming soon!" });
+                        navigate("/profile");
                       }}
                       className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
                     >
