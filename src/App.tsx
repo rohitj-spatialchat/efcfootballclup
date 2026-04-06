@@ -71,6 +71,7 @@ const App = () => (
                 <Route path="/calendar" element={<CalendarPage />} />
                 <Route path="/calendar/:eventId" element={<EventDetail />} />
                 <Route path="/redemption" element={<Redemption />} />
+                <Route path="/profile" element={<MyProfile />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </DashboardLayout>
