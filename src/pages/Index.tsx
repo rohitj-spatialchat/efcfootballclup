@@ -1560,15 +1560,30 @@ const Index = () => {
               { name: "Elena Volkov", role: "Sports Psychologist", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face" },
             ].map((user, i) => (
               <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors">
-                <div className="relative">
+                <div
+                  className="relative cursor-pointer"
+                  onClick={() => {
+                    setOnlineUsersOpen(false);
+                    navigate(`/member/${user.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`);
+                  }}
+                >
                   <img src={user.image} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
                   <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 border-2 border-card" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{user.name}</p>
+                <div
+                  className="flex-1 min-w-0 cursor-pointer"
+                  onClick={() => {
+                    setOnlineUsersOpen(false);
+                    navigate(`/member/${user.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`);
+                  }}
+                >
+                  <p className="text-sm font-medium text-foreground truncate hover:underline">{user.name}</p>
                   <p className="text-xs text-muted-foreground truncate">{user.role}</p>
                 </div>
-                <Button size="sm" variant="outline" className="text-xs h-7">Message</Button>
+                <Button size="sm" variant="outline" className="text-xs h-7" onClick={() => {
+                  setOnlineUsersOpen(false);
+                  navigate("/chat");
+                }}>Message</Button>
               </div>
             ))}
           </div>
