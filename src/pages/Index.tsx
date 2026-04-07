@@ -1105,7 +1105,7 @@ const Index = () => {
           {/* Quick Action Buttons */}
           <motion.div variants={item} className="flex gap-2">
             <button
-              onClick={() => setLiveEventOpen(true)}
+              onClick={() => setLiveSessionDialogOpen(true)}
               className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-destructive px-3 py-2.5 text-sm font-semibold text-destructive-foreground hover:bg-destructive/90 transition-colors"
             >
               <Video className="h-4 w-4" />
