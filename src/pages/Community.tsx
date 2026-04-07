@@ -318,6 +318,21 @@ export default function CommunityPage() {
     emailMarketing: ["Subscribed", "Unsubscribed"],
   };
 
+  const invitedFilterOptions = {
+    name: [...new Set(invited.map((m) => m.name))].sort(),
+    email: [...new Set(invited.map((m) => m.email))].sort(),
+    tag: ["VIP", "Speaker", "Sponsor", "Early Access"],
+    invitationStatus: ["Pending", "Accepted", "Expired", "—"],
+    invitedAt: [...new Set(invited.map((m) => m.invitedAt).filter((d) => d !== "—"))].sort(),
+    segment: ["All Members", "New Invites", "Follow-up Needed"],
+  };
+
+  const blockedFilterOptions = {
+    name: [...new Set(blocked.map((m) => m.name))].sort(),
+    email: [...new Set(blocked.map((m) => m.email))].sort(),
+    reason: [...new Set(blocked.map((m) => m.reason))].sort(),
+  };
+
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
   const clearFilters = () =>
