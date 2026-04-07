@@ -165,6 +165,8 @@ const Index = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
+  const [liveSessionDialogOpen, setLiveSessionDialogOpen] = useState(false);
+  const [sessionType, setSessionType] = useState("video");
   const { toast } = useToast();
 
   // Post state
