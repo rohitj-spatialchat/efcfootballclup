@@ -411,9 +411,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 }}
                 className="flex items-center gap-1 cursor-pointer"
               >
-                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
-                  DE
-                </div>
+                <img src={profileAvatar} alt="Profile" className="h-8 w-8 rounded-full object-cover" />
                 <ChevronDown className="h-3 w-3 text-muted-foreground" />
               </button>
               {profileOpen && (
