@@ -293,6 +293,19 @@ export default function CommunityPage() {
     role: "",
     emailMarketing: "",
   });
+  const [invitedFilters, setInvitedFilters] = useState<Record<string, string>>({
+    name: "",
+    email: "",
+    tag: "",
+    invitationStatus: "",
+    invitedAt: "",
+    segment: "",
+  });
+  const [blockedFilters, setBlockedFilters] = useState<Record<string, string>>({
+    name: "",
+    email: "",
+    reason: "",
+  });
 
   // Derive unique filter options from members data
   const filterOptions = {
