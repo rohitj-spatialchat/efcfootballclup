@@ -44,7 +44,7 @@ const activities = [
   { id: 5, type: "post", text: "Shared insights on building inclusive sports communities", time: "5 days ago", likes: 78, comments: 26 },
 ];
 
-const interests = ["Football Analytics", "Performance Science", "Data Visualization", "Sports Medicine", "Biomechanics", "Nutrition", "Coaching", "Sport Psychology"];
+const interests = ["Community Leadership", "Football Operations", "Sports Strategy", "Member Engagement", "Event Management", "Partnership Development", "Digital Transformation", "Talent Development"];
 
 type TabId = "activity" | "about" | "achievements" | "settings";
 
