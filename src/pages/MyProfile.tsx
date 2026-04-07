@@ -55,16 +55,38 @@ export default function MyProfile() {
   const [profile, setProfile] = useState({
     name: "Demo",
     username: "@demostudent16553",
-    bio: "Passionate about sports science and performance analytics. Currently exploring the intersection of data science and athletic performance. Always looking to connect with like-minded professionals.",
+    bio: "Community Leader at EFC MPU, driving engagement and collaboration across 500+ football professionals worldwide. Dedicated to fostering meaningful connections, organizing impactful events, and shaping the future of football industry networking.",
     location: "London, UK",
-    role: "Performance Analyst",
-    organization: "EFC Football Club",
+    role: "Community Leader",
+    organization: "EFC MPU",
     website: "https://demo-portfolio.com",
     email: "demo@efcfootball.com",
     joinDate: "January 2025",
   });
   const [editForm, setEditForm] = useState(profile);
   const [notifications, setNotifications] = useState({ email: true, push: true, mentions: true, events: false });
+  const [avatarSrc, setAvatarSrc] = useState(profileAvatarDefault);
+  const [coverSrc, setCoverSrc] = useState(profileCoverDefault);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setAvatarSrc(url);
+      toast({ title: "Profile picture updated" });
+    }
+  };
+
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setCoverSrc(url);
+      toast({ title: "Cover picture updated" });
+    }
+  };
 
   const handleSave = () => {
     setProfile(editForm);
