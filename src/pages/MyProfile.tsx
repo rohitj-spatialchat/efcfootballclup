@@ -103,18 +103,21 @@ export default function MyProfile() {
     <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto space-y-6">
       {/* Cover + Avatar */}
       <motion.div variants={item} className="relative">
-        <div className="h-44 rounded-2xl bg-gradient-to-r from-primary via-blue-400 to-cyan-400 relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wOCI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iNCIvPjwvZz48L2c+PC9zdmc+')] opacity-60" />
-          <button className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full p-2 hover:bg-background transition-colors">
+        <div className="h-44 rounded-2xl relative overflow-hidden">
+          <img src={coverSrc} alt="Cover" className="w-full h-full object-cover" />
+          <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
+          <button onClick={() => coverInputRef.current?.click()} className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full p-2 hover:bg-background transition-colors">
             <Camera className="h-4 w-4 text-foreground" />
           </button>
         </div>
         <div className="absolute -bottom-14 left-6 flex items-end gap-4">
           <div className="relative">
             <Avatar className="h-28 w-28 border-4 border-background shadow-lg">
+              <AvatarImage src={avatarSrc} alt="Profile" />
               <AvatarFallback className="text-3xl font-bold bg-primary text-primary-foreground">DE</AvatarFallback>
             </Avatar>
-            <button className="absolute bottom-1 right-1 bg-primary rounded-full p-1.5 shadow-md hover:bg-primary/90 transition-colors">
+            <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+            <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-1 right-1 bg-primary rounded-full p-1.5 shadow-md hover:bg-primary/90 transition-colors">
               <Camera className="h-3.5 w-3.5 text-primary-foreground" />
             </button>
           </div>
