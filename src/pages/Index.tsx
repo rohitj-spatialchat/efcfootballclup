@@ -995,8 +995,42 @@ const Index = () => {
               {/* Engagement counts */}
               <div className="px-4 pb-2 flex items-center justify-between text-xs text-muted-foreground">
                 <span>{post.likes} likes</span>
-                <span>{post.comments} comments</span>
+                <button
+                  onClick={() => setShowCommentsPost(showCommentsPost === post.id ? null : post.id)}
+                  className="hover:text-foreground hover:underline transition-colors cursor-pointer"
+                >
+                  {post.comments} comments
+                </button>
               </div>
+
+              {/* Comments list */}
+              <AnimatePresence>
+                {showCommentsPost === post.id && post.commentsList.length > 0 && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="border-t border-border overflow-hidden"
+                  >
+                    <div className="p-3 space-y-3 max-h-60 overflow-y-auto">
+                      {post.commentsList.map((c) => (
+                        <div key={c.id} className="flex gap-2">
+                          <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-foreground text-[10px] font-semibold shrink-0">
+                            {c.avatar}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="rounded-lg bg-muted/50 px-3 py-2">
+                              <p className="text-xs font-semibold text-foreground">{c.author}</p>
+                              <p className="text-xs text-muted-foreground">{c.text}</p>
+                            </div>
+                            <p className="text-[10px] text-muted-foreground mt-0.5 ml-1">{c.time}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Post Actions */}
               <div className="flex items-center border-t border-border divide-x divide-border">
@@ -1009,7 +1043,10 @@ const Index = () => {
                   <ThumbsUp className={`h-3.5 w-3.5 ${post.liked ? "fill-primary" : ""}`} /> Like
                 </button>
                 <button
-                  onClick={() => handleComment(post.id)}
+                  onClick={() => {
+                    handleComment(post.id);
+                    if (showCommentsPost !== post.id) setShowCommentsPost(post.id);
+                  }}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs transition-colors ${
                     commentingPost === post.id ? "text-primary font-medium" : "text-muted-foreground hover:bg-muted"
                   }`}
