@@ -465,13 +465,22 @@ export default function CommunityPage() {
     return true;
   });
 
-  const filteredInvited = query
-    ? invited.filter((m) => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
-    : invited;
+  const filteredInvited = invited.filter((m) => {
+    if (query && !m.name.toLowerCase().includes(query) && !m.email.toLowerCase().includes(query)) return false;
+    if (invitedFilters.name && m.name !== invitedFilters.name) return false;
+    if (invitedFilters.email && m.email !== invitedFilters.email) return false;
+    if (invitedFilters.invitationStatus && m.invitationStatus !== invitedFilters.invitationStatus) return false;
+    if (invitedFilters.invitedAt && m.invitedAt !== invitedFilters.invitedAt) return false;
+    return true;
+  });
 
-  const filteredBlocked = query
-    ? blocked.filter((m) => m.name.toLowerCase().includes(query) || m.email.toLowerCase().includes(query))
-    : blocked;
+  const filteredBlocked = blocked.filter((m) => {
+    if (query && !m.name.toLowerCase().includes(query) && !m.email.toLowerCase().includes(query)) return false;
+    if (blockedFilters.name && m.name !== blockedFilters.name) return false;
+    if (blockedFilters.email && m.email !== blockedFilters.email) return false;
+    if (blockedFilters.reason && m.reason !== blockedFilters.reason) return false;
+    return true;
+  });
 
   const isInvitedTab = activeTab === "invited";
   const isBlockedTab = activeTab === "blocked";
