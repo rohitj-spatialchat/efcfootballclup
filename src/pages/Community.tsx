@@ -671,20 +671,120 @@ export default function CommunityPage() {
             </div>
           )}
 
-          {/* Invited/Blocked static filters */}
-          {(isInvitedTab || isBlockedTab) && (
+          {/* Invited filters */}
+          {isInvitedTab && (
             <div className="flex items-center gap-2 flex-wrap">
-              {(isInvitedTab
-                ? ["+ Name", "+ Email", "+ Tag", "+ Invitation status", "+ Invited at", "+ Segment"]
-                : ["+ Name", "+ Email", "+ Reason"]
-              ).map((f) => (
-                <button
-                  key={f}
-                  className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-muted transition-colors"
-                >
-                  {f}
-                </button>
+              {([
+                { key: "name", label: "Name", options: invitedFilterOptions.name },
+                { key: "email", label: "Email", options: invitedFilterOptions.email },
+                { key: "tag", label: "Tag", options: invitedFilterOptions.tag },
+                { key: "invitationStatus", label: "Invitation status", options: invitedFilterOptions.invitationStatus },
+                { key: "invitedAt", label: "Invited at", options: invitedFilterOptions.invitedAt },
+                { key: "segment", label: "Segment", options: invitedFilterOptions.segment },
+              ] as const).map((filter) => (
+                <DropdownMenu key={filter.key}>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors",
+                        invitedFilters[filter.key]
+                          ? "border-primary bg-primary/10 text-primary font-medium"
+                          : "border-border text-muted-foreground hover:bg-muted"
+                      )}
+                    >
+                      {invitedFilters[filter.key] || `+ ${filter.label}`}
+                      <ChevronDown className="h-3 w-3" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg max-h-64 overflow-y-auto">
+                    {invitedFilters[filter.key] && (
+                      <>
+                        <DropdownMenuItem
+                          onClick={() => setInvitedFilters((prev) => ({ ...prev, [filter.key]: "" }))}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <X className="h-3.5 w-3.5 mr-2" /> Clear {filter.label}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {filter.options.map((opt) => (
+                      <DropdownMenuItem
+                        key={opt}
+                        onClick={() => setInvitedFilters((prev) => ({ ...prev, [filter.key]: opt }))}
+                        className={cn(invitedFilters[filter.key] === opt && "bg-primary/10 text-primary font-medium")}
+                      >
+                        {opt}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ))}
+              {Object.values(invitedFilters).filter(Boolean).length > 0 && (
+                <button
+                  onClick={() => setInvitedFilters({ name: "", email: "", tag: "", invitationStatus: "", invitedAt: "", segment: "" })}
+                  className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/20 transition-colors"
+                >
+                  <X className="h-3 w-3" /> Clear all ({Object.values(invitedFilters).filter(Boolean).length})
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Blocked filters */}
+          {isBlockedTab && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {([
+                { key: "name", label: "Name", options: blockedFilterOptions.name },
+                { key: "email", label: "Email", options: blockedFilterOptions.email },
+                { key: "reason", label: "Reason", options: blockedFilterOptions.reason },
+              ] as const).map((filter) => (
+                <DropdownMenu key={filter.key}>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors",
+                        blockedFilters[filter.key]
+                          ? "border-primary bg-primary/10 text-primary font-medium"
+                          : "border-border text-muted-foreground hover:bg-muted"
+                      )}
+                    >
+                      {blockedFilters[filter.key] || `+ ${filter.label}`}
+                      <ChevronDown className="h-3 w-3" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg max-h-64 overflow-y-auto">
+                    {blockedFilters[filter.key] && (
+                      <>
+                        <DropdownMenuItem
+                          onClick={() => setBlockedFilters((prev) => ({ ...prev, [filter.key]: "" }))}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <X className="h-3.5 w-3.5 mr-2" /> Clear {filter.label}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {filter.options.map((opt) => (
+                      <DropdownMenuItem
+                        key={opt}
+                        onClick={() => setBlockedFilters((prev) => ({ ...prev, [filter.key]: opt }))}
+                        className={cn(blockedFilters[filter.key] === opt && "bg-primary/10 text-primary font-medium")}
+                      >
+                        {opt}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ))}
+              {Object.values(blockedFilters).filter(Boolean).length > 0 && (
+                <button
+                  onClick={() => setBlockedFilters({ name: "", email: "", reason: "" })}
+                  className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/20 transition-colors"
+                >
+                  <X className="h-3 w-3" /> Clear all ({Object.values(blockedFilters).filter(Boolean).length})
+                </button>
+              )}
             </div>
           )}
         </motion.div>
