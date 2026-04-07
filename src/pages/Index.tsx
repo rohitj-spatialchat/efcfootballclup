@@ -160,6 +160,7 @@ const Index = () => {
   const [selectedRegion, setSelectedRegion] = useState("All Regions");
   const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set());
   const [commentingPost, setCommentingPost] = useState<number | null>(null);
+  const [showCommentsPost, setShowCommentsPost] = useState<number | null>(null);
   const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
@@ -222,6 +223,7 @@ const Index = () => {
       image: null,
       likes: 0,
       comments: 0,
+      commentsList: [] as { id: number; author: string; avatar: string; text: string; time: string }[],
       liked: false,
       saved: false,
       following: true,
@@ -319,6 +321,7 @@ const Index = () => {
       liked: false,
       saved: false,
       following: true,
+      commentsList: [] as { id: number; author: string; avatar: string; text: string; time: string }[],
     };
     setFeedPosts([newPost, ...feedPosts]);
     setPostContent("");
@@ -364,11 +367,17 @@ const Index = () => {
 
   const submitComment = (postId: number) => {
     if (!commentText.trim()) return;
+    const newComment = {
+      id: Date.now(),
+      author: "Demo User",
+      avatar: "DE",
+      text: commentText.trim(),
+      time: "Just now",
+    };
     setFeedPosts(prev => prev.map(p =>
-      p.id === postId ? { ...p, comments: p.comments + 1 } : p
+      p.id === postId ? { ...p, comments: p.comments + 1, commentsList: [...p.commentsList, newComment] } : p
     ));
     setCommentText("");
-    setCommentingPost(null);
     toast({ title: "Comment posted!" });
   };
 
