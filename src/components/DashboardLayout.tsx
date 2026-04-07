@@ -66,6 +66,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
+import profileAvatar from "@/assets/profile-avatar.jpg";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
