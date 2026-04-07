@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown, BarChart3, Trash2, FileText, Paperclip, Smile } from "lucide-react";
+import { ChevronRight, ChevronLeft, ArrowUp, MoreHorizontal, ThumbsUp, MessageSquare, Share2, Pencil, Clock, TrendingUp as TrendingIcon, Star, Flame, Trophy, ExternalLink, X, Mic, MicOff, Video, VideoOff, Monitor, Hand, Plus, PenTool, MessageCircle, Camera, Settings, Users, Grid3X3, Share, Send, ImagePlus, Tag, BookmarkPlus, Flag, EyeOff, ChevronDown, BarChart3, Trash2, FileText, Paperclip, Smile, Radio } from "lucide-react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -165,6 +165,8 @@ const Index = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
+  const [liveSessionDialogOpen, setLiveSessionDialogOpen] = useState(false);
+  const [sessionType, setSessionType] = useState("video");
   const { toast } = useToast();
 
   // Post state
@@ -1103,7 +1105,7 @@ const Index = () => {
           {/* Quick Action Buttons */}
           <motion.div variants={item} className="flex gap-2">
             <button
-              onClick={() => setLiveEventOpen(true)}
+              onClick={() => setLiveSessionDialogOpen(true)}
               className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-destructive px-3 py-2.5 text-sm font-semibold text-destructive-foreground hover:bg-destructive/90 transition-colors"
             >
               <Video className="h-4 w-4" />
@@ -1230,6 +1232,99 @@ const Index = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Create Live Session Dialog */}
+      <Dialog open={liveSessionDialogOpen} onOpenChange={setLiveSessionDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold text-foreground">Create Live Session</DialogTitle>
+          </DialogHeader>
+          <div className="border-t border-primary/30 mb-2" />
+          <div className="space-y-5">
+            <div>
+              <label className="text-sm font-semibold text-foreground">
+                Session Name <span className="text-destructive">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter session name"
+                className="mt-1.5 h-10 w-full rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">
+                Post in Channel <span className="text-destructive">*</span>
+              </label>
+              <select className="mt-1.5 h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30">
+                <option value="">Select channel</option>
+                <option value="General">General</option>
+                <option value="Announcements">Announcements</option>
+                <option value="Events">Events</option>
+                <option value="Resources">Resources</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">Session Type</label>
+              <div className="flex gap-3 mt-1.5">
+                <button
+                  onClick={() => setSessionType("video")}
+                  className={`inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors ${
+                    sessionType === "video"
+                      ? "border-primary bg-primary/5 text-foreground"
+                      : "border-border text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Video className="h-4 w-4" /> Video Call
+                </button>
+                <button
+                  onClick={() => setSessionType("webinar")}
+                  className={`inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm transition-colors ${
+                    sessionType === "webinar"
+                      ? "border-primary bg-primary/5 text-foreground"
+                      : "border-border text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Radio className="h-4 w-4" /> Webinar
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1.5">
+                <span className="font-medium">Participation</span> : Everyone can switch on their mic and camera
+              </p>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">Description</label>
+              <textarea
+                placeholder=""
+                className="mt-1.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 min-h-[80px] resize-y"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-foreground">Cover Picture</label>
+              <div className="mt-1.5 flex items-center justify-center rounded-md border-2 border-dashed border-border px-4 py-4 cursor-pointer hover:border-primary/30 transition-colors">
+                <span className="text-sm text-muted-foreground">+ Upload Live Call Thumbnail</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Size: 16:9 or 1600 by 900px</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
+            <button
+              onClick={() => setLiveSessionDialogOpen(false)}
+              className="rounded-md border border-border px-5 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                setLiveSessionDialogOpen(false);
+                setLiveEventOpen(true);
+              }}
+              className="rounded-md bg-foreground px-5 py-2 text-sm font-medium text-background hover:bg-foreground/90 transition-colors"
+            >
+              Create Live Session
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* SpatialChat-style Live Event Overlay */}
       <AnimatePresence>
