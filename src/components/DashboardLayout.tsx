@@ -417,9 +417,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               {profileOpen && (
                 <div className="absolute right-0 top-full mt-1 w-56 rounded-lg border border-border bg-card shadow-elevated z-50 py-3">
                   <div className="flex flex-col items-center pb-3 border-b border-border px-4">
-                    <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xl font-semibold mb-2">
-                      DE
-                    </div>
+                    <img src={profileAvatar} alt="Profile" className="h-16 w-16 rounded-full object-cover mb-2" />
                     <p className="text-sm font-semibold text-foreground">Demo</p>
                     <p className="text-xs text-muted-foreground">@demostudent16553</p>
                     <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-warning/20 px-3 py-1 text-xs font-semibold text-warning">
