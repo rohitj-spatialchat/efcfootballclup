@@ -37,11 +37,11 @@ const stats = [
 ];
 
 const activities = [
-  { id: 1, type: "post", text: "Shared a new article on sports analytics methodologies", time: "2 hours ago", likes: 14, comments: 3 },
-  { id: 2, type: "event", text: "Attended 'Advanced Performance Analysis Workshop'", time: "1 day ago", likes: 8, comments: 1 },
-  { id: 3, type: "comment", text: "Commented on 'The future of football analytics'", time: "2 days ago", likes: 5, comments: 0 },
-  { id: 4, type: "achievement", text: "Earned the 'Knowledge Sharer' badge", time: "3 days ago", likes: 22, comments: 7 },
-  { id: 5, type: "post", text: "Published research on player tracking data in elite football", time: "5 days ago", likes: 31, comments: 11 },
+  { id: 1, type: "post", text: "Published strategic vision for EFC MPU community growth in 2026", time: "2 hours ago", likes: 67, comments: 24 },
+  { id: 2, type: "event", text: "Hosted 'EFC Annual Leadership Summit 2026'", time: "1 day ago", likes: 89, comments: 31 },
+  { id: 3, type: "announcement", text: "Announced new partnership with UEFA for member development", time: "2 days ago", likes: 134, comments: 48 },
+  { id: 4, type: "achievement", text: "Reached 500+ community moderator actions this quarter", time: "3 days ago", likes: 45, comments: 12 },
+  { id: 5, type: "post", text: "Shared insights on building inclusive sports communities", time: "5 days ago", likes: 78, comments: 26 },
 ];
 
 const interests = ["Football Analytics", "Performance Science", "Data Visualization", "Sports Medicine", "Biomechanics", "Nutrition", "Coaching", "Sport Psychology"];
