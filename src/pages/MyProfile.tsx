@@ -131,7 +131,7 @@ export default function MyProfile() {
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold text-foreground">{profile.name}</h1>
               <Badge variant="secondary" className="gap-1 text-orange-500 bg-orange-50 border-orange-200">
-                <Flame className="h-3.5 w-3.5" /> 800
+                <Flame className="h-3.5 w-3.5" /> 2,450
               </Badge>
             </div>
             <p className="text-muted-foreground text-sm">{profile.username}</p>
