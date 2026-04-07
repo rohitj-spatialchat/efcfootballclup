@@ -30,10 +30,10 @@ const badges = [
 ];
 
 const stats = [
-  { label: "Posts", value: 47, icon: MessageCircle },
-  { label: "Connections", value: 238, icon: Users },
-  { label: "Events Attended", value: 12, icon: Calendar },
-  { label: "Contributions", value: 89, icon: TrendingUp },
+  { label: "Posts", value: 156, icon: MessageCircle },
+  { label: "Connections", value: 892, icon: Users },
+  { label: "Events Attended", value: 48, icon: Calendar },
+  { label: "Contributions", value: 324, icon: TrendingUp },
 ];
 
 const activities = [
