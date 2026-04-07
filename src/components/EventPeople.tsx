@@ -211,19 +211,6 @@ export default function EventPeople() {
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <div className="relative">
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => handleCheckIn(realIdx)} className="text-muted-foreground hover:text-foreground" title="Check in"><UserPlus className="h-4 w-4" /></button>
-                          <button onClick={() => setActionIdx(actionIdx === realIdx ? null : realIdx)} className="text-muted-foreground hover:text-foreground"><MoreVertical className="h-4 w-4" /></button>
-                        </div>
-                        {actionIdx === realIdx && (
-                          <div className="absolute right-0 top-8 z-20 w-44 rounded-lg border border-border bg-card shadow-lg py-1">
-                            <button onClick={() => handleSendEmail(realIdx)} className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted"><Mail className="h-3.5 w-3.5" /> Send Reminder</button>
-                            <button onClick={() => handleCheckIn(realIdx)} className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted"><Check className="h-3.5 w-3.5" /> Mark Checked In</button>
-                            <button onClick={() => handleRemove(realIdx)} className="flex items-center gap-2 w-full px-3 py-2 text-sm text-destructive hover:bg-muted"><Trash2 className="h-3.5 w-3.5" /> Remove</button>
-                          </div>
-                        )}
-                      </div>
                     </td>
                   </tr>
                 );
