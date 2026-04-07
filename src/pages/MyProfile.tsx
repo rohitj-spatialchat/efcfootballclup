@@ -358,11 +358,11 @@ function AboutTab({ interests, profile }: { interests: string[]; profile: { orga
 function AchievementsTab() {
   const achievements = [
     { title: "First Post", desc: "Published your first community post", progress: 100, icon: MessageCircle },
-    { title: "Networking Pro", desc: "Connect with 200+ members", progress: 100, icon: Users },
-    { title: "Event Enthusiast", desc: "Attend 15 events", progress: 80, icon: Calendar },
-    { title: "Top Contributor", desc: "Reach 100 contributions", progress: 89, icon: TrendingUp },
-    { title: "Mentor", desc: "Help 10 new members get started", progress: 60, icon: Heart },
-    { title: "Knowledge Base", desc: "Share 50 articles or resources", progress: 44, icon: BookOpen },
+    { title: "Networking Pro", desc: "Connect with 500+ members", progress: 100, icon: Users },
+    { title: "Event Master", desc: "Host or attend 50 events", progress: 96, icon: Calendar },
+    { title: "Top Contributor", desc: "Reach 300 contributions", progress: 100, icon: TrendingUp },
+    { title: "Community Leader", desc: "Moderate 500+ discussions", progress: 100, icon: Heart },
+    { title: "Knowledge Base", desc: "Share 100 articles or resources", progress: 78, icon: BookOpen },
   ];
   return (
     <div className="grid grid-cols-2 gap-3">
