@@ -41,10 +41,15 @@ const initialPosts = [
     body: "The recent developments in football injury prevention technology have raised important questions about evidence-based practice vs. marketing claims.\n\nIt's a credibility test.\n\nIn the sports science era, perception moves faster than verification. But practitioners cannot afford to confuse showcasing technology with claiming validated outcomes.",
     image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&h=400&fit=crop",
     likes: 42,
-    comments: 12,
+    comments: 3,
     liked: false,
     saved: false,
     following: true,
+    commentsList: [
+      { id: 1, author: "Sarah Mitchell", avatar: "SM", text: "Great insights Marco! Evidence-based practice should always come first.", time: "20m ago" },
+      { id: 2, author: "Alex Chen", avatar: "AC", text: "This resonates with what we're seeing in sports tech marketing. Well said.", time: "15m ago" },
+      { id: 3, author: "Emma Johansson", avatar: "EJ", text: "Would love to discuss this further at the next summit.", time: "10m ago" },
+    ],
   },
   {
     id: 2,
@@ -57,10 +62,14 @@ const initialPosts = [
     body: "Just published our latest findings on eccentric strengthening protocols for elite footballers. The Nordic hamstring exercise remains the gold standard, but there's growing evidence for complementary approaches.\n\nKey takeaway: Individualised load management combined with targeted strengthening reduces hamstring injuries by up to 65%.",
     image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=400&fit=crop",
     likes: 89,
-    comments: 23,
+    comments: 2,
     liked: false,
     saved: false,
     following: true,
+    commentsList: [
+      { id: 1, author: "Dr. Marco Rossi", avatar: "MR", text: "Excellent research Sarah. The 65% reduction is remarkable.", time: "1h ago" },
+      { id: 2, author: "James O'Brien", avatar: "JO", text: "We implemented a similar protocol last season with great results.", time: "45m ago" },
+    ],
   },
   {
     id: 3,
@@ -73,10 +82,13 @@ const initialPosts = [
     body: "We've been tracking high-speed running distance and acceleration patterns across our first team squad for 3 seasons now. The correlation between acute:chronic workload ratio spikes and soft tissue injuries is striking.\n\nHere's what we've learned about practical thresholds...",
     image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&h=400&fit=crop",
     likes: 56,
-    comments: 18,
+    comments: 1,
     liked: false,
     saved: false,
     following: false,
+    commentsList: [
+      { id: 1, author: "Sarah Mitchell", avatar: "SM", text: "What ACWR threshold do you use as a red flag?", time: "3h ago" },
+    ],
   },
   {
     id: 4,
@@ -89,10 +101,11 @@ const initialPosts = [
     body: "Our club's RTP protocol now includes psychological readiness assessment alongside physical benchmarks. The results have been remarkable — reinjury rates dropped significantly since we adopted this holistic framework.\n\nSharing our complete protocol for discussion...",
     image: null,
     likes: 34,
-    comments: 9,
+    comments: 0,
     liked: false,
     saved: false,
     following: false,
+    commentsList: [],
   },
 ];
 
