@@ -334,8 +334,9 @@ function AboutTab({ interests, profile }: { interests: string[]; profile: { orga
         <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2"><Briefcase className="h-4 w-4 text-primary" />Experience</h3>
         <div className="space-y-4">
           {[
-            { title: "Performance Analyst", org: profile.organization, period: "2024 – Present", desc: "Leading data-driven performance analysis for the first team." },
-            { title: "Junior Analyst", org: "Sport Science Lab", period: "2022 – 2024", desc: "Conducted research on player biomechanics and injury prevention." },
+            { title: "Community Leader", org: profile.organization, period: "2024 – Present", desc: "Leading community strategy, moderating discussions, and driving member engagement across 500+ professionals." },
+            { title: "Events Coordinator", org: "EFC Football Club", period: "2023 – 2024", desc: "Organized 20+ events including summits, webinars, and networking sessions for the football community." },
+            { title: "Community Manager", org: "SportsTech Network", period: "2021 – 2023", desc: "Managed online communities and developed content strategy for sports technology professionals." },
           ].map((exp) => (
             <div key={exp.title} className="flex gap-3">
               <div className="mt-1 h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
