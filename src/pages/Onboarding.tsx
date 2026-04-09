@@ -5,31 +5,74 @@ import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 
 const clubs = [
-  "AFC Ajax", "AC Milan", "Inter Milan", "SL Benfica", "FC Porto",
-  "Arsenal FC", "Chelsea FC", "Manchester City", "Bayern Munich",
-  "Liverpool FC", "Juventus", "AC Sparta Praha", "Borussia Dortmund",
-  "Real Madrid", "FC Barcelona", "Paris Saint-Germain", "Atletico Madrid",
+  "AFC Ajax",
+  "AC Milan",
+  "Inter Milan",
+  "SL Benfica",
+  "FC Porto",
+  "Arsenal FC",
+  "Chelsea FC",
+  "Manchester City",
+  "Bayern Munich",
+  "Liverpool FC",
+  "Juventus",
+  "AC Sparta Praha",
+  "Borussia Dortmund",
+  "Paris Saint-Germain",
+  "Atletico Madrid",
 ];
 
 const positions = [
-  "Head of Performance", "Sports Nutritionist", "Lead Physiotherapist",
-  "Sport Psychologist", "Rehabilitation Specialist", "S&C Coach",
-  "Exercise Physiologist", "Performance Analyst", "Head Coach",
-  "Assistant Coach", "Medical Doctor", "Team Manager",
-  "Commercial Director", "Business Development", "Community Manager",
+  "Head of Performance",
+  "Sports Nutritionist",
+  "Lead Physiotherapist",
+  "Sport Psychologist",
+  "Rehabilitation Specialist",
+  "S&C Coach",
+  "Exercise Physiologist",
+  "Performance Analyst",
+  "Head Coach",
+  "Assistant Coach",
+  "Medical Doctor",
+  "Team Manager",
+  "Commercial Director",
+  "Business Development",
+  "Community Manager",
 ];
 
 const countries = [
-  "Germany", "France", "Italy", "Netherlands", "United Kingdom",
-  "Spain", "Portugal", "Belgium", "Denmark", "Ireland",
-  "United States", "Czech Republic", "Austria", "Switzerland", "Sweden",
+  "Germany",
+  "France",
+  "Italy",
+  "Netherlands",
+  "United Kingdom",
+  "Spain",
+  "Portugal",
+  "Belgium",
+  "Denmark",
+  "Ireland",
+  "United States",
+  "Czech Republic",
+  "Austria",
+  "Switzerland",
+  "Sweden",
 ];
 
 const interestTags = [
-  "Sport & Exercise Science", "Nutrition", "Sport Psychology",
-  "Sports Medicine & Physiotherapy", "Strength & Power", "Fitness & Exercise Physiology",
-  "Recovery and Regeneration", "Networking", "Leadership", "Management",
-  "Career Development", "Coaching", "Education", "Communication",
+  "Sport & Exercise Science",
+  "Nutrition",
+  "Sport Psychology",
+  "Sports Medicine & Physiotherapy",
+  "Strength & Power",
+  "Fitness & Exercise Physiology",
+  "Recovery and Regeneration",
+  "Networking",
+  "Leadership",
+  "Management",
+  "Career Development",
+  "Coaching",
+  "Education",
+  "Communication",
 ];
 
 export default function Onboarding() {
@@ -43,16 +86,31 @@ export default function Onboarding() {
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : prev.length < 3 ? [...prev, tag] : prev
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : prev.length < 3 ? [...prev, tag] : prev,
     );
   };
 
   const handleContinue = () => {
-    if (!name) { toast({ title: "Please enter your name", variant: "destructive" }); return; }
-    if (!club) { toast({ title: "Please select a club", variant: "destructive" }); return; }
-    if (!position) { toast({ title: "Please select a position", variant: "destructive" }); return; }
-    if (!country) { toast({ title: "Please select a country", variant: "destructive" }); return; }
-    if (selectedTags.length < 1) { toast({ title: "Please select at least 1 interest", variant: "destructive" }); return; }
+    if (!name) {
+      toast({ title: "Please enter your name", variant: "destructive" });
+      return;
+    }
+    if (!club) {
+      toast({ title: "Please select a club", variant: "destructive" });
+      return;
+    }
+    if (!position) {
+      toast({ title: "Please select a position", variant: "destructive" });
+      return;
+    }
+    if (!country) {
+      toast({ title: "Please select a country", variant: "destructive" });
+      return;
+    }
+    if (selectedTags.length < 1) {
+      toast({ title: "Please select at least 1 interest", variant: "destructive" });
+      return;
+    }
     toast({ title: "Profile saved!", description: "Welcome to the community." });
     navigate("/welcome");
   };
@@ -61,7 +119,8 @@ export default function Onboarding() {
     <div
       className="min-h-screen flex flex-col items-center justify-start px-4 py-12 relative overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, hsl(190, 90%, 55%), hsl(190, 80%, 60%) 30%, hsl(280, 40%, 65%) 60%, hsl(330, 70%, 55%))",
+        background:
+          "linear-gradient(135deg, hsl(190, 90%, 55%), hsl(190, 80%, 60%) 30%, hsl(280, 40%, 65%) 60%, hsl(330, 70%, 55%))",
       }}
     >
       <div className="absolute inset-0 overflow-hidden opacity-[0.08] pointer-events-none">
@@ -78,14 +137,31 @@ export default function Onboarding() {
         <div className="space-y-4 text-left px-2">
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Name</label>
-            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none"
+            />
           </div>
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Club</label>
             <div className="relative">
-              <select value={club} onChange={(e) => setClub(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none" style={{ color: club ? '#111' : '#9ca3af' }}>
-                <option value="" disabled>Select club</option>
-                {clubs.map(c => <option key={c} value={c}>{c}</option>)}
+              <select
+                value={club}
+                onChange={(e) => setClub(e.target.value)}
+                className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none"
+                style={{ color: club ? "#111" : "#9ca3af" }}
+              >
+                <option value="" disabled>
+                  Select club
+                </option>
+                {clubs.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
               <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             </div>
@@ -93,9 +169,20 @@ export default function Onboarding() {
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Position</label>
             <div className="relative">
-              <select value={position} onChange={(e) => setPosition(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none" style={{ color: position ? '#111' : '#9ca3af' }}>
-                <option value="" disabled>Select position</option>
-                {positions.map(p => <option key={p} value={p}>{p}</option>)}
+              <select
+                value={position}
+                onChange={(e) => setPosition(e.target.value)}
+                className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none"
+                style={{ color: position ? "#111" : "#9ca3af" }}
+              >
+                <option value="" disabled>
+                  Select position
+                </option>
+                {positions.map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
               </select>
               <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             </div>
@@ -103,9 +190,20 @@ export default function Onboarding() {
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Country</label>
             <div className="relative">
-              <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none" style={{ color: country ? '#111' : '#9ca3af' }}>
-                <option value="" disabled>Select country</option>
-                {countries.map(c => <option key={c} value={c}>{c}</option>)}
+              <select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none"
+                style={{ color: country ? "#111" : "#9ca3af" }}
+              >
+                <option value="" disabled>
+                  Select country
+                </option>
+                {countries.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
               <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             </div>
@@ -138,7 +236,9 @@ export default function Onboarding() {
         </div>
 
         <p className="text-sm font-bold text-gray-900 uppercase tracking-[0.2em] mt-6">
-          THE HEART<br />OF FOOTBALL
+          THE HEART
+          <br />
+          OF FOOTBALL
         </p>
       </div>
     </div>
