@@ -413,17 +413,21 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 }}
                 className="flex items-center gap-1 cursor-pointer"
               >
-                <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
-                  {user ? `${user.firstName[0]}${user.lastName[0]}` : "?"}
-                </div>
+                <img
+                  src={`https://ui-avatars.com/api/?name=${user ? `${user.firstName}+${user.lastName}` : "Guest"}&background=6366f1&color=fff&size=128&bold=true`}
+                  alt="Profile"
+                  className="h-8 w-8 rounded-full object-cover"
+                />
                 <ChevronDown className="h-3 w-3 text-muted-foreground" />
               </button>
               {profileOpen && (
                 <div className="absolute right-0 top-full mt-1 w-56 rounded-lg border border-border bg-card shadow-elevated z-50 py-3">
                   <div className="flex flex-col items-center pb-3 border-b border-border px-4">
-                    <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold text-primary mb-2">
-                      {user ? `${user.firstName[0]}${user.lastName[0]}` : "?"}
-                    </div>
+                    <img
+                      src={`https://ui-avatars.com/api/?name=${user ? `${user.firstName}+${user.lastName}` : "Guest"}&background=6366f1&color=fff&size=128&bold=true`}
+                      alt="Profile"
+                      className="h-16 w-16 rounded-full object-cover mb-2"
+                    />
                     <p className="text-sm font-semibold text-foreground">{user ? `${user.firstName} ${user.lastName}` : "Guest"}</p>
                     <p className="text-xs text-muted-foreground">{user?.email || ""}</p>
                     <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-warning/20 px-3 py-1 text-xs font-semibold text-warning">
