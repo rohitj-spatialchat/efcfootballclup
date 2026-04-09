@@ -697,10 +697,10 @@ const Index = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
-                  DE
+                  {currentUserAvatar}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Demo User</p>
+                  <p className="text-sm font-semibold text-foreground">{currentUserName}</p>
                   <p className="text-xs text-muted-foreground">Posting to {postDestination}</p>
                 </div>
               </div>

@@ -718,7 +718,7 @@ export default function Group() {
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {chatMessages.map((msg) => {
-              const isMe = msg.author === "Demo User";
+              const isMe = msg.author === currentUserName;
               return (
                 <div key={msg.id} className={cn("flex gap-3", isMe && "flex-row-reverse")}>
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0">
