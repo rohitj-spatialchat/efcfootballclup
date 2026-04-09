@@ -345,7 +345,7 @@ export default function CommunityPage() {
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
   const clearFilters = () =>
-    setFilters({ region: "", discipline: "", country: "", team: "", format: "", role: "", emailMarketing: "" });
+    setFilters({ region: "", discipline: "", country: "", team: "", title: "", format: "", role: "", emailMarketing: "" });
 
   const handleAddMember = () => {
     if (!newMember.name || !newMember.email) {
