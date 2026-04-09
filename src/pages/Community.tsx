@@ -368,6 +368,7 @@ export default function CommunityPage() {
       const member = {
         ...newMember,
         position: "",
+        title: "",
         region: "Unknown",
         discipline: "General",
         format: "Full-time",
