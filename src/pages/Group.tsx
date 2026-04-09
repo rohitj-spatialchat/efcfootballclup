@@ -564,21 +564,24 @@ export default function Group() {
     <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto space-y-5">
       {/* Group Header */}
       <motion.div variants={itemAnim} className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
-        {/* Cover Banner */}
-        <div className="h-48 relative overflow-hidden">
-          <img
-            src={groupBanners[slug || ""] || "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop"}
-            alt={group.label}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop";
-            }}
-          />
-        </div>
-        <div className="px-6 pb-5 -mt-10 relative z-10">
-          <div className="flex items-end justify-between gap-4">
+        {/* Cover Banner with overlay + info */}
+        <div className="relative">
+          <div className="h-52 overflow-hidden">
+            <img
+              src={groupBanners[slug || ""] || "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop"}
+              alt={group.label}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop";
+              }}
+            />
+          </div>
+          {/* Gradient overlay */}
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.65) 100%)" }} />
+          {/* Group info on top of gradient */}
+          <div className="absolute bottom-0 left-0 right-0 px-6 pb-4 flex items-end justify-between gap-4">
             <div className="flex items-end gap-4">
-              <div className="h-20 w-20 rounded-xl overflow-hidden border-4 border-card shadow-md flex-shrink-0 bg-card">
+              <div className="h-20 w-20 rounded-xl overflow-hidden border-4 border-white/20 shadow-lg flex-shrink-0 bg-card">
                 <img
                   src={groupProfilePics[slug || ""] || "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=150&h=150&fit=crop"}
                   alt={group.label}
@@ -589,8 +592,8 @@ export default function Group() {
                 />
               </div>
               <div className="pb-1 min-w-0">
-                <h1 className="text-xl font-bold text-foreground truncate">{group.label}</h1>
-                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                <h1 className="text-xl font-bold text-white drop-shadow-md truncate">{group.label}</h1>
+                <div className="flex items-center gap-3 mt-1 text-xs text-white/80">
                   <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {group.memberCount} members</span>
                   <span>•</span>
                   <span>{group.postCount} posts</span>
@@ -602,13 +605,13 @@ export default function Group() {
                 variant={joined ? "outline" : "default"}
                 size="sm"
                 onClick={handleJoin}
-                className="rounded-full"
+                className={cn("rounded-full", joined && "bg-white/20 border-white/30 text-white hover:bg-white/30")}
               >
                 {joined ? "Joined ✓" : <><UserPlus className="h-3.5 w-3.5 mr-1" /> Join Group</>}
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 text-white hover:bg-white/20">
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
