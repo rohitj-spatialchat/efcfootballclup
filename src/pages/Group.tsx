@@ -15,6 +15,26 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
+const groupBanners: Record<string, string> = {
+  "sport-exercise": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=900&h=300&fit=crop",
+  "science": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=900&h=300&fit=crop",
+  "nutrition": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=900&h=300&fit=crop",
+  "sport-psychology": "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=900&h=300&fit=crop",
+  "medical-physiotherapy": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&h=300&fit=crop",
+  "strength-power": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&h=300&fit=crop",
+  "fitness-exercise-physiology": "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=900&h=300&fit=crop",
+};
+
+const groupProfilePics: Record<string, string> = {
+  "sport-exercise": "https://images.unsplash.com/photo-1461896836934-bd45ba7d8f73?w=150&h=150&fit=crop",
+  "science": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=150&h=150&fit=crop",
+  "nutrition": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&h=150&fit=crop",
+  "sport-psychology": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=150&h=150&fit=crop",
+  "medical-physiotherapy": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=150&h=150&fit=crop",
+  "strength-power": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=150&h=150&fit=crop",
+  "fitness-exercise-physiology": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=150&fit=crop",
+};
+
 const groupsData: Record<string, {
   label: string;
   icon: React.ElementType;
