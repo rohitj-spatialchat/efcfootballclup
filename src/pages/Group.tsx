@@ -566,7 +566,7 @@ export default function Group() {
       <motion.div variants={itemAnim} className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
         {/* Cover Banner with overlay + info */}
         <div className="relative">
-          <div className="h-52 overflow-hidden">
+          <div className="h-64 overflow-hidden">
             <img
               src={groupBanners[slug || ""] || "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop"}
               alt={group.label}
