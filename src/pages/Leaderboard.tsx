@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X, Filter } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X, Filter, CalendarIcon } from "lucide-react";
 import { useState } from "react";
+import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
 
 const levels = [
   { level: 1, title: "Member", pointsRequired: 0, badge: "⚽" },
@@ -193,14 +197,12 @@ export default function LeaderboardPage() {
   const [selectedDiscipline, setSelectedDiscipline] = useState("All Disciplines");
   const [timePeriod, setTimePeriod] = useState("This Month");
   const [selectedMember, setSelectedMember] = useState<(typeof leaderboard)[0] | null>(null);
-  const [rankFrom, setRankFrom] = useState("");
-  const [rankTo, setRankTo] = useState("");
+  const [dateFrom, setDateFrom] = useState<Date | undefined>(undefined);
+  const [dateTo, setDateTo] = useState<Date | undefined>(undefined);
 
   const filteredLeaderboard = leaderboard.filter((m) => {
     if (selectedRegion !== "All Regions" && m.region !== selectedRegion) return false;
     if (selectedDiscipline !== "All Disciplines" && m.discipline !== selectedDiscipline) return false;
-    if (rankFrom && m.rank < parseInt(rankFrom)) return false;
-    if (rankTo && m.rank > parseInt(rankTo)) return false;
     return true;
   });
 
@@ -338,21 +340,53 @@ export default function LeaderboardPage() {
             </select>
             <div className="flex items-center gap-1.5">
               <Filter className="h-3.5 w-3.5 text-muted-foreground" />
-              <input
-                type="number"
-                placeholder="From"
-                value={rankFrom}
-                onChange={(e) => setRankFrom(e.target.value)}
-                className="w-16 rounded-lg border border-border bg-muted px-2 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "h-8 w-[100px] justify-start text-left text-xs font-medium",
+                      !dateFrom && "text-muted-foreground"
+                    )}
+                  >
+                    {dateFrom ? format(dateFrom, "dd MMM") : "From"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={dateFrom}
+                    onSelect={setDateFrom}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
               <span className="text-xs text-muted-foreground">–</span>
-              <input
-                type="number"
-                placeholder="To"
-                value={rankTo}
-                onChange={(e) => setRankTo(e.target.value)}
-                className="w-16 rounded-lg border border-border bg-muted px-2 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      "h-8 w-[100px] justify-start text-left text-xs font-medium",
+                      !dateTo && "text-muted-foreground"
+                    )}
+                  >
+                    {dateTo ? format(dateTo, "dd MMM") : "To"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={dateTo}
+                    onSelect={setDateTo}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
         </div>
