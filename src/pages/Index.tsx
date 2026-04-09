@@ -59,7 +59,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 import { useViewMode } from "@/contexts/ViewModeContext";
-import { useAuth } from "@/contexts/AuthContext";
 import featuredUcl from "@/assets/featured-ucl.png";
 import featuredEuro from "@/assets/featured-euro.png";
 import featuredEasports from "@/assets/featured-easports.png";
@@ -226,7 +225,6 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 const predefinedTags = [
-  "Injury Prevention",
   "Sports Science",
   "Coaching",
   "Nutrition",
@@ -242,9 +240,6 @@ const predefinedTags = [
 
 const Index = () => {
   const { isAdmin } = useViewMode();
-  const { user } = useAuth();
-  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
-  const currentUserAvatar = user ? `${user.firstName[0]}${user.lastName[0]}` : "?";
   const navigate = useNavigate();
   const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
   const [featuredIndex, setFeaturedIndex] = useState(0);
@@ -320,8 +315,8 @@ const Index = () => {
     }
     const newPoll = {
       id: Date.now(),
-      author: currentUserName,
-      avatar: currentUserAvatar,
+      author: "Demo User",
+      avatar: "DE",
       time: "Just now",
       channel: "Feed",
       tags: ["Poll"],
@@ -411,8 +406,8 @@ const Index = () => {
     }
     const newPost = {
       id: Date.now(),
-      author: currentUserName,
-      avatar: currentUserAvatar,
+      author: "Demo User",
+      avatar: "DE",
       time: "Just now",
       channel: selectedTags[0] || "Feed",
       tags: selectedTags.length > 0 ? selectedTags : ["Feed"],
@@ -470,8 +465,8 @@ const Index = () => {
     if (!commentText.trim()) return;
     const newComment = {
       id: Date.now(),
-      author: currentUserName,
-      avatar: currentUserAvatar,
+      author: "Demo User",
+      avatar: "DE",
       text: commentText.trim(),
       time: "Just now",
     };
@@ -697,10 +692,10 @@ const Index = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
-                  {currentUserAvatar}
+                  DE
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{currentUserName}</p>
+                  <p className="text-sm font-semibold text-foreground">Demo User</p>
                   <p className="text-xs text-muted-foreground">Posting to {postDestination}</p>
                 </div>
               </div>
