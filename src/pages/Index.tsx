@@ -242,6 +242,9 @@ const predefinedTags = [
 
 const Index = () => {
   const { isAdmin } = useViewMode();
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
+  const currentUserAvatar = user ? `${user.firstName[0]}${user.lastName[0]}` : "?";
   const navigate = useNavigate();
   const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
   const [featuredIndex, setFeaturedIndex] = useState(0);

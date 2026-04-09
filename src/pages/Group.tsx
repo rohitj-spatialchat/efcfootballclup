@@ -350,6 +350,9 @@ const itemAnim = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 export default function Group() {
   const { slug } = useParams();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
+  const currentUserAvatar = user ? `${user.firstName[0]}${user.lastName[0]}` : "?";
   const group = slug ? groupsData[slug] : null;
   const [activeTab, setActiveTab] = useState<"discussions" | "chat" | "members" | "events" | "about">("discussions");
   const [joined, setJoined] = useState(true);

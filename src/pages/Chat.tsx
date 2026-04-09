@@ -24,6 +24,8 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 let _nextId = 1000;
 
 export default function ChatPage() {
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
   const [activeContact, setActiveContact] = useState("Robert Fox");
   const [dmTab, setDmTab] = useState("Inbox");
   const [chatMessages, setChatMessages] = useState(initialMessages);
