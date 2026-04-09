@@ -211,7 +211,7 @@ export default function ChatMessageArea({ activeContact, messages, onSend, onRea
             )}
             <div className="flex items-start gap-3 group relative">
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-semibold text-primary shrink-0">
-                {msg.author === "Demo User" ? "DU" : msg.author.split(" ").map(n => n[0]).join("")}
+                {msg.author === currentUserName ? "DU" : msg.author.split(" ").map(n => n[0]).join("")}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
@@ -229,7 +229,7 @@ export default function ChatMessageArea({ activeContact, messages, onSend, onRea
                         onClick={() => onReact(msg.id, emoji)}
                         className={cn(
                           "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors",
-                          users.includes("Demo User") ? "border-primary/50 bg-primary/10" : "border-border hover:border-primary/30"
+                          users.includes(currentUserName) ? "border-primary/50 bg-primary/10" : "border-border hover:border-primary/30"
                         )}
                         title={users.join(", ")}
                       >
