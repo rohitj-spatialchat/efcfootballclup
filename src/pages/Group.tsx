@@ -722,9 +722,13 @@ export default function Group() {
               const isMe = msg.author === currentUserName;
               return (
                 <div key={msg.id} className={cn("flex gap-3", isMe && "flex-row-reverse")}>
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0">
-                    {msg.avatar}
-                  </div>
+                  {msg.avatar?.startsWith("http") ? (
+                    <img src={msg.avatar} alt={msg.author} className="h-8 w-8 rounded-full object-cover shrink-0" />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0">
+                      {msg.avatar}
+                    </div>
+                  )}
                   <div className={cn("max-w-[75%]", isMe && "text-right")}>
                     <div className="flex items-center gap-2 mb-0.5" style={isMe ? { justifyContent: "flex-end" } : {}}>
                       <span className="text-xs font-semibold text-foreground">{msg.author}</span>
@@ -1064,7 +1068,11 @@ function PostCard({ post, onLike, toast }: {
     <>
       <div className="flex items-start justify-between p-4 pb-2">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">{post.avatar}</div>
+          {post.avatar?.startsWith("http") ? (
+            <img src={post.avatar} alt={post.author} className="h-9 w-9 rounded-full object-cover" />
+          ) : (
+            <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">{post.avatar}</div>
+          )}
           <div>
             <p className="text-sm font-semibold text-foreground">{post.author}</p>
             <p className="text-xs text-muted-foreground">{post.time}</p>
