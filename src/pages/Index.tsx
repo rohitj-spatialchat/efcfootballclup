@@ -203,7 +203,6 @@ const trendingNews = [
 
 const topicOptions = [
   "All Topics",
-  "Injury Prevention",
   "Sports Science",
   "Coaching",
   "Nutrition",
