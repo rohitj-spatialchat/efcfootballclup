@@ -9,17 +9,22 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { signup } = useAuth();
   const { toast } = useToast();
 
   const handleSignUp = () => {
-    if (!firstName || !lastName || !email) {
+    if (!firstName || !lastName || !email || !password) {
       setError("Please fill in all required fields");
       return;
     }
-    signup(firstName, lastName, email, phone);
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+    signup(firstName, lastName, email, phone, password);
     toast({ title: "Account created!", description: "Let's set up your profile." });
     navigate("/onboarding");
   };
@@ -51,6 +56,7 @@ export default function SignUp() {
           <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => { setLastName(e.target.value); setError(""); }} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
           <input type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); setError(""); }} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
           <input type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
+          <input type="password" placeholder="Create Password" value={password} onChange={(e) => { setPassword(e.target.value); setError(""); }} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
           <button onClick={handleSignUp} className="w-full h-12 rounded-full bg-gray-900 text-white text-sm font-semibold tracking-wider hover:bg-gray-800 transition-colors mt-1">
             SIGN UP
           </button>

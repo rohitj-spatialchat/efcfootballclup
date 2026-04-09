@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useViewMode } from "@/contexts/ViewModeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Rss,
@@ -66,7 +67,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import efcLogo from "@/assets/efclogo.png";
-import profileAvatar from "@/assets/profile-avatar.jpg";
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
@@ -145,6 +146,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const navigate = useNavigate();
   const { viewMode, isAdmin, toggleViewMode } = useViewMode();
   const { toast } = useToast();
+  const { user, logout } = useAuth();
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [spatialOpen, setSpatialOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -411,15 +413,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 }}
                 className="flex items-center gap-1 cursor-pointer"
               >
-                <img src={profileAvatar} alt="Profile" className="h-8 w-8 rounded-full object-cover" />
+                <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+                  {user ? `${user.firstName[0]}${user.lastName[0]}` : "?"}
+                </div>
                 <ChevronDown className="h-3 w-3 text-muted-foreground" />
               </button>
               {profileOpen && (
                 <div className="absolute right-0 top-full mt-1 w-56 rounded-lg border border-border bg-card shadow-elevated z-50 py-3">
                   <div className="flex flex-col items-center pb-3 border-b border-border px-4">
-                    <img src={profileAvatar} alt="Profile" className="h-16 w-16 rounded-full object-cover mb-2" />
-                    <p className="text-sm font-semibold text-foreground">Demo</p>
-                    <p className="text-xs text-muted-foreground">@demostudent16553</p>
+                    <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-lg font-bold text-primary mb-2">
+                      {user ? `${user.firstName[0]}${user.lastName[0]}` : "?"}
+                    </div>
+                    <p className="text-sm font-semibold text-foreground">{user ? `${user.firstName} ${user.lastName}` : "Guest"}</p>
+                    <p className="text-xs text-muted-foreground">{user?.email || ""}</p>
                     <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-warning/20 px-3 py-1 text-xs font-semibold text-warning">
                       <Flame className="h-3 w-3" /> 800
                     </div>
@@ -484,6 +490,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     >
                       <HelpCircle className="h-4 w-4 text-muted-foreground" /> Support
                     </button>
+                    <div className="border-t border-border mt-1 pt-1">
+                      <button
+                        onClick={() => {
+                          setProfileOpen(false);
+                          logout();
+                          navigate("/signin");
+                        }}
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-destructive hover:bg-muted transition-colors"
+                      >
+                        <X className="h-4 w-4" /> Log Out
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}

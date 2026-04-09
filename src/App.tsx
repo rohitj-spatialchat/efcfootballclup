@@ -36,6 +36,12 @@ import HelpChatWidget from "./components/HelpChatWidget";
 
 const queryClient = new QueryClient();
 
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/signin" replace />;
+  return <>{children}</>;
+}
+
 function AuthRedirect() {
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) return <Navigate to="/signin" replace />;
@@ -68,6 +74,7 @@ const App = () => (
 
           {/* Dashboard pages - with layout */}
           <Route path="/*" element={
+            <ProtectedRoute>
             <DashboardLayout>
               <Routes>
                 <Route path="/" element={<Index />} />
@@ -92,6 +99,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </DashboardLayout>
+            </ProtectedRoute>
           } />
         </Routes>
       </BrowserRouter>
