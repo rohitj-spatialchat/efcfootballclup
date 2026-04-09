@@ -33,6 +33,8 @@ function parseFormatting(text: string): string {
 }
 
 export default function ChatMessageArea({ activeContact, messages, onSend, onReact, onDelete }: ChatMessageAreaProps) {
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
   const [hoveredMsg, setHoveredMsg] = useState<string | null>(null);
   const [threadOpen, setThreadOpen] = useState<ChatMessage | null>(null);
   const [threadReply, setThreadReply] = useState("");
