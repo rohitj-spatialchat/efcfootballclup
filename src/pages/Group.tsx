@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { getUserAvatarUrl } from "@/lib/userAvatar";
 import { motion } from "framer-motion";
 import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
