@@ -117,7 +117,7 @@ export default function MyProfile() {
           <div className="relative">
             <Avatar className="h-28 w-28 border-4 border-background shadow-lg">
               <AvatarImage src={avatarSrc} alt="Profile" />
-              <AvatarFallback className="text-3xl font-bold bg-primary text-primary-foreground">DE</AvatarFallback>
+              <AvatarFallback className="text-3xl font-bold bg-primary text-primary-foreground">{user ? `${user.firstName[0] || ""}${user.lastName[0] || ""}`.toUpperCase() : "DE"}</AvatarFallback>
             </Avatar>
             <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
             <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-1 right-1 bg-primary rounded-full p-1.5 shadow-md hover:bg-primary/90 transition-colors">
