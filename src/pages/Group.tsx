@@ -468,8 +468,8 @@ export default function Group() {
       }
       const newPost = {
         id: Date.now(),
-        author: "Demo User",
-        avatar: "DE",
+        author: currentUserName,
+        avatar: currentUserAvatar,
         time: "Just now",
         title: pollQuestion,
         body: validOptions.map((o, i) => `${String.fromCharCode(65 + i)}. ${o}`).join("\n"),
@@ -492,8 +492,8 @@ export default function Group() {
     }
     const newPost = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       time: "Just now",
       title: newPostTitle || newPostBody.slice(0, 60),
       body: newPostBody,
@@ -543,8 +543,8 @@ export default function Group() {
     if (!chatInput.trim() && !chatImage) return;
     const newMsg = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DU",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       message: chatInput,
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       image: chatImage || undefined,

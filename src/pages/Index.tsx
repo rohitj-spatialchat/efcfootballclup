@@ -320,8 +320,8 @@ const Index = () => {
     }
     const newPoll = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       time: "Just now",
       channel: "Feed",
       tags: ["Poll"],
@@ -411,8 +411,8 @@ const Index = () => {
     }
     const newPost = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       time: "Just now",
       channel: selectedTags[0] || "Feed",
       tags: selectedTags.length > 0 ? selectedTags : ["Feed"],
@@ -470,8 +470,8 @@ const Index = () => {
     if (!commentText.trim()) return;
     const newComment = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       text: commentText.trim(),
       time: "Just now",
     };

@@ -37,7 +37,7 @@ export default function ChatPage() {
   const handleSend = useCallback((text: string) => {
     const newMsg: ChatMessage = {
       id: `msg-${++_nextId}`,
-      author: "Demo User",
+      author: currentUserName,
       time: new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
       text,
     };
@@ -76,12 +76,12 @@ export default function ChatPage() {
           if (m.id !== msgId) return m;
           const reactions = { ...(m.reactions || {}) };
           const users = reactions[emoji] ? [...reactions[emoji]] : [];
-          if (users.includes("Demo User")) {
-            const filtered = users.filter(u => u !== "Demo User");
+          if (users.includes(currentUserName)) {
+            const filtered = users.filter(u => u !== currentUserName);
             if (filtered.length === 0) delete reactions[emoji];
             else reactions[emoji] = filtered;
           } else {
-            reactions[emoji] = [...users, "Demo User"];
+            reactions[emoji] = [...users, currentUserName];
           }
           return { ...m, reactions };
         }),
