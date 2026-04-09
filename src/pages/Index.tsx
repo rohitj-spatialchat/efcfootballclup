@@ -60,7 +60,7 @@ import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 import { useViewMode } from "@/contexts/ViewModeContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { getUserAvatarUrl } from "@/lib/userAvatar";
+import { getUserAvatarUrl, isAvatarImageSource } from "@/lib/userAvatar";
 import featuredUcl from "@/assets/featured-ucl.png";
 import featuredEuro from "@/assets/featured-euro.png";
 import featuredEasports from "@/assets/featured-easports.png";
@@ -1080,7 +1080,7 @@ const Index = () => {
               {/* Post Header */}
               <div className="flex items-start justify-between p-4 pb-2">
                 <div className="flex items-center gap-3">
-                  {post.avatar?.startsWith("http") ? (
+                  {isAvatarImageSource(post.avatar) ? (
                     <img src={post.avatar} alt={post.author} className="h-10 w-10 rounded-full object-cover" />
                   ) : (
                     <div className="h-10 w-10 text-xs rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
@@ -1256,7 +1256,7 @@ const Index = () => {
                     <div className="p-3 space-y-3 max-h-60 overflow-y-auto">
                       {post.commentsList.map((c) => (
                         <div key={c.id} className="flex gap-2">
-                          {c.avatar?.startsWith("http") ? (
+                          {isAvatarImageSource(c.avatar) ? (
                             <img src={c.avatar} alt={c.author} className="h-7 w-7 rounded-full object-cover shrink-0" />
                           ) : (
                             <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-foreground text-[10px] font-semibold shrink-0">

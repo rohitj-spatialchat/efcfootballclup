@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { getUserAvatarUrl } from "@/lib/userAvatar";
+import { getUserAvatarUrl, isAvatarImageSource } from "@/lib/userAvatar";
 import { motion } from "framer-motion";
 import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
@@ -722,7 +722,7 @@ export default function Group() {
               const isMe = msg.author === currentUserName;
               return (
                 <div key={msg.id} className={cn("flex gap-3", isMe && "flex-row-reverse")}>
-                  {msg.avatar?.startsWith("http") ? (
+                  {isAvatarImageSource(msg.avatar) ? (
                     <img src={msg.avatar} alt={msg.author} className="h-8 w-8 rounded-full object-cover shrink-0" />
                   ) : (
                     <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0">
@@ -1068,7 +1068,7 @@ function PostCard({ post, onLike, toast }: {
     <>
       <div className="flex items-start justify-between p-4 pb-2">
         <div className="flex items-center gap-3">
-          {post.avatar?.startsWith("http") ? (
+          {isAvatarImageSource(post.avatar) ? (
             <img src={post.avatar} alt={post.author} className="h-9 w-9 rounded-full object-cover" />
           ) : (
             <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-semibold">{post.avatar}</div>
