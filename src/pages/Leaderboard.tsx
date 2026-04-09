@@ -50,6 +50,8 @@ const realPhotos: Record<string, string> = {
   "Noah Williams": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&h=150&fit=crop&crop=face",
 };
 
+const disciplines = ["All Disciplines", "Sport & Exercise", "Nutrition", "Physiotherapy", "Sport Psychology", "Performance Analysis", "Coaching", "Fitness & Conditioning", "Scouting", "Management"];
+
 const leaderboard = [
   {
     rank: 2,
@@ -63,6 +65,7 @@ const leaderboard = [
     change: "+95",
     region: "Europe",
     team: "AC Milan",
+    discipline: "Nutrition",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "top-10"],
   },
   {
