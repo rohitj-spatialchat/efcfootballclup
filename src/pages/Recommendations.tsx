@@ -1,13 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { getTeamLogo } from "@/lib/teamLogos";
 import efcLogo from "@/assets/efclogo.png";
 
 const members = [
-  { name: "Amanda Kim", role: "Head of Medical & Performance", flag: "🇫🇷" },
-  { name: "James Wilson", role: "Director of Sports Science", flag: "🇩🇪" },
-  { name: "Daniel Brown", role: "Lead Performance Physiologist", flag: "🇩🇰" },
-  { name: "Sarah Johnson", role: "Head of Athlete Health & Rehabilitation", flag: "🇩🇪" },
+  {
+    name: "Amanda Kim",
+    role: "Head of Medical & Performance",
+    flag: "🇫🇷",
+    team: "AC Milan",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face",
+  },
+  {
+    name: "James Wilson",
+    role: "Director of Sports Science",
+    flag: "🇩🇪",
+    team: "Bayern Munich",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face",
+  },
+  {
+    name: "Daniel Brown",
+    role: "Lead Performance Physiologist",
+    flag: "🇩🇰",
+    team: "Chelsea FC",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+  },
+  {
+    name: "Sarah Johnson",
+    role: "Head of Athlete Health & Rehabilitation",
+    flag: "🇩🇪",
+    team: "Liverpool FC",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face",
+  },
 ];
 
 const recommended = [
@@ -70,31 +95,48 @@ export default function Recommendations() {
               Community Members Recommended for You<br />Based on Your Interests
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              {members.map((member) => (
-                <div key={member.name} className="bg-white rounded-xl p-5 space-y-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="h-14 w-14 rounded-full bg-gray-200" />
-                      <span className="text-lg">{member.flag}</span>
+              {members.map((member) => {
+                const teamLogo = getTeamLogo(member.team);
+                return (
+                  <div key={member.name} className="bg-white rounded-xl p-5 space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={member.image}
+                          alt={member.name}
+                          className="h-14 w-14 rounded-full object-cover bg-gray-200"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                        <span className="text-lg">{member.flag}</span>
+                      </div>
+                      {teamLogo ? (
+                        <img
+                          src={teamLogo}
+                          alt={member.team}
+                          className="h-8 w-8 object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      ) : (
+                        <div className="h-8 w-8 rounded-full bg-gray-200" />
+                      )}
                     </div>
-                    <div className="h-8 w-8 rounded-full bg-gray-200" />
+                    <div>
+                      <p className="font-bold text-gray-900">{member.name}</p>
+                      <p className="text-sm text-gray-500">{member.role}</p>
+                    </div>
+                    <button
+                      onClick={() => handleConnect(member.name)}
+                      className={`px-5 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                        connectedMembers.has(member.name)
+                          ? "bg-green-600 text-white hover:bg-green-700"
+                          : "bg-gray-900 text-white hover:bg-gray-800"
+                      }`}
+                    >
+                      {connectedMembers.has(member.name) ? "✓ Connected" : "Connect"}
+                    </button>
                   </div>
-                  <div>
-                    <p className="font-bold text-gray-900">{member.name}</p>
-                    <p className="text-sm text-gray-500">{member.role}</p>
-                  </div>
-                  <button
-                    onClick={() => handleConnect(member.name)}
-                    className={`px-5 py-1.5 rounded-full text-xs font-semibold transition-colors ${
-                      connectedMembers.has(member.name)
-                        ? "bg-green-600 text-white hover:bg-green-700"
-                        : "bg-gray-900 text-white hover:bg-gray-800"
-                    }`}
-                  >
-                    {connectedMembers.has(member.name) ? "✓ Connected" : "Connect"}
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <button

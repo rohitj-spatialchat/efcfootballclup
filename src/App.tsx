@@ -2,9 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ViewModeProvider } from "./contexts/ViewModeContext";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import DashboardLayout from "./components/DashboardLayout";
 import Index from "./pages/Index";
 import Events from "./pages/Events";
@@ -36,6 +36,16 @@ import HelpChatWidget from "./components/HelpChatWidget";
 
 const queryClient = new QueryClient();
 
+function AuthRedirect() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/signin" replace />;
+  return (
+    <DashboardLayout>
+      <Index />
+    </DashboardLayout>
+  );
+}
+
 const App = () => (
   <AuthProvider>
   <QueryClientProvider client={queryClient}>
@@ -52,6 +62,9 @@ const App = () => (
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/recommendations" element={<Recommendations />} />
           <Route path="/introduce" element={<IntroduceYourself />} />
+
+          {/* Default route - redirect to signin */}
+          <Route path="/" element={<AuthRedirect />} />
 
           {/* Dashboard pages - with layout */}
           <Route path="/*" element={
