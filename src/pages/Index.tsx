@@ -635,13 +635,11 @@ const Index = () => {
         {/* Create Post */}
         <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
-              DE
-            </div>
+            <img src={currentUserAvatar} alt={currentUserName} className="h-10 w-10 rounded-full object-cover shrink-0" />
             <div className="flex-1 relative cursor-pointer" onClick={() => setCreatePostOpen(true)}>
               <input
                 type="text"
-                placeholder="What's on your mind, Demo?"
+                placeholder={`What's on your mind, ${user?.firstName || "Guest"}?`}
                 readOnly
                 className="w-full h-10 rounded-full border border-input bg-background px-4 pr-10 text-sm placeholder:text-muted-foreground cursor-pointer"
               />
