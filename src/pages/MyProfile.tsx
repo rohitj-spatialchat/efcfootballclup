@@ -50,17 +50,18 @@ type TabId = "activity" | "about" | "achievements" | "settings";
 
 export default function MyProfile() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<TabId>("activity");
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    name: "Demo",
-    username: "@demostudent16553",
+    name: user ? `${user.firstName} ${user.lastName}` : "Demo",
+    username: user ? `@${user.firstName.toLowerCase()}${user.lastName.toLowerCase()}` : "@demostudent16553",
     bio: "Community Leader at EFC MPU, driving engagement and collaboration across 500+ football professionals worldwide. Dedicated to fostering meaningful connections, organizing impactful events, and shaping the future of football industry networking.",
-    location: "London, UK",
-    role: "Community Leader",
-    organization: "EFC MPU",
+    location: user?.country || "London, UK",
+    role: user?.role || "Community Leader",
+    organization: user?.club || "EFC MPU",
     website: "https://demo-portfolio.com",
-    email: "demo@efcfootball.com",
+    email: user?.email || "demo@efcfootball.com",
     joinDate: "January 2025",
   });
   const [editForm, setEditForm] = useState(profile);

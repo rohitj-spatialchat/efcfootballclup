@@ -13,7 +13,7 @@ export interface DummyUser {
   country: string;
 }
 
-const dummyUsers: DummyUser[] = [
+const defaultUsers: DummyUser[] = [
   {
     id: "u1",
     firstName: "Maximilian",
@@ -148,11 +148,23 @@ const dummyUsers: DummyUser[] = [
   },
 ];
 
+function loadUsers(): DummyUser[] {
+  try {
+    const saved = localStorage.getItem("efc_all_users");
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return [...defaultUsers];
+}
+
+function saveUsers(users: DummyUser[]) {
+  localStorage.setItem("efc_all_users", JSON.stringify(users));
+}
+
 interface AuthContextType {
   user: DummyUser | null;
   users: DummyUser[];
   login: (username: string, password: string) => boolean;
-  signup: (firstName: string, lastName: string, email: string, phone: string) => DummyUser;
+  signup: (firstName: string, lastName: string, email: string, phone: string, password: string) => DummyUser;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -160,6 +172,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const [allUsers, setAllUsers] = useState<DummyUser[]>(loadUsers);
   const [user, setUser] = useState<DummyUser | null>(() => {
     const saved = localStorage.getItem("efc_user");
     if (saved) {
@@ -173,7 +186,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const login = (username: string, password: string): boolean => {
-    const found = dummyUsers.find(
+    const found = allUsers.find(
       (u) =>
         (u.email === username ||
           u.firstName.toLowerCase() === username.toLowerCase() ||
@@ -188,19 +201,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
-  const signup = (firstName: string, lastName: string, email: string, phone: string): DummyUser => {
+  const signup = (firstName: string, lastName: string, email: string, phone: string, password: string): DummyUser => {
     const newUser: DummyUser = {
       id: `u${Date.now()}`,
       firstName,
       lastName,
       email,
-      password: "welcome123",
+      password,
       phone,
       role: "Member",
       club: "",
       position: "",
       country: "",
     };
+    const updated = [...allUsers, newUser];
+    setAllUsers(updated);
+    saveUsers(updated);
     setUser(newUser);
     localStorage.setItem("efc_user", JSON.stringify(newUser));
     return newUser;
@@ -212,7 +228,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, users: dummyUsers, login, signup, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, users: allUsers, login, signup, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );
@@ -224,4 +240,4 @@ export const useAuth = () => {
   return ctx;
 };
 
-export { dummyUsers };
+export { defaultUsers as dummyUsers };
