@@ -1,8 +1,29 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 
 export default function SignUp() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { signup } = useAuth();
+  const { toast } = useToast();
+
+  const handleSignUp = () => {
+    if (!firstName || !lastName || !email) {
+      setError("Please fill in all required fields");
+      return;
+    }
+    signup(firstName, lastName, email, phone);
+    toast({ title: "Account created!", description: "Let's set up your profile." });
+    navigate("/onboarding");
+  };
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden"
@@ -23,11 +44,14 @@ export default function SignUp() {
         <h1 className="text-2xl font-bold text-gray-900">Sign Up</h1>
 
         <div className="space-y-3 px-4">
-          <input type="text" placeholder="First Name" className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
-          <input type="text" placeholder="Last Name" className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
-          <input type="email" placeholder="Email" className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
-          <input type="tel" placeholder="Phone Number" className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
-          <button className="w-full h-12 rounded-full bg-gray-900 text-white text-sm font-semibold tracking-wider hover:bg-gray-800 transition-colors mt-1">
+          {error && (
+            <div className="bg-red-100 text-red-700 text-xs rounded-lg px-4 py-2 text-left">{error}</div>
+          )}
+          <input type="text" placeholder="First Name" value={firstName} onChange={(e) => { setFirstName(e.target.value); setError(""); }} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
+          <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => { setLastName(e.target.value); setError(""); }} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
+          <input type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); setError(""); }} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
+          <input type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
+          <button onClick={handleSignUp} className="w-full h-12 rounded-full bg-gray-900 text-white text-sm font-semibold tracking-wider hover:bg-gray-800 transition-colors mt-1">
             SIGN UP
           </button>
         </div>

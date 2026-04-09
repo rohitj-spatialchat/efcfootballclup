@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ViewModeProvider } from "./contexts/ViewModeContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import DashboardLayout from "./components/DashboardLayout";
 import Index from "./pages/Index";
 import Events from "./pages/Events";
@@ -36,6 +37,7 @@ import HelpChatWidget from "./components/HelpChatWidget";
 const queryClient = new QueryClient();
 
 const App = () => (
+  <AuthProvider>
   <QueryClientProvider client={queryClient}>
     <ViewModeProvider>
     <TooltipProvider>
@@ -84,6 +86,7 @@ const App = () => (
     </TooltipProvider>
     </ViewModeProvider>
   </QueryClientProvider>
+  </AuthProvider>
 );
 
 export default App;

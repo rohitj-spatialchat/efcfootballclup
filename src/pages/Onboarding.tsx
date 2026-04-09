@@ -1,7 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
+
+const clubs = [
+  "AFC Ajax", "AC Milan", "Inter Milan", "SL Benfica", "FC Porto",
+  "Arsenal FC", "Chelsea FC", "Manchester City", "Bayern Munich",
+  "Liverpool FC", "Juventus", "AC Sparta Praha", "Borussia Dortmund",
+  "Real Madrid", "FC Barcelona", "Paris Saint-Germain", "Atletico Madrid",
+];
+
+const positions = [
+  "Head of Performance", "Sports Nutritionist", "Lead Physiotherapist",
+  "Sport Psychologist", "Rehabilitation Specialist", "S&C Coach",
+  "Exercise Physiologist", "Performance Analyst", "Head Coach",
+  "Assistant Coach", "Medical Doctor", "Team Manager",
+  "Commercial Director", "Business Development", "Community Manager",
+];
+
+const countries = [
+  "Germany", "France", "Italy", "Netherlands", "United Kingdom",
+  "Spain", "Portugal", "Belgium", "Denmark", "Ireland",
+  "United States", "Czech Republic", "Austria", "Switzerland", "Sweden",
+];
 
 const interestTags = [
   "Sport & Exercise Science", "Nutrition", "Sport Psychology",
@@ -12,12 +34,27 @@ const interestTags = [
 
 export default function Onboarding() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [name, setName] = useState("");
+  const [club, setClub] = useState("");
+  const [position, setPosition] = useState("");
+  const [country, setCountry] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : prev.length < 3 ? [...prev, tag] : prev
     );
+  };
+
+  const handleContinue = () => {
+    if (!name) { toast({ title: "Please enter your name", variant: "destructive" }); return; }
+    if (!club) { toast({ title: "Please select a club", variant: "destructive" }); return; }
+    if (!position) { toast({ title: "Please select a position", variant: "destructive" }); return; }
+    if (!country) { toast({ title: "Please select a country", variant: "destructive" }); return; }
+    if (selectedTags.length < 1) { toast({ title: "Please select at least 1 interest", variant: "destructive" }); return; }
+    toast({ title: "Profile saved!", description: "Welcome to the community." });
+    navigate("/welcome");
   };
 
   return (
@@ -41,13 +78,14 @@ export default function Onboarding() {
         <div className="space-y-4 text-left px-2">
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Name</label>
-            <input type="text" placeholder="Name" className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
+            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none" />
           </div>
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Club</label>
             <div className="relative">
-              <select className="w-full h-12 rounded-full bg-white/90 px-6 text-sm text-gray-400 appearance-none focus:outline-none">
-                <option>Select club</option>
+              <select value={club} onChange={(e) => setClub(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none" style={{ color: club ? '#111' : '#9ca3af' }}>
+                <option value="" disabled>Select club</option>
+                {clubs.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
               <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             </div>
@@ -55,8 +93,9 @@ export default function Onboarding() {
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Position</label>
             <div className="relative">
-              <select className="w-full h-12 rounded-full bg-white/90 px-6 text-sm text-gray-400 appearance-none focus:outline-none">
-                <option>Select position</option>
+              <select value={position} onChange={(e) => setPosition(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none" style={{ color: position ? '#111' : '#9ca3af' }}>
+                <option value="" disabled>Select position</option>
+                {positions.map(p => <option key={p} value={p}>{p}</option>)}
               </select>
               <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             </div>
@@ -64,14 +103,15 @@ export default function Onboarding() {
           <div>
             <label className="text-sm font-bold text-gray-900 mb-1 block">Country</label>
             <div className="relative">
-              <select className="w-full h-12 rounded-full bg-white/90 px-6 text-sm text-gray-400 appearance-none focus:outline-none">
-                <option>Select country</option>
+              <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none" style={{ color: country ? '#111' : '#9ca3af' }}>
+                <option value="" disabled>Select country</option>
+                {countries.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
               <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             </div>
           </div>
           <div>
-            <label className="text-sm font-bold text-gray-900 mb-1 block">Interests(choose 3):</label>
+            <label className="text-sm font-bold text-gray-900 mb-1 block">Interests (choose 3):</label>
             <div className="flex flex-wrap gap-2">
               {interestTags.map((tag) => (
                 <button
@@ -90,7 +130,7 @@ export default function Onboarding() {
           </div>
 
           <button
-            onClick={() => navigate("/welcome")}
+            onClick={handleContinue}
             className="w-full h-12 rounded-full bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors mt-2"
           >
             Continue
