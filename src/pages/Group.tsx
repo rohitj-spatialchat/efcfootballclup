@@ -565,22 +565,27 @@ export default function Group() {
       {/* Group Header */}
       <motion.div variants={itemAnim} className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
         {/* Cover Banner */}
-        <div className="h-40 relative overflow-hidden">
+        <div className="h-48 relative overflow-hidden">
           <img
             src={groupBanners[slug || ""] || "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop"}
             alt={group.label}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop";
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         </div>
-        <div className="px-6 pb-5 -mt-8 relative z-10">
+        <div className="px-6 pb-5 -mt-10 relative z-10">
           <div className="flex items-end justify-between gap-4">
             <div className="flex items-end gap-4">
-              <div className="h-16 w-16 rounded-xl overflow-hidden border-4 border-card shadow-md flex-shrink-0">
+              <div className="h-20 w-20 rounded-xl overflow-hidden border-4 border-card shadow-md flex-shrink-0 bg-card">
                 <img
                   src={groupProfilePics[slug || ""] || "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=150&h=150&fit=crop"}
                   alt={group.label}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=150&h=150&fit=crop";
+                  }}
                 />
               </div>
               <div className="pb-1 min-w-0">
