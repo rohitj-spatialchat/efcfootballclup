@@ -66,6 +66,7 @@ const initialMembers = [
     mpu: 920,
     role: "Member",
     position: "Nutritionist",
+    title: "Head of Nutrition",
     joined: "Apr 12, 2024",
     flag: "🇳🇱",
     followers: 142,
@@ -84,6 +85,7 @@ const initialMembers = [
     mpu: 940,
     role: "Member",
     position: "Physiotherapist",
+    title: "Senior Physiotherapist",
     joined: "Mar 5, 2024",
     flag: "🇮🇹",
     followers: 230,
@@ -102,13 +104,14 @@ const initialMembers = [
     mpu: 800,
     role: "Member",
     position: "Fitness Coach",
+    title: "Fitness Coach",
     joined: "Jun 22, 2024",
     flag: "🇮🇹",
     followers: 67,
     following: 43,
     avatar: "https://i.pravatar.cc/150?img=5",
     subscribed: false,
-    team: "Inter Milan",
+    team: "Sevilla FC",
     format: "Contract",
   },
   {
@@ -120,13 +123,14 @@ const initialMembers = [
     mpu: 920,
     role: "Moderator",
     position: "Head Scout",
+    title: "Chief Scout",
     joined: "Mar 9, 2023",
     flag: "🇵🇹",
     followers: 312,
     following: 178,
     avatar: "https://i.pravatar.cc/150?img=23",
     subscribed: true,
-    team: "SL Benfica",
+    team: "Chelsea FC",
     format: "Full-time",
   },
   {
@@ -138,13 +142,14 @@ const initialMembers = [
     mpu: 920,
     role: "Admin",
     position: "Team Manager",
+    title: "Director of Football Operations",
     joined: "Sep 19, 2022",
     flag: "🇵🇹",
     followers: 456,
     following: 201,
     avatar: "https://i.pravatar.cc/150?img=32",
     subscribed: true,
-    team: "FC Porto",
+    team: "RB Leipzig",
     format: "Full-time",
   },
   {
@@ -156,6 +161,7 @@ const initialMembers = [
     mpu: 670,
     role: "Member",
     position: "Performance Analyst",
+    title: "Performance Analyst",
     joined: "Jul 8, 2024",
     flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     followers: 34,
@@ -174,13 +180,14 @@ const initialMembers = [
     mpu: 920,
     role: "Moderator",
     position: "Goalkeeper Coach",
+    title: "Goalkeeper Coach",
     joined: "Dec 1, 2023",
     flag: "🇬🇧",
     followers: 189,
     following: 97,
     avatar: "https://i.pravatar.cc/150?img=59",
     subscribed: true,
-    team: "Chelsea FC",
+    team: "Celtic FC",
     format: "Full-time",
   },
 ];
@@ -289,6 +296,7 @@ export default function CommunityPage() {
     discipline: "",
     country: "",
     team: "",
+    title: "",
     format: "",
     role: "",
     emailMarketing: "",
@@ -313,6 +321,7 @@ export default function CommunityPage() {
     discipline: [...new Set(members.map((m) => m.discipline))].sort(),
     country: [...new Set(members.map((m) => m.country))].sort(),
     team: [...new Set(members.map((m) => m.team))].sort(),
+    title: [...new Set(members.map((m) => m.title).filter(Boolean))].sort(),
     format: [...new Set(members.map((m) => m.format))].sort(),
     role: [...new Set(members.map((m) => m.role))].sort(),
     emailMarketing: ["Subscribed", "Unsubscribed"],
@@ -336,7 +345,7 @@ export default function CommunityPage() {
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
 
   const clearFilters = () =>
-    setFilters({ region: "", discipline: "", country: "", team: "", format: "", role: "", emailMarketing: "" });
+    setFilters({ region: "", discipline: "", country: "", team: "", title: "", format: "", role: "", emailMarketing: "" });
 
   const handleAddMember = () => {
     if (!newMember.name || !newMember.email) {
@@ -361,6 +370,7 @@ export default function CommunityPage() {
       const member = {
         ...newMember,
         position: "",
+        title: "",
         region: "Unknown",
         discipline: "General",
         format: "Full-time",
@@ -456,6 +466,7 @@ export default function CommunityPage() {
     if (filters.discipline && m.discipline !== filters.discipline) return false;
     if (filters.country && m.country !== filters.country) return false;
     if (filters.team && m.team !== filters.team) return false;
+    if (filters.title && m.title !== filters.title) return false;
     if (filters.format && m.format !== filters.format) return false;
     if (filters.role && m.role !== filters.role) return false;
     if (filters.emailMarketing) {
@@ -617,6 +628,7 @@ export default function CommunityPage() {
                 { key: "discipline", label: "Discipline", options: filterOptions.discipline },
                 { key: "country", label: "Country", options: filterOptions.country },
                 { key: "team", label: "Football Team", options: filterOptions.team },
+                { key: "title", label: "Title", options: filterOptions.title },
                 { key: "format", label: "Format", options: filterOptions.format },
                 { key: "role", label: "Role", options: filterOptions.role },
                 { key: "emailMarketing", label: "Email Marketing", options: filterOptions.emailMarketing },
@@ -1057,6 +1069,8 @@ export default function CommunityPage() {
                           />
                         </th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">NAME</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">TITLE</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">FOOTBALL TEAM</th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">
                           EMAIL MARKETING
                         </th>
@@ -1087,6 +1101,15 @@ export default function CommunityPage() {
                           </td>
                           <td className="px-4 py-3">
                             <p className="text-sm font-medium text-foreground">{m.name}</p>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground">{m.title || "—"}</td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-1.5">
+                              {getTeamLogo(m.team) && (
+                                <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" />
+                              )}
+                              <span className="text-sm text-muted-foreground">{m.team}</span>
+                            </div>
                           </td>
                           <td className="px-4 py-3">
                             <button
