@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X, Filter } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -50,6 +50,8 @@ const realPhotos: Record<string, string> = {
   "Noah Williams": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&h=150&fit=crop&crop=face",
 };
 
+const disciplines = ["All Disciplines", "Sport & Exercise", "Nutrition", "Physiotherapy", "Sport Psychology", "Performance Analysis", "Coaching", "Fitness & Conditioning", "Scouting", "Management"];
+
 const leaderboard = [
   {
     rank: 2,
@@ -63,132 +65,79 @@ const leaderboard = [
     change: "+95",
     region: "Europe",
     team: "AC Milan",
+    discipline: "Nutrition",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "top-10"],
   },
   {
     rank: 3,
     name: "Chris Rodriguez",
-    likes: 210,
-    comments: 170,
-    networking: 140,
-    level: 4,
-    streak: 22,
-    badge: "🏆",
-    change: "+80",
-    region: "Spain",
-    team: "Sevilla FC",
+    likes: 210, comments: 170, networking: 140, level: 4, streak: 22,
+    badge: "🏆", change: "+80", region: "Spain", team: "Sevilla FC",
+    discipline: "Physiotherapy",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"],
   },
   {
     rank: 4,
     name: "Sarah Mitchell",
-    likes: 75,
-    comments: 65,
-    networking: 50,
-    level: 3,
-    streak: 30,
-    badge: "🥇",
-    change: "+65",
-    region: "Europe",
-    team: "Chelsea FC",
+    likes: 75, comments: 65, networking: 50, level: 3, streak: 30,
+    badge: "🥇", change: "+65", region: "Europe", team: "Chelsea FC",
+    discipline: "Sport & Exercise",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "streak-30"],
   },
   {
     rank: 6,
     name: "Morgan Davis",
-    likes: 35,
-    comments: 28,
-    networking: 22,
-    level: 2,
-    streak: 12,
-    badge: "🥈",
-    change: "+40",
-    region: "Germany",
-    team: "RB Leipzig",
+    likes: 35, comments: 28, networking: 22, level: 2, streak: 12,
+    badge: "🥈", change: "+40", region: "Germany", team: "RB Leipzig",
+    discipline: "Coaching",
     earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
   },
   {
     rank: 8,
     name: "Jordan Blake",
-    likes: 8,
-    comments: 7,
-    networking: 5,
-    level: 1,
-    streak: 5,
-    badge: "⚽",
-    change: "+20",
-    region: "Africa",
-    team: "Al Ahly",
+    likes: 8, comments: 7, networking: 5, level: 1, streak: 5,
+    badge: "⚽", change: "+20", region: "Africa", team: "Al Ahly",
+    discipline: "Scouting",
     earnedBadges: ["first-post", "10-likes"],
   },
   {
     rank: 10,
     name: "Yuki Tanaka",
-    likes: 340,
-    comments: 290,
-    networking: 240,
-    level: 5,
-    streak: 35,
-    badge: "💎",
-    change: "+88",
-    region: "Europe",
-    team: "Aberdeen FC",
+    likes: 340, comments: 290, networking: 240, level: 5, streak: 35,
+    badge: "💎", change: "+88", region: "Europe", team: "Aberdeen FC",
+    discipline: "Performance Analysis",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "top-10"],
   },
   {
     rank: 11,
     name: "Oliver Smith",
-    likes: 190,
-    comments: 160,
-    networking: 130,
-    level: 4,
-    streak: 20,
-    badge: "🏆",
-    change: "+72",
-    region: "Europe",
-    team: "Arsenal FC",
+    likes: 190, comments: 160, networking: 130, level: 4, streak: 20,
+    badge: "🏆", change: "+72", region: "Europe", team: "Arsenal FC",
+    discipline: "Sport Psychology",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star", "team-player"],
   },
   {
     rank: 12,
     name: "Fatima Al-Rashid",
-    likes: 140,
-    comments: 115,
-    networking: 95,
-    level: 3,
-    streak: 28,
-    badge: "🥇",
-    change: "+60",
-    region: "Africa",
-    team: "Wydad AC",
+    likes: 140, comments: 115, networking: 95, level: 3, streak: 28,
+    badge: "🥇", change: "+60", region: "Africa", team: "Wydad AC",
+    discipline: "Fitness & Conditioning",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "event-star"],
   },
   {
     rank: 13,
     name: "Liam O'Brien",
-    likes: 105,
-    comments: 85,
-    networking: 70,
-    level: 3,
-    streak: 15,
-    badge: "🥇",
-    change: "+55",
-    region: "Europe",
-    team: "Celtic FC",
+    likes: 105, comments: 85, networking: 70, level: 3, streak: 15,
+    badge: "🥇", change: "+55", region: "Europe", team: "Celtic FC",
+    discipline: "Management",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"],
   },
   {
     rank: 15,
     name: "Priya Sharma",
-    likes: 38,
-    comments: 32,
-    networking: 25,
-    level: 2,
-    streak: 14,
-    badge: "🥈",
-    change: "+38",
-    region: "Itly",
-    team: "Juventus",
+    likes: 38, comments: 32, networking: 25, level: 2, streak: 14,
+    badge: "🥈", change: "+38", region: "Italy", team: "Juventus",
+    discipline: "Nutrition",
     earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
   },
 ];
@@ -241,11 +190,19 @@ function EarnedBadges({ badgeIds }: { badgeIds: string[] }) {
 
 export default function LeaderboardPage() {
   const [selectedRegion, setSelectedRegion] = useState("All Regions");
+  const [selectedDiscipline, setSelectedDiscipline] = useState("All Disciplines");
   const [timePeriod, setTimePeriod] = useState("This Month");
   const [selectedMember, setSelectedMember] = useState<(typeof leaderboard)[0] | null>(null);
+  const [rankFrom, setRankFrom] = useState("");
+  const [rankTo, setRankTo] = useState("");
 
-  const filteredLeaderboard =
-    selectedRegion === "All Regions" ? leaderboard : leaderboard.filter((m) => m.region === selectedRegion);
+  const filteredLeaderboard = leaderboard.filter((m) => {
+    if (selectedRegion !== "All Regions" && m.region !== selectedRegion) return false;
+    if (selectedDiscipline !== "All Disciplines" && m.discipline !== selectedDiscipline) return false;
+    if (rankFrom && m.rank < parseInt(rankFrom)) return false;
+    if (rankTo && m.rank > parseInt(rankTo)) return false;
+    return true;
+  });
 
   const displayMember = selectedMember || leaderboard.find((m) => m.name === currentUser.name)!;
   const displayMpu = getMpu(displayMember);
@@ -342,11 +299,11 @@ export default function LeaderboardPage() {
 
       {/* Leaderboard Table */}
       <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card">
-        <div className="flex items-center justify-between p-5 pb-3">
+        <div className="flex flex-wrap items-center justify-between p-5 pb-3 gap-3">
           <h2 className="font-semibold text-foreground flex items-center gap-2">
             <Trophy className="h-4 w-4 text-primary" /> Leaderboard
           </h2>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
               {["All Time", "This Month", "This Week"].map((f) => (
                 <button
@@ -362,36 +319,63 @@ export default function LeaderboardPage() {
               ))}
             </div>
             <select
+              value={selectedDiscipline}
+              onChange={(e) => setSelectedDiscipline(e.target.value)}
+              className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {disciplines.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+            <select
               value={selectedRegion}
               onChange={(e) => setSelectedRegion(e.target.value)}
               className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {regions.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
+                <option key={r} value={r}>{r}</option>
               ))}
             </select>
+            <div className="flex items-center gap-1.5">
+              <Filter className="h-3.5 w-3.5 text-muted-foreground" />
+              <input
+                type="number"
+                placeholder="From"
+                value={rankFrom}
+                onChange={(e) => setRankFrom(e.target.value)}
+                className="w-16 rounded-lg border border-border bg-muted px-2 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <span className="text-xs text-muted-foreground">–</span>
+              <input
+                type="number"
+                placeholder="To"
+                value={rankTo}
+                onChange={(e) => setRankTo(e.target.value)}
+                className="w-16 rounded-lg border border-border bg-muted px-2 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full table-fixed min-w-[900px]">
+          <table className="w-full table-fixed min-w-[1050px]">
             <colgroup>
-              <col className="w-[5%]" />
-              <col className="w-[18%]" />
-              <col className="w-[10%]" />
-              <col className="w-[13%]" />
-              <col className="w-[9%]" />
-              <col className="w-[9%]" />
+              <col className="w-[4%]" />
+              <col className="w-[15%]" />
+              <col className="w-[12%]" />
+              <col className="w-[8%]" />
               <col className="w-[11%]" />
-              <col className="w-[11%]" />
-              <col className="w-[9%]" />
               <col className="w-[7%]" />
+              <col className="w-[7%]" />
+              <col className="w-[9%]" />
+              <col className="w-[9%]" />
+              <col className="w-[8%]" />
+              <col className="w-[6%]" />
             </colgroup>
             <thead>
               <tr className="border-t border-border bg-muted/40">
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Rank</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Discipline</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
                 <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">Level</th>
@@ -458,6 +442,7 @@ export default function LeaderboardPage() {
                         <span className="text-sm font-medium text-foreground truncate">{m.name}</span>
                       </div>
                     </td>
+                    <td className="px-3 py-3 text-sm text-muted-foreground truncate">{m.discipline}</td>
                     <td className="px-3 py-3 text-sm text-muted-foreground truncate">{m.region}</td>
                     <td className="px-3 py-3 text-sm text-foreground truncate">{m.team}</td>
                     <td className="px-3 py-3 text-center">

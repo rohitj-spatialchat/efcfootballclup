@@ -12,6 +12,12 @@ export const teamLogos: Record<string, string> = {
   "Liverpool FC": "https://crests.football-data.org/64.png",
   "Juventus": "https://crests.football-data.org/109.png",
   "AC Sparta Praha": "https://crests.football-data.org/747.png",
+  "Sevilla FC": "https://crests.football-data.org/559.png",
+  "RB Leipzig": "https://crests.football-data.org/721.png",
+  "Celtic FC": "https://crests.football-data.org/732.png",
+  "Aberdeen FC": "https://crests.football-data.org/1002.png",
+  "Al Ahly": "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/Al_Ahly_SC_logo.svg/120px-Al_Ahly_SC_logo.svg.png",
+  "Wydad AC": "https://upload.wikimedia.org/wikipedia/en/thumb/2/29/Wydad_AC_%28logo%29.svg/120px-Wydad_AC_%28logo%29.svg.png",
 };
 
 export const getTeamLogo = (team: string): string | undefined => teamLogos[team];
