@@ -37,6 +37,7 @@ import HelpChatWidget from "./components/HelpChatWidget";
 const queryClient = new QueryClient();
 
 const App = () => (
+  <AuthProvider>
   <QueryClientProvider client={queryClient}>
     <ViewModeProvider>
     <TooltipProvider>
