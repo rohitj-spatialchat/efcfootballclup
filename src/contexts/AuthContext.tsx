@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 
 export interface DummyUser {
   id: string;
+  username?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -16,6 +17,7 @@ export interface DummyUser {
 const defaultUsers: DummyUser[] = [
   {
     id: "u1",
+    username: "max",
     firstName: "Maximilian",
     lastName: "Lankheit",
     email: "max@efcfootball.com",
@@ -28,6 +30,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u2",
+    username: "chiara",
     firstName: "Chiara",
     lastName: "Delsaut",
     email: "chiara@efcfootball.com",
@@ -40,6 +43,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u3",
+    username: "jeroen",
     firstName: "Jeroen",
     lastName: "Peters",
     email: "jeroen@efcfootball.com",
@@ -52,6 +56,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u4",
+    username: "emma",
     firstName: "Emma",
     lastName: "Deakin",
     email: "emma@efcfootball.com",
@@ -64,6 +69,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u5",
+    username: "pauline",
     firstName: "Pauline",
     lastName: "Clavel",
     email: "pauline@efcfootball.com",
@@ -76,6 +82,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u6",
+    username: "kasper",
     firstName: "Kasper",
     lastName: "Thornton",
     email: "kasper@efcfootball.com",
@@ -88,6 +95,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u7",
+    username: "teena",
     firstName: "Teena",
     lastName: "Murray",
     email: "teena@efcfootball.com",
@@ -100,6 +108,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u8",
+    username: "tim",
     firstName: "Tim",
     lastName: "Zuleger",
     email: "tim@efcfootball.com",
@@ -112,6 +121,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u9",
+    username: "michael",
     firstName: "Michael",
     lastName: "S",
     email: "michael@efcfootball.com",
@@ -124,6 +134,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u10",
+    username: "michel",
     firstName: "Michel",
     lastName: "S",
     email: "michel@efcfootball.com",
@@ -136,6 +147,7 @@ const defaultUsers: DummyUser[] = [
   },
   {
     id: "u11",
+    username: "demo",
     firstName: "Demo",
     lastName: "User",
     email: "demo@efcfootball.com",
@@ -148,16 +160,31 @@ const defaultUsers: DummyUser[] = [
   },
 ];
 
+function normalizeUser(user: DummyUser): DummyUser {
+  const matchedDefaultUser = defaultUsers.find(
+    (defaultUser) => defaultUser.id === user.id || defaultUser.email === user.email,
+  );
+
+  return {
+    ...user,
+    username:
+      user.username?.trim().toLowerCase() ||
+      matchedDefaultUser?.username ||
+      user.email.split("@")[0].trim().toLowerCase() ||
+      user.firstName.trim().toLowerCase(),
+  };
+}
+
 function loadUsers(): DummyUser[] {
   try {
     const saved = localStorage.getItem("efc_all_users");
-    if (saved) return JSON.parse(saved);
+    if (saved) return JSON.parse(saved).map((user: DummyUser) => normalizeUser(user));
   } catch {}
-  return [...defaultUsers];
+  return defaultUsers.map(normalizeUser);
 }
 
 function saveUsers(users: DummyUser[]) {
-  localStorage.setItem("efc_all_users", JSON.stringify(users));
+  localStorage.setItem("efc_all_users", JSON.stringify(users.map(normalizeUser)));
 }
 
 interface AuthContextType {
@@ -177,7 +204,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem("efc_user");
     if (saved) {
       try {
-        return JSON.parse(saved);
+        return normalizeUser(JSON.parse(saved));
       } catch {
         return null;
       }
@@ -186,23 +213,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const login = (username: string, password: string): boolean => {
+    const normalizedUsername = username.trim().toLowerCase();
     const found = allUsers.find(
       (u) =>
-        (u.email === username ||
-          u.firstName.toLowerCase() === username.toLowerCase() ||
-          `${u.firstName} ${u.lastName}`.toLowerCase() === username.toLowerCase()) &&
+        (u.email.toLowerCase() === normalizedUsername ||
+          u.username?.toLowerCase() === normalizedUsername ||
+          u.firstName.toLowerCase() === normalizedUsername ||
+          u.firstName.toLowerCase().startsWith(normalizedUsername) ||
+          `${u.firstName} ${u.lastName}`.toLowerCase() === normalizedUsername) &&
         u.password === password,
     );
     if (found) {
-      setUser(found);
-      localStorage.setItem("efc_user", JSON.stringify(found));
+      const normalizedUser = normalizeUser(found);
+      setUser(normalizedUser);
+      localStorage.setItem("efc_user", JSON.stringify(normalizedUser));
       return true;
     }
     return false;
   };
 
   const signup = (firstName: string, lastName: string, email: string, phone: string, password: string): DummyUser => {
-    const newUser: DummyUser = {
+    const newUser: DummyUser = normalizeUser({
       id: `u${Date.now()}`,
       firstName,
       lastName,
@@ -213,7 +244,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       club: "",
       position: "",
       country: "",
-    };
+    });
     const updated = [...allUsers, newUser];
     setAllUsers(updated);
     saveUsers(updated);

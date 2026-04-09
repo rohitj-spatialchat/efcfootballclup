@@ -22,7 +22,7 @@ export default function SignIn() {
       toast({ title: "Welcome back!", description: "You've signed in successfully." });
       navigate("/");
     } else {
-      setError("Invalid username or password. Try a first name (e.g. 'max') with password (e.g. 'max123').");
+      setError("Invalid username or password. Try a username/email like 'max' or 'max@efcfootball.com' with password 'max123'.");
     }
   };
 
