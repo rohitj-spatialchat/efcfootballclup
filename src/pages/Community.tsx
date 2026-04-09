@@ -296,6 +296,7 @@ export default function CommunityPage() {
     discipline: "",
     country: "",
     team: "",
+    title: "",
     format: "",
     role: "",
     emailMarketing: "",
