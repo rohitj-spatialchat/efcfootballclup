@@ -59,6 +59,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 import { useViewMode } from "@/contexts/ViewModeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import featuredUcl from "@/assets/featured-ucl.png";
 import featuredEuro from "@/assets/featured-euro.png";
 import featuredEasports from "@/assets/featured-easports.png";

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { initialMessages, ChatMessage } from "@/lib/chatData";
+import { useAuth } from "@/contexts/AuthContext";
 import ChatSidebar from "@/components/chat/ChatSidebar";
 import ChatMessageArea from "@/components/chat/ChatMessageArea";
 import ChatProfilePanel from "@/components/chat/ChatProfilePanel";
