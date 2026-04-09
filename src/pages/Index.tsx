@@ -125,8 +125,7 @@ const topicOptions = [
 const trendingOptions = ["Today", "This Week", "This Month", "All Time"];
 
 const regionOptions = [
-  "All Regions", "Western Europe", "Eastern Europe", "Scandinavia",
-  "South America", "North America", "Africa", "Middle East", "Asia Pacific",
+  "All Regions", "Balkans", "United Kingdom", "DACH", "Latin", "Eastern",
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
