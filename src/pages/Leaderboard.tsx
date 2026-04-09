@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X } from "lucide-react";
+import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X, Filter } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -190,11 +190,19 @@ function EarnedBadges({ badgeIds }: { badgeIds: string[] }) {
 
 export default function LeaderboardPage() {
   const [selectedRegion, setSelectedRegion] = useState("All Regions");
+  const [selectedDiscipline, setSelectedDiscipline] = useState("All Disciplines");
   const [timePeriod, setTimePeriod] = useState("This Month");
   const [selectedMember, setSelectedMember] = useState<(typeof leaderboard)[0] | null>(null);
+  const [rankFrom, setRankFrom] = useState("");
+  const [rankTo, setRankTo] = useState("");
 
-  const filteredLeaderboard =
-    selectedRegion === "All Regions" ? leaderboard : leaderboard.filter((m) => m.region === selectedRegion);
+  const filteredLeaderboard = leaderboard.filter((m) => {
+    if (selectedRegion !== "All Regions" && m.region !== selectedRegion) return false;
+    if (selectedDiscipline !== "All Disciplines" && m.discipline !== selectedDiscipline) return false;
+    if (rankFrom && m.rank < parseInt(rankFrom)) return false;
+    if (rankTo && m.rank > parseInt(rankTo)) return false;
+    return true;
+  });
 
   const displayMember = selectedMember || leaderboard.find((m) => m.name === currentUser.name)!;
   const displayMpu = getMpu(displayMember);
