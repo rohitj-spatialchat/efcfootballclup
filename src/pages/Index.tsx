@@ -606,7 +606,7 @@ const Index = () => {
             </div>
           </div>
           <div className="p-4">
-            <div className="relative rounded-xl overflow-hidden h-80">
+            <div className="relative rounded-xl overflow-hidden h-96">
               <img
                 src={featuredPosts[featuredIndex].image}
                 alt=""
