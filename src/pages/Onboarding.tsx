@@ -17,9 +17,12 @@ const clubs = [
   "Liverpool FC",
   "Juventus",
   "AC Sparta Praha",
-  "Borussia Dortmund",
-  "Paris Saint-Germain",
-  "Atletico Madrid",
+  "Sevilla FC",
+  "RB Leipzig",
+  "Celtic FC",
+  "Aberdeen FC",
+  "Al Ahly",
+  "Wydad AC",
 ];
 
 const positions = [
