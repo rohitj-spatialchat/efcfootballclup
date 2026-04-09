@@ -466,6 +466,7 @@ export default function CommunityPage() {
     if (filters.discipline && m.discipline !== filters.discipline) return false;
     if (filters.country && m.country !== filters.country) return false;
     if (filters.team && m.team !== filters.team) return false;
+    if (filters.title && m.title !== filters.title) return false;
     if (filters.format && m.format !== filters.format) return false;
     if (filters.role && m.role !== filters.role) return false;
     if (filters.emailMarketing) {
@@ -627,6 +628,7 @@ export default function CommunityPage() {
                 { key: "discipline", label: "Discipline", options: filterOptions.discipline },
                 { key: "country", label: "Country", options: filterOptions.country },
                 { key: "team", label: "Football Team", options: filterOptions.team },
+                { key: "title", label: "Title", options: filterOptions.title },
                 { key: "format", label: "Format", options: filterOptions.format },
                 { key: "role", label: "Role", options: filterOptions.role },
                 { key: "emailMarketing", label: "Email Marketing", options: filterOptions.emailMarketing },
@@ -1067,6 +1069,8 @@ export default function CommunityPage() {
                           />
                         </th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">NAME</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">TITLE</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">FOOTBALL TEAM</th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">
                           EMAIL MARKETING
                         </th>
