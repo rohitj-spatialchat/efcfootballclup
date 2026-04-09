@@ -320,6 +320,7 @@ export default function CommunityPage() {
     discipline: [...new Set(members.map((m) => m.discipline))].sort(),
     country: [...new Set(members.map((m) => m.country))].sort(),
     team: [...new Set(members.map((m) => m.team))].sort(),
+    title: [...new Set(members.map((m) => m.title).filter(Boolean))].sort(),
     format: [...new Set(members.map((m) => m.format))].sort(),
     role: [...new Set(members.map((m) => m.role))].sort(),
     emailMarketing: ["Subscribed", "Unsubscribed"],
