@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import {
   Users, MessageSquare, Calendar, Info, ThumbsUp, Share2, Send, MoreHorizontal,
@@ -349,6 +350,9 @@ const itemAnim = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 export default function Group() {
   const { slug } = useParams();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
+  const currentUserAvatar = user ? `${user.firstName[0]}${user.lastName[0]}` : "?";
   const group = slug ? groupsData[slug] : null;
   const [activeTab, setActiveTab] = useState<"discussions" | "chat" | "members" | "events" | "about">("discussions");
   const [joined, setJoined] = useState(true);
@@ -464,8 +468,8 @@ export default function Group() {
       }
       const newPost = {
         id: Date.now(),
-        author: "Demo User",
-        avatar: "DE",
+        author: currentUserName,
+        avatar: currentUserAvatar,
         time: "Just now",
         title: pollQuestion,
         body: validOptions.map((o, i) => `${String.fromCharCode(65 + i)}. ${o}`).join("\n"),
@@ -488,8 +492,8 @@ export default function Group() {
     }
     const newPost = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       time: "Just now",
       title: newPostTitle || newPostBody.slice(0, 60),
       body: newPostBody,
@@ -539,8 +543,8 @@ export default function Group() {
     if (!chatInput.trim() && !chatImage) return;
     const newMsg = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DU",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       message: chatInput,
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       image: chatImage || undefined,
@@ -714,7 +718,7 @@ export default function Group() {
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {chatMessages.map((msg) => {
-              const isMe = msg.author === "Demo User";
+              const isMe = msg.author === currentUserName;
               return (
                 <div key={msg.id} className={cn("flex gap-3", isMe && "flex-row-reverse")}>
                   <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-semibold shrink-0">

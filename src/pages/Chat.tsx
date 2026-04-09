@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { initialMessages, ChatMessage } from "@/lib/chatData";
+import { useAuth } from "@/contexts/AuthContext";
 import ChatSidebar from "@/components/chat/ChatSidebar";
 import ChatMessageArea from "@/components/chat/ChatMessageArea";
 import ChatProfilePanel from "@/components/chat/ChatProfilePanel";
@@ -23,6 +24,8 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 let _nextId = 1000;
 
 export default function ChatPage() {
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
   const [activeContact, setActiveContact] = useState("Robert Fox");
   const [dmTab, setDmTab] = useState("Inbox");
   const [chatMessages, setChatMessages] = useState(initialMessages);
@@ -34,7 +37,7 @@ export default function ChatPage() {
   const handleSend = useCallback((text: string) => {
     const newMsg: ChatMessage = {
       id: `msg-${++_nextId}`,
-      author: "Demo User",
+      author: currentUserName,
       time: new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
       text,
     };
@@ -73,12 +76,12 @@ export default function ChatPage() {
           if (m.id !== msgId) return m;
           const reactions = { ...(m.reactions || {}) };
           const users = reactions[emoji] ? [...reactions[emoji]] : [];
-          if (users.includes("Demo User")) {
-            const filtered = users.filter(u => u !== "Demo User");
+          if (users.includes(currentUserName)) {
+            const filtered = users.filter(u => u !== currentUserName);
             if (filtered.length === 0) delete reactions[emoji];
             else reactions[emoji] = filtered;
           } else {
-            reactions[emoji] = [...users, "Demo User"];
+            reactions[emoji] = [...users, currentUserName];
           }
           return { ...m, reactions };
         }),

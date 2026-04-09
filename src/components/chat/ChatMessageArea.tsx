@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { ChatMessage, EMOJI_OPTIONS } from "@/lib/chatData";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
@@ -32,6 +33,8 @@ function parseFormatting(text: string): string {
 }
 
 export default function ChatMessageArea({ activeContact, messages, onSend, onReact, onDelete }: ChatMessageAreaProps) {
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
   const [hoveredMsg, setHoveredMsg] = useState<string | null>(null);
   const [threadOpen, setThreadOpen] = useState<ChatMessage | null>(null);
   const [threadReply, setThreadReply] = useState("");
@@ -208,7 +211,7 @@ export default function ChatMessageArea({ activeContact, messages, onSend, onRea
             )}
             <div className="flex items-start gap-3 group relative">
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-semibold text-primary shrink-0">
-                {msg.author === "Demo User" ? "DU" : msg.author.split(" ").map(n => n[0]).join("")}
+                {msg.author === currentUserName ? "DU" : msg.author.split(" ").map(n => n[0]).join("")}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
@@ -226,7 +229,7 @@ export default function ChatMessageArea({ activeContact, messages, onSend, onRea
                         onClick={() => onReact(msg.id, emoji)}
                         className={cn(
                           "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors",
-                          users.includes("Demo User") ? "border-primary/50 bg-primary/10" : "border-border hover:border-primary/30"
+                          users.includes(currentUserName) ? "border-primary/50 bg-primary/10" : "border-border hover:border-primary/30"
                         )}
                         title={users.join(", ")}
                       >
