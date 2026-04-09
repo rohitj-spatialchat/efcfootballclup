@@ -352,7 +352,7 @@ export default function Group() {
   const { toast } = useToast();
   const { user } = useAuth();
   const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
-  const currentUserAvatar = user ? `${user.firstName[0]}${user.lastName[0]}` : "?";
+  const currentUserAvatar = user ? getUserAvatarUrl(user.firstName, user.lastName, 40) : "?";
   const group = slug ? groupsData[slug] : null;
   const [activeTab, setActiveTab] = useState<"discussions" | "chat" | "members" | "events" | "about">("discussions");
   const [joined, setJoined] = useState(true);
