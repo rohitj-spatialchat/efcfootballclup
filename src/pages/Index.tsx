@@ -1316,9 +1316,7 @@ const Index = () => {
                     className="border-t border-border overflow-hidden"
                   >
                     <div className="p-3 flex gap-2">
-                      <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold shrink-0">
-                        DE
-                      </div>
+                      <img src={currentUserAvatar} alt={currentUserName} className="h-8 w-8 rounded-full object-cover shrink-0" />
                       <div className="flex-1 flex gap-2">
                         <input
                           type="text"
