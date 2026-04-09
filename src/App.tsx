@@ -38,7 +38,8 @@ const queryClient = new QueryClient();
 
 function AuthRedirect() {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/signin" replace />;
+  if (!isAuthenticated) return <Navigate to="/signin" replace />;
+  return <Index />;
 }
 
 const App = () => (
