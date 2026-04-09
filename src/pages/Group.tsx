@@ -573,18 +573,18 @@ export default function Group() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         </div>
-        <div className="px-6 pb-5 -mt-10">
-          <div className="flex items-end justify-between">
+        <div className="px-6 pb-5 -mt-8 relative z-10">
+          <div className="flex items-end justify-between gap-4">
             <div className="flex items-end gap-4">
-              <div className="h-16 w-16 rounded-xl overflow-hidden border-4 border-card shadow-md">
+              <div className="h-16 w-16 rounded-xl overflow-hidden border-4 border-card shadow-md flex-shrink-0">
                 <img
                   src={groupProfilePics[slug || ""] || "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=150&h=150&fit=crop"}
                   alt={group.label}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="pb-1">
-                <h1 className="text-xl font-bold text-foreground">{group.label}</h1>
+              <div className="pb-1 min-w-0">
+                <h1 className="text-xl font-bold text-foreground truncate">{group.label}</h1>
                 <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {group.memberCount} members</span>
                   <span>•</span>

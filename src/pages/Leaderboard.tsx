@@ -299,11 +299,11 @@ export default function LeaderboardPage() {
 
       {/* Leaderboard Table */}
       <motion.div variants={item} className="rounded-lg border border-border bg-card shadow-card">
-        <div className="flex items-center justify-between p-5 pb-3">
+        <div className="flex flex-wrap items-center justify-between p-5 pb-3 gap-3">
           <h2 className="font-semibold text-foreground flex items-center gap-2">
             <Trophy className="h-4 w-4 text-primary" /> Leaderboard
           </h2>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1 rounded-lg bg-muted p-1">
               {["All Time", "This Month", "This Week"].map((f) => (
                 <button
@@ -319,36 +319,63 @@ export default function LeaderboardPage() {
               ))}
             </div>
             <select
+              value={selectedDiscipline}
+              onChange={(e) => setSelectedDiscipline(e.target.value)}
+              className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {disciplines.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+            <select
               value={selectedRegion}
               onChange={(e) => setSelectedRegion(e.target.value)}
               className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {regions.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
+                <option key={r} value={r}>{r}</option>
               ))}
             </select>
+            <div className="flex items-center gap-1.5">
+              <Filter className="h-3.5 w-3.5 text-muted-foreground" />
+              <input
+                type="number"
+                placeholder="From"
+                value={rankFrom}
+                onChange={(e) => setRankFrom(e.target.value)}
+                className="w-16 rounded-lg border border-border bg-muted px-2 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <span className="text-xs text-muted-foreground">–</span>
+              <input
+                type="number"
+                placeholder="To"
+                value={rankTo}
+                onChange={(e) => setRankTo(e.target.value)}
+                className="w-16 rounded-lg border border-border bg-muted px-2 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full table-fixed min-w-[900px]">
+          <table className="w-full table-fixed min-w-[1050px]">
             <colgroup>
-              <col className="w-[5%]" />
-              <col className="w-[18%]" />
-              <col className="w-[10%]" />
-              <col className="w-[13%]" />
-              <col className="w-[9%]" />
-              <col className="w-[9%]" />
+              <col className="w-[4%]" />
+              <col className="w-[15%]" />
+              <col className="w-[12%]" />
+              <col className="w-[8%]" />
               <col className="w-[11%]" />
-              <col className="w-[11%]" />
-              <col className="w-[9%]" />
               <col className="w-[7%]" />
+              <col className="w-[7%]" />
+              <col className="w-[9%]" />
+              <col className="w-[9%]" />
+              <col className="w-[8%]" />
+              <col className="w-[6%]" />
             </colgroup>
             <thead>
               <tr className="border-t border-border bg-muted/40">
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Rank</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Member</th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Discipline</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Region</th>
                 <th className="px-3 py-3 text-left text-xs font-medium text-muted-foreground">Team</th>
                 <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">Level</th>
@@ -415,6 +442,7 @@ export default function LeaderboardPage() {
                         <span className="text-sm font-medium text-foreground truncate">{m.name}</span>
                       </div>
                     </td>
+                    <td className="px-3 py-3 text-sm text-muted-foreground truncate">{m.discipline}</td>
                     <td className="px-3 py-3 text-sm text-muted-foreground truncate">{m.region}</td>
                     <td className="px-3 py-3 text-sm text-foreground truncate">{m.team}</td>
                     <td className="px-3 py-3 text-center">
