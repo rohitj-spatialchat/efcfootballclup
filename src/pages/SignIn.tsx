@@ -1,10 +1,30 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogin = () => {
+    if (!username || !password) {
+      setError("Please enter username and password");
+      return;
+    }
+    const success = login(username, password);
+    if (success) {
+      toast({ title: "Welcome back!", description: "You've signed in successfully." });
+      navigate("/");
+    } else {
+      setError("Invalid username or password. Try a first name (e.g. 'max') with password (e.g. 'max123').");
+    }
+  };
 
   return (
     <div
@@ -27,21 +47,29 @@ export default function SignIn() {
         <h1 className="text-2xl font-bold text-gray-900">Sign In</h1>
 
         <div className="space-y-3 px-4">
+          {error && (
+            <div className="bg-red-100 text-red-700 text-xs rounded-lg px-4 py-2 text-left">{error}</div>
+          )}
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Username or Email"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => { setUsername(e.target.value); setError(""); }}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none"
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => { setPassword(e.target.value); setError(""); }}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             className="w-full h-12 rounded-full bg-white/90 px-6 text-sm placeholder:text-gray-400 focus:outline-none"
           />
-          <button className="w-full h-12 rounded-full bg-gray-900 text-white text-sm font-semibold tracking-wider hover:bg-gray-800 transition-colors mt-1">
+          <button
+            onClick={handleLogin}
+            className="w-full h-12 rounded-full bg-gray-900 text-white text-sm font-semibold tracking-wider hover:bg-gray-800 transition-colors mt-1"
+          >
             LOG IN
           </button>
         </div>

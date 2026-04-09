@@ -1,8 +1,21 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 
 export default function IntroduceYourself() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [intro, setIntro] = useState("");
+
+  const handlePost = () => {
+    if (!intro.trim()) {
+      toast({ title: "Please write an introduction", variant: "destructive" });
+      return;
+    }
+    toast({ title: "Introduction posted!", description: "Welcome to the community! Redirecting to dashboard..." });
+    navigate("/");
+  };
 
   return (
     <div
@@ -25,13 +38,15 @@ export default function IntroduceYourself() {
           <label className="text-sm font-bold text-gray-900 block">Write a short intro to the community</label>
           <textarea
             rows={6}
+            value={intro}
+            onChange={(e) => setIntro(e.target.value)}
             placeholder="Tell us your preferred name, role, your club category, your top 3 areas of focus (load management, return-to-play, nutrition, psychology, etc.). Additionally, share one professional question or insight you'd like to explore. This helps the community match you with relevant peers and content. You'll be surprised how quickly peers respond."
             className="w-full rounded-xl bg-white/90 p-5 text-sm placeholder:text-gray-400 focus:outline-none resize-none"
           />
         </div>
 
         <button
-          onClick={() => navigate("/")}
+          onClick={handlePost}
           className="w-full h-12 rounded-full bg-gray-900 text-white text-sm font-semibold tracking-wider hover:bg-gray-800 transition-colors"
         >
           POST
