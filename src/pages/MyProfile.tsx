@@ -19,6 +19,7 @@ import {
   Check, X, ExternalLink, Copy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getUserAvatarUrl } from "@/lib/userAvatar";
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06 } } };
 const item = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } } };
@@ -67,7 +68,7 @@ export default function MyProfile() {
   });
   const [editForm, setEditForm] = useState(profile);
   const [notifications, setNotifications] = useState({ email: true, push: true, mentions: true, events: false });
-  const [avatarSrc, setAvatarSrc] = useState(profileAvatarDefault);
+  const [avatarSrc, setAvatarSrc] = useState(() => user ? getUserAvatarUrl(user.firstName, user.lastName) : profileAvatarDefault);
   const [coverSrc, setCoverSrc] = useState(profileCoverDefault);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);

@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useViewMode } from "@/contexts/ViewModeContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { getUserAvatarUrl } from "@/lib/userAvatar";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Rss,
@@ -414,7 +415,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 className="flex items-center gap-1 cursor-pointer"
               >
                 <img
-                  src={`https://ui-avatars.com/api/?name=${user ? `${user.firstName}+${user.lastName}` : "Guest"}&background=6366f1&color=fff&size=128&bold=true`}
+                  src={user ? getUserAvatarUrl(user.firstName, user.lastName) : `https://ui-avatars.com/api/?name=Guest&background=6366f1&color=fff&size=128&bold=true`}
                   alt="Profile"
                   className="h-8 w-8 rounded-full object-cover"
                 />
@@ -424,7 +425,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <div className="absolute right-0 top-full mt-1 w-56 rounded-lg border border-border bg-card shadow-elevated z-50 py-3">
                   <div className="flex flex-col items-center pb-3 border-b border-border px-4">
                     <img
-                      src={`https://ui-avatars.com/api/?name=${user ? `${user.firstName}+${user.lastName}` : "Guest"}&background=6366f1&color=fff&size=128&bold=true`}
+                      src={user ? getUserAvatarUrl(user.firstName, user.lastName) : `https://ui-avatars.com/api/?name=Guest&background=6366f1&color=fff&size=128&bold=true`}
                       alt="Profile"
                       className="h-16 w-16 rounded-full object-cover mb-2"
                     />

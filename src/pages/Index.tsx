@@ -59,6 +59,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 import { useViewMode } from "@/contexts/ViewModeContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { getUserAvatarUrl } from "@/lib/userAvatar";
 import featuredUcl from "@/assets/featured-ucl.png";
 import featuredEuro from "@/assets/featured-euro.png";
 import featuredEasports from "@/assets/featured-easports.png";
@@ -239,7 +241,10 @@ const predefinedTags = [
 
 const Index = () => {
   const { isAdmin } = useViewMode();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Guest";
+  const currentUserAvatar = user ? getUserAvatarUrl(user.firstName, user.lastName, 40) : "";
   const [onlineUsersOpen, setOnlineUsersOpen] = useState(false);
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [liveEventOpen, setLiveEventOpen] = useState(false);
@@ -314,8 +319,8 @@ const Index = () => {
     }
     const newPoll = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       time: "Just now",
       channel: "Feed",
       tags: ["Poll"],
@@ -405,8 +410,8 @@ const Index = () => {
     }
     const newPost = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       time: "Just now",
       channel: selectedTags[0] || "Feed",
       tags: selectedTags.length > 0 ? selectedTags : ["Feed"],
@@ -464,8 +469,8 @@ const Index = () => {
     if (!commentText.trim()) return;
     const newComment = {
       id: Date.now(),
-      author: "Demo User",
-      avatar: "DE",
+      author: currentUserName,
+      avatar: currentUserAvatar,
       text: commentText.trim(),
       time: "Just now",
     };
@@ -630,13 +635,11 @@ const Index = () => {
         {/* Create Post */}
         <motion.div variants={item} className="rounded-lg border border-border bg-card p-4 shadow-card">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
-              DE
-            </div>
+            <img src={currentUserAvatar} alt={currentUserName} className="h-10 w-10 rounded-full object-cover shrink-0" />
             <div className="flex-1 relative cursor-pointer" onClick={() => setCreatePostOpen(true)}>
               <input
                 type="text"
-                placeholder="What's on your mind, Demo?"
+                placeholder={`What's on your mind, ${user?.firstName || "Guest"}?`}
                 readOnly
                 className="w-full h-10 rounded-full border border-input bg-background px-4 pr-10 text-sm placeholder:text-muted-foreground cursor-pointer"
               />
@@ -690,11 +693,9 @@ const Index = () => {
             </DialogHeader>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold shrink-0">
-                  DE
-                </div>
+                <img src={currentUserAvatar} alt={currentUserName} className="h-10 w-10 rounded-full object-cover shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Demo User</p>
+                  <p className="text-sm font-semibold text-foreground">{currentUserName}</p>
                   <p className="text-xs text-muted-foreground">Posting to {postDestination}</p>
                 </div>
               </div>
@@ -1079,9 +1080,13 @@ const Index = () => {
               {/* Post Header */}
               <div className="flex items-start justify-between p-4 pb-2">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 text-xs rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
-                    {post.avatar}
-                  </div>
+                  {post.avatar?.startsWith("http") ? (
+                    <img src={post.avatar} alt={post.author} className="h-10 w-10 rounded-full object-cover" />
+                  ) : (
+                    <div className="h-10 w-10 text-xs rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
+                      {post.avatar}
+                    </div>
+                  )}
                   <div>
                     <p className="text-sm font-semibold text-foreground uppercase">{post.author}</p>
                     <p className="text-xs text-muted-foreground">
@@ -1251,9 +1256,13 @@ const Index = () => {
                     <div className="p-3 space-y-3 max-h-60 overflow-y-auto">
                       {post.commentsList.map((c) => (
                         <div key={c.id} className="flex gap-2">
-                          <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-foreground text-[10px] font-semibold shrink-0">
-                            {c.avatar}
-                          </div>
+                          {c.avatar?.startsWith("http") ? (
+                            <img src={c.avatar} alt={c.author} className="h-7 w-7 rounded-full object-cover shrink-0" />
+                          ) : (
+                            <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-foreground text-[10px] font-semibold shrink-0">
+                              {c.avatar}
+                            </div>
+                          )}
                           <div className="flex-1 min-w-0">
                             <div className="rounded-lg bg-muted/50 px-3 py-2">
                               <p className="text-xs font-semibold text-foreground">{c.author}</p>
@@ -1307,9 +1316,7 @@ const Index = () => {
                     className="border-t border-border overflow-hidden"
                   >
                     <div className="p-3 flex gap-2">
-                      <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold shrink-0">
-                        DE
-                      </div>
+                      <img src={currentUserAvatar} alt={currentUserName} className="h-8 w-8 rounded-full object-cover shrink-0" />
                       <div className="flex-1 flex gap-2">
                         <input
                           type="text"
