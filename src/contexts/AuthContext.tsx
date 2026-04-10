@@ -202,7 +202,22 @@ function normalizeUser(user: DummyUser): DummyUser {
 function loadUsers(): DummyUser[] {
   try {
     const saved = localStorage.getItem("efc_all_users");
-    if (saved) return JSON.parse(saved).map((user: DummyUser) => normalizeUser(user));
+    if (saved) {
+      const savedUsers: DummyUser[] = JSON.parse(saved);
+      // Merge saved users with defaults to pick up any new fields (like bio, interests)
+      return savedUsers.map((user) => {
+        const defaultMatch = defaultUsers.find((d) => d.id === user.id || d.email === user.email);
+        if (defaultMatch) {
+          return normalizeUser({
+            ...defaultMatch,
+            ...user,
+            bio: user.bio && user.bio.length > 50 ? user.bio : defaultMatch.bio,
+            interests: user.interests?.length ? user.interests : defaultMatch.interests,
+          });
+        }
+        return normalizeUser(user);
+      });
+    }
   } catch {}
   return defaultUsers.map(normalizeUser);
 }
