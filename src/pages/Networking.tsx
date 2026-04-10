@@ -1,10 +1,12 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getTeamLogo } from "@/lib/teamLogos";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { getUserAvatarUrl } from "@/lib/userAvatar";
 
 const onlineUsers = [
   {
@@ -114,12 +116,34 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const itemAnim = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 
 export default function NetworkingPage() {
+  const { users: authUsers } = useAuth();
+
+  const allUsers = useMemo(() => {
+    const existingNames = new Set(onlineUsers.map((u) => u.name.toLowerCase()));
+    const authNetworkUsers = authUsers
+      .filter((u) => !existingNames.has(`${u.firstName} ${u.lastName}`.trim().toLowerCase()))
+      .map((u) => ({
+        name: `${u.firstName} ${u.lastName}`.trim(),
+        team: u.club || "Unassigned",
+        country: u.country || "Unknown",
+        role: u.position || u.role || "Member",
+        location: u.country ? `${u.country}` : "Unknown",
+        score: +(Math.random() * 3 + 6.5).toFixed(1),
+        mpuPoints: Math.floor(Math.random() * 60000 + 30000),
+        mutualConnections: Math.floor(Math.random() * 10 + 1),
+        bio: u.bio || `${u.role} at ${u.club || "EFC"}. Passionate about football and professional development.`,
+        skills: u.interests?.slice(0, 3) || [u.position || "Football", "Networking", "Development"],
+        image: getUserAvatarUrl(u.firstName, u.lastName),
+      }));
+    return [...onlineUsers, ...authNetworkUsers];
+  }, [authUsers]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [connectedUsers, setConnectedUsers] = useState<Set<string>>(new Set());
   const { toast } = useToast();
   const navigate = useNavigate();
-  const currentUser = onlineUsers[currentIndex];
+  const currentUser = allUsers[currentIndex];
 
   const handleShuffle = useCallback(() => {
     let next: number;
