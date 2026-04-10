@@ -5,8 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getTeamLogo } from "@/lib/teamLogos";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { useAuth, DummyUser } from "@/contexts/AuthContext";
+import { getUserAvatarUrl } from "@/lib/userAvatar";
 
 const memberData: Record<string, {
   name: string;
