@@ -46,7 +46,7 @@ const activities = [
   { id: 5, type: "post", text: "Shared insights on building inclusive sports communities", time: "5 days ago", likes: 78, comments: 26 },
 ];
 
-const interests = ["Community Leadership", "Football Operations", "Sports Strategy", "Member Engagement", "Event Management", "Partnership Development", "Digital Transformation", "Talent Development"];
+const defaultInterests = ["Community Leadership", "Football Operations", "Sports Strategy", "Member Engagement", "Event Management", "Partnership Development", "Digital Transformation", "Talent Development"];
 
 type TabId = "activity" | "about" | "achievements" | "settings";
 
@@ -58,7 +58,7 @@ export default function MyProfile() {
   const [profile, setProfile] = useState({
     name: user ? `${user.firstName} ${user.lastName}` : "Demo",
     username: user ? `@${user.firstName.toLowerCase()}${user.lastName.toLowerCase()}` : "@demostudent16553",
-    bio: "Community Leader at EFC MPU, driving engagement and collaboration across 500+ football professionals worldwide. Dedicated to fostering meaningful connections, organizing impactful events, and shaping the future of football industry networking.",
+    bio: user?.bio || "Community member passionate about football and professional development.",
     location: user?.country || "London, UK",
     role: user?.role || "Community Leader",
     organization: user?.club || "EFC MPU",
@@ -223,7 +223,7 @@ export default function MyProfile() {
           transition={{ duration: 0.25 }}
         >
           {activeTab === "activity" && <ActivityTab />}
-          {activeTab === "about" && <AboutTab interests={interests} profile={profile} />}
+          {activeTab === "about" && <AboutTab interests={user?.interests || defaultInterests} profile={profile} />}
           {activeTab === "achievements" && <AchievementsTab />}
           {activeTab === "settings" && <SettingsTab notifications={notifications} setNotifications={setNotifications} />}
         </motion.div>

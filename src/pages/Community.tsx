@@ -25,8 +25,9 @@ import {
   MapPin,
   Info,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
 import { useViewMode } from "@/contexts/ViewModeContext";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
@@ -55,6 +56,26 @@ const communitySidebar = [
   { label: "Profile fields", icon: User },
   { label: "Bulk logs", icon: BarChart3 },
 ];
+
+function getRegion(country: string): string {
+  const regions: Record<string, string> = {
+    "Germany": "Western Europe", "France": "Western Europe", "Belgium": "Western Europe", "Netherlands": "Western Europe",
+    "Italy": "Southern Europe", "Spain": "Southern Europe", "Portugal": "Southern Europe",
+    "United Kingdom": "Northern Europe", "Ireland": "Northern Europe", "Denmark": "Northern Europe", "Sweden": "Northern Europe",
+    "United States": "North America", "Czech Republic": "Eastern Europe", "Austria": "Western Europe", "Switzerland": "Western Europe",
+  };
+  return regions[country] || "Unknown";
+}
+
+function getFlag(country: string): string {
+  const flags: Record<string, string> = {
+    "Germany": "🇩🇪", "France": "🇫🇷", "Italy": "🇮🇹", "Netherlands": "🇳🇱",
+    "United Kingdom": "🇬🇧", "Spain": "🇪🇸", "Portugal": "🇵🇹", "Belgium": "🇧🇪",
+    "Denmark": "🇩🇰", "Ireland": "🇮🇪", "United States": "🇺🇸", "Czech Republic": "🇨🇿",
+    "Austria": "🇦🇹", "Switzerland": "🇨🇭", "Sweden": "🇸🇪",
+  };
+  return flags[country] || "🏳️";
+}
 
 const initialMembers = [
   {
@@ -278,9 +299,36 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "moderators" | "blocked";
 
 export default function CommunityPage() {
+  const { users: authUsers } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { isAdmin } = useViewMode();
+
+  const authMembers = useMemo(() => {
+    const existingEmails = new Set(initialMembers.map((m) => m.email.toLowerCase()));
+    return authUsers
+      .filter((u) => !existingEmails.has(u.email.toLowerCase()))
+      .map((u) => ({
+        name: `${u.firstName} ${u.lastName}`.trim(),
+        email: u.email,
+        country: u.country || "Unknown",
+        region: getRegion(u.country),
+        discipline: u.position || "General",
+        mpu: Math.floor(Math.random() * 400 + 600),
+        role: "Member",
+        position: u.position || "",
+        title: u.role || "",
+        joined: "Apr 2026",
+        flag: getFlag(u.country),
+        followers: Math.floor(Math.random() * 200),
+        following: Math.floor(Math.random() * 100),
+        avatar: "",
+        subscribed: true,
+        team: u.club || "Unassigned",
+        format: "Full-time",
+      }));
+  }, [authUsers]);
+
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
   const [blocked, setBlocked] = useState(initialBlocked);
@@ -315,15 +363,17 @@ export default function CommunityPage() {
     reason: "",
   });
 
+  const allMembers = useMemo(() => [...members, ...authMembers], [members, authMembers]);
+
   // Derive unique filter options from members data
   const filterOptions = {
-    region: [...new Set(members.map((m) => m.region))].sort(),
-    discipline: [...new Set(members.map((m) => m.discipline))].sort(),
-    country: [...new Set(members.map((m) => m.country))].sort(),
-    team: [...new Set(members.map((m) => m.team))].sort(),
-    title: [...new Set(members.map((m) => m.title).filter(Boolean))].sort(),
-    format: [...new Set(members.map((m) => m.format))].sort(),
-    role: [...new Set(members.map((m) => m.role))].sort(),
+    region: [...new Set(allMembers.map((m) => m.region))].sort(),
+    discipline: [...new Set(allMembers.map((m) => m.discipline))].sort(),
+    country: [...new Set(allMembers.map((m) => m.country))].sort(),
+    team: [...new Set(allMembers.map((m) => m.team))].sort(),
+    title: [...new Set(allMembers.map((m) => m.title).filter(Boolean))].sort(),
+    format: [...new Set(allMembers.map((m) => m.format))].sort(),
+    role: [...new Set(allMembers.map((m) => m.role))].sort(),
     emailMarketing: ["Subscribed", "Unsubscribed"],
   };
 
@@ -393,7 +443,7 @@ export default function CommunityPage() {
   const handleExport = () => {
     const csv = [
       ["Name", "Email", "Country", "MPU", "Email Marketing", "Role", "Joined"].join(","),
-      ...members.map((m) =>
+      ...allMembers.map((m) =>
         [m.name, m.email, m.country, m.mpu, m.subscribed ? "Subscribed" : "Unsubscribed", m.role, m.joined].join(","),
       ),
     ].join("\n");
@@ -432,10 +482,10 @@ export default function CommunityPage() {
   };
 
   const toggleSelectAll = () => {
-    if (selectedMembers.length === members.length) {
+    if (selectedMembers.length === allMembers.length) {
       setSelectedMembers([]);
     } else {
-      setSelectedMembers(members.map((_, i) => i));
+      setSelectedMembers(allMembers.map((_, i) => i));
     }
   };
 
@@ -448,16 +498,16 @@ export default function CommunityPage() {
 
   const preFilteredMembers =
     activeTab === "all"
-      ? members
+      ? allMembers
       : activeTab === "contacts"
-        ? members.slice(0, members.length - 1)
+        ? allMembers.slice(0, allMembers.length - 1)
         : activeTab === "members"
-          ? members.filter((m) => m.role === "Member")
+          ? allMembers.filter((m) => m.role === "Member")
           : activeTab === "admins"
-            ? members.filter((m) => m.role === "Admin")
+            ? allMembers.filter((m) => m.role === "Admin")
             : activeTab === "moderators"
-              ? members.filter((m) => m.role === "Moderator")
-              : members;
+              ? allMembers.filter((m) => m.role === "Moderator")
+              : allMembers;
 
   const query = searchQuery.toLowerCase().trim();
   const filteredMembers = preFilteredMembers.filter((m) => {
@@ -497,15 +547,15 @@ export default function CommunityPage() {
   const isBlockedTab = activeTab === "blocked";
 
   const allTabs: { key: ActiveTab; label: string; count: number; isNew?: boolean; adminOnly?: boolean }[] = [
-    { key: "all", label: "All", count: members.length },
-    { key: "contacts", label: "Contacts", count: members.length - 1, isNew: true },
-    { key: "members", label: "Members", count: members.filter((m) => m.role === "Member").length },
+    { key: "all", label: "All", count: allMembers.length },
+    { key: "contacts", label: "Contacts", count: allMembers.length - 1, isNew: true },
+    { key: "members", label: "Members", count: allMembers.filter((m) => m.role === "Member").length },
     { key: "invited", label: "Invited", count: invited.length, adminOnly: true },
-    { key: "admins", label: "Admins", count: members.filter((m) => m.role === "Admin").length, adminOnly: true },
+    { key: "admins", label: "Admins", count: allMembers.filter((m) => m.role === "Admin").length, adminOnly: true },
     {
       key: "moderators",
       label: "Moderators",
-      count: members.filter((m) => m.role === "Moderator").length,
+      count: allMembers.filter((m) => m.role === "Moderator").length,
       adminOnly: true,
     },
     { key: "blocked", label: "Blocked", count: blocked.length, adminOnly: true },
