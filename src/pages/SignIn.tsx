@@ -19,8 +19,17 @@ export default function SignIn() {
     }
     const success = login(username, password);
     if (success) {
-      toast({ title: "Welcome back!", description: "You've signed in successfully." });
-      navigate("/");
+      // Check if user has completed onboarding
+      const onboardedUsers: string[] = JSON.parse(localStorage.getItem("efc_onboarded") || "[]");
+      const normalizedUsername = username.trim().toLowerCase();
+      const isOnboarded = onboardedUsers.some((u) => u === normalizedUsername);
+      if (!isOnboarded) {
+        toast({ title: "Welcome!", description: "Let's set up your profile." });
+        navigate("/onboarding");
+      } else {
+        toast({ title: "Welcome back!", description: "You've signed in successfully." });
+        navigate("/");
+      }
     } else {
       setError("Invalid username or password. Try a username/email like 'max' or 'max@efcfootball.com' with password 'max123'.");
     }
