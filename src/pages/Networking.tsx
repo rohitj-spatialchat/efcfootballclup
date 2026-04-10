@@ -148,8 +148,8 @@ export default function NetworkingPage() {
   const handleShuffle = useCallback(() => {
     let next: number;
     do {
-      next = Math.floor(Math.random() * onlineUsers.length);
-    } while (next === currentIndex && onlineUsers.length > 1);
+      next = Math.floor(Math.random() * allUsers.length);
+    } while (next === currentIndex && allUsers.length > 1);
     setCurrentIndex(next);
   }, [currentIndex]);
 
@@ -168,7 +168,7 @@ export default function NetworkingPage() {
     navigate("/chat");
   };
 
-  const filteredUsers = onlineUsers.filter(
+  const filteredUsers = allUsers.filter(
     (u) =>
       u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.team.toLowerCase().includes(searchQuery.toLowerCase()) ||
