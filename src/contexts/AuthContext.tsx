@@ -12,6 +12,8 @@ export interface DummyUser {
   club: string;
   position: string;
   country: string;
+  bio?: string;
+  interests?: string[];
 }
 
 const defaultUsers: DummyUser[] = [
@@ -27,6 +29,8 @@ const defaultUsers: DummyUser[] = [
     club: "Bayern Munich",
     position: "Performance Director",
     country: "Germany",
+    bio: "Head of Performance at Bayern Munich with 12+ years leading elite football performance programs. Specializing in data-driven training periodization, load management, and integrated multi-disciplinary support. Passionate about bridging sports science research and on-field application.",
+    interests: ["Sport & Exercise Science", "Leadership", "Fitness & Exercise Physiology"],
   },
   {
     id: "u2",
@@ -40,6 +44,8 @@ const defaultUsers: DummyUser[] = [
     club: "AC Milan",
     position: "Nutritionist",
     country: "Italy",
+    bio: "Sports Nutritionist at AC Milan focused on optimizing player performance through evidence-based nutrition strategies. Experienced in match-day fueling protocols, body composition management, and individualized dietary planning for elite athletes.",
+    interests: ["Nutrition", "Recovery and Regeneration", "Sport & Exercise Science"],
   },
   {
     id: "u3",
@@ -53,6 +59,8 @@ const defaultUsers: DummyUser[] = [
     club: "AFC Ajax",
     position: "Physiotherapist",
     country: "Netherlands",
+    bio: "Lead Physiotherapist at AFC Ajax with expertise in injury prevention, rehabilitation, and return-to-play protocols. Combining manual therapy with cutting-edge technology to keep players performing at their peak.",
+    interests: ["Sports Medicine & Physiotherapy", "Recovery and Regeneration", "Education"],
   },
   {
     id: "u4",
@@ -66,6 +74,8 @@ const defaultUsers: DummyUser[] = [
     club: "Liverpool FC",
     position: "Psychologist",
     country: "United Kingdom",
+    bio: "Sport Psychologist at Liverpool FC helping elite athletes develop mental resilience, focus, and performance under pressure. Specializing in cognitive behavioral techniques, mindfulness, and team dynamics in high-performance environments.",
+    interests: ["Sport Psychology", "Communication", "Leadership"],
   },
   {
     id: "u5",
@@ -79,6 +89,8 @@ const defaultUsers: DummyUser[] = [
     club: "FC Porto",
     position: "Rehab Specialist",
     country: "France",
+    bio: "Rehabilitation Specialist at FC Porto dedicated to accelerating player recovery through innovative rehab protocols. Expert in post-surgical rehabilitation, progressive loading strategies, and collaborative return-to-play pathways.",
+    interests: ["Sports Medicine & Physiotherapy", "Recovery and Regeneration", "Strength & Power"],
   },
   {
     id: "u6",
@@ -92,6 +104,8 @@ const defaultUsers: DummyUser[] = [
     club: "Chelsea FC",
     position: "S&C Coach",
     country: "Denmark",
+    bio: "Strength & Conditioning Coach at Chelsea FC with a passion for developing athletic power, speed, and endurance in elite footballers. Experienced in periodized training, injury risk reduction, and performance testing.",
+    interests: ["Strength & Power", "Fitness & Exercise Physiology", "Coaching"],
   },
   {
     id: "u7",
@@ -105,6 +119,8 @@ const defaultUsers: DummyUser[] = [
     club: "Arsenal FC",
     position: "Exercise Physiologist",
     country: "Ireland",
+    bio: "Exercise Physiologist at Arsenal FC specializing in cardiorespiratory fitness assessment, metabolic profiling, and heat/altitude acclimatization for professional footballers. Driven by translating lab data into practical training recommendations.",
+    interests: ["Fitness & Exercise Physiology", "Sport & Exercise Science", "Education"],
   },
   {
     id: "u8",
@@ -118,6 +134,8 @@ const defaultUsers: DummyUser[] = [
     club: "Manchester City",
     position: "Performance Analyst",
     country: "Germany",
+    bio: "Performance Analyst at Manchester City leveraging GPS tracking, video analysis, and advanced metrics to optimize team and individual performance. Building next-generation dashboards for coaching staff decision-making.",
+    interests: ["Sport & Exercise Science", "Career Development", "Management"],
   },
   {
     id: "u9",
@@ -131,6 +149,8 @@ const defaultUsers: DummyUser[] = [
     club: "Juventus",
     position: "Commercial Director",
     country: "United Kingdom",
+    bio: "Sr. Head of Commercial at Juventus overseeing sponsorship strategy, brand partnerships, and revenue growth. 15+ years in sports business development with a focus on building long-term commercial value for football organizations.",
+    interests: ["Leadership", "Management", "Networking"],
   },
   {
     id: "u10",
@@ -144,6 +164,8 @@ const defaultUsers: DummyUser[] = [
     club: "SL Benfica",
     position: "Business Development",
     country: "Belgium",
+    bio: "Business Development Manager at SL Benfica driving strategic growth initiatives, new market expansion, and partnership development. Passionate about connecting the football industry with innovative business opportunities.",
+    interests: ["Networking", "Career Development", "Management"],
   },
   {
     id: "u11",
@@ -157,6 +179,8 @@ const defaultUsers: DummyUser[] = [
     club: "Inter Milan",
     position: "Community Manager",
     country: "United States",
+    bio: "Community Leader at EFC MPU, driving engagement and collaboration across 500+ football professionals worldwide. Dedicated to fostering meaningful connections, organizing impactful events, and shaping the future of football industry networking.",
+    interests: ["Networking", "Leadership", "Communication"],
   },
 ];
 
