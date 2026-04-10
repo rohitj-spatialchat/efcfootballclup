@@ -216,6 +216,7 @@ interface AuthContextType {
   users: DummyUser[];
   login: (username: string, password: string) => boolean;
   signup: (firstName: string, lastName: string, email: string, phone: string, password: string) => DummyUser;
+  updateProfile: (updates: Partial<DummyUser>) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -277,13 +278,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return newUser;
   };
 
+  const updateProfile = (updates: Partial<DummyUser>) => {
+    if (!user) return;
+    const updatedUser = normalizeUser({ ...user, ...updates });
+    setUser(updatedUser);
+    localStorage.setItem("efc_user", JSON.stringify(updatedUser));
+    const updatedAll = allUsers.map((u) => (u.id === updatedUser.id ? updatedUser : u));
+    setAllUsers(updatedAll);
+    saveUsers(updatedAll);
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("efc_user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, users: allUsers, login, signup, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, users: allUsers, login, signup, updateProfile, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );
