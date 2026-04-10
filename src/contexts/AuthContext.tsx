@@ -29,7 +29,7 @@ const defaultUsers: DummyUser[] = [
     club: "Bayern Munich",
     position: "Performance Director",
     country: "Germany",
-    bio: "Head of Performance at Bayern Munich with 12+ years leading elite football performance programs. Specializing in data-driven training periodization, load management, and integrated multi-disciplinary support. Passionate about bridging sports science research and on-field application.",
+    bio: "Head of Performance at Bayern Munich with 12+ years leading elite football performance programs. Specializing in data-driven training periodization, load management, and integrated multi-disciplinary support. Passionate about bridging sports science research and on-field application to maximize player availability and peak match-day readiness.\n\nOver the past decade, I have built and led high-performance departments across Bundesliga and international football, implementing cutting-edge GPS tracking, force-plate diagnostics, and wellness monitoring systems. My philosophy centers on collaborative leadership — uniting physiotherapists, nutritionists, sport psychologists, and coaching staff under a shared performance framework. I believe that sustainable success in elite football depends on marrying innovation with player-centered care, and I'm committed to mentoring the next generation of performance practitioners.",
     interests: ["Sport & Exercise Science", "Leadership", "Fitness & Exercise Physiology"],
   },
   {
@@ -44,7 +44,7 @@ const defaultUsers: DummyUser[] = [
     club: "AC Milan",
     position: "Nutritionist",
     country: "Italy",
-    bio: "Sports Nutritionist at AC Milan focused on optimizing player performance through evidence-based nutrition strategies. Experienced in match-day fueling protocols, body composition management, and individualized dietary planning for elite athletes.",
+    bio: "Sports Nutritionist at AC Milan focused on optimizing player performance through evidence-based nutrition strategies. Experienced in match-day fueling protocols, body composition management, and individualized dietary planning for elite athletes.\n\nWith a background in clinical dietetics and sports science, I design periodized nutrition plans that align with training loads and competition schedules. My work spans hydration optimization, supplement protocols, and gut-health management for traveling squads. I collaborate closely with the medical and performance teams to ensure every player receives tailored nutritional support, from youth academy prospects to senior internationals. I'm passionate about educating athletes on the 'why' behind their nutrition, empowering them to make better choices on and off the pitch.",
     interests: ["Nutrition", "Recovery and Regeneration", "Sport & Exercise Science"],
   },
   {
@@ -59,7 +59,7 @@ const defaultUsers: DummyUser[] = [
     club: "AFC Ajax",
     position: "Physiotherapist",
     country: "Netherlands",
-    bio: "Lead Physiotherapist at AFC Ajax with expertise in injury prevention, rehabilitation, and return-to-play protocols. Combining manual therapy with cutting-edge technology to keep players performing at their peak.",
+    bio: "Lead Physiotherapist at AFC Ajax with expertise in injury prevention, rehabilitation, and return-to-play protocols. Combining manual therapy with cutting-edge technology to keep players performing at their peak.\n\nMy approach integrates hands-on treatment with data-driven decision-making — using isokinetic testing, force platforms, and movement screening to build individualized injury-risk profiles. Over 10 years in professional football, I have managed complex musculoskeletal injuries from acute care through competitive return, working in close partnership with surgeons, strength coaches, and sport scientists. I am deeply committed to the Ajax philosophy of developing young talent, and I take pride in creating a physiotherapy culture that prioritizes long-term athlete health alongside short-term competitive demands.",
     interests: ["Sports Medicine & Physiotherapy", "Recovery and Regeneration", "Education"],
   },
   {
@@ -74,7 +74,7 @@ const defaultUsers: DummyUser[] = [
     club: "Liverpool FC",
     position: "Psychologist",
     country: "United Kingdom",
-    bio: "Sport Psychologist at Liverpool FC helping elite athletes develop mental resilience, focus, and performance under pressure. Specializing in cognitive behavioral techniques, mindfulness, and team dynamics in high-performance environments.",
+    bio: "Sport Psychologist at Liverpool FC helping elite athletes develop mental resilience, focus, and performance under pressure. Specializing in cognitive behavioral techniques, mindfulness, and team dynamics in high-performance environments.\n\nI work one-on-one with players navigating the psychological demands of elite competition — from managing performance anxiety and building confidence after injury, to developing leadership skills in senior players. My toolkit includes acceptance and commitment therapy, visualization, and biofeedback training. Beyond individual sessions, I design team-wide mental performance programs, facilitate squad cohesion workshops, and support coaching staff in creating psychologically safe training environments. I'm a firm believer that mental fitness is as trainable as physical fitness, and my mission is to normalize mental health conversations in professional football.",
     interests: ["Sport Psychology", "Communication", "Leadership"],
   },
   {
@@ -89,7 +89,7 @@ const defaultUsers: DummyUser[] = [
     club: "FC Porto",
     position: "Rehab Specialist",
     country: "France",
-    bio: "Rehabilitation Specialist at FC Porto dedicated to accelerating player recovery through innovative rehab protocols. Expert in post-surgical rehabilitation, progressive loading strategies, and collaborative return-to-play pathways.",
+    bio: "Rehabilitation Specialist at FC Porto dedicated to accelerating player recovery through innovative rehab protocols. Expert in post-surgical rehabilitation, progressive loading strategies, and collaborative return-to-play pathways.\n\nMy career has been shaped by a passion for bridging the gap between the treatment room and the training pitch. I specialize in ACL, hamstring, and ankle reconstruction rehabilitation, utilizing anti-gravity treadmills, blood-flow restriction training, and neuromuscular re-education to safely accelerate timelines without compromising tissue integrity. I work hand-in-hand with surgeons, physiotherapists, and performance staff to create seamless transition plans, ensuring players return not just fit, but confident and resilient. Mentoring junior rehab practitioners and contributing to return-to-play research are central to my professional identity.",
     interests: ["Sports Medicine & Physiotherapy", "Recovery and Regeneration", "Strength & Power"],
   },
   {
@@ -104,7 +104,7 @@ const defaultUsers: DummyUser[] = [
     club: "Chelsea FC",
     position: "S&C Coach",
     country: "Denmark",
-    bio: "Strength & Conditioning Coach at Chelsea FC with a passion for developing athletic power, speed, and endurance in elite footballers. Experienced in periodized training, injury risk reduction, and performance testing.",
+    bio: "Strength & Conditioning Coach at Chelsea FC with a passion for developing athletic power, speed, and endurance in elite footballers. Experienced in periodized training, injury risk reduction, and performance testing.\n\nI design and deliver strength, speed, and conditioning programs tailored to the physical demands of Premier League football. My methodology blends traditional weight training with plyometrics, velocity-based training, and sport-specific movement patterns. I use GPS and accelerometer data to monitor training loads and adjust programs in real time, ensuring players peak for match days while minimizing overuse injuries. Collaboration with the medical department is central to my practice — together we build robust, resilient athletes who can sustain the intensity of a 50+ game season.",
     interests: ["Strength & Power", "Fitness & Exercise Physiology", "Coaching"],
   },
   {
@@ -119,7 +119,7 @@ const defaultUsers: DummyUser[] = [
     club: "Arsenal FC",
     position: "Exercise Physiologist",
     country: "Ireland",
-    bio: "Exercise Physiologist at Arsenal FC specializing in cardiorespiratory fitness assessment, metabolic profiling, and heat/altitude acclimatization for professional footballers. Driven by translating lab data into practical training recommendations.",
+    bio: "Exercise Physiologist at Arsenal FC specializing in cardiorespiratory fitness assessment, metabolic profiling, and heat/altitude acclimatization for professional footballers. Driven by translating lab data into practical training recommendations.\n\nIn my role I oversee VO2max testing, lactate threshold assessments, and body composition analysis to create individualized fitness benchmarks for every player in the squad. I design pre-season conditioning programs, manage environmental preparation for international competitions, and collaborate with the nutrition team on fueling strategies that align with metabolic demands. My research background in exercise immunology also informs our illness-prevention protocols during congested fixture periods. I'm passionate about making complex physiological data accessible and actionable for coaches and players alike.",
     interests: ["Fitness & Exercise Physiology", "Sport & Exercise Science", "Education"],
   },
   {
@@ -134,7 +134,7 @@ const defaultUsers: DummyUser[] = [
     club: "Manchester City",
     position: "Performance Analyst",
     country: "Germany",
-    bio: "Performance Analyst at Manchester City leveraging GPS tracking, video analysis, and advanced metrics to optimize team and individual performance. Building next-generation dashboards for coaching staff decision-making.",
+    bio: "Performance Analyst at Manchester City leveraging GPS tracking, video analysis, and advanced metrics to optimize team and individual performance. Building next-generation dashboards for coaching staff decision-making.\n\nI combine Catapult/STATSports GPS data with tactical video coding to provide coaches with actionable insights before, during, and after matches. My work covers physical output analysis, pressing intensity metrics, positional heat maps, and opponent profiling. I develop custom visualization tools and automated reporting pipelines that integrate seamlessly into the coaching workflow. Beyond the technical side, I pride myself on translating complex data into clear narratives that influence tactical decisions — because the best analysis is the kind that coaches and players can immediately understand and act upon.",
     interests: ["Sport & Exercise Science", "Career Development", "Management"],
   },
   {
@@ -149,7 +149,7 @@ const defaultUsers: DummyUser[] = [
     club: "Juventus",
     position: "Commercial Director",
     country: "United Kingdom",
-    bio: "Sr. Head of Commercial at Juventus overseeing sponsorship strategy, brand partnerships, and revenue growth. 15+ years in sports business development with a focus on building long-term commercial value for football organizations.",
+    bio: "Sr. Head of Commercial at Juventus overseeing sponsorship strategy, brand partnerships, and revenue growth. 15+ years in sports business development with a focus on building long-term commercial value for football organizations.\n\nThroughout my career I have negotiated and managed multi-million euro sponsorship agreements with global brands across sportswear, automotive, financial services, and technology sectors. My approach combines market analytics with relationship-driven sales to create partnerships that deliver measurable ROI for both the club and its sponsors. I also lead our hospitality and matchday experience programs, continuously innovating to elevate fan engagement and premium revenue streams. I'm passionate about the intersection of sport and business, and I actively mentor young professionals looking to build careers in football's commercial landscape.",
     interests: ["Leadership", "Management", "Networking"],
   },
   {
@@ -164,7 +164,7 @@ const defaultUsers: DummyUser[] = [
     club: "SL Benfica",
     position: "Business Development",
     country: "Belgium",
-    bio: "Business Development Manager at SL Benfica driving strategic growth initiatives, new market expansion, and partnership development. Passionate about connecting the football industry with innovative business opportunities.",
+    bio: "Business Development Manager at SL Benfica driving strategic growth initiatives, new market expansion, and partnership development. Passionate about connecting the football industry with innovative business opportunities.\n\nI identify and develop commercial opportunities that extend Benfica's global footprint — from international pre-season tours and licensing deals to digital content partnerships and fan engagement platforms. My background in management consulting gives me a structured approach to market analysis, competitive positioning, and stakeholder management. I work cross-functionally with marketing, legal, and football operations to ensure every new initiative aligns with the club's long-term strategic vision. Networking across the European football ecosystem is at the heart of what I do, and I thrive on building relationships that create mutual value.",
     interests: ["Networking", "Career Development", "Management"],
   },
   {
@@ -179,7 +179,7 @@ const defaultUsers: DummyUser[] = [
     club: "Inter Milan",
     position: "Community Manager",
     country: "United States",
-    bio: "Community Leader at EFC MPU, driving engagement and collaboration across 500+ football professionals worldwide. Dedicated to fostering meaningful connections, organizing impactful events, and shaping the future of football industry networking.",
+    bio: "Community Leader at EFC MPU, driving engagement and collaboration across 500+ football professionals worldwide. Dedicated to fostering meaningful connections, organizing impactful events, and shaping the future of football industry networking.\n\nAs the Community Manager, I design and facilitate programs that bring together performance scientists, medical staff, coaches, and business leaders to share knowledge and best practices. From curating webinar series and in-person summits to managing our digital platform and mentorship programs, my goal is to create an inclusive space where every member feels valued and empowered to grow. I also gather community feedback to continuously improve our offerings and ensure we're addressing the real challenges facing football professionals today. Building bridges across disciplines and cultures is what drives me every day.",
     interests: ["Networking", "Leadership", "Communication"],
   },
 ];
