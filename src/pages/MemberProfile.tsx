@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { getTeamLogo } from "@/lib/teamLogos";
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { useAuth, DummyUser } from "@/contexts/AuthContext";
+import { useAuth, dummyUsers, DummyUser } from "@/contexts/AuthContext";
 import { getUserAvatarUrl } from "@/lib/userAvatar";
 
 const memberData: Record<string, {
@@ -594,10 +594,37 @@ export default function MemberProfile() {
   // Try static data first, then fall back to AuthContext users
   const staticMember = slug ? memberData[slug] : null;
 
+  const directoryUsers = useMemo(() => {
+    const mergedUsers = new Map<string, DummyUser>();
+
+    dummyUsers.forEach((user) => {
+      mergedUsers.set(user.email.toLowerCase(), user);
+    });
+
+    users.forEach((user) => {
+      const key = user.email.toLowerCase();
+      const defaultUser = mergedUsers.get(key);
+
+      mergedUsers.set(
+        key,
+        defaultUser
+          ? {
+              ...defaultUser,
+              ...user,
+              bio: user.bio?.trim() ? user.bio : defaultUser.bio,
+              interests: user.interests?.length ? user.interests : defaultUser.interests,
+            }
+          : user,
+      );
+    });
+
+    return Array.from(mergedUsers.values());
+  }, [users]);
+
   const authMember = useMemo(() => {
     if (staticMember || !slug) return null;
-    return users.find((u) => nameToSlug(`${u.firstName} ${u.lastName}`) === slug);
-  }, [staticMember, slug, users]);
+    return directoryUsers.find((u) => nameToSlug(`${u.firstName} ${u.lastName}`) === slug);
+  }, [directoryUsers, staticMember, slug]);
 
   const member = useMemo(() => {
     if (staticMember) return staticMember;
