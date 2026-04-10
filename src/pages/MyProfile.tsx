@@ -223,7 +223,7 @@ export default function MyProfile() {
           transition={{ duration: 0.25 }}
         >
           {activeTab === "activity" && <ActivityTab />}
-          {activeTab === "about" && <AboutTab interests={interests} profile={profile} />}
+          {activeTab === "about" && <AboutTab interests={user?.interests || defaultInterests} profile={profile} />}
           {activeTab === "achievements" && <AchievementsTab />}
           {activeTab === "settings" && <SettingsTab notifications={notifications} setNotifications={setNotifications} />}
         </motion.div>
