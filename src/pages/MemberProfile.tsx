@@ -588,9 +588,47 @@ export function nameToSlug(name: string) {
 export default function MemberProfile() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { users } = useAuth();
   const [activeTab, setActiveTab] = useState<"about" | "posts" | "achievements">("about");
 
-  const member = slug ? memberData[slug] : null;
+  // Try static data first, then fall back to AuthContext users
+  const staticMember = slug ? memberData[slug] : null;
+
+  const authMember = useMemo(() => {
+    if (staticMember || !slug) return null;
+    return users.find((u) => nameToSlug(`${u.firstName} ${u.lastName}`) === slug);
+  }, [staticMember, slug, users]);
+
+  const member = useMemo(() => {
+    if (staticMember) return staticMember;
+    if (!authMember) return null;
+    const flagMap: Record<string, string> = {
+      "Germany": "🇩🇪", "France": "🇫🇷", "Italy": "🇮🇹", "Netherlands": "🇳🇱",
+      "United Kingdom": "🇬🇧", "Spain": "🇪🇸", "Portugal": "🇵🇹", "Belgium": "🇧🇪",
+      "Denmark": "🇩🇰", "Ireland": "🇮🇪", "United States": "🇺🇸",
+    };
+    return {
+      name: `${authMember.firstName} ${authMember.lastName}`.trim(),
+      email: authMember.email,
+      country: authMember.country || "Unknown",
+      flag: flagMap[authMember.country] || "🏳️",
+      role: authMember.role || "Member",
+      position: authMember.position || authMember.role || "",
+      team: authMember.club || "",
+      mpu: 850,
+      joined: "2024",
+      avatar: getUserAvatarUrl(authMember.firstName, authMember.lastName),
+      bio: authMember.bio || "",
+      followers: Math.floor(Math.random() * 300) + 50,
+      following: Math.floor(Math.random() * 150) + 30,
+      tags: authMember.interests || [],
+      experience: [] as { title: string; org: string; period: string }[],
+      posts: [] as { title: string; likes: number; comments: number; date: string }[],
+      achievements: [
+        { label: "Community Member", progress: 60, icon: "⭐" },
+      ],
+    };
+  }, [staticMember, authMember]);
 
   if (!member) {
     return (
