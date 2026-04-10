@@ -57,6 +57,26 @@ const communitySidebar = [
   { label: "Bulk logs", icon: BarChart3 },
 ];
 
+function getRegion(country: string): string {
+  const regions: Record<string, string> = {
+    "Germany": "Western Europe", "France": "Western Europe", "Belgium": "Western Europe", "Netherlands": "Western Europe",
+    "Italy": "Southern Europe", "Spain": "Southern Europe", "Portugal": "Southern Europe",
+    "United Kingdom": "Northern Europe", "Ireland": "Northern Europe", "Denmark": "Northern Europe", "Sweden": "Northern Europe",
+    "United States": "North America", "Czech Republic": "Eastern Europe", "Austria": "Western Europe", "Switzerland": "Western Europe",
+  };
+  return regions[country] || "Unknown";
+}
+
+function getFlag(country: string): string {
+  const flags: Record<string, string> = {
+    "Germany": "🇩🇪", "France": "🇫🇷", "Italy": "🇮🇹", "Netherlands": "🇳🇱",
+    "United Kingdom": "🇬🇧", "Spain": "🇪🇸", "Portugal": "🇵🇹", "Belgium": "🇧🇪",
+    "Denmark": "🇩🇰", "Ireland": "🇮🇪", "United States": "🇺🇸", "Czech Republic": "🇨🇿",
+    "Austria": "🇦🇹", "Switzerland": "🇨🇭", "Sweden": "🇸🇪",
+  };
+  return flags[country] || "🏳️";
+}
+
 const initialMembers = [
   {
     name: "Kwame Adebayo",
