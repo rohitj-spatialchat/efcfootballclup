@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import efcLogo from "@/assets/efclogo.png";
 
 const clubs = [
@@ -79,7 +80,8 @@ const interestTags = [
 export default function Onboarding() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [name, setName] = useState("");
+  const { user, updateProfile } = useAuth();
+  const [name, setName] = useState(user ? `${user.firstName} ${user.lastName}`.trim() : "");
   const [club, setClub] = useState("");
   const [position, setPosition] = useState("");
   const [country, setCountry] = useState("");
@@ -112,6 +114,18 @@ export default function Onboarding() {
       toast({ title: "Please select at least 1 interest", variant: "destructive" });
       return;
     }
+    // Save profile data to auth context
+    const [firstName, ...lastParts] = name.trim().split(" ");
+    const lastName = lastParts.join(" ");
+    updateProfile({
+      firstName: firstName || user?.firstName || "",
+      lastName: lastName || user?.lastName || "",
+      club,
+      position,
+      country,
+      role: position,
+      interests: selectedTags,
+    });
     toast({ title: "Profile saved!", description: "Welcome to the community." });
     navigate("/welcome");
   };
