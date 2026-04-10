@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import efcLogo from "@/assets/efclogo.png";
 
 export default function IntroduceYourself() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { toast } = useToast();
   const [intro, setIntro] = useState("");
 
@@ -12,6 +14,15 @@ export default function IntroduceYourself() {
     if (!intro.trim()) {
       toast({ title: "Please write an introduction", variant: "destructive" });
       return;
+    }
+    // Mark onboarding as complete
+    if (user) {
+      const onboardedUsers: string[] = JSON.parse(localStorage.getItem("efc_onboarded") || "[]");
+      const key = user.username || user.email.toLowerCase();
+      if (!onboardedUsers.includes(key)) {
+        onboardedUsers.push(key);
+        localStorage.setItem("efc_onboarded", JSON.stringify(onboardedUsers));
+      }
     }
     toast({ title: "Introduction posted!", description: "Welcome to the community! Redirecting to dashboard..." });
     navigate("/");
