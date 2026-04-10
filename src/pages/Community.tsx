@@ -443,7 +443,7 @@ export default function CommunityPage() {
   const handleExport = () => {
     const csv = [
       ["Name", "Email", "Country", "MPU", "Email Marketing", "Role", "Joined"].join(","),
-      ...members.map((m) =>
+      ...allMembers.map((m) =>
         [m.name, m.email, m.country, m.mpu, m.subscribed ? "Subscribed" : "Unsubscribed", m.role, m.joined].join(","),
       ),
     ].join("\n");
@@ -482,10 +482,10 @@ export default function CommunityPage() {
   };
 
   const toggleSelectAll = () => {
-    if (selectedMembers.length === members.length) {
+    if (selectedMembers.length === allMembers.length) {
       setSelectedMembers([]);
     } else {
-      setSelectedMembers(members.map((_, i) => i));
+      setSelectedMembers(allMembers.map((_, i) => i));
     }
   };
 
@@ -498,16 +498,16 @@ export default function CommunityPage() {
 
   const preFilteredMembers =
     activeTab === "all"
-      ? members
+      ? allMembers
       : activeTab === "contacts"
-        ? members.slice(0, members.length - 1)
+        ? allMembers.slice(0, allMembers.length - 1)
         : activeTab === "members"
-          ? members.filter((m) => m.role === "Member")
+          ? allMembers.filter((m) => m.role === "Member")
           : activeTab === "admins"
-            ? members.filter((m) => m.role === "Admin")
+            ? allMembers.filter((m) => m.role === "Admin")
             : activeTab === "moderators"
-              ? members.filter((m) => m.role === "Moderator")
-              : members;
+              ? allMembers.filter((m) => m.role === "Moderator")
+              : allMembers;
 
   const query = searchQuery.toLowerCase().trim();
   const filteredMembers = preFilteredMembers.filter((m) => {
@@ -547,15 +547,15 @@ export default function CommunityPage() {
   const isBlockedTab = activeTab === "blocked";
 
   const allTabs: { key: ActiveTab; label: string; count: number; isNew?: boolean; adminOnly?: boolean }[] = [
-    { key: "all", label: "All", count: members.length },
-    { key: "contacts", label: "Contacts", count: members.length - 1, isNew: true },
-    { key: "members", label: "Members", count: members.filter((m) => m.role === "Member").length },
+    { key: "all", label: "All", count: allMembers.length },
+    { key: "contacts", label: "Contacts", count: allMembers.length - 1, isNew: true },
+    { key: "members", label: "Members", count: allMembers.filter((m) => m.role === "Member").length },
     { key: "invited", label: "Invited", count: invited.length, adminOnly: true },
-    { key: "admins", label: "Admins", count: members.filter((m) => m.role === "Admin").length, adminOnly: true },
+    { key: "admins", label: "Admins", count: allMembers.filter((m) => m.role === "Admin").length, adminOnly: true },
     {
       key: "moderators",
       label: "Moderators",
-      count: members.filter((m) => m.role === "Moderator").length,
+      count: allMembers.filter((m) => m.role === "Moderator").length,
       adminOnly: true,
     },
     { key: "blocked", label: "Blocked", count: blocked.length, adminOnly: true },
