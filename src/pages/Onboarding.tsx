@@ -21,8 +21,6 @@ const clubs = [
   "RB Leipzig",
   "Celtic FC",
   "Aberdeen FC",
-  "Al Ahly",
-  "Wydad AC",
 ];
 
 const positions = [
