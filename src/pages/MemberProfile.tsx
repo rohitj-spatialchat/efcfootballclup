@@ -767,7 +767,7 @@ export default function MemberProfile() {
             {/* Bio */}
             <div className="rounded-xl border border-border bg-card p-5 space-y-4">
               <h3 className="text-sm font-semibold text-foreground">Bio</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{member.bio}</p>
+              <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{member.bio}</div>
               <div>
                 <h4 className="text-xs font-semibold text-foreground mb-2">Expertise</h4>
                 <div className="flex flex-wrap gap-1.5">
