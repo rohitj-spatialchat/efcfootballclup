@@ -279,9 +279,36 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 type ActiveTab = "all" | "contacts" | "members" | "invited" | "admins" | "moderators" | "blocked";
 
 export default function CommunityPage() {
+  const { users: authUsers } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { isAdmin } = useViewMode();
+
+  const authMembers = useMemo(() => {
+    const existingEmails = new Set(initialMembers.map((m) => m.email.toLowerCase()));
+    return authUsers
+      .filter((u) => !existingEmails.has(u.email.toLowerCase()))
+      .map((u) => ({
+        name: `${u.firstName} ${u.lastName}`.trim(),
+        email: u.email,
+        country: u.country || "Unknown",
+        region: getRegion(u.country),
+        discipline: u.position || "General",
+        mpu: Math.floor(Math.random() * 400 + 600),
+        role: "Member",
+        position: u.position || "",
+        title: u.role || "",
+        joined: "Apr 2026",
+        flag: getFlag(u.country),
+        followers: Math.floor(Math.random() * 200),
+        following: Math.floor(Math.random() * 100),
+        avatar: "",
+        subscribed: true,
+        team: u.club || "Unassigned",
+        format: "Full-time",
+      }));
+  }, [authUsers]);
+
   const [members, setMembers] = useState(initialMembers);
   const [invited, setInvited] = useState(initialInvited);
   const [blocked, setBlocked] = useState(initialBlocked);
