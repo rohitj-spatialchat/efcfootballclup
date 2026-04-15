@@ -34,125 +34,162 @@ const allBadges = [
   { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
-const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
+const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania", "Spain", "Italy", "Germany"];
 
-const realPhotos: Record<string, string> = {
-  "Casey Nguyen": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-  "Jamie Lawson": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-  "Chris Rodriguez": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
-  "Sarah Mitchell": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
-  "Alex Chen": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-  "Morgan Davis": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-  "Taylor Kim": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop&crop=face",
-  "Jordan Blake": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop&crop=face",
-  "Lucas Fernandez": "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=150&h=150&fit=crop&crop=face",
-  "Yuki Tanaka": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&h=150&fit=crop&crop=face",
-  "Oliver Smith": "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=150&h=150&fit=crop&crop=face",
-  "Fatima Al-Rashid": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
-  "Liam O'Brien": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop&crop=face",
-  "Diego Morales": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
-  "Priya Sharma": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
-  "Noah Williams": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&h=150&fit=crop&crop=face",
+const disciplines = ["All Disciplines", "Sport & Exercise", "Nutrition", "Physiotherapy", "Sport Psychology", "Performance Analysis", "Coaching", "Fitness & Conditioning", "Scouting", "Management", "Commercial", "Business Development", "Community"];
+
+// Discipline mapping for dummy users based on their role
+const roleToDiscipline: Record<string, string> = {
+  "Head of Performance": "Performance Analysis",
+  "Sports Nutritionist": "Nutrition",
+  "Lead Physiotherapist": "Physiotherapy",
+  "Sport Psychologist": "Sport Psychology",
+  "Rehabilitation Specialist": "Physiotherapy",
+  "Strength & Conditioning Coach": "Fitness & Conditioning",
+  "Exercise Physiologist": "Sport & Exercise",
+  "Performance Analyst": "Performance Analysis",
+  "Sr. Head of Commercial": "Commercial",
+  "Business Development Manager": "Business Development",
+  "Community Leader": "Community",
+  "Member": "Sport & Exercise",
 };
 
-const disciplines = ["All Disciplines", "Sport & Exercise", "Nutrition", "Physiotherapy", "Sport Psychology", "Performance Analysis", "Coaching", "Fitness & Conditioning", "Scouting", "Management"];
+const countryToRegion: Record<string, string> = {
+  "Germany": "Europe",
+  "Italy": "Europe",
+  "Netherlands": "Europe",
+  "United Kingdom": "Europe",
+  "France": "Europe",
+  "Denmark": "Europe",
+  "Ireland": "Europe",
+  "Belgium": "Europe",
+  "United States": "Americas",
+  "Spain": "Europe",
+};
 
-const leaderboard = [
+// Static leaderboard entries (non-dummy users)
+const staticLeaderboard = [
   {
-    rank: 2,
+    name: "Casey Nguyen",
+    likes: 420, comments: 350, networking: 280, streak: 45,
+    change: "+110", region: "Americas", team: "LA Galaxy",
+    discipline: "Coaching",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "top-10", "mentor"],
+    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+  },
+  {
     name: "Jamie Lawson",
-    likes: 380,
-    comments: 310,
-    networking: 260,
-    level: 5,
-    streak: 38,
-    badge: "💎",
-    change: "+95",
-    region: "Europe",
-    team: "AC Milan",
+    likes: 380, comments: 310, networking: 260, streak: 38,
+    change: "+95", region: "Europe", team: "AC Milan",
     discipline: "Nutrition",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "top-10"],
+    photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 3,
     name: "Chris Rodriguez",
-    likes: 210, comments: 170, networking: 140, level: 4, streak: 22,
-    badge: "🏆", change: "+80", region: "Spain", team: "Sevilla FC",
+    likes: 210, comments: 170, networking: 140, streak: 22,
+    change: "+80", region: "Europe", team: "Sevilla FC",
     discipline: "Physiotherapy",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"],
+    photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 4,
     name: "Sarah Mitchell",
-    likes: 75, comments: 65, networking: 50, level: 3, streak: 30,
-    badge: "🥇", change: "+65", region: "Europe", team: "Chelsea FC",
+    likes: 75, comments: 65, networking: 50, streak: 30,
+    change: "+65", region: "Europe", team: "Chelsea FC",
     discipline: "Sport & Exercise",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "streak-30"],
+    photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 6,
     name: "Morgan Davis",
-    likes: 35, comments: 28, networking: 22, level: 2, streak: 12,
-    badge: "🥈", change: "+40", region: "Germany", team: "RB Leipzig",
+    likes: 35, comments: 28, networking: 22, streak: 12,
+    change: "+40", region: "Europe", team: "RB Leipzig",
     discipline: "Coaching",
     earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
+    photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 8,
     name: "Jordan Blake",
-    likes: 8, comments: 7, networking: 5, level: 1, streak: 5,
-    badge: "⚽", change: "+20", region: "Africa", team: "Al Ahly",
+    likes: 8, comments: 7, networking: 5, streak: 5,
+    change: "+20", region: "Africa", team: "Al Ahly",
     discipline: "Scouting",
     earnedBadges: ["first-post", "10-likes"],
+    photo: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 10,
     name: "Yuki Tanaka",
-    likes: 340, comments: 290, networking: 240, level: 5, streak: 35,
-    badge: "💎", change: "+88", region: "Europe", team: "Aberdeen FC",
+    likes: 340, comments: 290, networking: 240, streak: 35,
+    change: "+88", region: "Europe", team: "Aberdeen FC",
     discipline: "Performance Analysis",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "top-10"],
+    photo: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 11,
     name: "Oliver Smith",
-    likes: 190, comments: 160, networking: 130, level: 4, streak: 20,
-    badge: "🏆", change: "+72", region: "Europe", team: "Arsenal FC",
+    likes: 190, comments: 160, networking: 130, streak: 20,
+    change: "+72", region: "Europe", team: "Arsenal FC",
     discipline: "Sport Psychology",
     earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star", "team-player"],
+    photo: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 12,
     name: "Fatima Al-Rashid",
-    likes: 140, comments: 115, networking: 95, level: 3, streak: 28,
-    badge: "🥇", change: "+60", region: "Africa", team: "Wydad AC",
+    likes: 140, comments: 115, networking: 95, streak: 28,
+    change: "+60", region: "Africa", team: "Wydad AC",
     discipline: "Fitness & Conditioning",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "event-star"],
+    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 13,
     name: "Liam O'Brien",
-    likes: 105, comments: 85, networking: 70, level: 3, streak: 15,
-    badge: "🥇", change: "+55", region: "Europe", team: "Celtic FC",
+    likes: 105, comments: 85, networking: 70, streak: 15,
+    change: "+55", region: "Europe", team: "Celtic FC",
     discipline: "Management",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"],
+    photo: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop&crop=face",
   },
   {
-    rank: 15,
     name: "Priya Sharma",
-    likes: 38, comments: 32, networking: 25, level: 2, streak: 14,
-    badge: "🥈", change: "+38", region: "Italy", team: "Juventus",
+    likes: 38, comments: 32, networking: 25, streak: 14,
+    change: "+38", region: "Europe", team: "Juventus",
     discipline: "Nutrition",
     earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
+    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
   },
 ];
 
-const getMpu = (m: (typeof leaderboard)[0]) => m.likes + m.comments + m.networking;
+// Predefined stats for dummy users by id
+const dummyUserStats: Record<string, { likes: number; comments: number; networking: number; streak: number; change: string; earnedBadges: string[] }> = {
+  u1: { likes: 310, comments: 260, networking: 210, streak: 32, change: "+85", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "top-10"] },
+  u2: { likes: 245, comments: 200, networking: 165, streak: 25, change: "+75", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"] },
+  u3: { likes: 180, comments: 150, networking: 120, streak: 18, change: "+68", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7"] },
+  u4: { likes: 160, comments: 135, networking: 110, streak: 21, change: "+62", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"] },
+  u5: { likes: 130, comments: 105, networking: 85, streak: 16, change: "+55", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"] },
+  u6: { likes: 95, comments: 80, networking: 65, streak: 14, change: "+48", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"] },
+  u7: { likes: 85, comments: 70, networking: 55, streak: 11, change: "+42", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "streak-7"] },
+  u8: { likes: 70, comments: 58, networking: 45, streak: 9, change: "+35", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "streak-7"] },
+  u9: { likes: 55, comments: 45, networking: 35, streak: 8, change: "+30", earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"] },
+  u10: { likes: 42, comments: 35, networking: 28, streak: 7, change: "+25", earnedBadges: ["first-post", "10-likes", "commenter"] },
+  u11: { likes: 200, comments: 170, networking: 140, streak: 24, change: "+78", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "team-player"] },
+};
 
-const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
-const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
-
-const currentUser = { name: "Sarah Mitchell", level: 3, nextLevelMpu: 400, rank: 4 };
+type LeaderboardEntry = {
+  rank: number;
+  name: string;
+  likes: number;
+  comments: number;
+  networking: number;
+  level: number;
+  streak: number;
+  badge: string;
+  change: string;
+  region: string;
+  team: string;
+  discipline: string;
+  earnedBadges: string[];
+  photo?: string;
+};
 
 function getLevelTitle(level: number) {
   return levels.find((l) => l.level === level)?.title ?? "";
