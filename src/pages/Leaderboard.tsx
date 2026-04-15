@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X, Filter, CalendarIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -8,7 +8,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-
+import { useAuth } from "@/contexts/AuthContext";
+import { getUserAvatarUrl } from "@/lib/userAvatar";
 const levels = [
   { level: 1, title: "Member", pointsRequired: 0, badge: "⚽" },
   { level: 2, title: "Silver", pointsRequired: 50, badge: "🥈" },
