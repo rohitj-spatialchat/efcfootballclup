@@ -1,5 +1,17 @@
 import { motion } from "framer-motion";
-import { Trophy, TrendingUp, Star, Flame, Award, Heart, MessageCircle, Users, X, Filter, CalendarIcon } from "lucide-react";
+import {
+  Trophy,
+  TrendingUp,
+  Star,
+  Flame,
+  Award,
+  Heart,
+  MessageCircle,
+  Users,
+  X,
+  Filter,
+  CalendarIcon,
+} from "lucide-react";
 import { useState, useMemo } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -36,7 +48,21 @@ const allBadges = [
 
 const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania", "Spain", "Italy", "Germany"];
 
-const disciplines = ["All Disciplines", "Sport & Exercise", "Nutrition", "Physiotherapy", "Sport Psychology", "Performance Analysis", "Coaching", "Fitness & Conditioning", "Scouting", "Management", "Commercial", "Business Development", "Community"];
+const disciplines = [
+  "All Disciplines",
+  "Sport & Exercise",
+  "Nutrition",
+  "Physiotherapy",
+  "Sport Psychology",
+  "Performance Analysis",
+  "Coaching",
+  "Fitness & Conditioning",
+  "Scouting",
+  "Management",
+  "Commercial",
+  "Business Development",
+  "Community",
+];
 
 // Discipline mapping for dummy users based on their role
 const roleToDiscipline: Record<string, string> = {
@@ -51,108 +77,215 @@ const roleToDiscipline: Record<string, string> = {
   "Sr. Head of Commercial": "Commercial",
   "Business Development Manager": "Business Development",
   "Community Leader": "Community",
-  "Member": "Sport & Exercise",
+  Member: "Sport & Exercise",
 };
 
 const countryToRegion: Record<string, string> = {
-  "Germany": "Europe",
-  "Italy": "Europe",
-  "Netherlands": "Europe",
+  Germany: "Europe",
+  Italy: "Europe",
+  Netherlands: "Europe",
   "United Kingdom": "Europe",
-  "France": "Europe",
-  "Denmark": "Europe",
-  "Ireland": "Europe",
-  "Belgium": "Europe",
+  France: "Europe",
+  Denmark: "Europe",
+  Ireland: "Europe",
+  Belgium: "Europe",
   "United States": "Americas",
-  "Spain": "Europe",
+  Spain: "Europe",
 };
 
 // Static leaderboard entries (non-dummy users)
 const staticLeaderboard = [
   {
     name: "Casey Nguyen",
-    likes: 420, comments: 350, networking: 280, streak: 45,
-    change: "+110", region: "Americas", team: "LA Galaxy",
+    likes: 420,
+    comments: 350,
+    networking: 280,
+    streak: 45,
+    change: "+110",
+    region: "Americas",
+    team: "LA Galaxy",
     discipline: "Coaching",
-    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "top-10", "mentor"],
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "streak-30",
+      "event-star",
+      "top-10",
+      "mentor",
+    ],
     photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Jamie Lawson",
-    likes: 380, comments: 310, networking: 260, streak: 38,
-    change: "+95", region: "Europe", team: "AC Milan",
+    likes: 380,
+    comments: 310,
+    networking: 260,
+    streak: 38,
+    change: "+95",
+    region: "Europe",
+    team: "AC Milan",
     discipline: "Nutrition",
-    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "top-10"],
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "streak-30",
+      "event-star",
+      "top-10",
+    ],
     photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Chris Rodriguez",
-    likes: 210, comments: 170, networking: 140, streak: 22,
-    change: "+80", region: "Europe", team: "Sevilla FC",
+    likes: 210,
+    comments: 170,
+    networking: 140,
+    streak: 22,
+    change: "+80",
+    region: "Europe",
+    team: "Sevilla FC",
     discipline: "Physiotherapy",
-    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"],
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "event-star",
+    ],
     photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Sarah Mitchell",
-    likes: 75, comments: 65, networking: 50, streak: 30,
-    change: "+65", region: "Europe", team: "Chelsea FC",
+    likes: 75,
+    comments: 65,
+    networking: 50,
+    streak: 30,
+    change: "+65",
+    region: "Europe",
+    team: "Chelsea FC",
     discipline: "Sport & Exercise",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "streak-30"],
     photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Morgan Davis",
-    likes: 35, comments: 28, networking: 22, streak: 12,
-    change: "+40", region: "Europe", team: "RB Leipzig",
+    likes: 35,
+    comments: 28,
+    networking: 22,
+    streak: 12,
+    change: "+40",
+    region: "Europe",
+    team: "RB Leipzig",
     discipline: "Coaching",
     earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
     photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Jordan Blake",
-    likes: 8, comments: 7, networking: 5, streak: 5,
-    change: "+20", region: "Africa", team: "Al Ahly",
+    likes: 8,
+    comments: 7,
+    networking: 5,
+    streak: 5,
+    change: "+20",
+    region: "Africa",
+    team: "Al Ahly",
     discipline: "Scouting",
     earnedBadges: ["first-post", "10-likes"],
     photo: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Yuki Tanaka",
-    likes: 340, comments: 290, networking: 240, streak: 35,
-    change: "+88", region: "Europe", team: "Aberdeen FC",
+    likes: 340,
+    comments: 290,
+    networking: 240,
+    streak: 35,
+    change: "+88",
+    region: "Europe",
+    team: "Aberdeen FC",
     discipline: "Performance Analysis",
-    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "top-10"],
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "streak-30",
+      "top-10",
+    ],
     photo: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Oliver Smith",
-    likes: 190, comments: 160, networking: 130, streak: 20,
-    change: "+72", region: "Europe", team: "Arsenal FC",
+    likes: 190,
+    comments: 160,
+    networking: 130,
+    streak: 20,
+    change: "+72",
+    region: "Europe",
+    team: "Arsenal FC",
     discipline: "Sport Psychology",
-    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star", "team-player"],
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "event-star",
+      "team-player",
+    ],
     photo: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Fatima Al-Rashid",
-    likes: 140, comments: 115, networking: 95, streak: 28,
-    change: "+60", region: "Africa", team: "Wydad AC",
+    likes: 140,
+    comments: 115,
+    networking: 95,
+    streak: 28,
+    change: "+60",
+    region: "Africa",
+    team: "Wydad AC",
     discipline: "Fitness & Conditioning",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7", "event-star"],
     photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
   },
   {
     name: "Liam O'Brien",
-    likes: 105, comments: 85, networking: 70, streak: 15,
-    change: "+55", region: "Europe", team: "Celtic FC",
+    likes: 105,
+    comments: 85,
+    networking: 70,
+    streak: 15,
+    change: "+55",
+    region: "Europe",
+    team: "Celtic FC",
     discipline: "Management",
     earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"],
     photo: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop&crop=face",
   },
   {
-    name: "Priya Sharma",
-    likes: 38, comments: 32, networking: 25, streak: 14,
-    change: "+38", region: "Europe", team: "Juventus",
+    name: "Jordan Miller",
+    likes: 38,
+    comments: 32,
+    networking: 25,
+    streak: 14,
+    change: "+38",
+    region: "Europe",
+    team: "Juventus",
     discipline: "Nutrition",
     earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
     photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
@@ -160,18 +293,137 @@ const staticLeaderboard = [
 ];
 
 // Predefined stats for dummy users by id
-const dummyUserStats: Record<string, { likes: number; comments: number; networking: number; streak: number; change: string; earnedBadges: string[] }> = {
-  u1: { likes: 310, comments: 260, networking: 210, streak: 32, change: "+85", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "top-10"] },
-  u2: { likes: 245, comments: 200, networking: 165, streak: 25, change: "+75", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"] },
-  u3: { likes: 180, comments: 150, networking: 120, streak: 18, change: "+68", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7"] },
-  u4: { likes: 160, comments: 135, networking: 110, streak: 21, change: "+62", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "event-star"] },
-  u5: { likes: 130, comments: 105, networking: 85, streak: 16, change: "+55", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"] },
-  u6: { likes: 95, comments: 80, networking: 65, streak: 14, change: "+48", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"] },
-  u7: { likes: 85, comments: 70, networking: 55, streak: 11, change: "+42", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "streak-7"] },
-  u8: { likes: 70, comments: 58, networking: 45, streak: 9, change: "+35", earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "streak-7"] },
-  u9: { likes: 55, comments: 45, networking: 35, streak: 8, change: "+30", earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"] },
-  u10: { likes: 42, comments: 35, networking: 28, streak: 7, change: "+25", earnedBadges: ["first-post", "10-likes", "commenter"] },
-  u11: { likes: 200, comments: 170, networking: 140, streak: 24, change: "+78", earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7", "streak-30", "event-star", "team-player"] },
+const dummyUserStats: Record<
+  string,
+  { likes: number; comments: number; networking: number; streak: number; change: string; earnedBadges: string[] }
+> = {
+  u1: {
+    likes: 310,
+    comments: 260,
+    networking: 210,
+    streak: 32,
+    change: "+85",
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "streak-30",
+      "top-10",
+    ],
+  },
+  u2: {
+    likes: 245,
+    comments: 200,
+    networking: 165,
+    streak: 25,
+    change: "+75",
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "event-star",
+    ],
+  },
+  u3: {
+    likes: 180,
+    comments: 150,
+    networking: 120,
+    streak: 18,
+    change: "+68",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "100-likes", "commenter", "networker", "streak-7"],
+  },
+  u4: {
+    likes: 160,
+    comments: 135,
+    networking: 110,
+    streak: 21,
+    change: "+62",
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "event-star",
+    ],
+  },
+  u5: {
+    likes: 130,
+    comments: 105,
+    networking: 85,
+    streak: 16,
+    change: "+55",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"],
+  },
+  u6: {
+    likes: 95,
+    comments: 80,
+    networking: 65,
+    streak: 14,
+    change: "+48",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "networker", "streak-7"],
+  },
+  u7: {
+    likes: 85,
+    comments: 70,
+    networking: 55,
+    streak: 11,
+    change: "+42",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "streak-7"],
+  },
+  u8: {
+    likes: 70,
+    comments: 58,
+    networking: 45,
+    streak: 9,
+    change: "+35",
+    earnedBadges: ["first-post", "10-likes", "50-likes", "commenter", "streak-7"],
+  },
+  u9: {
+    likes: 55,
+    comments: 45,
+    networking: 35,
+    streak: 8,
+    change: "+30",
+    earnedBadges: ["first-post", "10-likes", "commenter", "streak-7"],
+  },
+  u10: {
+    likes: 42,
+    comments: 35,
+    networking: 28,
+    streak: 7,
+    change: "+25",
+    earnedBadges: ["first-post", "10-likes", "commenter"],
+  },
+  u11: {
+    likes: 200,
+    comments: 170,
+    networking: 140,
+    streak: 24,
+    change: "+78",
+    earnedBadges: [
+      "first-post",
+      "10-likes",
+      "50-likes",
+      "100-likes",
+      "commenter",
+      "networker",
+      "streak-7",
+      "streak-30",
+      "event-star",
+      "team-player",
+    ],
+  },
 };
 
 type LeaderboardEntry = {
@@ -298,7 +550,9 @@ export default function LeaderboardPage() {
     return true;
   });
 
-  const currentUserName = currentAuthUser ? `${currentAuthUser.firstName} ${currentAuthUser.lastName}` : "Sarah Mitchell";
+  const currentUserName = currentAuthUser
+    ? `${currentAuthUser.firstName} ${currentAuthUser.lastName}`
+    : "Sarah Mitchell";
   const displayMember = selectedMember || leaderboard.find((m) => m.name === currentUserName) || leaderboard[0];
   const displayMpu = getMpu(displayMember);
   const displayNextMpu = getNextLevelMpu(displayMember.level);
@@ -333,7 +587,10 @@ export default function LeaderboardPage() {
                 <Avatar className="h-16 w-16 border-2 border-primary">
                   <AvatarImage src={displayMember.photo} alt={displayMember.name} />
                   <AvatarFallback className="bg-primary/10 text-primary text-lg font-bold">
-                    {displayMember.name.split(" ").map((n) => n[0]).join("")}
+                    {displayMember.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <span className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">
@@ -391,7 +648,9 @@ export default function LeaderboardPage() {
             <Flame className="h-4 w-4 text-destructive" /> Streak
           </div>
           <p className="text-2xl font-semibold text-foreground">{displayMember.streak} days</p>
-          <p className="text-xs text-muted-foreground mt-1">{displayMember.streak >= 30 ? "Personal best!" : "Keep it up!"}</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {displayMember.streak >= 30 ? "Personal best!" : "Keep it up!"}
+          </p>
         </div>
       </motion.div>
 
@@ -422,7 +681,9 @@ export default function LeaderboardPage() {
               className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {disciplines.map((d) => (
-                <option key={d} value={d}>{d}</option>
+                <option key={d} value={d}>
+                  {d}
+                </option>
               ))}
             </select>
             <select
@@ -431,7 +692,9 @@ export default function LeaderboardPage() {
               className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {regions.map((r) => (
-                <option key={r} value={r}>{r}</option>
+                <option key={r} value={r}>
+                  {r}
+                </option>
               ))}
             </select>
             <div className="flex items-center gap-1.5">
@@ -443,7 +706,7 @@ export default function LeaderboardPage() {
                     size="sm"
                     className={cn(
                       "h-8 w-[100px] justify-start text-left text-xs font-medium",
-                      !dateFrom && "text-muted-foreground"
+                      !dateFrom && "text-muted-foreground",
                     )}
                   >
                     {dateFrom ? format(dateFrom, "dd MMM") : "From"}
@@ -467,7 +730,7 @@ export default function LeaderboardPage() {
                     size="sm"
                     className={cn(
                       "h-8 w-[100px] justify-start text-left text-xs font-medium",
-                      !dateTo && "text-muted-foreground"
+                      !dateTo && "text-muted-foreground",
                     )}
                   >
                     {dateTo ? format(dateTo, "dd MMM") : "To"}
