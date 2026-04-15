@@ -270,7 +270,7 @@ export default function LeaderboardPage() {
         team: u.club || "Independent",
         discipline: roleToDiscipline[u.role] || "Sport & Exercise",
         earnedBadges: stats.earnedBadges,
-        photo: getUserAvatarUrl(name),
+        photo: getUserAvatarUrl(u.firstName, u.lastName),
       });
     });
 
