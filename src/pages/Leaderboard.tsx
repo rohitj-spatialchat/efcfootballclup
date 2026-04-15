@@ -278,7 +278,7 @@ const staticLeaderboard = [
     photo: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop&crop=face",
   },
   {
-    name: "Jordan Miller",
+    name: "Lara Johnson",
     likes: 38,
     comments: 32,
     networking: 25,
