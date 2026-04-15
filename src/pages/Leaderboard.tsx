@@ -582,11 +582,6 @@ export default function LeaderboardPage() {
                     <td className="px-3 py-3 text-sm text-muted-foreground text-center">{m.comments}</td>
                     <td className="px-3 py-3 text-sm text-muted-foreground text-center">{m.networking}</td>
                     <td className="px-3 py-3 text-sm text-foreground text-center font-semibold">{mpu}</td>
-                    <td className="px-3 py-3 text-sm text-muted-foreground text-center">
-                      <span className="inline-flex items-center gap-1">
-                        <Flame className="h-3 w-3 text-destructive" /> {m.streak}d
-                      </span>
-                    </td>
                   </tr>
                 );
               })}
