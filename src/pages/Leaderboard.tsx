@@ -331,7 +331,7 @@ export default function LeaderboardPage() {
             <div className="flex items-center gap-4">
               <div className="relative">
                 <Avatar className="h-16 w-16 border-2 border-primary">
-                  <AvatarImage src={realPhotos[displayMember.name]} alt={displayMember.name} />
+                  <AvatarImage src={displayMember.photo} alt={displayMember.name} />
                   <AvatarFallback className="bg-primary/10 text-primary text-lg font-bold">
                     {displayMember.name.split(" ").map((n) => n[0]).join("")}
                   </AvatarFallback>
@@ -561,7 +561,7 @@ export default function LeaderboardPage() {
                     <td className="px-3 py-3">
                       <div className="flex items-center gap-3 min-w-0">
                         <Avatar className="h-8 w-8 shrink-0">
-                          <AvatarImage src={realPhotos[m.name]} alt={m.name} />
+                          <AvatarImage src={m.photo} alt={m.name} />
                           <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
                             {m.name
                               .split(" ")
