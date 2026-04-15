@@ -524,7 +524,6 @@ export default function LeaderboardPage() {
                   </span>
                 </th>
                 <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">MPU Points</th>
-                <th className="px-3 py-3 text-center text-xs font-medium text-muted-foreground">Streak</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
