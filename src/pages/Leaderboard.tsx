@@ -231,12 +231,66 @@ function EarnedBadges({ badgeIds }: { badgeIds: string[] }) {
 }
 
 export default function LeaderboardPage() {
+  const { users, user: currentAuthUser } = useAuth();
   const [selectedRegion, setSelectedRegion] = useState("All Regions");
   const [selectedDiscipline, setSelectedDiscipline] = useState("All Disciplines");
   const [timePeriod, setTimePeriod] = useState("This Month");
-  const [selectedMember, setSelectedMember] = useState<(typeof leaderboard)[0] | null>(null);
+  const [selectedMember, setSelectedMember] = useState<LeaderboardEntry | null>(null);
   const [dateFrom, setDateFrom] = useState<Date | undefined>(undefined);
   const [dateTo, setDateTo] = useState<Date | undefined>(undefined);
+
+  const getMpu = (m: { likes: number; comments: number; networking: number }) => m.likes + m.comments + m.networking;
+
+  const getLevel = (mpu: number) => {
+    const lvl = levels.filter((l) => mpu >= l.pointsRequired).pop()!;
+    return lvl;
+  };
+
+  // Build full leaderboard merging dummy users + static entries
+  const leaderboard = useMemo(() => {
+    const entries: Omit<LeaderboardEntry, "rank">[] = [];
+
+    // Add dummy users from auth context
+    users.forEach((u) => {
+      const stats = dummyUserStats[u.id];
+      if (!stats) return;
+      const name = `${u.firstName} ${u.lastName}`;
+      const mpu = stats.likes + stats.comments + stats.networking;
+      const lvl = getLevel(mpu);
+      entries.push({
+        name,
+        likes: stats.likes,
+        comments: stats.comments,
+        networking: stats.networking,
+        level: lvl.level,
+        streak: stats.streak,
+        badge: lvl.badge,
+        change: stats.change,
+        region: countryToRegion[u.country] || "Europe",
+        team: u.club || "Independent",
+        discipline: roleToDiscipline[u.role] || "Sport & Exercise",
+        earnedBadges: stats.earnedBadges,
+        photo: getUserAvatarUrl(name),
+      });
+    });
+
+    // Add static entries (avoid duplicates by name)
+    const existingNames = new Set(entries.map((e) => e.name));
+    staticLeaderboard.forEach((s) => {
+      if (existingNames.has(s.name)) return;
+      const mpu = s.likes + s.comments + s.networking;
+      const lvl = getLevel(mpu);
+      entries.push({
+        ...s,
+        level: lvl.level,
+        badge: lvl.badge,
+      });
+    });
+
+    // Sort by MPU descending and assign sequential ranks
+    entries.sort((a, b) => getMpu(b) - getMpu(a));
+    return entries.map((e, i) => ({ ...e, rank: i + 1 }));
+  }, [users]);
 
   const filteredLeaderboard = leaderboard.filter((m) => {
     if (selectedRegion !== "All Regions" && m.region !== selectedRegion) return false;
@@ -244,10 +298,14 @@ export default function LeaderboardPage() {
     return true;
   });
 
-  const displayMember = selectedMember || leaderboard.find((m) => m.name === currentUser.name)!;
+  const currentUserName = currentAuthUser ? `${currentAuthUser.firstName} ${currentAuthUser.lastName}` : "Sarah Mitchell";
+  const displayMember = selectedMember || leaderboard.find((m) => m.name === currentUserName) || leaderboard[0];
   const displayMpu = getMpu(displayMember);
-  const displayNextMpu = selectedMember ? getNextLevelMpu(displayMember.level) : currentUser.nextLevelMpu;
-  const isViewingOther = selectedMember && selectedMember.name !== currentUser.name;
+  const displayNextMpu = getNextLevelMpu(displayMember.level);
+  const isViewingOther = selectedMember && selectedMember.name !== currentUserName;
+
+  const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
+  const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
