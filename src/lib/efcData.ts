@@ -1038,7 +1038,7 @@ export const KNOWN_CLUB_LOGOS: Record<string, string> = {
   "Sevilla FC": "https://crests.football-data.org/559.png",
   "RB Leipzig": "https://crests.football-data.org/721.png",
   "Celtic FC": "https://crests.football-data.org/732.png",
-  "Aberdeen FC": "https://crests.football-data.org/1002.png",
+  
   "Paris Saint-Germain": "https://crests.football-data.org/524.png",
   "Borussia Dortmund": "https://crests.football-data.org/4.png",
   "Atlético de Madrid": "https://crests.football-data.org/78.png",
