@@ -46,7 +46,8 @@ const allBadges = [
   { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
-const regions = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania", "Spain", "Italy", "Germany"];
+import { EFC_REGIONS } from "@/lib/efcData";
+const regions = ["All Regions", ...EFC_REGIONS];
 
 const disciplines = [
   "All Disciplines",
