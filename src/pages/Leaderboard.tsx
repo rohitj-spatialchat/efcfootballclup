@@ -201,7 +201,7 @@ const staticLeaderboard = [
     streak: 35,
     change: "+88",
     region: "Europe",
-    team: "Aberdeen FC",
+    team: "Celtic FC",
     discipline: "Performance Analysis",
     earnedBadges: [
       "first-post",
