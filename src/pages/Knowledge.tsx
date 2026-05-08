@@ -4,6 +4,7 @@ import { ChevronDown, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { EFC_REGIONS, EFC_COUNTRY_NAMES } from "@/lib/efcData";
 
 const categories = ["All", "Fitness", "Meeting Circles", "Nutrition", "Guided Sessions"];
 
@@ -225,22 +226,11 @@ export default function KnowledgePage() {
             //{ label: "Discipline", options: ["All", "Sport Science", "Coaching & Tactics", "Sport Psychology", "Physiotherapy", "Performance Analysis", "Strength & Conditioning", "Biomechanics", "Injury Prevention"] },
             {
               label: "Country",
-              options: [
-                "All",
-                "United Kingdom",
-                "Spain",
-                "Germany",
-                "France",
-                "Brazil",
-                "Argentina",
-                "Italy",
-                "Netherlands",
-                "Portugal",
-              ],
+              options: ["All", ...[...EFC_COUNTRY_NAMES].sort()],
             },
             {
               label: "Region",
-              options: ["All", "Europe", "South America", "North America", "Asia", "Africa", "Oceania"],
+              options: ["All", ...[...EFC_REGIONS].sort()],
             },
           ].map((filter) => (
             <div key={filter.label}>
