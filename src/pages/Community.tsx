@@ -1319,7 +1319,7 @@ export default function CommunityPage() {
                       </p>
                       <div className="flex items-center gap-1.5 mt-1">
                         {getTeamLogo(m.team) && (
-                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" />
+                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(m.team); }} />
                         )}
                         <p className="text-xs text-primary font-medium">{m.team}</p>
                       </div>
