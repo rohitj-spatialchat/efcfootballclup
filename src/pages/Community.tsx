@@ -376,12 +376,13 @@ export default function CommunityPage() {
 
   const allMembers = useMemo(() => [...normalizedStatic, ...authMembers], [normalizedStatic, authMembers]);
 
-  // Derive unique filter options from members data
+  // Filter options — Region/Country/Football Team show the FULL EFC list,
+  // other dropdowns are derived from the visible members.
   const filterOptions = {
-    region: [...new Set(allMembers.map((m) => m.region))].sort(),
+    region: [...EFC_REGIONS].sort(),
     discipline: [...new Set(allMembers.map((m) => m.discipline))].sort(),
-    country: [...new Set(allMembers.map((m) => m.country))].sort(),
-    team: [...new Set(allMembers.map((m) => m.team))].sort(),
+    country: [...EFC_COUNTRY_NAMES].sort(),
+    team: [...EFC_CLUB_NAMES].sort(),
     title: [...new Set(allMembers.map((m) => m.title).filter(Boolean))].sort(),
     format: [...new Set(allMembers.map((m) => m.format))].sort(),
     role: [...new Set(allMembers.map((m) => m.role))].sort(),
