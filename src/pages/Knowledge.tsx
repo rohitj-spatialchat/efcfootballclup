@@ -4,6 +4,7 @@ import { ChevronDown, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { EFC_REGIONS, EFC_COUNTRY_NAMES } from "@/lib/efcData";
 
 const categories = ["All", "Fitness", "Meeting Circles", "Nutrition", "Guided Sessions"];
 
