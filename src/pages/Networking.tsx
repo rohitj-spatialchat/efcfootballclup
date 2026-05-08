@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getTeamLogo } from "@/lib/teamLogos";
+import { getTeamLogo, normalizeMember } from "@/lib/efcData";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -119,23 +119,31 @@ export default function NetworkingPage() {
   const { users: authUsers } = useAuth();
 
   const allUsers = useMemo(() => {
-    const existingNames = new Set(onlineUsers.map((u) => u.name.toLowerCase()));
+    // Normalize hardcoded entries against EFC data
+    const normalizedOnline = onlineUsers.map((u) => {
+      const n = normalizeMember(u.country, u.team);
+      return { ...u, country: n.country, team: n.team, location: u.location.replace(u.country, n.country) };
+    });
+    const existingNames = new Set(normalizedOnline.map((u) => u.name.toLowerCase()));
     const authNetworkUsers = authUsers
       .filter((u) => !existingNames.has(`${u.firstName} ${u.lastName}`.trim().toLowerCase()))
-      .map((u) => ({
-        name: `${u.firstName} ${u.lastName}`.trim(),
-        team: u.club || "Unassigned",
-        country: u.country || "Unknown",
-        role: u.position || u.role || "Member",
-        location: u.country ? `${u.country}` : "Unknown",
-        score: +(Math.random() * 3 + 6.5).toFixed(1),
-        mpuPoints: Math.floor(Math.random() * 60000 + 30000),
-        mutualConnections: Math.floor(Math.random() * 10 + 1),
-        bio: u.bio || `${u.role} at ${u.club || "EFC"}. Passionate about football and professional development.`,
-        skills: u.interests?.slice(0, 3) || [u.position || "Football", "Networking", "Development"],
-        image: getUserAvatarUrl(u.firstName, u.lastName),
-      }));
-    return [...onlineUsers, ...authNetworkUsers];
+      .map((u) => {
+        const n = normalizeMember(u.country, u.club);
+        return {
+          name: `${u.firstName} ${u.lastName}`.trim(),
+          team: n.team,
+          country: n.country,
+          role: u.position || u.role || "Member",
+          location: n.country,
+          score: +(Math.random() * 3 + 6.5).toFixed(1),
+          mpuPoints: Math.floor(Math.random() * 60000 + 30000),
+          mutualConnections: Math.floor(Math.random() * 10 + 1),
+          bio: u.bio || `${u.role} at ${n.team}. Passionate about football and professional development.`,
+          skills: u.interests?.slice(0, 3) || [u.position || "Football", "Networking", "Development"],
+          image: getUserAvatarUrl(u.firstName, u.lastName),
+        };
+      });
+    return [...normalizedOnline, ...authNetworkUsers];
   }, [authUsers]);
 
   const [currentIndex, setCurrentIndex] = useState(0);

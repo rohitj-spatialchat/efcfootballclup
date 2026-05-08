@@ -46,7 +46,7 @@ const allBadges = [
   { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
-import { EFC_REGIONS } from "@/lib/efcData";
+import { EFC_REGIONS, normalizeMember } from "@/lib/efcData";
 const regions = ["All Regions", ...EFC_REGIONS];
 
 const disciplines = [
@@ -79,19 +79,6 @@ const roleToDiscipline: Record<string, string> = {
   "Business Development Manager": "Business Development",
   "Community Leader": "Community",
   Member: "Sport & Exercise",
-};
-
-const countryToRegion: Record<string, string> = {
-  Germany: "Europe",
-  Italy: "Europe",
-  Netherlands: "Europe",
-  "United Kingdom": "Europe",
-  France: "Europe",
-  Denmark: "Europe",
-  Ireland: "Europe",
-  Belgium: "Europe",
-  "United States": "Americas",
-  Spain: "Europe",
 };
 
 // Static leaderboard entries (non-dummy users)
@@ -510,6 +497,7 @@ export default function LeaderboardPage() {
       const name = `${u.firstName} ${u.lastName}`;
       const mpu = stats.likes + stats.comments + stats.networking;
       const lvl = getLevel(mpu);
+      const norm = normalizeMember(u.country, u.club);
       entries.push({
         name,
         likes: stats.likes,
@@ -519,27 +507,29 @@ export default function LeaderboardPage() {
         streak: stats.streak,
         badge: lvl.badge,
         change: stats.change,
-        region: countryToRegion[u.country] || "Europe",
-        team: u.club || "Independent",
+        region: norm.region,
+        team: norm.team,
         discipline: roleToDiscipline[u.role] || "Sport & Exercise",
         earnedBadges: stats.earnedBadges,
         photo: getUserAvatarUrl(u.firstName, u.lastName),
       });
     });
 
-    // Add static entries (avoid duplicates by name)
+    // Add static entries (avoid duplicates by name) — pass through normalizer
     const existingNames = new Set(entries.map((e) => e.name));
     staticLeaderboard.forEach((s) => {
       if (existingNames.has(s.name)) return;
       const mpu = s.likes + s.comments + s.networking;
       const lvl = getLevel(mpu);
+      const norm = normalizeMember(undefined, s.team);
       entries.push({
         ...s,
+        team: norm.team,
+        region: norm.region,
         level: lvl.level,
         badge: lvl.badge,
       });
     });
-
     // Sort by MPU descending and assign sequential ranks
     entries.sort((a, b) => getMpu(b) - getMpu(a));
     return entries.map((e, i) => ({ ...e, rank: i + 1 }));

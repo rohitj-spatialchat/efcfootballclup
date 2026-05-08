@@ -220,7 +220,8 @@ const topicOptions = [
 
 const trendingOptions = ["Today", "This Week", "This Month", "All Time"];
 
-const regionOptions = ["All Regions", "Balkans", "United Kingdom", "DACH", "Latin", "Eastern"];
+import { EFC_REGIONS } from "@/lib/efcData";
+const regionOptions = ["All Regions", ...EFC_REGIONS];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } };
 const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };

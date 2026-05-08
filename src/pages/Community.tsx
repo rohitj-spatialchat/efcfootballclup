@@ -44,7 +44,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getTeamLogo } from "@/lib/teamLogos";
+import { getTeamLogo, normalizeMember, COUNTRY_TO_REGION } from "@/lib/efcData";
 import { nameToSlug } from "./MemberProfile";
 
 const communitySidebar = [
@@ -58,21 +58,18 @@ const communitySidebar = [
 ];
 
 function getRegion(country: string): string {
-  const regions: Record<string, string> = {
-    "Germany": "Western Europe", "France": "Western Europe", "Belgium": "Western Europe", "Netherlands": "Western Europe",
-    "Italy": "Southern Europe", "Spain": "Southern Europe", "Portugal": "Southern Europe",
-    "United Kingdom": "Northern Europe", "Ireland": "Northern Europe", "Denmark": "Northern Europe", "Sweden": "Northern Europe",
-    "United States": "North America", "Czech Republic": "Eastern Europe", "Austria": "Western Europe", "Switzerland": "Western Europe",
-  };
-  return regions[country] || "Unknown";
+  return COUNTRY_TO_REGION[country] || "British Isles";
 }
 
 function getFlag(country: string): string {
   const flags: Record<string, string> = {
     "Germany": "🇩🇪", "France": "🇫🇷", "Italy": "🇮🇹", "Netherlands": "🇳🇱",
-    "United Kingdom": "🇬🇧", "Spain": "🇪🇸", "Portugal": "🇵🇹", "Belgium": "🇧🇪",
-    "Denmark": "🇩🇰", "Ireland": "🇮🇪", "United States": "🇺🇸", "Czech Republic": "🇨🇿",
-    "Austria": "🇦🇹", "Switzerland": "🇨🇭", "Sweden": "🇸🇪",
+    "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "Wales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "Northern Ireland": "🇬🇧",
+    "Spain": "🇪🇸", "Portugal": "🇵🇹", "Belgium": "🇧🇪",
+    "Denmark": "🇩🇰", "Ireland": "🇮🇪", "Czech Republic": "🇨🇿",
+    "Austria": "🇦🇹", "Switzerland": "🇨🇭", "Sweden": "🇸🇪", "Norway": "🇳🇴",
+    "Poland": "🇵🇱", "Greece": "🇬🇷", "Turkey": "🇹🇷", "Russia": "🇷🇺",
+    "Ukraine": "🇺🇦", "Croatia": "🇭🇷", "Serbia": "🇷🇸", "Hungary": "🇭🇺",
   };
   return flags[country] || "🏳️";
 }
@@ -308,25 +305,28 @@ export default function CommunityPage() {
     const existingEmails = new Set(initialMembers.map((m) => m.email.toLowerCase()));
     return authUsers
       .filter((u) => !existingEmails.has(u.email.toLowerCase()))
-      .map((u) => ({
-        name: `${u.firstName} ${u.lastName}`.trim(),
-        email: u.email,
-        country: u.country || "Unknown",
-        region: getRegion(u.country),
-        discipline: u.position || "General",
-        mpu: Math.floor(Math.random() * 400 + 600),
-        role: "Member",
-        position: u.position || "",
-        title: u.role || "",
-        joined: "Apr 2026",
-        flag: getFlag(u.country),
-        followers: Math.floor(Math.random() * 200),
-        following: Math.floor(Math.random() * 100),
-        avatar: "",
-        subscribed: true,
-        team: u.club || "Unassigned",
-        format: "Full-time",
-      }));
+      .map((u) => {
+        const norm = normalizeMember(u.country, u.club);
+        return {
+          name: `${u.firstName} ${u.lastName}`.trim(),
+          email: u.email,
+          country: norm.country,
+          region: norm.region,
+          discipline: u.position || "General",
+          mpu: Math.floor(Math.random() * 400 + 600),
+          role: "Member",
+          position: u.position || "",
+          title: u.role || "",
+          joined: "Apr 2026",
+          flag: getFlag(norm.country),
+          followers: Math.floor(Math.random() * 200),
+          following: Math.floor(Math.random() * 100),
+          avatar: "",
+          subscribed: true,
+          team: norm.team,
+          format: "Full-time",
+        };
+      });
   }, [authUsers]);
 
   const [members, setMembers] = useState(initialMembers);
@@ -363,7 +363,18 @@ export default function CommunityPage() {
     reason: "",
   });
 
-  const allMembers = useMemo(() => [...members, ...authMembers], [members, authMembers]);
+  // Normalize the static seed members against EFC data so country/team/region
+  // always come from the source PDFs.
+  const normalizedStatic = useMemo(
+    () =>
+      members.map((m) => {
+        const norm = normalizeMember(m.country, m.team);
+        return { ...m, country: norm.country, region: norm.region, team: norm.team, flag: getFlag(norm.country) };
+      }),
+    [members],
+  );
+
+  const allMembers = useMemo(() => [...normalizedStatic, ...authMembers], [normalizedStatic, authMembers]);
 
   // Derive unique filter options from members data
   const filterOptions = {

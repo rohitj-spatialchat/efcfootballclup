@@ -1025,21 +1025,101 @@ export const EFC_CLUB_NAMES: string[] = EFC_CLUBS.map((c) => c.name);
 export const KNOWN_CLUB_LOGOS: Record<string, string> = {
   "AFC Ajax": "https://crests.football-data.org/678.png",
   "AC Milan": "https://crests.football-data.org/98.png",
-  "Inter Milan": "https://crests.football-data.org/108.png",
+  "FC Internazionale Milano": "https://crests.football-data.org/108.png",
   "SL Benfica": "https://crests.football-data.org/1903.png",
   "FC Porto": "https://crests.football-data.org/503.png",
   "Arsenal FC": "https://crests.football-data.org/57.png",
   "Chelsea FC": "https://crests.football-data.org/61.png",
-  "Manchester City": "https://crests.football-data.org/65.png",
-  "Bayern Munich": "https://crests.football-data.org/5.png",
+  "Manchester City FC": "https://crests.football-data.org/65.png",
+  "FC Bayern München": "https://crests.football-data.org/5.png",
   "Liverpool FC": "https://crests.football-data.org/64.png",
-  "Juventus": "https://crests.football-data.org/109.png",
+  "Juventus FC": "https://crests.football-data.org/109.png",
   "AC Sparta Praha": "https://crests.football-data.org/747.png",
   "Sevilla FC": "https://crests.football-data.org/559.png",
   "RB Leipzig": "https://crests.football-data.org/721.png",
   "Celtic FC": "https://crests.football-data.org/732.png",
   "Aberdeen FC": "https://crests.football-data.org/1002.png",
+  "Paris Saint-Germain": "https://crests.football-data.org/524.png",
+  "Borussia Dortmund": "https://crests.football-data.org/4.png",
+  "Atlético de Madrid": "https://crests.football-data.org/78.png",
 };
+
+// ---- Normalization ---------------------------------------------------------
+// Maps common aliases to the canonical EFC names so we can validate and
+// replace any data that doesn't match the source PDFs.
+export const CLUB_ALIASES: Record<string, string> = {
+  "Bayern Munich": "FC Bayern München",
+  "Bayern München": "FC Bayern München",
+  "FC Bayern Munich": "FC Bayern München",
+  "Manchester City": "Manchester City FC",
+  "Man City": "Manchester City FC",
+  "Juventus": "Juventus FC",
+  "Inter Milan": "FC Internazionale Milano",
+  "Internazionale": "FC Internazionale Milano",
+  "Inter": "FC Internazionale Milano",
+};
+
+export const COUNTRY_ALIASES: Record<string, string> = {
+  "United Kingdom": "England",
+  "UK": "England",
+  "Great Britain": "England",
+  "Britain": "England",
+  // Non-EFC countries fall back to England so the data stays consistent
+  "United States": "England",
+  "USA": "England",
+  "Senegal": "England",
+};
+
+const CLUB_BY_NAME: Record<string, EfcClub> = Object.fromEntries(
+  EFC_CLUBS.map((c) => [c.name.toLowerCase(), c]),
+);
+
+export function normalizeClubName(name?: string): string {
+  if (!name) return "";
+  const aliased = CLUB_ALIASES[name] ?? name;
+  const exact = CLUB_BY_NAME[aliased.toLowerCase()];
+  return exact ? exact.name : aliased;
+}
+
+export function normalizeCountryName(name?: string): string {
+  if (!name) return "";
+  return COUNTRY_ALIASES[name] ?? name;
+}
+
+export interface NormalizedMember {
+  country: string;
+  team: string;
+  region: string;
+}
+
+const FALLBACK = { country: "England", team: "Liverpool FC" };
+
+/**
+ * Returns canonical { country, team, region } for a member.
+ * - If `team` matches an EFC club, that club's country is authoritative.
+ * - If `country` is in EFC, region is derived from it.
+ * - Anything that doesn't match the EFC source data is replaced with valid values.
+ */
+export function normalizeMember(rawCountry?: string, rawTeam?: string): NormalizedMember {
+  const teamCanonical = normalizeClubName(rawTeam);
+  const club = teamCanonical ? CLUB_BY_NAME[teamCanonical.toLowerCase()] : undefined;
+  let country = normalizeCountryName(rawCountry);
+
+  if (club) {
+    country = club.country;
+  } else if (!country || !COUNTRY_TO_REGION[country]) {
+    country = FALLBACK.country;
+  }
+
+  let team = teamCanonical;
+  if (!club) {
+    const def = EFC_CLUBS.find((c) => c.country === country && c.gender === "Men");
+    team = def?.name ?? FALLBACK.team;
+  }
+
+  const region = COUNTRY_TO_REGION[country] ?? COUNTRY_TO_REGION[FALLBACK.country];
+  return { country, team, region };
+}
 
 // Deterministic color from string
 const hashHue = (s: string): number => {
@@ -1060,9 +1140,10 @@ const initials = (name: string): string => {
 
 export const getTeamLogo = (team: string): string => {
   if (!team) return "";
-  if (KNOWN_CLUB_LOGOS[team]) return KNOWN_CLUB_LOGOS[team];
-  const hue = hashHue(team);
-  const init = initials(team) || "FC";
+  const canonical = CLUB_ALIASES[team] ?? team;
+  if (KNOWN_CLUB_LOGOS[canonical]) return KNOWN_CLUB_LOGOS[canonical];
+  const hue = hashHue(canonical);
+  const init = initials(canonical) || "FC";
   const bg = `hsl(${hue}, 65%, 45%)`;
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='${bg}' stroke='white' stroke-width='2'/><text x='50%' y='52%' text-anchor='middle' dominant-baseline='middle' font-family='Inter,Arial,sans-serif' font-size='22' font-weight='700' fill='white'>${init}</text></svg>`;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
