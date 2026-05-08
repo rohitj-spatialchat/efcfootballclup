@@ -44,7 +44,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getTeamLogo } from "@/lib/teamLogos";
+import { getTeamLogo, normalizeMember, COUNTRY_TO_REGION } from "@/lib/efcData";
 import { nameToSlug } from "./MemberProfile";
 
 const communitySidebar = [
@@ -58,21 +58,18 @@ const communitySidebar = [
 ];
 
 function getRegion(country: string): string {
-  const regions: Record<string, string> = {
-    "Germany": "Western Europe", "France": "Western Europe", "Belgium": "Western Europe", "Netherlands": "Western Europe",
-    "Italy": "Southern Europe", "Spain": "Southern Europe", "Portugal": "Southern Europe",
-    "United Kingdom": "Northern Europe", "Ireland": "Northern Europe", "Denmark": "Northern Europe", "Sweden": "Northern Europe",
-    "United States": "North America", "Czech Republic": "Eastern Europe", "Austria": "Western Europe", "Switzerland": "Western Europe",
-  };
-  return regions[country] || "Unknown";
+  return COUNTRY_TO_REGION[country] || "British Isles";
 }
 
 function getFlag(country: string): string {
   const flags: Record<string, string> = {
     "Germany": "🇩🇪", "France": "🇫🇷", "Italy": "🇮🇹", "Netherlands": "🇳🇱",
-    "United Kingdom": "🇬🇧", "Spain": "🇪🇸", "Portugal": "🇵🇹", "Belgium": "🇧🇪",
-    "Denmark": "🇩🇰", "Ireland": "🇮🇪", "United States": "🇺🇸", "Czech Republic": "🇨🇿",
-    "Austria": "🇦🇹", "Switzerland": "🇨🇭", "Sweden": "🇸🇪",
+    "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "Wales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "Northern Ireland": "🇬🇧",
+    "Spain": "🇪🇸", "Portugal": "🇵🇹", "Belgium": "🇧🇪",
+    "Denmark": "🇩🇰", "Ireland": "🇮🇪", "Czech Republic": "🇨🇿",
+    "Austria": "🇦🇹", "Switzerland": "🇨🇭", "Sweden": "🇸🇪", "Norway": "🇳🇴",
+    "Poland": "🇵🇱", "Greece": "🇬🇷", "Turkey": "🇹🇷", "Russia": "🇷🇺",
+    "Ukraine": "🇺🇦", "Croatia": "🇭🇷", "Serbia": "🇷🇸", "Hungary": "🇭🇺",
   };
   return flags[country] || "🏳️";
 }
