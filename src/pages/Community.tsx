@@ -305,25 +305,28 @@ export default function CommunityPage() {
     const existingEmails = new Set(initialMembers.map((m) => m.email.toLowerCase()));
     return authUsers
       .filter((u) => !existingEmails.has(u.email.toLowerCase()))
-      .map((u) => ({
-        name: `${u.firstName} ${u.lastName}`.trim(),
-        email: u.email,
-        country: u.country || "Unknown",
-        region: getRegion(u.country),
-        discipline: u.position || "General",
-        mpu: Math.floor(Math.random() * 400 + 600),
-        role: "Member",
-        position: u.position || "",
-        title: u.role || "",
-        joined: "Apr 2026",
-        flag: getFlag(u.country),
-        followers: Math.floor(Math.random() * 200),
-        following: Math.floor(Math.random() * 100),
-        avatar: "",
-        subscribed: true,
-        team: u.club || "Unassigned",
-        format: "Full-time",
-      }));
+      .map((u) => {
+        const norm = normalizeMember(u.country, u.club);
+        return {
+          name: `${u.firstName} ${u.lastName}`.trim(),
+          email: u.email,
+          country: norm.country,
+          region: norm.region,
+          discipline: u.position || "General",
+          mpu: Math.floor(Math.random() * 400 + 600),
+          role: "Member",
+          position: u.position || "",
+          title: u.role || "",
+          joined: "Apr 2026",
+          flag: getFlag(norm.country),
+          followers: Math.floor(Math.random() * 200),
+          following: Math.floor(Math.random() * 100),
+          avatar: "",
+          subscribed: true,
+          team: norm.team,
+          format: "Full-time",
+        };
+      });
   }, [authUsers]);
 
   const [members, setMembers] = useState(initialMembers);
@@ -360,7 +363,18 @@ export default function CommunityPage() {
     reason: "",
   });
 
-  const allMembers = useMemo(() => [...members, ...authMembers], [members, authMembers]);
+  // Normalize the static seed members against EFC data so country/team/region
+  // always come from the source PDFs.
+  const normalizedStatic = useMemo(
+    () =>
+      members.map((m) => {
+        const norm = normalizeMember(m.country, m.team);
+        return { ...m, country: norm.country, region: norm.region, team: norm.team, flag: getFlag(norm.country) };
+      }),
+    [members],
+  );
+
+  const allMembers = useMemo(() => [...normalizedStatic, ...authMembers], [normalizedStatic, authMembers]);
 
   // Derive unique filter options from members data
   const filterOptions = {
