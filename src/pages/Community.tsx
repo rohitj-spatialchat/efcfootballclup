@@ -44,7 +44,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getTeamLogo, normalizeMember, COUNTRY_TO_REGION } from "@/lib/efcData";
+import { getTeamLogo, normalizeMember, COUNTRY_TO_REGION, EFC_REGIONS, EFC_COUNTRY_NAMES, EFC_CLUB_NAMES } from "@/lib/efcData";
 import { nameToSlug } from "./MemberProfile";
 
 const communitySidebar = [
