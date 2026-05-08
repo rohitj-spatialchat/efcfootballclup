@@ -46,7 +46,7 @@ const allBadges = [
   { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
-import { EFC_REGIONS } from "@/lib/efcData";
+import { EFC_REGIONS, normalizeMember } from "@/lib/efcData";
 const regions = ["All Regions", ...EFC_REGIONS];
 
 const disciplines = [
@@ -79,19 +79,6 @@ const roleToDiscipline: Record<string, string> = {
   "Business Development Manager": "Business Development",
   "Community Leader": "Community",
   Member: "Sport & Exercise",
-};
-
-const countryToRegion: Record<string, string> = {
-  Germany: "Europe",
-  Italy: "Europe",
-  Netherlands: "Europe",
-  "United Kingdom": "Europe",
-  France: "Europe",
-  Denmark: "Europe",
-  Ireland: "Europe",
-  Belgium: "Europe",
-  "United States": "Americas",
-  Spain: "Europe",
 };
 
 // Static leaderboard entries (non-dummy users)
