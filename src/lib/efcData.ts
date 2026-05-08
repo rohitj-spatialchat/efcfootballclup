@@ -1138,15 +1138,20 @@ const initials = (name: string): string => {
     .join("");
 };
 
-export const getTeamLogo = (team: string): string => {
-  if (!team) return "";
-  const canonical = CLUB_ALIASES[team] ?? team;
-  if (KNOWN_CLUB_LOGOS[canonical]) return KNOWN_CLUB_LOGOS[canonical];
+export const getTeamLogoFallback = (team: string): string => {
+  const canonical = CLUB_ALIASES[team] ?? team ?? "";
   const hue = hashHue(canonical);
   const init = initials(canonical) || "FC";
   const bg = `hsl(${hue}, 65%, 45%)`;
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='${bg}' stroke='white' stroke-width='2'/><text x='50%' y='52%' text-anchor='middle' dominant-baseline='middle' font-family='Inter,Arial,sans-serif' font-size='22' font-weight='700' fill='white'>${init}</text></svg>`;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+};
+
+export const getTeamLogo = (team: string): string => {
+  if (!team) return "";
+  const canonical = CLUB_ALIASES[team] ?? team;
+  if (KNOWN_CLUB_LOGOS[canonical]) return KNOWN_CLUB_LOGOS[canonical];
+  return getTeamLogoFallback(canonical);
 };
 
 export const getClubsByCountry = (country: string): EfcClub[] =>
