@@ -46,7 +46,7 @@ const allBadges = [
   { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
-import { EFC_REGIONS, normalizeMember } from "@/lib/efcData";
+import { EFC_REGIONS, normalizeMember, getTeamLogo } from "@/lib/efcData";
 const regions = ["All Regions", ...EFC_REGIONS];
 
 const disciplines = [
@@ -826,7 +826,14 @@ export default function LeaderboardPage() {
                     </td>
                     <td className="px-3 py-3 text-sm text-muted-foreground truncate">{m.discipline}</td>
                     <td className="px-3 py-3 text-sm text-muted-foreground truncate">{m.region}</td>
-                    <td className="px-3 py-3 text-sm text-foreground truncate">{m.team}</td>
+                    <td className="px-3 py-3 text-sm text-foreground truncate">
+                      <div className="flex items-center gap-2 min-w-0">
+                        {getTeamLogo(m.team) && (
+                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-5 w-5 object-contain shrink-0" />
+                        )}
+                        <span className="truncate">{m.team}</span>
+                      </div>
+                    </td>
                     <td className="px-3 py-3 text-center">
                       <span className="inline-flex items-center gap-1 text-xs font-medium rounded-full bg-primary/10 text-primary px-2 py-0.5">
                         {m.badge} Lv.{m.level}
