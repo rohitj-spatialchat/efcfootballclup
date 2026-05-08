@@ -4,25 +4,9 @@ import { ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import efcLogo from "@/assets/efclogo.png";
+import { EFC_CLUB_NAMES, EFC_COUNTRY_NAMES } from "@/lib/efcData";
 
-const clubs = [
-  "AFC Ajax",
-  "AC Milan",
-  "Inter Milan",
-  "SL Benfica",
-  "FC Porto",
-  "Arsenal FC",
-  "Chelsea FC",
-  "Manchester City",
-  "Bayern Munich",
-  "Liverpool FC",
-  "Juventus",
-  "AC Sparta Praha",
-  "Sevilla FC",
-  "RB Leipzig",
-  "Celtic FC",
-  "Aberdeen FC",
-];
+const clubs = EFC_CLUB_NAMES;
 
 const positions = [
   "Head of Performance",
@@ -42,23 +26,7 @@ const positions = [
   "Community Manager",
 ];
 
-const countries = [
-  "Germany",
-  "France",
-  "Italy",
-  "Netherlands",
-  "United Kingdom",
-  "Spain",
-  "Portugal",
-  "Belgium",
-  "Denmark",
-  "Ireland",
-  "United States",
-  "Czech Republic",
-  "Austria",
-  "Switzerland",
-  "Sweden",
-];
+const countries = EFC_COUNTRY_NAMES;
 
 const interestTags = [
   "Sport & Exercise Science",
