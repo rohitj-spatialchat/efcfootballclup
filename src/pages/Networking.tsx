@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getTeamLogo } from "@/lib/teamLogos";
+import { getTeamLogo, normalizeMember } from "@/lib/efcData";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
