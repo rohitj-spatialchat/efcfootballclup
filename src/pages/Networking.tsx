@@ -317,7 +317,7 @@ export default function NetworkingPage() {
                   </div>
                   <div className="flex items-center gap-1.5">
                     {getTeamLogo(u.team) && (
-                      <img src={getTeamLogo(u.team)} alt={u.team} className="h-4 w-4 object-contain" />
+                      <img src={getTeamLogo(u.team)} alt={u.team} className="h-4 w-4 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(u.team); }} />
                     )}
                     <p className="text-xs font-medium text-primary">{u.team}</p>
                   </div>
