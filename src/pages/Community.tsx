@@ -1168,7 +1168,7 @@ export default function CommunityPage() {
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-1.5">
                               {getTeamLogo(m.team) && (
-                                <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" />
+                                <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(m.team); }} />
                               )}
                               <span className="text-sm text-muted-foreground">{m.team}</span>
                             </div>
