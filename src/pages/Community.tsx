@@ -44,7 +44,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getTeamLogo, normalizeMember, COUNTRY_TO_REGION, EFC_REGIONS, EFC_COUNTRY_NAMES, EFC_CLUB_NAMES } from "@/lib/efcData";
+import { getTeamLogo, getTeamLogoFallback, normalizeMember, COUNTRY_TO_REGION, EFC_REGIONS, EFC_COUNTRY_NAMES, EFC_CLUB_NAMES } from "@/lib/efcData";
 import { nameToSlug } from "./MemberProfile";
 
 const communitySidebar = [
@@ -1168,7 +1168,7 @@ export default function CommunityPage() {
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-1.5">
                               {getTeamLogo(m.team) && (
-                                <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" />
+                                <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(m.team); }} />
                               )}
                               <span className="text-sm text-muted-foreground">{m.team}</span>
                             </div>
@@ -1319,7 +1319,7 @@ export default function CommunityPage() {
                       </p>
                       <div className="flex items-center gap-1.5 mt-1">
                         {getTeamLogo(m.team) && (
-                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" />
+                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-4 w-4 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(m.team); }} />
                         )}
                         <p className="text-xs text-primary font-medium">{m.team}</p>
                       </div>

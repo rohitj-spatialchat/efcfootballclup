@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getTeamLogo, normalizeMember } from "@/lib/efcData";
+import { getTeamLogo, getTeamLogoFallback, normalizeMember } from "@/lib/efcData";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -210,7 +210,7 @@ export default function NetworkingPage() {
             <h2 className="text-xl font-bold text-foreground">{currentUser.name}</h2>
             <div className="flex items-center justify-center gap-1.5 mt-0.5">
               {getTeamLogo(currentUser.team) && (
-                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-5 w-5 object-contain" />
+                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-5 w-5 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(currentUser.team); }} />
               )}
               <p className="text-sm font-semibold text-primary">{currentUser.team}</p>
             </div>
@@ -317,7 +317,7 @@ export default function NetworkingPage() {
                   </div>
                   <div className="flex items-center gap-1.5">
                     {getTeamLogo(u.team) && (
-                      <img src={getTeamLogo(u.team)} alt={u.team} className="h-4 w-4 object-contain" />
+                      <img src={getTeamLogo(u.team)} alt={u.team} className="h-4 w-4 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(u.team); }} />
                     )}
                     <p className="text-xs font-medium text-primary">{u.team}</p>
                   </div>

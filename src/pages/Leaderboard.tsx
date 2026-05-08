@@ -46,7 +46,7 @@ const allBadges = [
   { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
-import { EFC_REGIONS, normalizeMember, getTeamLogo } from "@/lib/efcData";
+import { EFC_REGIONS, normalizeMember, getTeamLogo, getTeamLogoFallback } from "@/lib/efcData";
 const regions = ["All Regions", ...EFC_REGIONS];
 
 const disciplines = [
@@ -829,7 +829,7 @@ export default function LeaderboardPage() {
                     <td className="px-3 py-3 text-sm text-foreground truncate">
                       <div className="flex items-center gap-2 min-w-0">
                         {getTeamLogo(m.team) && (
-                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-5 w-5 object-contain shrink-0" />
+                          <img src={getTeamLogo(m.team)} alt={m.team} className="h-5 w-5 object-contain shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(m.team); }} />
                         )}
                         <span className="truncate">{m.team}</span>
                       </div>
