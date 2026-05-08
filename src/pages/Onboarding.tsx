@@ -26,23 +26,7 @@ const positions = [
   "Community Manager",
 ];
 
-const countries = [
-  "Germany",
-  "France",
-  "Italy",
-  "Netherlands",
-  "United Kingdom",
-  "Spain",
-  "Portugal",
-  "Belgium",
-  "Denmark",
-  "Ireland",
-  "United States",
-  "Czech Republic",
-  "Austria",
-  "Switzerland",
-  "Sweden",
-];
+const countries = EFC_COUNTRY_NAMES;
 
 const interestTags = [
   "Sport & Exercise Science",
