@@ -226,22 +226,11 @@ export default function KnowledgePage() {
             //{ label: "Discipline", options: ["All", "Sport Science", "Coaching & Tactics", "Sport Psychology", "Physiotherapy", "Performance Analysis", "Strength & Conditioning", "Biomechanics", "Injury Prevention"] },
             {
               label: "Country",
-              options: [
-                "All",
-                "United Kingdom",
-                "Spain",
-                "Germany",
-                "France",
-                "Brazil",
-                "Argentina",
-                "Italy",
-                "Netherlands",
-                "Portugal",
-              ],
+              options: ["All", ...[...EFC_COUNTRY_NAMES].sort()],
             },
             {
               label: "Region",
-              options: ["All", "Europe", "South America", "North America", "Asia", "Africa", "Oceania"],
+              options: ["All", ...[...EFC_REGIONS].sort()],
             },
           ].map((filter) => (
             <div key={filter.label}>
