@@ -199,13 +199,21 @@ function normalizeUser(user: DummyUser): DummyUser {
   };
 }
 
+// Names of test/junk accounts that should always be purged from storage.
+const REMOVED_USER_NAMES = ["deepankar singh", "hjwbd bwdj"];
+function isRemovedUser(u: DummyUser): boolean {
+  const full = `${u.firstName ?? ""} ${u.lastName ?? ""}`.trim().toLowerCase();
+  return REMOVED_USER_NAMES.includes(full);
+}
+
 function loadUsers(): DummyUser[] {
   try {
     const saved = localStorage.getItem("efc_all_users");
     if (saved) {
       const savedUsers: DummyUser[] = JSON.parse(saved);
+      const filtered = savedUsers.filter((u) => !isRemovedUser(u));
       // Merge saved users with defaults to pick up any new fields (like bio, interests)
-      return savedUsers.map((user) => {
+      const merged = filtered.map((user) => {
         const defaultMatch = defaultUsers.find((d) => d.id === user.id || d.email === user.email);
         if (defaultMatch) {
           return normalizeUser({
@@ -217,6 +225,11 @@ function loadUsers(): DummyUser[] {
         }
         return normalizeUser(user);
       });
+      // Persist the cleanup so the junk users don't reappear next load.
+      if (filtered.length !== savedUsers.length) {
+        localStorage.setItem("efc_all_users", JSON.stringify(merged));
+      }
+      return merged;
     }
   } catch {}
   return defaultUsers.map(normalizeUser);
