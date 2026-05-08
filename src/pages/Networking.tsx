@@ -210,7 +210,7 @@ export default function NetworkingPage() {
             <h2 className="text-xl font-bold text-foreground">{currentUser.name}</h2>
             <div className="flex items-center justify-center gap-1.5 mt-0.5">
               {getTeamLogo(currentUser.team) && (
-                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-5 w-5 object-contain" />
+                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-5 w-5 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(currentUser.team); }} />
               )}
               <p className="text-sm font-semibold text-primary">{currentUser.team}</p>
             </div>
