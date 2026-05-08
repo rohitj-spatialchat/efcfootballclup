@@ -46,7 +46,7 @@ const allBadges = [
   { id: "mentor", label: "Mentor", icon: "🎓", description: "Helped 5 new members" },
 ];
 
-import { EFC_REGIONS, normalizeMember } from "@/lib/efcData";
+import { EFC_REGIONS, normalizeMember, getTeamLogo } from "@/lib/efcData";
 const regions = ["All Regions", ...EFC_REGIONS];
 
 const disciplines = [
