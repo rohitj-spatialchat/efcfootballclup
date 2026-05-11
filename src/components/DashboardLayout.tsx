@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useViewMode } from "@/contexts/ViewModeContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { getUserAvatarUrl } from "@/lib/userAvatar";
+import { EFC_REGIONS, EFC_COUNTRIES } from "@/lib/efcData";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Rss,
