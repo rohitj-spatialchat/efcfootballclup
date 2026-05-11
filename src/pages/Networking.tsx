@@ -248,6 +248,19 @@ export default function NetworkingPage() {
               ))}
             </div>
 
+            {getMatchReasons(currentUser).length > 0 && (
+              <div className="mt-4 w-full max-w-md rounded-lg border border-primary/20 bg-primary/5 p-3 text-left">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-primary mb-1.5">Why you matched</p>
+                <ul className="space-y-1">
+                  {getMatchReasons(currentUser).map((r, i) => (
+                    <li key={r} className="text-xs text-foreground flex items-start gap-2">
+                      <span className="text-primary font-semibold">{i + 1}.</span> {r}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
           </motion.div>
         </AnimatePresence>
 
