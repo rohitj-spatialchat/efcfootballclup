@@ -373,6 +373,19 @@ export default function NetworkingPage() {
                 ))}
               </div>
 
+              {getMatchReasons(u).length > 0 && (
+                <div className="mt-3 rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-primary mb-0.5">Why matched</p>
+                  <ul className="space-y-0.5">
+                    {getMatchReasons(u).map((r, i) => (
+                      <li key={r} className="text-[11px] text-foreground">
+                        <span className="text-primary font-semibold">{i + 1}.</span> {r}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* Buttons */}
               <div className="flex gap-2 mt-3">
                 <button
