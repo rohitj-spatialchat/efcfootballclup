@@ -718,18 +718,55 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </button>
             {spatialOpen && !sidebarCollapsed && (
               <div className="ml-3 mt-0.5 space-y-0.5 pb-4">
-                {spatialRooms.map((room) => (
-                  <a
-                    key={room.name}
-                    href="https://app.spatial.chat/s/RCg3AlBcmcqAPTeHxDXN?room=rxTXTyLCcNoTM0zYde35"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 w-full rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                  >
-                    <room.icon className="h-3.5 w-3.5 shrink-0" />
-                    {room.name}
-                  </a>
-                ))}
+                {spatialRooms.map((room) => {
+                  const hasSubs = room.countries.length > 1;
+                  const isExpanded = expandedRegion === room.name;
+                  return (
+                    <div key={room.name}>
+                      <div className="flex items-center w-full rounded-md text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+                        <a
+                          href="https://app.spatial.chat/s/RCg3AlBcmcqAPTeHxDXN?room=rxTXTyLCcNoTM0zYde35"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 flex-1 px-3 py-1.5"
+                        >
+                          <room.icon className="h-3.5 w-3.5 shrink-0" />
+                          {room.name}
+                        </a>
+                        {hasSubs && (
+                          <button
+                            type="button"
+                            onClick={() => setExpandedRegion(isExpanded ? null : room.name)}
+                            className="px-2 py-1.5 hover:text-foreground"
+                            aria-label={isExpanded ? "Collapse" : "Expand"}
+                          >
+                            {isExpanded ? (
+                              <ChevronDown className="h-3 w-3" />
+                            ) : (
+                              <ChevronRight className="h-3 w-3" />
+                            )}
+                          </button>
+                        )}
+                      </div>
+                      {hasSubs && isExpanded && (
+                        <div className="ml-5 mt-0.5 space-y-0.5 border-l border-border pl-2">
+                          {room.countries.map((country) => (
+                            <a
+                              key={country}
+                              href="https://app.spatial.chat/s/RCg3AlBcmcqAPTeHxDXN?room=rxTXTyLCcNoTM0zYde35"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 w-full rounded-md px-2 py-1 text-[11px] text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                            >
+                              <Flag className="h-3 w-3 shrink-0" />
+                              {country}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
             {sidebarCollapsed && (
