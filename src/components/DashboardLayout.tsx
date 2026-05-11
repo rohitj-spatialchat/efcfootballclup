@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useViewMode } from "@/contexts/ViewModeContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { getUserAvatarUrl } from "@/lib/userAvatar";
+import { EFC_REGIONS, EFC_COUNTRIES } from "@/lib/efcData";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Rss,
@@ -11,6 +12,8 @@ import {
   Users,
   ChevronUp,
   ChevronDown,
+  ChevronRight,
+  Flag,
   Search,
   Bell,
   MessageCircle,
@@ -93,21 +96,28 @@ const groups = [
   { label: "Fitness & Exercise Physiology", icon: HeartPulse, slug: "fitness-exercise-physiology" },
 ];
 
-const spatialRooms = [
-  { name: "Balkans", icon: Mountain },
-  { name: "United Kingdom", icon: Landmark },
-  { name: "DACH", icon: Castle },
-  { name: "RU+", icon: Compass },
-  { name: "Benelux", icon: Grape },
-  { name: "Central", icon: MapPin },
-  { name: "Nordics", icon: Snowflake },
-  { name: "Latin", icon: Sun },
-  { name: "Eastern", icon: Shield },
-  { name: "Iberico", icon: Globe },
-  { name: "Injury Prevention", icon: Activity },
-  { name: "Return to Performance", icon: RotateCcw },
-  { name: "Periodization", icon: CalendarClock },
-];
+const REGION_ICONS: Record<string, typeof Globe> = {
+  "Southeast Europe": Mountain,
+  "England": Landmark,
+  "Scotland": Castle,
+  "Ireland": Grape,
+  "Northern Ireland": Shield,
+  "Wales": Mountain,
+  "German-Speaking Core": Castle,
+  "Eurasian": Compass,
+  "Benelux": Grape,
+  "Central Europe": MapPin,
+  "Scandinavia": Snowflake,
+  "Central-South Europe": Sun,
+  "Eastern Europe": Shield,
+  "Iberia": Globe,
+};
+
+const spatialRooms = EFC_REGIONS.map((name) => ({
+  name,
+  icon: REGION_ICONS[name] ?? Globe,
+  countries: EFC_COUNTRIES.filter((c) => c.region === name).map((c) => c.name),
+}));
 
 const notifications = [
   {
@@ -150,6 +160,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, logout } = useAuth();
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [spatialOpen, setSpatialOpen] = useState(true);
+  const [expandedRegion, setExpandedRegion] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -707,18 +718,55 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </button>
             {spatialOpen && !sidebarCollapsed && (
               <div className="ml-3 mt-0.5 space-y-0.5 pb-4">
-                {spatialRooms.map((room) => (
-                  <a
-                    key={room.name}
-                    href="https://app.spatial.chat/s/RCg3AlBcmcqAPTeHxDXN?room=rxTXTyLCcNoTM0zYde35"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 w-full rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                  >
-                    <room.icon className="h-3.5 w-3.5 shrink-0" />
-                    {room.name}
-                  </a>
-                ))}
+                {spatialRooms.map((room) => {
+                  const hasSubs = room.countries.length > 1;
+                  const isExpanded = expandedRegion === room.name;
+                  return (
+                    <div key={room.name}>
+                      <div className="flex items-center w-full rounded-md text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+                        <a
+                          href="https://app.spatial.chat/s/RCg3AlBcmcqAPTeHxDXN?room=rxTXTyLCcNoTM0zYde35"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 flex-1 px-3 py-1.5"
+                        >
+                          <room.icon className="h-3.5 w-3.5 shrink-0" />
+                          {room.name}
+                        </a>
+                        {hasSubs && (
+                          <button
+                            type="button"
+                            onClick={() => setExpandedRegion(isExpanded ? null : room.name)}
+                            className="px-2 py-1.5 hover:text-foreground"
+                            aria-label={isExpanded ? "Collapse" : "Expand"}
+                          >
+                            {isExpanded ? (
+                              <ChevronDown className="h-3 w-3" />
+                            ) : (
+                              <ChevronRight className="h-3 w-3" />
+                            )}
+                          </button>
+                        )}
+                      </div>
+                      {hasSubs && isExpanded && (
+                        <div className="ml-5 mt-0.5 space-y-0.5 border-l border-border pl-2">
+                          {room.countries.map((country) => (
+                            <a
+                              key={country}
+                              href="https://app.spatial.chat/s/RCg3AlBcmcqAPTeHxDXN?room=rxTXTyLCcNoTM0zYde35"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 w-full rounded-md px-2 py-1 text-[11px] text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                            >
+                              <Flag className="h-3 w-3 shrink-0" />
+                              {country}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
             {sidebarCollapsed && (
