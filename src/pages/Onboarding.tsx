@@ -133,7 +133,12 @@ export default function Onboarding() {
             <div className="relative">
               <select
                 value={club}
-                onChange={(e) => setClub(e.target.value)}
+                onChange={(e) => {
+                  const newClub = e.target.value;
+                  setClub(newClub);
+                  const match = EFC_CLUBS.find((c) => c.name === newClub);
+                  if (match) setCountry(match.country);
+                }}
                 className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none"
                 style={{ color: club ? "#111" : "#9ca3af" }}
               >
