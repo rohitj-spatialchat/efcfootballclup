@@ -239,31 +239,33 @@ export default function NetworkingPage() {
             </div>
 
             {/* Why you're matched */}
-            <div className="mt-5 w-full max-w-md mx-auto rounded-xl border border-primary/20 bg-primary/5 p-4 text-left">
-              <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2 text-center">
-                Why you're matched
-              </p>
-              <ul className="space-y-1.5 text-sm text-foreground">
-                <li className="flex items-start gap-2">
-                  <Flag className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                  <span>
-                    <span className="font-medium">Country:</span>{" "}
-                    {currentAuthUser?.country && currentAuthUser.country === currentUser.country
-                      ? `Both based in ${currentUser.country}`
-                      : `Based in ${currentUser.country}${currentAuthUser?.country ? ` — you're in ${currentAuthUser.country}` : ""}`}
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Trophy className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                  <span>
-                    <span className="font-medium">Title:</span>{" "}
-                    {currentAuthUser?.role && currentAuthUser.role.toLowerCase() === currentUser.role.toLowerCase()
-                      ? `You both work as ${currentUser.role}`
-                      : `Works as ${currentUser.role}${currentAuthUser?.role ? ` — aligned with your role as ${currentAuthUser.role}` : ""}`}
-                  </span>
-                </li>
-              </ul>
-            </div>
+            {(() => {
+              const countryMatch = currentAuthUser?.country && currentAuthUser.country === currentUser.country;
+              const roleMatch = currentAuthUser?.role && currentAuthUser.role.toLowerCase() === currentUser.role.toLowerCase();
+              return (
+                <div className="mt-5 w-full max-w-md mx-auto">
+                  <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground mb-2">
+                    Why you're matched
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    <span className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium",
+                      countryMatch ? "bg-primary/10 text-primary border border-primary/20" : "bg-muted text-muted-foreground border border-border"
+                    )}>
+                      <Flag className="h-3 w-3" />
+                      {countryMatch ? `Both in ${currentUser.country}` : currentUser.country}
+                    </span>
+                    <span className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium",
+                      roleMatch ? "bg-primary/10 text-primary border border-primary/20" : "bg-muted text-muted-foreground border border-border"
+                    )}>
+                      <Trophy className="h-3 w-3" />
+                      {roleMatch ? `Same role: ${currentUser.role}` : currentUser.role}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
           </motion.div>
         </AnimatePresence>
 
