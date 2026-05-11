@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import efcLogo from "@/assets/efclogo.png";
-import { EFC_CLUB_NAMES, EFC_COUNTRY_NAMES } from "@/lib/efcData";
+import { EFC_CLUB_NAMES, EFC_COUNTRY_NAMES, EFC_CLUBS } from "@/lib/efcData";
 
 const clubs = EFC_CLUB_NAMES;
 
@@ -26,7 +26,7 @@ const positions = [
   "Community Manager",
 ];
 
-const countries = EFC_COUNTRY_NAMES;
+const countries = [...EFC_COUNTRY_NAMES, "Other"];
 
 const interestTags = [
   "Sport & Exercise Science",
