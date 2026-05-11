@@ -96,21 +96,28 @@ const groups = [
   { label: "Fitness & Exercise Physiology", icon: HeartPulse, slug: "fitness-exercise-physiology" },
 ];
 
-const spatialRooms = [
-  { name: "Balkans", icon: Mountain },
-  { name: "United Kingdom", icon: Landmark },
-  { name: "DACH", icon: Castle },
-  { name: "RU+", icon: Compass },
-  { name: "Benelux", icon: Grape },
-  { name: "Central", icon: MapPin },
-  { name: "Nordics", icon: Snowflake },
-  { name: "Latin", icon: Sun },
-  { name: "Eastern", icon: Shield },
-  { name: "Iberico", icon: Globe },
-  { name: "Injury Prevention", icon: Activity },
-  { name: "Return to Performance", icon: RotateCcw },
-  { name: "Periodization", icon: CalendarClock },
-];
+const REGION_ICONS: Record<string, typeof Globe> = {
+  "Southeast Europe": Mountain,
+  "England": Landmark,
+  "Scotland": Castle,
+  "Ireland": Grape,
+  "Northern Ireland": Shield,
+  "Wales": Mountain,
+  "German-Speaking Core": Castle,
+  "Eurasian": Compass,
+  "Benelux": Grape,
+  "Central Europe": MapPin,
+  "Scandinavia": Snowflake,
+  "Central-South Europe": Sun,
+  "Eastern Europe": Shield,
+  "Iberia": Globe,
+};
+
+const spatialRooms = EFC_REGIONS.map((name) => ({
+  name,
+  icon: REGION_ICONS[name] ?? Globe,
+  countries: EFC_COUNTRIES.filter((c) => c.region === name).map((c) => c.name),
+}));
 
 const notifications = [
   {
