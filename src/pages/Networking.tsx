@@ -264,6 +264,7 @@ export default function NetworkingPage() {
                 </li>
               </ul>
             </div>
+          </motion.div>
         </AnimatePresence>
 
         <div className="flex items-center justify-center gap-3 mt-6">
