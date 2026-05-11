@@ -58,7 +58,7 @@ const communitySidebar = [
 ];
 
 function getRegion(country: string): string {
-  return COUNTRY_TO_REGION[country] || "British Isles";
+  return COUNTRY_TO_REGION[country] || "Other";
 }
 
 function getFlag(country: string): string {

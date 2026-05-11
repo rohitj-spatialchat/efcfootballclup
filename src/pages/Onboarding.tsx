@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import efcLogo from "@/assets/efclogo.png";
-import { EFC_CLUB_NAMES, EFC_COUNTRY_NAMES } from "@/lib/efcData";
+import { EFC_CLUB_NAMES, EFC_COUNTRY_NAMES, EFC_CLUBS } from "@/lib/efcData";
 
 const clubs = EFC_CLUB_NAMES;
 
@@ -26,7 +26,7 @@ const positions = [
   "Community Manager",
 ];
 
-const countries = EFC_COUNTRY_NAMES;
+const countries = [...EFC_COUNTRY_NAMES, "Other"];
 
 const interestTags = [
   "Sport & Exercise Science",
@@ -133,7 +133,12 @@ export default function Onboarding() {
             <div className="relative">
               <select
                 value={club}
-                onChange={(e) => setClub(e.target.value)}
+                onChange={(e) => {
+                  const newClub = e.target.value;
+                  setClub(newClub);
+                  const match = EFC_CLUBS.find((c) => c.name === newClub);
+                  if (match) setCountry(match.country);
+                }}
                 className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none"
                 style={{ color: club ? "#111" : "#9ca3af" }}
               >
