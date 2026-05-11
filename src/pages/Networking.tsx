@@ -116,7 +116,7 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const itemAnim = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 
 export default function NetworkingPage() {
-  const { users: authUsers } = useAuth();
+  const { users: authUsers, user: currentAuthUser } = useAuth();
 
   const allUsers = useMemo(() => {
     // Normalize hardcoded entries against EFC data
