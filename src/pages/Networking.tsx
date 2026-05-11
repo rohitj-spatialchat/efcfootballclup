@@ -116,7 +116,7 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const itemAnim = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 
 export default function NetworkingPage() {
-  const { users: authUsers } = useAuth();
+  const { users: authUsers, user: currentAuthUser } = useAuth();
 
   const allUsers = useMemo(() => {
     // Normalize hardcoded entries against EFC data
@@ -238,6 +238,32 @@ export default function NetworkingPage() {
               ))}
             </div>
 
+            {/* Why you're matched */}
+            <div className="mt-5 w-full max-w-md mx-auto rounded-xl border border-primary/20 bg-primary/5 p-4 text-left">
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2 text-center">
+                Why you're matched
+              </p>
+              <ul className="space-y-1.5 text-sm text-foreground">
+                <li className="flex items-start gap-2">
+                  <Flag className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <span>
+                    <span className="font-medium">Country:</span>{" "}
+                    {currentAuthUser?.country && currentAuthUser.country === currentUser.country
+                      ? `Both based in ${currentUser.country}`
+                      : `Based in ${currentUser.country}${currentAuthUser?.country ? ` — you're in ${currentAuthUser.country}` : ""}`}
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Trophy className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <span>
+                    <span className="font-medium">Title:</span>{" "}
+                    {currentAuthUser?.role && currentAuthUser.role.toLowerCase() === currentUser.role.toLowerCase()
+                      ? `You both work as ${currentUser.role}`
+                      : `Works as ${currentUser.role}${currentAuthUser?.role ? ` — aligned with your role as ${currentAuthUser.role}` : ""}`}
+                  </span>
+                </li>
+              </ul>
+            </div>
           </motion.div>
         </AnimatePresence>
 
