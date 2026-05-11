@@ -160,6 +160,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, logout } = useAuth();
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [spatialOpen, setSpatialOpen] = useState(true);
+  const [expandedRegion, setExpandedRegion] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
