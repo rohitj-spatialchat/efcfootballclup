@@ -635,7 +635,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className={cn("px-3 mt-2", sidebarCollapsed && "px-2")}>
             <button
               onClick={() => !sidebarCollapsed && setGroupsOpen(!groupsOpen)}
-              title="Groups"
+              title="My Groups"
               className={cn(
                 "flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-foreground hover:bg-muted rounded-md transition-colors",
                 sidebarCollapsed && "justify-center px-0",
@@ -643,7 +643,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             >
               <span className="flex items-center gap-2.5">
                 <Users className="h-4 w-4 shrink-0" />
-                {!sidebarCollapsed && "Groups"}
+                {!sidebarCollapsed && "My Groups"}
               </span>
               {!sidebarCollapsed &&
                 (groupsOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />)}
