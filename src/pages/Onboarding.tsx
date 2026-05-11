@@ -150,7 +150,7 @@ export default function Onboarding() {
             </div>
           </div>
           <div>
-            <label className="text-sm font-bold text-gray-900 mb-1 block">Position</label>
+            <label className="text-sm font-bold text-gray-900 mb-1 block">Tittle</label>
             <div className="relative">
               <select
                 value={position}
