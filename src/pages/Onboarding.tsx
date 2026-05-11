@@ -4,29 +4,51 @@ import { ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import efcLogo from "@/assets/efclogo.png";
-import { EFC_CLUB_NAMES, EFC_COUNTRY_NAMES, EFC_CLUBS } from "@/lib/efcData";
+import { EFC_CLUB_NAMES, EFC_COUNTRY_NAMES } from "@/lib/efcData";
 
 const clubs = EFC_CLUB_NAMES;
 
 const positions = [
-  "Head of Performance",
-  "Sports Nutritionist",
-  "Lead Physiotherapist",
-  "Sport Psychologist",
-  "Rehabilitation Specialist",
-  "S&C Coach",
-  "Exercise Physiologist",
-  "Performance Analyst",
-  "Head Coach",
-  "Assistant Coach",
-  "Medical Doctor",
-  "Team Manager",
-  "Commercial Director",
-  "Business Development",
-  "Community Manager",
+  "Sport & Exercise Science",
+  "Nutrition",
+  "Sport Psychology",
+  "Sports Medicine & Physiotherapy",
+  "Strength & Conditioning",
+  "Fitness & Exercise Physiology",
+  "Recovery & Regeneration",
+  "Performance Analytics",
+  "Athlete Monitoring",
+  "Load Management",
+  "Biomechanics",
+  "Performance Technology",
+  "Injury Prevention",
+  "Rehabilitation",
+  "Return to Play",
+  "Mental Performance",
+  "Player Wellbeing",
+  "Coaching",
+  "Talent Development",
+  "Leadership",
+  "Management",
+  "Communication",
+  "Career Development",
+  "Education",
+  "Research & Innovation",
+  "AI in Sport",
+  "Sports Technology",
+  "Networking",
+  "Knowledge Sharing",
+  "Mentorship",
+  "Case Discussions",
+  "Workshops & Webinars",
+  "Continuous Professional Development",
+  "Sports Business",
+  "Club Operations",
+  "Media & Broadcasting",
+  "Other",
 ];
 
-const countries = [...EFC_COUNTRY_NAMES, "Other"];
+const countries = EFC_COUNTRY_NAMES;
 
 const interestTags = [
   "Sport & Exercise Science",
@@ -133,12 +155,7 @@ export default function Onboarding() {
             <div className="relative">
               <select
                 value={club}
-                onChange={(e) => {
-                  const newClub = e.target.value;
-                  setClub(newClub);
-                  const match = EFC_CLUBS.find((c) => c.name === newClub);
-                  if (match) setCountry(match.country);
-                }}
+                onChange={(e) => setClub(e.target.value)}
                 className="w-full h-12 rounded-full bg-white/90 px-6 text-sm appearance-none focus:outline-none"
                 style={{ color: club ? "#111" : "#9ca3af" }}
               >
