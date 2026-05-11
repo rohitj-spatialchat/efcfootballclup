@@ -116,17 +116,7 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const itemAnim = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 
 export default function NetworkingPage() {
-  const { users: authUsers, user: currentAuthUser } = useAuth();
-
-  const myCountry = currentAuthUser?.country?.toLowerCase() || "";
-  const myRole = (currentAuthUser?.role || currentAuthUser?.position || "").toLowerCase();
-
-  const getMatchReasons = (u: { country: string; role: string }) => {
-    const reasons: string[] = [];
-    if (myCountry && u.country.toLowerCase() === myCountry) reasons.push(`Same country · ${u.country}`);
-    if (myRole && u.role.toLowerCase() === myRole) reasons.push(`Same title · ${u.role}`);
-    return reasons;
-  };
+  const { users: authUsers } = useAuth();
 
   const allUsers = useMemo(() => {
     // Normalize hardcoded entries against EFC data
@@ -248,19 +238,6 @@ export default function NetworkingPage() {
               ))}
             </div>
 
-            {getMatchReasons(currentUser).length > 0 && (
-              <div className="mt-4 w-full max-w-md rounded-lg border border-primary/20 bg-primary/5 p-3 text-left">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-primary mb-1.5">Why you matched</p>
-                <ul className="space-y-1">
-                  {getMatchReasons(currentUser).map((r, i) => (
-                    <li key={r} className="text-xs text-foreground flex items-start gap-2">
-                      <span className="text-primary font-semibold">{i + 1}.</span> {r}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
           </motion.div>
         </AnimatePresence>
 
@@ -372,19 +349,6 @@ export default function NetworkingPage() {
                   </span>
                 ))}
               </div>
-
-              {getMatchReasons(u).length > 0 && (
-                <div className="mt-3 rounded-md border border-primary/20 bg-primary/5 px-2.5 py-1.5">
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-primary mb-0.5">Why matched</p>
-                  <ul className="space-y-0.5">
-                    {getMatchReasons(u).map((r, i) => (
-                      <li key={r} className="text-[11px] text-foreground">
-                        <span className="text-primary font-semibold">{i + 1}.</span> {r}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
 
               {/* Buttons */}
               <div className="flex gap-2 mt-3">
