@@ -116,7 +116,17 @@ const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { st
 const itemAnim = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 
 export default function NetworkingPage() {
-  const { users: authUsers } = useAuth();
+  const { users: authUsers, user: currentAuthUser } = useAuth();
+
+  const myCountry = currentAuthUser?.country?.toLowerCase() || "";
+  const myRole = (currentAuthUser?.role || currentAuthUser?.position || "").toLowerCase();
+
+  const getMatchReasons = (u: { country: string; role: string }) => {
+    const reasons: string[] = [];
+    if (myCountry && u.country.toLowerCase() === myCountry) reasons.push(`Same country · ${u.country}`);
+    if (myRole && u.role.toLowerCase() === myRole) reasons.push(`Same title · ${u.role}`);
+    return reasons;
+  };
 
   const allUsers = useMemo(() => {
     // Normalize hardcoded entries against EFC data
