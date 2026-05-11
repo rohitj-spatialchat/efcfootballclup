@@ -238,7 +238,32 @@ export default function NetworkingPage() {
               ))}
             </div>
 
-          </motion.div>
+            {/* Why you're matched */}
+            <div className="mt-5 w-full max-w-md mx-auto rounded-xl border border-primary/20 bg-primary/5 p-4 text-left">
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2 text-center">
+                Why you're matched
+              </p>
+              <ul className="space-y-1.5 text-sm text-foreground">
+                <li className="flex items-start gap-2">
+                  <Flag className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <span>
+                    <span className="font-medium">Country:</span>{" "}
+                    {currentAuthUser?.country && currentAuthUser.country === currentUser.country
+                      ? `Both based in ${currentUser.country}`
+                      : `Based in ${currentUser.country}${currentAuthUser?.country ? ` — you're in ${currentAuthUser.country}` : ""}`}
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Trophy className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <span>
+                    <span className="font-medium">Title:</span>{" "}
+                    {currentAuthUser?.role && currentAuthUser.role.toLowerCase() === currentUser.role.toLowerCase()
+                      ? `You both work as ${currentUser.role}`
+                      : `Works as ${currentUser.role}${currentAuthUser?.role ? ` — aligned with your role as ${currentAuthUser.role}` : ""}`}
+                  </span>
+                </li>
+              </ul>
+            </div>
         </AnimatePresence>
 
         <div className="flex items-center justify-center gap-3 mt-6">
