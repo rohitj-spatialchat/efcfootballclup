@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChevronDown, Trash2, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
 
 const defaultMessage =
   "Welcome to the EFC Community — the home of football's performance professionals. Connect with coaches, sport scientists, physios and analysts from across Europe, share insights, join live sessions, and grow together.";
@@ -41,23 +42,7 @@ function Section({ title, children, defaultOpen = true }: SectionProps) {
 function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
   return (
     <label className="flex items-center gap-3 cursor-pointer group">
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={cn(
-          "relative h-5 w-9 rounded-full transition-colors shrink-0",
-          checked ? "bg-primary" : "bg-muted-foreground/30"
-        )}
-      >
-        <span
-          className={cn(
-            "absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform",
-            checked ? "translate-x-4" : "translate-x-0.5"
-          )}
-        />
-      </button>
+      <Switch checked={checked} onCheckedChange={onChange} />
       <span className="text-sm text-foreground">{label}</span>
     </label>
   );
