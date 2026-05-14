@@ -122,9 +122,6 @@ export default function EventPeople() {
       {activeTab === "Attendees" && (<>
         {/* Actions */}
         <motion.div variants={item} className="flex items-center gap-3">
-          <button onClick={() => toast({ title: "Import CSV", description: "Upload a CSV file to bulk-import attendees. Feature coming soon!" })} className="inline-flex items-center gap-1.5 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors">
-            <Upload className="h-4 w-4" /> Import CSV
-          </button>
           <button onClick={() => setAddOpen(true)} className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
             <Plus className="h-4 w-4" /> Add Attendee
           </button>
