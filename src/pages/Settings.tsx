@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Users, Trophy, KeyRound, Server, ShieldCheck, History,
-  AppWindow, UserCheck, Cpu, ShieldAlert, Home, UserPlus, Layers, Palette,
+  AppWindow, UserCheck, Cpu, ShieldAlert, Home, UserPlus, Layers, Palette, User,
 } from "lucide-react";
 import TeamTab from "@/components/settings/TeamTab";
 import GamificationTab from "@/components/settings/GamificationTab";
@@ -12,6 +12,7 @@ import HomepageTab from "@/components/settings/HomepageTab";
 import OnboardingTab from "@/components/settings/OnboardingTab";
 import CommunityExperienceTab from "@/components/settings/CommunityExperienceTab";
 import AppearanceTab from "@/components/settings/AppearanceTab";
+import ProfileTab from "@/components/settings/ProfileTab";
 import { useViewMode } from "@/contexts/ViewModeContext";
 
 const allTabs = [
