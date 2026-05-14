@@ -1069,12 +1069,14 @@ export default function CommunityPage() {
                 </DropdownMenu>
               </div>
               <div className="flex items-center gap-2">
-                <button
-                  onClick={handleExport}
-                  className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
-                >
-                  <Download className="h-3.5 w-3.5" /> Export
-                </button>
+                {isAdmin && (
+                  <button
+                    onClick={handleExport}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+                  >
+                    <Download className="h-3.5 w-3.5" /> Export
+                  </button>
+                )}
                 <button
                   onClick={() => setAddMemberOpen(true)}
                   className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
