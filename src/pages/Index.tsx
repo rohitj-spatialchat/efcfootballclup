@@ -1678,67 +1678,124 @@ const Index = () => {
                   ))}
                 </div>
 
-                {/* Chat Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-5">
-                  {[
-                    {
-                      name: "Benjamin",
-                      time: "3:13pm",
-                      avatar: "B",
-                      message: "Can you suggest tools or resources to enhance storytelling skills? A book perhaps?",
-                      reactions: 5,
-                    },
-                    {
-                      name: "Amelia",
-                      time: "3:13pm",
-                      avatar: "A",
-                      message:
-                        "@Benjamin Story Brand by Donald Miller is a good place to start. It lays out the fundamentals!",
-                      reactions: 2,
-                    },
-                    {
-                      name: "Ethan",
-                      time: "3:13pm",
-                      avatar: "E",
-                      message: "What are some effective ways to collect customer stories for marketing?",
-                      reactions: 0,
-                    },
-                  ].map((msg, i) => (
-                    <div key={i} className="flex gap-3">
-                      <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 text-xs font-bold shrink-0">
-                        {msg.avatar}
-                      </div>
-                      <div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-sm font-semibold text-white">{msg.name}</span>
-                          <span className="text-[10px] text-white/40">{msg.time}</span>
+                {/* Tab Content */}
+                {activeTab === "Chat" && (
+                  <>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-5">
+                      {[
+                        { name: "Benjamin", time: "3:13pm", avatar: "B", message: "Can you suggest tools or resources to enhance storytelling skills? A book perhaps?", reactions: 5 },
+                        { name: "Amelia", time: "3:13pm", avatar: "A", message: "@Benjamin Story Brand by Donald Miller is a good place to start. It lays out the fundamentals!", reactions: 2 },
+                        { name: "Ethan", time: "3:14pm", avatar: "E", message: "What are some effective ways to collect customer stories for marketing?", reactions: 0 },
+                        { name: "Sofia", time: "3:15pm", avatar: "S", message: "Loving this session 🙌 The tactical breakdowns are gold.", reactions: 8 },
+                        { name: "Marco", time: "3:16pm", avatar: "M", message: "Quick question — will the recording be shared after the event?", reactions: 1 },
+                      ].map((msg, i) => (
+                        <div key={i} className="flex gap-3">
+                          <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 text-xs font-bold shrink-0">{msg.avatar}</div>
+                          <div>
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-sm font-semibold text-white">{msg.name}</span>
+                              <span className="text-[10px] text-white/40">{msg.time}</span>
+                            </div>
+                            <p className="text-sm text-white/70 mt-0.5 leading-relaxed">{msg.message}</p>
+                            {msg.reactions > 0 && (
+                              <span className="inline-flex items-center gap-1 mt-1.5 text-xs text-amber-400">🔥 {msg.reactions}</span>
+                            )}
+                          </div>
                         </div>
-                        <p className="text-sm text-white/70 mt-0.5 leading-relaxed">{msg.message}</p>
-                        {msg.reactions > 0 && (
-                          <span className="inline-flex items-center gap-1 mt-1.5 text-xs text-amber-400">
-                            🔥 {msg.reactions}
-                          </span>
-                        )}
+                      ))}
+                    </div>
+                    <div className="p-3 border-t border-white/10">
+                      <div className="flex items-center gap-2 rounded-full border border-primary/50 bg-white/5 px-4 py-2">
+                        <input type="text" value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} placeholder="Contribute to the discussion!" className="flex-1 bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none" />
+                        <button className="text-white/40 hover:text-white transition-colors"><Send className="h-4 w-4" /></button>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </>
+                )}
 
-                {/* Chat Input */}
-                <div className="p-3 border-t border-white/10">
-                  <div className="flex items-center gap-2 rounded-full border border-primary/50 bg-white/5 px-4 py-2">
-                    <input
-                      type="text"
-                      value={chatMessage}
-                      onChange={(e) => setChatMessage(e.target.value)}
-                      placeholder="Contribute to the discussion!"
-                      className="flex-1 bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
-                    />
-                    <button className="text-white/40 hover:text-white transition-colors">
-                      <Send className="h-4 w-4" />
-                    </button>
+                {activeTab === "Q&A" && (
+                  <>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                      {[
+                        { name: "Dr. Marco Rossi", avatar: "MR", question: "How do you balance load management for players returning from long-term injuries?", upvotes: 24, answered: true },
+                        { name: "Sarah Mitchell", avatar: "SM", question: "What KPIs do you track to measure community engagement during live events?", upvotes: 17, answered: false },
+                        { name: "Alex Chen", avatar: "AC", question: "Any recommendations for integrating GPS data with video analysis tools?", upvotes: 12, answered: false },
+                        { name: "Emma Johansson", avatar: "EJ", question: "How do you approach mental recovery alongside physical recovery?", upvotes: 9, answered: true },
+                      ].map((q, i) => (
+                        <div key={i} className="rounded-lg bg-white/5 border border-white/10 p-3">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="h-7 w-7 rounded-full bg-white/10 flex items-center justify-center text-white/70 text-[10px] font-bold">{q.avatar}</div>
+                            <span className="text-xs font-semibold text-white">{q.name}</span>
+                            {q.answered && <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400">Answered</span>}
+                          </div>
+                          <p className="text-sm text-white/80 leading-relaxed mb-2">{q.question}</p>
+                          <button className="text-xs text-white/50 hover:text-amber-400 inline-flex items-center gap-1">▲ {q.upvotes} upvotes</button>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="p-3 border-t border-white/10">
+                      <div className="flex items-center gap-2 rounded-full border border-primary/50 bg-white/5 px-4 py-2">
+                        <input type="text" placeholder="Ask a question…" className="flex-1 bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none" />
+                        <button className="text-white/40 hover:text-white transition-colors"><Send className="h-4 w-4" /></button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === "Poll" && (
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {[
+                      { q: "Which area drives the biggest performance gains?", total: 142, options: [
+                        { label: "Sports Science", pct: 38 },
+                        { label: "Tactical Analysis", pct: 27 },
+                        { label: "Mental Coaching", pct: 21 },
+                        { label: "Nutrition", pct: 14 },
+                      ]},
+                      { q: "Best format for next live session?", total: 86, options: [
+                        { label: "Panel discussion", pct: 45 },
+                        { label: "1:1 interview", pct: 30 },
+                        { label: "Workshop", pct: 25 },
+                      ]},
+                    ].map((poll, i) => (
+                      <div key={i} className="rounded-lg bg-white/5 border border-white/10 p-3">
+                        <p className="text-sm font-semibold text-white mb-3">{poll.q}</p>
+                        <div className="space-y-2">
+                          {poll.options.map((o, j) => (
+                            <div key={j} className="relative rounded-md bg-white/5 overflow-hidden">
+                              <div className="absolute inset-y-0 left-0 bg-primary/30" style={{ width: `${o.pct}%` }} />
+                              <div className="relative flex items-center justify-between px-3 py-1.5 text-xs text-white">
+                                <span>{o.label}</span>
+                                <span className="font-semibold">{o.pct}%</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <p className="mt-2 text-[10px] text-white/40">{poll.total} votes</p>
+                      </div>
+                    ))}
                   </div>
-                </div>
+                )}
+
+                {activeTab === "Docs" && (
+                  <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                    {[
+                      { name: "Injury Prevention Playbook 2026.pdf", size: "2.4 MB", type: "PDF" },
+                      { name: "Session Slides — Tactical Patterns.pptx", size: "5.1 MB", type: "PPT" },
+                      { name: "GPS Data Sample Set.xlsx", size: "812 KB", type: "XLS" },
+                      { name: "Recovery Protocol Checklist.docx", size: "184 KB", type: "DOC" },
+                      { name: "Match Footage Highlights.mp4", size: "48.6 MB", type: "MP4" },
+                    ].map((doc, i) => (
+                      <div key={i} className="flex items-center gap-3 rounded-lg bg-white/5 border border-white/10 p-3 hover:bg-white/10 transition-colors cursor-pointer">
+                        <div className="h-9 w-9 rounded-md bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold shrink-0">{doc.type}</div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-white truncate">{doc.name}</p>
+                          <p className="text-[10px] text-white/40">{doc.size}</p>
+                        </div>
+                        <button className="text-white/50 hover:text-white text-xs">Download</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
