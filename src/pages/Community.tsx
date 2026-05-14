@@ -576,23 +576,7 @@ export default function CommunityPage() {
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="flex gap-0 -m-6">
-      {/* Community Sidebar - admin only */}
-      {isAdmin && (
-        <div className="hidden md:flex w-48 shrink-0 flex-col border-r border-border bg-card p-3 space-y-0.5 min-h-[calc(100vh-3.5rem)]">
-          {communitySidebar.map((sideItem) => (
-            <button
-              key={sideItem.label}
-              className={cn(
-                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm w-full text-left transition-colors",
-                sideItem.active ? "bg-primary/10 text-primary font-medium" : "text-foreground hover:bg-muted",
-              )}
-            >
-              <sideItem.icon className="h-4 w-4" />
-              {sideItem.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Community Sidebar removed - only one section */}
 
       {/* Main Content */}
       <div className="flex-1 p-6 space-y-5">
