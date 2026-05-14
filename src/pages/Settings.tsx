@@ -32,6 +32,8 @@ function renderTabContent(activeTab: string) {
   switch (activeTab) {
     case "team":
       return <TeamTab />;
+    case "homepage":
+      return <HomepageTab />;
     case "gamification":
       return <GamificationTab />;
     case "safety":
