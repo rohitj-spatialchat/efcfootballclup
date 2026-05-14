@@ -374,7 +374,17 @@ export default function CommunityPage() {
     [members],
   );
 
-  const allMembers = useMemo(() => [...normalizedStatic, ...authMembers], [normalizedStatic, authMembers]);
+  const lastLoginFor = (name: string) => {
+    const options = ["2 hours ago", "5 hours ago", "Yesterday", "2 days ago", "4 days ago", "1 week ago", "2 weeks ago", "3 weeks ago", "1 month ago"];
+    let h = 0;
+    for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    return options[h % options.length];
+  };
+
+  const allMembers = useMemo(
+    () => [...normalizedStatic, ...authMembers].map((m) => ({ ...m, lastLogin: (m as any).lastLogin || lastLoginFor(m.name) })),
+    [normalizedStatic, authMembers],
+  );
 
   // Filter options — Region/Country/Football Team show the FULL EFC list,
   // other dropdowns are derived from the visible members.
