@@ -36,6 +36,8 @@ function renderTabContent(activeTab: string) {
       return <TeamTab />;
     case "homepage":
       return <HomepageTab />;
+    case "onboarding":
+      return <OnboardingTab />;
     case "gamification":
       return <GamificationTab />;
     case "safety":
