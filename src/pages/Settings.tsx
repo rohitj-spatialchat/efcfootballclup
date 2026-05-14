@@ -23,6 +23,7 @@ const allTabs = [
   { label: "Appearance", id: "appearance", icon: Palette, adminOnly: true },
   { label: "Gamification", id: "gamification", icon: Trophy, adminOnly: true },
   { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
+  { label: "Profile", id: "profile", icon: User },
   { label: "Single sign-on (SSO)", id: "sso", icon: KeyRound },
   { label: "SCIM provisioning", id: "scim", icon: Server, adminOnly: true },
   { label: "Two-step authentication", id: "2fa", icon: ShieldCheck },
