@@ -19,6 +19,7 @@ const allTabs = [
   { label: "Community Experience", id: "experience", icon: Layers, adminOnly: true },
   { label: "Homepage", id: "homepage", icon: Home, adminOnly: true },
   { label: "Onboarding", id: "onboarding", icon: UserPlus, adminOnly: true },
+  { label: "Appearance", id: "appearance", icon: Palette, adminOnly: true },
   { label: "Gamification", id: "gamification", icon: Trophy, adminOnly: true },
   { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
   { label: "Single sign-on (SSO)", id: "sso", icon: KeyRound },
