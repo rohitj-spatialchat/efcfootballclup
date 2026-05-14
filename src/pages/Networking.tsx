@@ -333,7 +333,7 @@ export default function NetworkingPage() {
           <span className="text-sm text-muted-foreground">{filteredUsers.length} members</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredUsers.map((u) => (
             <motion.div
               key={u.name}
