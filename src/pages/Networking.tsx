@@ -192,7 +192,7 @@ export default function NetworkingPage() {
       {/* Hero Match Card */}
       <motion.div
         variants={itemAnim}
-        className="rounded-2xl border border-border bg-card shadow-sm p-8 text-center max-w-xl mx-auto"
+        className="rounded-2xl border border-border bg-card shadow-sm p-4 sm:p-6 text-center max-w-xl mx-auto"
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -203,23 +203,23 @@ export default function NetworkingPage() {
             transition={{ duration: 0.3 }}
             className="flex flex-col items-center"
           >
-            <div className="relative mb-4">
-              <div className="h-28 w-28 rounded-full border-4 border-border overflow-hidden">
+            <div className="relative mb-3">
+              <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-full border-4 border-border overflow-hidden">
                 <img src={currentUser.image} alt={currentUser.name} className="h-full w-full object-cover" />
               </div>
-              <span className="absolute bottom-1 right-1 h-4 w-4 rounded-full border-2 border-card bg-success" />
+              <span className="absolute bottom-1 right-1 h-3.5 w-3.5 rounded-full border-2 border-card bg-success" />
             </div>
 
-            <h2 className="text-xl font-bold text-foreground">{currentUser.name}</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-foreground">{currentUser.name}</h2>
             <div className="flex items-center justify-center gap-1.5 mt-0.5">
               {getTeamLogo(currentUser.team) && (
-                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-5 w-5 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(currentUser.team); }} />
+                <img src={getTeamLogo(currentUser.team)} alt={currentUser.team} className="h-4 w-4 sm:h-5 sm:w-5 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).src = getTeamLogoFallback(currentUser.team); }} />
               )}
               <p className="text-sm font-semibold text-primary">{currentUser.team}</p>
             </div>
             <p className="text-sm text-foreground">{currentUser.role}</p>
 
-            <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mt-2 text-xs text-muted-foreground">
               <span className="flex items-center gap-1">
                 <Flag className="h-3 w-3" /> {currentUser.country}
               </span>
@@ -228,9 +228,21 @@ export default function NetworkingPage() {
               </span>
             </div>
 
-            <p className="text-sm text-muted-foreground mt-3 max-w-md leading-relaxed">{currentUser.bio}</p>
+            <div className="mt-3 max-w-md">
+              <p className={cn("text-sm text-muted-foreground leading-relaxed", !bioExpanded && "line-clamp-2")}>
+                {currentUser.bio}
+              </p>
+              {currentUser.bio && currentUser.bio.length > 80 && (
+                <button
+                  onClick={() => setBioExpanded((v) => !v)}
+                  className="mt-1 text-xs font-semibold text-primary hover:underline"
+                >
+                  {bioExpanded ? "Read less" : "Read more"}
+                </button>
+              )}
+            </div>
 
-            <div className="flex flex-wrap justify-center gap-2 mt-4">
+            <div className="flex flex-wrap justify-center gap-2 mt-3">
               {currentUser.skills.map((skill) => (
                 <span
                   key={skill}
@@ -246,7 +258,7 @@ export default function NetworkingPage() {
               const countryMatch = currentAuthUser?.country && currentAuthUser.country === currentUser.country;
               const roleMatch = currentAuthUser?.role && currentAuthUser.role.toLowerCase() === currentUser.role.toLowerCase();
               return (
-                <div className="mt-5 w-full max-w-md mx-auto">
+                <div className="mt-4 w-full max-w-md mx-auto">
                   <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground mb-2">
                     Why you're matched
                   </p>
@@ -272,17 +284,17 @@ export default function NetworkingPage() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="flex items-center justify-center gap-3 mt-6">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 sm:gap-3 mt-5">
           <button
             onClick={handleShuffle}
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
           >
             <Shuffle className="h-4 w-4" /> Shuffle & Match
           </button>
           <button
             onClick={() => handleConnect(currentUser.name)}
             className={cn(
-              "inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold transition-colors",
+              "inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-colors",
               connectedUsers.has(currentUser.name)
                 ? "border-primary bg-primary/10 text-primary"
                 : "border-border bg-card text-foreground hover:bg-muted"
@@ -293,7 +305,7 @@ export default function NetworkingPage() {
           </button>
           <button
             onClick={() => handleMessage(currentUser.name)}
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
           >
             <Send className="h-4 w-4" /> Message
           </button>
