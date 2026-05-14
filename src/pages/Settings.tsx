@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Users, Trophy, KeyRound, Server, ShieldCheck, History,
-  AppWindow, UserCheck, Cpu, ShieldAlert, Home, UserPlus, Layers, Palette,
+  AppWindow, UserCheck, Cpu, ShieldAlert, Home, UserPlus, Layers, Palette, User,
 } from "lucide-react";
 import TeamTab from "@/components/settings/TeamTab";
 import GamificationTab from "@/components/settings/GamificationTab";
@@ -12,6 +12,7 @@ import HomepageTab from "@/components/settings/HomepageTab";
 import OnboardingTab from "@/components/settings/OnboardingTab";
 import CommunityExperienceTab from "@/components/settings/CommunityExperienceTab";
 import AppearanceTab from "@/components/settings/AppearanceTab";
+import ProfileTab from "@/components/settings/ProfileTab";
 import { useViewMode } from "@/contexts/ViewModeContext";
 
 const allTabs = [
@@ -22,6 +23,7 @@ const allTabs = [
   { label: "Appearance", id: "appearance", icon: Palette, adminOnly: true },
   { label: "Gamification", id: "gamification", icon: Trophy, adminOnly: true },
   { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
+  { label: "Profile", id: "profile", icon: User },
   { label: "Single sign-on (SSO)", id: "sso", icon: KeyRound },
   { label: "SCIM provisioning", id: "scim", icon: Server, adminOnly: true },
   { label: "Two-step authentication", id: "2fa", icon: ShieldCheck },
@@ -46,6 +48,8 @@ function renderTabContent(activeTab: string) {
       return <OnboardingTab />;
     case "appearance":
       return <AppearanceTab />;
+    case "profile":
+      return <ProfileTab />;
     case "gamification":
       return <GamificationTab />;
     case "safety":
