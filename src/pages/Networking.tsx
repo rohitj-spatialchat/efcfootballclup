@@ -161,7 +161,8 @@ export default function NetworkingPage() {
       next = Math.floor(Math.random() * allUsers.length);
     } while (next === currentIndex && allUsers.length > 1);
     setCurrentIndex(next);
-  }, [currentIndex]);
+    setBioExpanded(false);
+  }, [currentIndex, allUsers.length]);
 
   const handleConnect = (name: string) => {
     if (connectedUsers.has(name)) {
