@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Plus, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@lib/utils";
-import { useViewMode } from "@contexts/ViewModeContext";
+import { cn } from "@/lib/utils";
+import { useViewMode } from "@/contexts/ViewModeContext";
 
 const filterTabs = [
   { label: "All members", count: 12 },
