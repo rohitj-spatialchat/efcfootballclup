@@ -52,6 +52,8 @@ function renderTabContent(activeTab: string) {
       return <AppearanceTab />;
     case "profile":
       return <ProfileTab />;
+    case "notifications":
+      return <NotificationCentreTab />;
     case "gamification":
       return <GamificationTab />;
     case "safety":
