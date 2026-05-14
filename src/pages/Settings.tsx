@@ -3,15 +3,17 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Users, Trophy, KeyRound, Server, ShieldCheck, History,
-  AppWindow, UserCheck, Cpu, ShieldAlert,
+  AppWindow, UserCheck, Cpu, ShieldAlert, Home,
 } from "lucide-react";
 import TeamTab from "@/components/settings/TeamTab";
 import GamificationTab from "@/components/settings/GamificationTab";
 import UserSafetyTab from "@/components/settings/UserSafetyTab";
+import HomepageTab from "@/components/settings/HomepageTab";
 import { useViewMode } from "@/contexts/ViewModeContext";
 
 const allTabs = [
   { label: "Team", id: "team", icon: Users, adminOnly: true },
+  { label: "Homepage", id: "homepage", icon: Home, adminOnly: true },
   { label: "Gamification", id: "gamification", icon: Trophy, adminOnly: true },
   { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
   { label: "Single sign-on (SSO)", id: "sso", icon: KeyRound },
@@ -30,6 +32,8 @@ function renderTabContent(activeTab: string) {
   switch (activeTab) {
     case "team":
       return <TeamTab />;
+    case "homepage":
+      return <HomepageTab />;
     case "gamification":
       return <GamificationTab />;
     case "safety":
