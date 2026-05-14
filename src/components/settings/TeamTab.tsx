@@ -60,9 +60,11 @@ export default function TeamTab() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
-            <Plus className="h-3 w-3" /> Export
-          </button>
+          {isAdmin && (
+            <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+              <Plus className="h-3 w-3" /> Export
+            </button>
+          )}
           <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
             <Plus className="h-3 w-3" /> Add member
           </button>
