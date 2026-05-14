@@ -1209,6 +1209,7 @@ export default function CommunityPage() {
                           </td>
                           <td className="px-4 py-3 text-sm text-muted-foreground">{m.role}</td>
                           <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{m.joined}</td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{(m as any).lastLogin}</td>
                           <td className="px-4 py-3">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
