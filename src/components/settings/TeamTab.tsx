@@ -33,6 +33,7 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 export default function TeamTab() {
   const [activeFilter, setActiveFilter] = useState("All members");
+  const { isAdmin } = useViewMode();
 
   return (
     <div className="space-y-5">
