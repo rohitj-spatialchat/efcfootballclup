@@ -885,9 +885,11 @@ export default function CommunityPage() {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="z-50 bg-popover border border-border shadow-lg">
-                  <DropdownMenuItem onClick={handleExport}>
-                    <Download className="h-4 w-4 mr-2" /> Export invited
-                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem onClick={handleExport}>
+                      <Download className="h-4 w-4 mr-2" /> Export invited
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
