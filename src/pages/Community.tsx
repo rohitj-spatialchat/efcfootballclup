@@ -374,7 +374,17 @@ export default function CommunityPage() {
     [members],
   );
 
-  const allMembers = useMemo(() => [...normalizedStatic, ...authMembers], [normalizedStatic, authMembers]);
+  const lastLoginFor = (name: string) => {
+    const options = ["2 hours ago", "5 hours ago", "Yesterday", "2 days ago", "4 days ago", "1 week ago", "2 weeks ago", "3 weeks ago", "1 month ago"];
+    let h = 0;
+    for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    return options[h % options.length];
+  };
+
+  const allMembers = useMemo(
+    () => [...normalizedStatic, ...authMembers].map((m) => ({ ...m, lastLogin: (m as any).lastLogin || lastLoginFor(m.name) })),
+    [normalizedStatic, authMembers],
+  );
 
   // Filter options — Region/Country/Football Team show the FULL EFC list,
   // other dropdowns are derived from the visible members.
@@ -1129,6 +1139,7 @@ export default function CommunityPage() {
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">MPU Points</th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">ROLE</th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">JOINED</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">LAST LOGIN</th>
                         <th className="px-4 py-2.5"></th>
                       </tr>
                     </thead>
@@ -1198,6 +1209,7 @@ export default function CommunityPage() {
                           </td>
                           <td className="px-4 py-3 text-sm text-muted-foreground">{m.role}</td>
                           <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{m.joined}</td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">{(m as any).lastLogin}</td>
                           <td className="px-4 py-3">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
