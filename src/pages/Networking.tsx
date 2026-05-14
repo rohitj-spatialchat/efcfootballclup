@@ -149,6 +149,8 @@ export default function NetworkingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [connectedUsers, setConnectedUsers] = useState<Set<string>>(new Set());
+  const [bioExpanded, setBioExpanded] = useState(false);
+  const [expandedCardBios, setExpandedCardBios] = useState<Set<string>>(new Set());
   const { toast } = useToast();
   const navigate = useNavigate();
   const currentUser = allUsers[currentIndex];
