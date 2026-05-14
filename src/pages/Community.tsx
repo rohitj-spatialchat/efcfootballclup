@@ -1139,6 +1139,7 @@ export default function CommunityPage() {
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">MPU Points</th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">ROLE</th>
                         <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">JOINED</th>
+                        <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">LAST LOGIN</th>
                         <th className="px-4 py-2.5"></th>
                       </tr>
                     </thead>
