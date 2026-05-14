@@ -111,6 +111,60 @@ export default function KnowledgePage() {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
   };
 
+  const filteredCourses =
+    activeCategory === "All"
+      ? courses
+      : courses.filter((c) => {
+          const cat = activeCategory.toLowerCase();
+          const tagsLower = c.tags.map((t) => t.toLowerCase());
+          if (cat === "fitness") return tagsLower.some((t) => t.includes("fitness") || t.includes("strength") || t.includes("exercise") || t.includes("sportmedicine") || t.includes("physiotherapy"));
+          if (cat === "nutrition") return tagsLower.some((t) => t.includes("nutrition"));
+          if (cat === "meeting circles") return c.type === "LISTEN" || tagsLower.some((t) => t.includes("psychology"));
+          if (cat === "guided sessions") return c.type === "WATCH";
+          return true;
+        });
+
+  const inProgress = filteredCourses.filter((c) => c.progress > 0 && c.progress < 100);
+  const todo = filteredCourses.filter((c) => c.progress === 0);
+  const completed = filteredCourses.filter((c) => c.progress === 100);
+
+  const renderCourseCard = (course: typeof courses[0], i: number) => (
+    <div key={i} className="group cursor-pointer flex flex-col" onClick={() => setSelectedCourse(course)}>
+      <div className="relative rounded-xl overflow-hidden aspect-[4/3] mb-3">
+        <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+        {course.isNew && (
+          <span className="absolute top-3 right-3 bg-destructive text-destructive-foreground text-[10px] font-bold uppercase px-2 py-0.5 rounded">NEW</span>
+        )}
+      </div>
+      <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug min-h-[2.5rem] line-clamp-2">{course.title}</h3>
+      <div className="mt-auto space-y-1.5">
+        {course.progress === 100 ? (
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
+            <span className="text-xs text-muted-foreground">Completed {course.completedDate}</span>
+          </div>
+        ) : course.progress > 0 ? (
+          <div className="flex items-center gap-2">
+            <Progress value={course.progress} className="h-1.5 flex-1" />
+            <span className="text-xs text-muted-foreground whitespace-nowrap">{course.progress}% complete</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <span>{course.tags[0]}</span>
+            <span>·</span>
+            <span>Starts on {course.publishedDate}</span>
+          </div>
+        )}
+      </div>
+      <div className="mt-2">
+        <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${typeColors[course.type]}`}>
+          {course.type === "LISTEN" ? "🎧 " : course.type === "WATCH" ? "▶ " : "📖 "}
+          {course.type}
+        </span>
+      </div>
+    </div>
+  );
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <div className="flex gap-8">
