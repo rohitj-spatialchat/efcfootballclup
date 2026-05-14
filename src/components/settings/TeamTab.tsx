@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Plus, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useViewMode } from "@/contexts/ViewModeContext";
 
 const filterTabs = [
   { label: "All members", count: 12 },
@@ -32,6 +33,7 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 export default function TeamTab() {
   const [activeFilter, setActiveFilter] = useState("All members");
+  const { isAdmin } = useViewMode();
 
   return (
     <div className="space-y-5">
@@ -58,9 +60,11 @@ export default function TeamTab() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
-            <Plus className="h-3 w-3" /> Export
-          </button>
+          {isAdmin && (
+            <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors">
+              <Plus className="h-3 w-3" /> Export
+            </button>
+          )}
           <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
             <Plus className="h-3 w-3" /> Add member
           </button>
