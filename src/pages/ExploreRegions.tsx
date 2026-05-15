@@ -5,22 +5,23 @@ import { Search, MapPin, Users, Globe } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { EFC_REGIONS, EFC_COUNTRIES } from "@/lib/efcData";
 
-const regionMeta: Record<string, { gradient: string; image: string; tagline: string }> = {
-  "Southeast Europe":     { gradient: "from-amber-400 to-orange-500", image: "https://images.unsplash.com/photo-1555990538-32ec1ed7c4e0?w=600&h=300&fit=crop", tagline: "Balkan football culture and tactical heritage." },
-  "England":              { gradient: "from-rose-400 to-red-500",     image: "https://images.unsplash.com/photo-1517747614396-d21a78b850e8?w=600&h=300&fit=crop", tagline: "Home of the Premier League and modern football." },
-  "Scotland":             { gradient: "from-blue-400 to-indigo-500",  image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=300&fit=crop", tagline: "Highland clubs, history and rivalry." },
-  "Ireland":              { gradient: "from-emerald-400 to-teal-500", image: "https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?w=600&h=300&fit=crop", tagline: "Emerald isle football community." },
-  "Northern Ireland":     { gradient: "from-green-400 to-emerald-500",image: "https://images.unsplash.com/photo-1580130544577-e7c0a8e0e7d6?w=600&h=300&fit=crop", tagline: "Tight-knit clubs and developing talent." },
-  "Wales":                { gradient: "from-red-400 to-rose-500",     image: "https://images.unsplash.com/photo-1518604666860-9ed391f76460?w=600&h=300&fit=crop", tagline: "Cymru pride and rising national talent." },
-  "German-Speaking Core": { gradient: "from-zinc-500 to-neutral-700", image: "https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?w=600&h=300&fit=crop", tagline: "Bundesliga-led structure and innovation." },
-  "Eurasian":             { gradient: "from-fuchsia-400 to-purple-500",image: "https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?w=600&h=300&fit=crop", tagline: "Cross-continental football crossroads." },
-  "Benelux":              { gradient: "from-orange-400 to-amber-500", image: "https://images.unsplash.com/photo-1534351590666-13e3e96c5017?w=600&h=300&fit=crop", tagline: "Total football and player development." },
-  "Central Europe":       { gradient: "from-sky-400 to-cyan-500",     image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600&h=300&fit=crop", tagline: "Tradition meets modern coaching." },
-  "Scandinavia":          { gradient: "from-cyan-400 to-blue-500",    image: "https://images.unsplash.com/photo-1502920514313-52581002a659?w=600&h=300&fit=crop", tagline: "Nordic structure and youth pathways." },
-  "Central-South Europe": { gradient: "from-yellow-400 to-orange-500",image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&h=300&fit=crop", tagline: "Tactical mastery and Mediterranean flair." },
-  "Eastern Europe":       { gradient: "from-violet-400 to-purple-500",image: "https://images.unsplash.com/photo-1543872084-c7bd3822856f?w=600&h=300&fit=crop", tagline: "Resilience, technique and emerging clubs." },
-  "Iberia":               { gradient: "from-pink-400 to-rose-500",    image: "https://images.unsplash.com/photo-1551859548-09b34a8b8c2d?w=600&h=300&fit=crop", tagline: "Possession football and elite academies." },
+const regionMeta: Record<string, { gradient: string; tagline: string }> = {
+  "Southeast Europe":     { gradient: "from-amber-400 via-orange-500 to-red-500",      tagline: "Balkan football culture and tactical heritage." },
+  "England":              { gradient: "from-rose-400 via-red-500 to-rose-600",         tagline: "Home of the Premier League and modern football." },
+  "Scotland":             { gradient: "from-blue-400 via-indigo-500 to-blue-700",      tagline: "Highland clubs, history and rivalry." },
+  "Ireland":              { gradient: "from-emerald-400 via-teal-500 to-green-600",    tagline: "Emerald isle football community." },
+  "Northern Ireland":     { gradient: "from-green-400 via-emerald-500 to-teal-600",    tagline: "Tight-knit clubs and developing talent." },
+  "Wales":                { gradient: "from-red-400 via-rose-500 to-pink-600",         tagline: "Cymru pride and rising national talent." },
+  "German-Speaking Core": { gradient: "from-zinc-500 via-neutral-700 to-zinc-800",     tagline: "Bundesliga-led structure and innovation." },
+  "Eurasian":             { gradient: "from-fuchsia-400 via-purple-500 to-violet-600", tagline: "Cross-continental football crossroads." },
+  "Benelux":              { gradient: "from-orange-400 via-amber-500 to-yellow-600",   tagline: "Total football and player development." },
+  "Central Europe":       { gradient: "from-sky-400 via-cyan-500 to-blue-600",         tagline: "Tradition meets modern coaching." },
+  "Scandinavia":          { gradient: "from-cyan-400 via-sky-500 to-blue-600",         tagline: "Nordic structure and youth pathways." },
+  "Central-South Europe": { gradient: "from-yellow-400 via-orange-500 to-red-500",     tagline: "Tactical mastery and Mediterranean flair." },
+  "Eastern Europe":       { gradient: "from-violet-400 via-purple-500 to-fuchsia-600", tagline: "Resilience, technique and emerging clubs." },
+  "Iberia":               { gradient: "from-pink-400 via-rose-500 to-red-600",         tagline: "Possession football and elite academies." },
 };
+
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
