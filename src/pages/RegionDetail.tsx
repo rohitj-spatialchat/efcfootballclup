@@ -11,36 +11,48 @@ import {
   Share2,
   Calendar,
   Flag,
-  Sparkles,
-  TrendingUp,
-  Trophy,
-  Activity,
+  Info,
+  MoreHorizontal,
+  UserPlus,
   CheckCircle2,
+  Pin,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { EFC_REGIONS, EFC_COUNTRIES } from "@/lib/efcData";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-const regionGradient: Record<string, string> = {
-  "Southeast Europe": "from-amber-500 via-orange-500 to-red-600",
-  "England": "from-rose-500 via-red-500 to-rose-700",
-  "Scotland": "from-blue-500 via-indigo-500 to-blue-700",
-  "Ireland": "from-emerald-500 via-teal-500 to-green-700",
-  "Northern Ireland": "from-green-500 via-emerald-500 to-teal-700",
-  "Wales": "from-red-500 via-rose-500 to-pink-700",
-  "German-Speaking Core": "from-zinc-600 via-neutral-700 to-zinc-900",
-  "Eurasian": "from-fuchsia-500 via-purple-500 to-violet-700",
-  "Benelux": "from-orange-500 via-amber-500 to-yellow-600",
-  "Central Europe": "from-sky-500 via-cyan-500 to-blue-700",
-  "Scandinavia": "from-cyan-500 via-sky-500 to-blue-700",
-  "Central-South Europe": "from-yellow-500 via-orange-500 to-red-600",
-  "Eastern Europe": "from-violet-500 via-purple-500 to-fuchsia-700",
-  "Iberia": "from-pink-500 via-rose-500 to-red-700",
+const regionBanners: Record<string, string> = {
+  "Southeast Europe": "https://images.unsplash.com/photo-1555990538-32ec1ed7c4e0?w=900&h=300&fit=crop",
+  "England": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&h=300&fit=crop",
+  "Scotland": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&h=300&fit=crop",
+  "Ireland": "https://images.unsplash.com/photo-1564959130747-897fb406b9af?w=900&h=300&fit=crop",
+  "Northern Ireland": "https://images.unsplash.com/photo-1541447271487-09612b3f49f7?w=900&h=300&fit=crop",
+  "Wales": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&h=300&fit=crop",
+  "German-Speaking Core": "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=900&h=300&fit=crop",
+  "Eurasian": "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=900&h=300&fit=crop",
+  "Benelux": "https://images.unsplash.com/photo-1534351590666-13e3e96c5017?w=900&h=300&fit=crop",
+  "Central Europe": "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=900&h=300&fit=crop",
+  "Scandinavia": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=900&h=300&fit=crop",
+  "Central-South Europe": "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=900&h=300&fit=crop",
+  "Eastern Europe": "https://images.unsplash.com/photo-1547448415-e9f5b28e570d?w=900&h=300&fit=crop",
+  "Iberia": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=900&h=300&fit=crop",
 };
+
+const FALLBACK_BANNER =
+  "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&h=300&fit=crop";
 
 const samplePosts = (region: string) => [
   {
@@ -48,39 +60,52 @@ const samplePosts = (region: string) => [
     author: "Marco Rossi",
     role: "Head of Performance",
     time: "2h ago",
-    content: `Excited to share that our ${region} working group will host a tactical roundtable next week. Looking forward to insights on pressing structures across our member clubs.`,
+    title: `${region} tactical roundtable next week`,
+    body: `Excited to share that our ${region} working group will host a tactical roundtable next week. Looking forward to insights on pressing structures across our member clubs.`,
     likes: 42,
     comments: 8,
     shares: 3,
+    pinned: true,
   },
   {
     id: 2,
     author: "Anna Schmidt",
     role: "Sports Scientist",
     time: "1d ago",
-    content: `New benchmark report on GPS load monitoring across ${region} academies is now available in the Knowledge Hub. Strong correlation between weekly load variability and soft tissue injuries.`,
+    title: "GPS load monitoring benchmarks released",
+    body: `New benchmark report on GPS load monitoring across ${region} academies is now available in the Knowledge Hub. Strong correlation between weekly load variability and soft tissue injuries.`,
     likes: 87,
     comments: 21,
     shares: 14,
+    pinned: false,
   },
   {
     id: 3,
     author: "Lukas Novak",
     role: "U19 Coach",
     time: "2d ago",
-    content: `Open invitation: ${region} youth coaches meetup this Friday on SpatialChat. Topic: transition from academy to first team. Drop a comment to RSVP.`,
+    title: "Youth coaches meetup — open invitation",
+    body: `Open invitation: ${region} youth coaches meetup this Friday on SpatialChat. Topic: transition from academy to first team. Drop a comment to RSVP.`,
     likes: 31,
     comments: 12,
     shares: 2,
+    pinned: false,
   },
 ];
 
 const initials = (n: string) =>
-  n
-    .split(" ")
-    .map((p) => p[0])
-    .join("")
-    .slice(0, 2);
+  n.split(" ").map((p) => p[0]).join("").slice(0, 2);
+
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.06 } },
+};
+const itemAnim = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0 },
+};
+
+type TabKey = "discussions" | "countries" | "events" | "about";
 
 export default function RegionDetail() {
   const { slug } = useParams();
@@ -88,8 +113,9 @@ export default function RegionDetail() {
   const { toast } = useToast();
   const region = EFC_REGIONS.find((r) => slugify(r) === slug);
 
-  const [liked, setLiked] = useState<Record<number, boolean>>({});
+  const [activeTab, setActiveTab] = useState<TabKey>("discussions");
   const [requested, setRequested] = useState(false);
+  const [liked, setLiked] = useState<Record<number, boolean>>({});
 
   if (!region) {
     return (
@@ -105,19 +131,13 @@ export default function RegionDetail() {
 
   const countries = EFC_COUNTRIES.filter((c) => c.region === region);
   const posts = samplePosts(region);
-  const gradient = regionGradient[region] ?? "from-slate-500 to-slate-700";
+  const memberCount = countries.length * 47;
+  const banner = regionBanners[region] ?? FALLBACK_BANNER;
 
-  const trending = [
-    { tag: "TacticalAnalysis", posts: 124 },
-    { tag: "YouthDevelopment", posts: 98 },
-    { tag: "SportsScience", posts: 76 },
-    { tag: "SetPieces", posts: 54 },
-  ];
-
-  const topContributors = [
-    { name: "Marco Rossi", role: "Head of Performance", points: 2840 },
-    { name: "Anna Schmidt", role: "Sports Scientist", points: 2310 },
-    { name: "Lukas Novak", role: "U19 Coach", points: 1980 },
+  const events = [
+    { title: `${region} Tactical Roundtable`, date: "Mar 12, 2026", attendees: 45 },
+    { title: "Performance Benchmarking Webinar", date: "Mar 19, 2026", attendees: 62 },
+    { title: "Youth Pathway Open Q&A", date: "Mar 26, 2026", attendees: 38 },
   ];
 
   const handleRequest = () => {
@@ -128,11 +148,19 @@ export default function RegionDetail() {
     });
   };
 
+  const tabs: { key: TabKey; label: string; icon: React.ElementType; count?: number }[] = [
+    { key: "discussions", label: "Discussions", icon: MessageCircle, count: posts.length },
+    { key: "countries", label: "Countries", icon: Flag, count: countries.length },
+    { key: "events", label: "Events", icon: Calendar, count: events.length },
+    { key: "about", label: "About", icon: Info },
+  ];
+
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="space-y-6"
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="max-w-4xl mx-auto space-y-5"
     >
       <Link
         to="/explore-regions"
@@ -141,262 +169,308 @@ export default function RegionDetail() {
         <ChevronLeft className="h-4 w-4" /> Back to Regions
       </Link>
 
-      {/* Hero */}
+      {/* Region Header */}
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className={`rounded-3xl bg-gradient-to-br ${gradient} relative overflow-hidden p-8 sm:p-10 text-white shadow-xl`}
+        variants={itemAnim}
+        className="rounded-xl border border-border bg-card shadow-sm overflow-hidden"
       >
-        {/* decorative orbs */}
-        <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-        <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-black/20 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_60%)]" />
-        <div className="absolute inset-0 opacity-[0.07] mix-blend-overlay [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:18px_18px]" />
-
-        <div className="relative flex items-start justify-between gap-4 flex-wrap">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-11 w-11 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center ring-1 ring-white/30">
-                <MapPin className="h-5 w-5" />
+        <div className="relative">
+          <div className="h-64 overflow-hidden">
+            <img
+              src={banner}
+              alt={region}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = FALLBACK_BANNER;
+              }}
+            />
+          </div>
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.7) 100%)",
+            }}
+          />
+          <div className="absolute bottom-0 left-0 right-0 px-6 pb-4 flex items-end justify-between gap-4">
+            <div className="flex items-end gap-4 min-w-0">
+              <div className="h-20 w-20 rounded-xl border-4 border-white/20 shadow-lg flex-shrink-0 bg-card flex items-center justify-center">
+                <MapPin className="h-9 w-9 text-primary" />
               </div>
-              <Badge className="bg-white/20 hover:bg-white/20 text-white border-0 text-[10px] backdrop-blur-md">
-                <Sparkles className="h-2.5 w-2.5 mr-1" /> EFC Region
-              </Badge>
-              <Badge className="bg-emerald-400/20 text-emerald-50 hover:bg-emerald-400/20 border-0 text-[10px] backdrop-blur-md">
-                <Activity className="h-2.5 w-2.5 mr-1" /> Active now
-              </Badge>
+              <div className="pb-1 min-w-0">
+                <Badge className="bg-white/20 hover:bg-white/20 text-white border-0 text-[10px] mb-1 backdrop-blur-sm">
+                  EFC Region
+                </Badge>
+                <h1 className="text-xl font-bold text-white drop-shadow-md truncate">
+                  {region}
+                </h1>
+                <div className="flex items-center gap-3 mt-1 text-xs text-white/80">
+                  <span className="flex items-center gap-1">
+                    <Globe className="h-3 w-3" /> {countries.length} countries
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Users className="h-3 w-3" /> {memberCount.toLocaleString()} members
+                  </span>
+                </div>
+              </div>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">{region}</h1>
-            <p className="text-sm sm:text-base text-white/85 mt-3 leading-relaxed">
-              Connect with member clubs, federations and practitioners across {region}. Share insights, attend events and collaborate on the future of football.
-            </p>
-            <div className="flex items-center gap-5 mt-5 text-xs sm:text-sm text-white/85">
-              <span className="flex items-center gap-1.5">
-                <Globe className="h-4 w-4" /> {countries.length} countries
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Users className="h-4 w-4" /> {(countries.length * 47).toLocaleString()} members
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Activity className="h-4 w-4" /> {countries.length * 12} posts this week
-              </span>
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                onClick={handleRequest}
+                disabled={requested}
+                className={cn(
+                  "rounded-full",
+                  requested && "bg-white/20 border border-white/30 text-white hover:bg-white/20 disabled:opacity-100",
+                )}
+                variant={requested ? "outline" : "default"}
+              >
+                {requested ? (
+                  <>
+                    <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Requested
+                  </>
+                ) : (
+                  <>
+                    <UserPlus className="h-3.5 w-3.5 mr-1" /> Request to Join
+                  </>
+                )}
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-white hover:bg-white/20"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      navigator.clipboard.writeText(`EFC Region — ${region}`);
+                      toast({ title: "Link copied!" });
+                    }}
+                  >
+                    <Share2 className="h-4 w-4 mr-2" /> Share region
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => toast({ title: "Notifications muted" })}
+                  >
+                    <Settings className="h-4 w-4 mr-2" /> Mute notifications
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => toast({ title: "Region reported" })}
+                    className="text-destructive focus:text-destructive"
+                  >
+                    <Flag className="h-4 w-4 mr-2" /> Report region
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
-
-          <Button
-            disabled={requested}
-            onClick={handleRequest}
-            className="bg-white text-foreground hover:bg-white/90 disabled:opacity-100 disabled:bg-white/90 shadow-lg"
-          >
-            {requested ? (
-              <>
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Request Pending
-              </>
-            ) : (
-              <>Request to Join</>
-            )}
-          </Button>
         </div>
 
-        {/* hero stat strip */}
-        <div className="relative grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
-          {[
-            { label: "Countries", value: countries.length, icon: Globe },
-            { label: "Members", value: (countries.length * 47).toLocaleString(), icon: Users },
-            { label: "Clubs", value: countries.length * 6, icon: Trophy },
-            { label: "Events / mo", value: countries.length * 3, icon: Calendar },
-          ].map((s) => (
-            <div
-              key={s.label}
-              className="rounded-2xl bg-white/10 backdrop-blur-md ring-1 ring-white/20 p-4"
+        {/* Tabs */}
+        <div className="flex border-t border-border px-6 overflow-x-auto">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={cn(
+                "flex items-center gap-1.5 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap",
+                activeTab === tab.key
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground",
+              )}
             >
-              <div className="flex items-center gap-2 text-white/80 text-[11px] uppercase tracking-wider">
-                <s.icon className="h-3.5 w-3.5" /> {s.label}
-              </div>
-              <div className="text-2xl font-bold mt-1">{s.value}</div>
-            </div>
+              <tab.icon className="h-3.5 w-3.5" />
+              {tab.label}
+              {tab.count !== undefined && (
+                <Badge variant="secondary" className="text-[10px] px-1.5 py-0 ml-1">
+                  {tab.count}
+                </Badge>
+              )}
+            </button>
           ))}
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Posts */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-              Recent posts
-            </h2>
-            <button className="text-xs text-primary font-medium hover:underline">
-              View all
-            </button>
-          </div>
-
-          {posts.map((p, i) => (
+      {/* Discussions */}
+      {activeTab === "discussions" && (
+        <div className="space-y-4">
+          {posts.map((p) => (
             <motion.div
               key={p.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all"
+              variants={itemAnim}
+              className={cn(
+                "rounded-lg border bg-card shadow-sm overflow-hidden",
+                p.pinned ? "border-primary/20" : "border-border",
+              )}
             >
-              <div className="flex items-start gap-3">
-                <div className="h-11 w-11 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 text-primary flex items-center justify-center text-xs font-semibold shrink-0 ring-1 ring-primary/20">
-                  {initials(p.author)}
+              {p.pinned && (
+                <div className="flex items-center gap-1.5 px-4 pt-3 text-xs text-primary font-medium">
+                  <Pin className="h-3 w-3" /> Pinned
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-baseline gap-2 flex-wrap">
-                    <span className="text-sm font-semibold text-foreground">
-                      {p.author}
-                    </span>
-                    <span className="text-xs text-muted-foreground">· {p.role}</span>
-                    <span className="text-xs text-muted-foreground">· {p.time}</span>
+              )}
+              <div className="p-4">
+                <div className="flex items-start gap-3">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-semibold shrink-0">
+                    {initials(p.author)}
                   </div>
-                  <p className="text-sm text-foreground/90 mt-2 leading-relaxed">
-                    {p.content}
-                  </p>
-                  <div className="flex items-center gap-1 mt-4 text-xs text-muted-foreground">
-                    <button
-                      onClick={() =>
-                        setLiked((l) => ({ ...l, [p.id]: !l[p.id] }))
-                      }
-                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors ${
-                        liked[p.id] ? "text-rose-500" : ""
-                      }`}
-                    >
-                      <Heart
-                        className={`h-3.5 w-3.5 ${
-                          liked[p.id] ? "fill-rose-500" : ""
-                        }`}
-                      />
-                      {p.likes + (liked[p.id] ? 1 : 0)}
-                    </button>
-                    <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors">
-                      <MessageCircle className="h-3.5 w-3.5" /> {p.comments}
-                    </button>
-                    <button
-                      onClick={() =>
-                        toast({
-                          title: "Shared",
-                          description: "Post link copied to clipboard.",
-                        })
-                      }
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors"
-                    >
-                      <Share2 className="h-3.5 w-3.5" /> {p.shares}
-                    </button>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-baseline gap-2 flex-wrap">
+                      <span className="text-sm font-semibold text-foreground">
+                        {p.author}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        · {p.role}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        · {p.time}
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-foreground mt-1.5">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-foreground/85 mt-1 leading-relaxed">
+                      {p.body}
+                    </p>
+                    <div className="flex items-center gap-1 mt-3 text-xs text-muted-foreground">
+                      <button
+                        onClick={() =>
+                          setLiked((l) => ({ ...l, [p.id]: !l[p.id] }))
+                        }
+                        className={cn(
+                          "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-muted transition-colors",
+                          liked[p.id] && "text-rose-500",
+                        )}
+                      >
+                        <Heart
+                          className={cn(
+                            "h-3.5 w-3.5",
+                            liked[p.id] && "fill-rose-500",
+                          )}
+                        />
+                        {p.likes + (liked[p.id] ? 1 : 0)}
+                      </button>
+                      <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-muted transition-colors">
+                        <MessageCircle className="h-3.5 w-3.5" /> {p.comments}
+                      </button>
+                      <button
+                        onClick={() =>
+                          toast({
+                            title: "Shared",
+                            description: "Post link copied to clipboard.",
+                          })
+                        }
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-muted transition-colors"
+                      >
+                        <Share2 className="h-3.5 w-3.5" /> {p.shares}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+      )}
 
-        {/* Sidebar info */}
-        <div className="space-y-4">
-          {/* Member countries */}
-          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-              <Flag className="h-4 w-4 text-primary" /> Member Countries
-            </h3>
-            <div className="space-y-1">
-              {countries.map((c) => (
-                <div
-                  key={c.name}
-                  className="flex items-center justify-between text-xs px-2.5 py-2 rounded-lg hover:bg-muted/60 transition-colors cursor-pointer"
-                >
-                  <span className="text-foreground font-medium">{c.name}</span>
-                  {c.uefaRank && (
-                    <Badge variant="outline" className="text-[10px]">
-                      UEFA #{c.uefaRank}
-                    </Badge>
-                  )}
+      {/* Countries */}
+      {activeTab === "countries" && (
+        <motion.div
+          variants={itemAnim}
+          className="rounded-lg border border-border bg-card shadow-sm p-5"
+        >
+          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+            <Flag className="h-4 w-4 text-primary" /> Member Countries
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+            {countries.map((c) => (
+              <div
+                key={c.name}
+                className="flex items-center justify-between text-sm px-3 py-2.5 rounded-md hover:bg-muted/60 transition-colors"
+              >
+                <span className="text-foreground font-medium">{c.name}</span>
+                {c.uefaRank && (
+                  <Badge variant="outline" className="text-[10px]">
+                    UEFA #{c.uefaRank}
+                  </Badge>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Events */}
+      {activeTab === "events" && (
+        <motion.div
+          variants={itemAnim}
+          className="rounded-lg border border-border bg-card shadow-sm p-5 space-y-2"
+        >
+          <h3 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-primary" /> Upcoming Events
+          </h3>
+          {events.map((e) => (
+            <div
+              key={e.title}
+              className="flex items-center justify-between p-3 rounded-md border border-border hover:border-primary/30 hover:bg-muted/40 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-md bg-primary/10 text-primary flex items-center justify-center text-[10px] font-semibold shrink-0">
+                  {e.date.split(",")[0]}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Trending topics */}
-          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-primary" /> Trending in {region}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {trending.map((t) => (
-                <button
-                  key={t.tag}
-                  className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/60 hover:bg-primary/10 hover:text-primary text-xs font-medium transition-colors"
-                >
-                  #{t.tag}
-                  <span className="text-[10px] text-muted-foreground group-hover:text-primary">
-                    {t.posts}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Upcoming */}
-          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm space-y-3">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-primary" /> Upcoming
-            </h3>
-            <div className="space-y-2 text-xs">
-              {[
-                { d: "Mar 12", t: `${region} Tactical Roundtable` },
-                { d: "Mar 19", t: "Performance Benchmarking Webinar" },
-                { d: "Mar 26", t: "Youth Pathway Open Q&A" },
-              ].map((e) => (
-                <div
-                  key={e.t}
-                  className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/60 transition-colors cursor-pointer"
-                >
-                  <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-primary/15 to-primary/5 text-primary flex items-center justify-center text-[10px] font-semibold shrink-0 ring-1 ring-primary/15">
-                    {e.d}
+                <div>
+                  <div className="text-sm font-medium text-foreground">
+                    {e.title}
                   </div>
-                  <div>
-                    <div className="text-foreground font-medium">{e.t}</div>
-                    <div className="text-[10px] text-muted-foreground mt-0.5">
-                      Online · Free for members
-                    </div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {e.attendees} attending · Online
                   </div>
                 </div>
-              ))}
+              </div>
+              <Button size="sm" variant="outline" className="rounded-full">
+                RSVP
+              </Button>
             </div>
-          </div>
+          ))}
+        </motion.div>
+      )}
 
-          {/* Top contributors */}
-          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-              <Trophy className="h-4 w-4 text-primary" /> Top Contributors
+      {/* About */}
+      {activeTab === "about" && (
+        <motion.div
+          variants={itemAnim}
+          className="rounded-lg border border-border bg-card shadow-sm p-5 space-y-4"
+        >
+          <div>
+            <h3 className="text-sm font-semibold text-foreground mb-1.5 flex items-center gap-2">
+              <Info className="h-4 w-4 text-primary" /> About this region
             </h3>
-            <div className="space-y-2.5">
-              {topContributors.map((c, i) => (
-                <div key={c.name} className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 text-primary flex items-center justify-center text-[11px] font-semibold ring-1 ring-primary/20">
-                      {initials(c.name)}
-                    </div>
-                    <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center ring-2 ring-card">
-                      {i + 1}
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs font-semibold text-foreground truncate">
-                      {c.name}
-                    </div>
-                    <div className="text-[10px] text-muted-foreground truncate">
-                      {c.role}
-                    </div>
-                  </div>
-                  <div className="text-[11px] font-bold text-primary">
-                    {c.points.toLocaleString()}
-                  </div>
-                </div>
-              ))}
+            <p className="text-sm text-foreground/85 leading-relaxed">
+              Connect with member clubs, federations and practitioners across {region}. Share insights, attend events and collaborate on the future of football in your region.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="rounded-md bg-muted/40 p-3 text-center">
+              <div className="text-lg font-bold text-foreground">{countries.length}</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Countries</div>
+            </div>
+            <div className="rounded-md bg-muted/40 p-3 text-center">
+              <div className="text-lg font-bold text-foreground">{memberCount.toLocaleString()}</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Members</div>
+            </div>
+            <div className="rounded-md bg-muted/40 p-3 text-center">
+              <div className="text-lg font-bold text-foreground">{countries.length * 6}</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Clubs</div>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 }
