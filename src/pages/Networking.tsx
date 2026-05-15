@@ -427,19 +427,9 @@ export default function NetworkingPage() {
               </div>
 
               {/* Bio */}
-              <p className={cn("text-xs text-muted-foreground mt-2.5 leading-relaxed", !expandedCardBios.has(u.name) && "line-clamp-2")}>{u.bio}</p>
-              {u.bio && u.bio.length > 80 && (
-                <button
-                  onClick={() => setExpandedCardBios((prev) => {
-                    const n = new Set(prev);
-                    if (n.has(u.name)) n.delete(u.name); else n.add(u.name);
-                    return n;
-                  })}
-                  className="mt-1 text-[11px] font-semibold text-primary hover:underline"
-                >
-                  {expandedCardBios.has(u.name) ? "Read less" : "Read more"}
-                </button>
-              )}
+              <div className="mt-2.5">
+                <ClampedBio text={u.bio} className="text-xs text-muted-foreground leading-relaxed" />
+              </div>
 
               {/* Skills */}
               <div className="flex flex-wrap gap-1.5 mt-3">
