@@ -27,6 +27,7 @@ const allTabs = [
   { label: "Gamification", id: "gamification", icon: Trophy, adminOnly: true },
   { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
   { label: "Profile", id: "profile", icon: User },
+  { label: "Verification", id: "verification", icon: ShieldCheck },
   { label: "Notification Centre", id: "notifications", icon: Bell },
 ];
 
