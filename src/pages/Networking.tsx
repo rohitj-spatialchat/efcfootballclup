@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef, useLayoutEffect, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Shuffle, Search, MapPin, UserPlus, Send, Trophy, Flag, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
