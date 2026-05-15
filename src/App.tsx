@@ -31,6 +31,7 @@ import MyProfile from "./pages/MyProfile";
 import MemberProfile from "./pages/MemberProfile";
 import ExploreGroups from "./pages/ExploreGroups";
 import CalendarPage from "./pages/Calendar";
+import CommunityMembers from "./pages/CommunityMembers";
 import EventDetail from "./pages/EventDetail";
 import HelpChatWidget from "./components/HelpChatWidget";
 
