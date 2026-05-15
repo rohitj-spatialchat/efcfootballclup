@@ -16,6 +16,10 @@ import {
   Shield,
   Flame,
   PartyPopper,
+  GraduationCap,
+  CalendarDays,
+  Stethoscope,
+  BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +35,7 @@ import ultimateBundle from "@/assets/rewards/ultimate-bundle.jpg";
 const USER_POINTS = 100000;
 const NEXT_TIER_POINTS = 150000;
 
-type RewardCategory = "all" | "experiences" | "merchandise" | "exclusives" | "limited";
+type RewardCategory = "all" | "experiences" | "merchandise" | "exclusives" | "limited" | "learning";
 
 interface Reward {
   id: number;
@@ -135,10 +139,41 @@ const rewards: Reward[] = [
     countdown: "12h 30m",
     featured: true,
   },
+  {
+    id: 9,
+    title: "Premium Course Access",
+    description: "Unlock a full pro-level course in the Knowledge Hub — tactical analysis, sports science or coaching pathways. Lifetime access.",
+    cost: 60000,
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=500&fit=crop",
+    availability: "Available",
+    category: "learning",
+  },
+  {
+    id: 10,
+    title: "Live Learning Event Pass",
+    description: "Reserved seat at an upcoming EFC live learning event — workshops, masterclasses and roundtables hosted by leading practitioners.",
+    cost: 40000,
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=500&fit=crop",
+    availability: "Limited",
+    availabilityCount: 20,
+    category: "learning",
+  },
+  {
+    id: 11,
+    title: "1-to-1 Clinical Specialist Session",
+    description: "Private 45-minute consultation with a vetted clinical specialist — sports medicine, physiotherapy, nutrition or performance psychology.",
+    cost: 90000,
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=500&fit=crop",
+    availability: "Only 4 left",
+    availabilityCount: 4,
+    category: "learning",
+    featured: true,
+  },
 ];
 
 const categories: { key: RewardCategory; label: string; icon: React.ReactNode }[] = [
   { key: "all", label: "All Rewards", icon: <Gift className="h-4 w-4" /> },
+  { key: "learning", label: "Learning & Development", icon: <GraduationCap className="h-4 w-4" /> },
   { key: "experiences", label: "Experiences", icon: <Star className="h-4 w-4" /> },
   { key: "merchandise", label: "Merchandise", icon: <Trophy className="h-4 w-4" /> },
   { key: "exclusives", label: "Exclusives", icon: <Crown className="h-4 w-4" /> },
