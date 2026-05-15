@@ -2,9 +2,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
-  Users, Trophy, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell, Info,
+  Users, Trophy, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell, Info, ShieldCheck,
 } from "lucide-react";
 import TeamTab from "@/components/settings/TeamTab";
+import VerificationTab from "@/components/settings/VerificationTab";
 import BasicInfoTab from "@/components/settings/BasicInfoTab";
 import GamificationTab from "@/components/settings/GamificationTab";
 import UserSafetyTab from "@/components/settings/UserSafetyTab";
@@ -26,6 +27,7 @@ const allTabs = [
   { label: "Gamification", id: "gamification", icon: Trophy, adminOnly: true },
   { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
   { label: "Profile", id: "profile", icon: User },
+  { label: "Verification", id: "verification", icon: ShieldCheck },
   { label: "Notification Centre", id: "notifications", icon: Bell },
 ];
 
@@ -48,6 +50,8 @@ function renderTabContent(activeTab: string) {
       return <AppearanceTab />;
     case "profile":
       return <ProfileTab />;
+    case "verification":
+      return <VerificationTab />;
     case "notifications":
       return <NotificationCentreTab />;
     case "gamification":
