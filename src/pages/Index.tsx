@@ -1444,8 +1444,16 @@ const Index = () => {
               ))}
             </div>
           </motion.div>
-        </div>
-      </div>
+
+          {/* Select Widgets Button (Admin only) */}
+          <motion.button
+            variants={item}
+            onClick={() => setCustomizeWidgetsOpen(true)}
+            className="w-full rounded-lg border-2 border-dashed border-border bg-transparent px-4 py-3.5 text-sm font-medium text-foreground hover:border-primary/50 hover:bg-muted/40 transition-colors flex items-center justify-center gap-2"
+          >
+            <Settings2 className="h-4 w-4 text-muted-foreground" />
+            Select Widgets
+          </motion.button>
 
       {/* Create Live Session Dialog */}
       <Dialog open={liveSessionDialogOpen} onOpenChange={setLiveSessionDialogOpen}>
