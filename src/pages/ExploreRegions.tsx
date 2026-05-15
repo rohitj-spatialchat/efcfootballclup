@@ -5,21 +5,21 @@ import { Search, MapPin, Users, Globe } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { EFC_REGIONS, EFC_COUNTRIES } from "@/lib/efcData";
 
-const regionMeta: Record<string, { gradient: string; tagline: string }> = {
-  "Southeast Europe":     { gradient: "from-amber-400 via-orange-500 to-red-500",      tagline: "Balkan football culture and tactical heritage." },
-  "England":              { gradient: "from-rose-400 via-red-500 to-rose-600",         tagline: "Home of the Premier League and modern football." },
-  "Scotland":             { gradient: "from-blue-400 via-indigo-500 to-blue-700",      tagline: "Highland clubs, history and rivalry." },
-  "Ireland":              { gradient: "from-emerald-400 via-teal-500 to-green-600",    tagline: "Emerald isle football community." },
-  "Northern Ireland":     { gradient: "from-green-400 via-emerald-500 to-teal-600",    tagline: "Tight-knit clubs and developing talent." },
-  "Wales":                { gradient: "from-red-400 via-rose-500 to-pink-600",         tagline: "Cymru pride and rising national talent." },
-  "German-Speaking Core": { gradient: "from-zinc-500 via-neutral-700 to-zinc-800",     tagline: "Bundesliga-led structure and innovation." },
-  "Eurasian":             { gradient: "from-fuchsia-400 via-purple-500 to-violet-600", tagline: "Cross-continental football crossroads." },
-  "Benelux":              { gradient: "from-orange-400 via-amber-500 to-yellow-600",   tagline: "Total football and player development." },
-  "Central Europe":       { gradient: "from-sky-400 via-cyan-500 to-blue-600",         tagline: "Tradition meets modern coaching." },
-  "Scandinavia":          { gradient: "from-cyan-400 via-sky-500 to-blue-600",         tagline: "Nordic structure and youth pathways." },
-  "Central-South Europe": { gradient: "from-yellow-400 via-orange-500 to-red-500",     tagline: "Tactical mastery and Mediterranean flair." },
-  "Eastern Europe":       { gradient: "from-violet-400 via-purple-500 to-fuchsia-600", tagline: "Resilience, technique and emerging clubs." },
-  "Iberia":               { gradient: "from-pink-400 via-rose-500 to-red-600",         tagline: "Possession football and elite academies." },
+const regionMeta: Record<string, { gradient: string; image: string; tagline: string }> = {
+  "Southeast Europe":     { gradient: "from-amber-400 via-orange-500 to-red-500",      image: "https://images.unsplash.com/photo-1555990538-32ec1ed7c4e0?w=800&h=400&fit=crop&auto=format",  tagline: "Balkan football culture and tactical heritage." },
+  "England":              { gradient: "from-rose-400 via-red-500 to-rose-600",         image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=400&fit=crop&auto=format",  tagline: "Home of the Premier League and modern football." },
+  "Scotland":             { gradient: "from-blue-400 via-indigo-500 to-blue-700",      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&auto=format",  tagline: "Highland clubs, history and rivalry." },
+  "Ireland":              { gradient: "from-emerald-400 via-teal-500 to-green-600",    image: "https://images.unsplash.com/photo-1564959130747-897fb406b9af?w=800&h=400&fit=crop&auto=format",  tagline: "Emerald isle football community." },
+  "Northern Ireland":     { gradient: "from-green-400 via-emerald-500 to-teal-600",    image: "https://images.unsplash.com/photo-1541447271487-09612b3f49f7?w=800&h=400&fit=crop&auto=format",  tagline: "Tight-knit clubs and developing talent." },
+  "Wales":                { gradient: "from-red-400 via-rose-500 to-pink-600",         image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=400&fit=crop&auto=format",  tagline: "Cymru pride and rising national talent." },
+  "German-Speaking Core": { gradient: "from-zinc-500 via-neutral-700 to-zinc-800",     image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=400&fit=crop&auto=format",  tagline: "Bundesliga-led structure and innovation." },
+  "Eurasian":             { gradient: "from-fuchsia-400 via-purple-500 to-violet-600", image: "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=800&h=400&fit=crop&auto=format",  tagline: "Cross-continental football crossroads." },
+  "Benelux":              { gradient: "from-orange-400 via-amber-500 to-yellow-600",   image: "https://images.unsplash.com/photo-1534351590666-13e3e96c5017?w=800&h=400&fit=crop&auto=format",  tagline: "Total football and player development." },
+  "Central Europe":       { gradient: "from-sky-400 via-cyan-500 to-blue-600",         image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=800&h=400&fit=crop&auto=format",  tagline: "Tradition meets modern coaching." },
+  "Scandinavia":          { gradient: "from-cyan-400 via-sky-500 to-blue-600",         image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&h=400&fit=crop&auto=format",  tagline: "Nordic structure and youth pathways." },
+  "Central-South Europe": { gradient: "from-yellow-400 via-orange-500 to-red-500",     image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=400&fit=crop&auto=format",  tagline: "Tactical mastery and Mediterranean flair." },
+  "Eastern Europe":       { gradient: "from-violet-400 via-purple-500 to-fuchsia-600", image: "https://images.unsplash.com/photo-1547448415-e9f5b28e570d?w=800&h=400&fit=crop&auto=format",  tagline: "Resilience, technique and emerging clubs." },
+  "Iberia":               { gradient: "from-pink-400 via-rose-500 to-red-600",         image: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=800&h=400&fit=crop&auto=format",  tagline: "Possession football and elite academies." },
 };
 
 
@@ -72,8 +72,16 @@ export default function ExploreRegions() {
           >
             <Link to={`/regions/${r.slug}`}>
               <div className={`h-36 bg-gradient-to-br ${r.gradient} relative overflow-hidden`}>
-                <div className="absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.4),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.25),transparent_50%)]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                {r.image && (
+                  <img
+                    src={r.image}
+                    alt={r.name}
+                    loading="lazy"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover/card:scale-105 transition-transform duration-300"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
                 <div className="absolute bottom-3 left-3">
                   <div className="h-10 w-10 rounded-lg bg-card/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
                     <MapPin className="h-5 w-5 text-primary" />
