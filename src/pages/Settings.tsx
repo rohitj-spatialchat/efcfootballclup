@@ -2,9 +2,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
-  Users, Trophy, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell,
+  Users, Trophy, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell, Info,
 } from "lucide-react";
 import TeamTab from "@/components/settings/TeamTab";
+import BasicInfoTab from "@/components/settings/BasicInfoTab";
 import GamificationTab from "@/components/settings/GamificationTab";
 import UserSafetyTab from "@/components/settings/UserSafetyTab";
 import HomepageTab from "@/components/settings/HomepageTab";
@@ -16,6 +17,7 @@ import NotificationCentreTab from "@/components/settings/NotificationCentreTab";
 import { useViewMode } from "@/contexts/ViewModeContext";
 
 const allTabs = [
+  { label: "Basic Info", id: "basic", icon: Info, adminOnly: true },
   { label: "Team", id: "team", icon: Users, adminOnly: true },
   { label: "Community Experience", id: "experience", icon: Layers, adminOnly: true },
   { label: "Homepage", id: "homepage", icon: Home, adminOnly: true },
@@ -32,6 +34,8 @@ const item = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } };
 
 function renderTabContent(activeTab: string) {
   switch (activeTab) {
+    case "basic":
+      return <BasicInfoTab />;
     case "team":
       return <TeamTab />;
     case "experience":
