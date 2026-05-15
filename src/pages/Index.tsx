@@ -42,6 +42,9 @@ import {
   Paperclip,
   Smile,
   Radio,
+  Settings2,
+  ImageIcon,
+  Upload,
 } from "lucide-react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
