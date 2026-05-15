@@ -42,7 +42,7 @@ export default function CommunityMembers() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-6 min-h-[calc(100vh-120px)]">
       <aside className="w-60 shrink-0 space-y-1">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
           className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4 px-3"
         >
           <ChevronLeft className="h-4 w-4" /> Go Back to Community
