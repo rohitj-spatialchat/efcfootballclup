@@ -273,6 +273,23 @@ const Index = () => {
   const [showCommentsPost, setShowCommentsPost] = useState<number | null>(null);
   const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const widgetCoverInputRef = useRef<HTMLInputElement>(null);
+  const [customizeWidgetsOpen, setCustomizeWidgetsOpen] = useState(false);
+  const [addCustomWidgetOpen, setAddCustomWidgetOpen] = useState(false);
+  const [widgetVisibility, setWidgetVisibility] = useState<Record<string, { user: boolean; admin: boolean }>>({
+    quickActions: { user: true, admin: true },
+    stats: { user: true, admin: true },
+    onlineMembers: { user: true, admin: true },
+    leaderboard: { user: true, admin: true },
+    trendingNews: { user: true, admin: true },
+  });
+  const [customWidget, setCustomWidget] = useState({
+    cover: null as string | null,
+    title: "",
+    description: "",
+    buttonTitle: "",
+    url: "",
+  });
   const videoInputRef = useRef<HTMLInputElement>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const [liveSessionDialogOpen, setLiveSessionDialogOpen] = useState(false);
