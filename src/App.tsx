@@ -30,6 +30,8 @@ import Redemption from "./pages/Redemption";
 import MyProfile from "./pages/MyProfile";
 import MemberProfile from "./pages/MemberProfile";
 import ExploreGroups from "./pages/ExploreGroups";
+import ExploreRegions from "./pages/ExploreRegions";
+import RegionDetail from "./pages/RegionDetail";
 import CalendarPage from "./pages/Calendar";
 import CommunityMembers from "./pages/CommunityMembers";
 import EventDetail from "./pages/EventDetail";
@@ -93,6 +95,8 @@ const App = () => (
                 <Route path="/announcements" element={<Announcements />} />
                 <Route path="/groups/:slug" element={<Group />} />
                 <Route path="/explore-groups" element={<ExploreGroups />} />
+                <Route path="/explore-regions" element={<ExploreRegions />} />
+                <Route path="/regions/:slug" element={<RegionDetail />} />
                 <Route path="/calendar" element={<CalendarPage />} />
                 <Route path="/calendar/:eventId" element={<EventDetail />} />
                 <Route path="/redemption" element={<Redemption />} />
