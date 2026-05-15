@@ -31,6 +31,7 @@ import MyProfile from "./pages/MyProfile";
 import MemberProfile from "./pages/MemberProfile";
 import ExploreGroups from "./pages/ExploreGroups";
 import CalendarPage from "./pages/Calendar";
+import CommunityMembers from "./pages/CommunityMembers";
 import EventDetail from "./pages/EventDetail";
 import HelpChatWidget from "./components/HelpChatWidget";
 
@@ -80,6 +81,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/community" element={<Community />} />
+                <Route path="/community-members" element={<CommunityMembers />} />
                 <Route path="/knowledge" element={<Knowledge />} />
                 <Route path="/networking" element={<Networking />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
