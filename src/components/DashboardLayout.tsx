@@ -477,7 +477,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <button
                       onClick={() => {
                         setProfileOpen(false);
-                        navigate("/community");
+                        navigate("/community-members");
                       }}
                       className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
                     >
