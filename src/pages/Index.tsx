@@ -1454,6 +1454,8 @@ const Index = () => {
             <Settings2 className="h-4 w-4 text-muted-foreground" />
             Select Widgets
           </motion.button>
+        </div>
+      </div>
 
       {/* Create Live Session Dialog */}
       <Dialog open={liveSessionDialogOpen} onOpenChange={setLiveSessionDialogOpen}>
