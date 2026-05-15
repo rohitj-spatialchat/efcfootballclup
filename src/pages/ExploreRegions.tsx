@@ -72,14 +72,8 @@ export default function ExploreRegions() {
           >
             <Link to={`/regions/${r.slug}`}>
               <div className={`h-36 bg-gradient-to-br ${r.gradient} relative overflow-hidden`}>
-                {r.image && (
-                  <img
-                    src={r.image}
-                    alt={r.name}
-                    className="w-full h-full object-cover opacity-60 group-hover/card:scale-105 transition-transform duration-300"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.4),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.25),transparent_50%)]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 <div className="absolute bottom-3 left-3">
                   <div className="h-10 w-10 rounded-lg bg-card/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
                     <MapPin className="h-5 w-5 text-primary" />
