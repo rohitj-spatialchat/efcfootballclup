@@ -277,17 +277,7 @@ export default function NetworkingPage() {
             </div>
 
             <div className="mt-3 max-w-md">
-              <p className={cn("text-sm text-muted-foreground leading-relaxed", !bioExpanded && "line-clamp-2")}>
-                {currentUser.bio}
-              </p>
-              {currentUser.bio && currentUser.bio.length > 80 && (
-                <button
-                  onClick={() => setBioExpanded((v) => !v)}
-                  className="mt-1 text-xs font-semibold text-primary hover:underline"
-                >
-                  {bioExpanded ? "Read less" : "Read more"}
-                </button>
-              )}
+              <ClampedBio text={currentUser.bio} className="text-sm text-muted-foreground leading-relaxed" />
             </div>
 
             <div className="flex flex-wrap justify-center gap-2 mt-3">
