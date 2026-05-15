@@ -35,7 +35,7 @@ import ultimateBundle from "@/assets/rewards/ultimate-bundle.jpg";
 const USER_POINTS = 100000;
 const NEXT_TIER_POINTS = 150000;
 
-type RewardCategory = "all" | "experiences" | "merchandise" | "exclusives" | "limited";
+type RewardCategory = "all" | "experiences" | "merchandise" | "exclusives" | "limited" | "learning";
 
 interface Reward {
   id: number;
