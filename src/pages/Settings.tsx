@@ -2,9 +2,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
-  Users, Trophy, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell, Info,
+  Users, Trophy, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell, Info, ShieldCheck,
 } from "lucide-react";
 import TeamTab from "@/components/settings/TeamTab";
+import VerificationTab from "@/components/settings/VerificationTab";
 import BasicInfoTab from "@/components/settings/BasicInfoTab";
 import GamificationTab from "@/components/settings/GamificationTab";
 import UserSafetyTab from "@/components/settings/UserSafetyTab";
