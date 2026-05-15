@@ -42,10 +42,15 @@ import {
   Paperclip,
   Smile,
   Radio,
+  Settings2,
+  ImageIcon,
+  Upload,
 } from "lucide-react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -268,6 +273,23 @@ const Index = () => {
   const [showCommentsPost, setShowCommentsPost] = useState<number | null>(null);
   const [commentText, setCommentText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const widgetCoverInputRef = useRef<HTMLInputElement>(null);
+  const [customizeWidgetsOpen, setCustomizeWidgetsOpen] = useState(false);
+  const [addCustomWidgetOpen, setAddCustomWidgetOpen] = useState(false);
+  const [widgetVisibility, setWidgetVisibility] = useState<Record<string, { user: boolean; admin: boolean }>>({
+    quickActions: { user: true, admin: true },
+    stats: { user: true, admin: true },
+    onlineMembers: { user: true, admin: true },
+    leaderboard: { user: true, admin: true },
+    trendingNews: { user: true, admin: true },
+  });
+  const [customWidget, setCustomWidget] = useState({
+    cover: null as string | null,
+    title: "",
+    description: "",
+    buttonTitle: "",
+    url: "",
+  });
   const videoInputRef = useRef<HTMLInputElement>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const [liveSessionDialogOpen, setLiveSessionDialogOpen] = useState(false);
@@ -1422,6 +1444,16 @@ const Index = () => {
               ))}
             </div>
           </motion.div>
+
+          {/* Select Widgets Button (Admin only) */}
+          <motion.button
+            variants={item}
+            onClick={() => setCustomizeWidgetsOpen(true)}
+            className="w-full rounded-lg border-2 border-dashed border-border bg-transparent px-4 py-3.5 text-sm font-medium text-foreground hover:border-primary/50 hover:bg-muted/40 transition-colors flex items-center justify-center gap-2"
+          >
+            <Settings2 className="h-4 w-4 text-muted-foreground" />
+            Select Widgets
+          </motion.button>
         </div>
       </div>
 
@@ -1922,6 +1954,186 @@ const Index = () => {
               </div>
             ))}
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Customize Widgets Sheet */}
+      <Sheet open={customizeWidgetsOpen} onOpenChange={setCustomizeWidgetsOpen}>
+        <SheetContent side="right" className="w-full sm:max-w-md flex flex-col p-0">
+          <SheetHeader className="px-6 py-4 border-b border-border">
+            <SheetTitle>Customize Widgets</SheetTitle>
+          </SheetHeader>
+          <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Note: Widget will not be visible if there is no data available
+            </p>
+            {[
+              { id: "quickActions", label: "Quick Actions" },
+              { id: "stats", label: "Your Stats" },
+              { id: "onlineMembers", label: "Online Members" },
+              { id: "leaderboard", label: "Community Leaderboard" },
+              { id: "trendingNews", label: "Trending News" },
+            ].map((w) => (
+              <div key={w.id} className="rounded-lg border border-border bg-card overflow-hidden">
+                <div className="px-4 py-3 border-b border-border">
+                  <p className="text-sm font-semibold text-foreground">{w.label}</p>
+                </div>
+                <div className="grid grid-cols-2 divide-x divide-border bg-muted/30">
+                  <label className="flex items-center justify-between gap-2 px-4 py-3 cursor-pointer">
+                    <span className="text-xs text-muted-foreground">Visible to user</span>
+                    <Checkbox
+                      checked={widgetVisibility[w.id]?.user}
+                      onCheckedChange={(c) =>
+                        setWidgetVisibility((prev) => ({
+                          ...prev,
+                          [w.id]: { ...prev[w.id], user: !!c },
+                        }))
+                      }
+                    />
+                  </label>
+                  <label className="flex items-center justify-between gap-2 px-4 py-3 cursor-pointer">
+                    <span className="text-xs text-muted-foreground">Visible to admin</span>
+                    <Checkbox
+                      checked={widgetVisibility[w.id]?.admin}
+                      onCheckedChange={(c) =>
+                        setWidgetVisibility((prev) => ({
+                          ...prev,
+                          [w.id]: { ...prev[w.id], admin: !!c },
+                        }))
+                      }
+                    />
+                  </label>
+                </div>
+              </div>
+            ))}
+            <button
+              onClick={() => setAddCustomWidgetOpen(true)}
+              className="w-full rounded-md border border-primary/40 bg-transparent px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/5 transition-colors"
+            >
+              + Add Custom
+            </button>
+          </div>
+          <SheetFooter className="px-6 py-4 border-t border-border flex-row sm:justify-between gap-3">
+            <Button variant="outline" className="flex-1" onClick={() => setCustomizeWidgetsOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              className="flex-1"
+              onClick={() => {
+                toast({ title: "Widgets saved", description: "Your widget preferences have been updated." });
+                setCustomizeWidgetsOpen(false);
+              }}
+            >
+              Save Widgets
+            </Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+
+      {/* Add Custom Widget Dialog */}
+      <Dialog open={addCustomWidgetOpen} onOpenChange={setAddCustomWidgetOpen}>
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Add widget to home feed</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <input
+              ref={widgetCoverInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => setCustomWidget((p) => ({ ...p, cover: ev.target?.result as string }));
+                reader.readAsDataURL(file);
+              }}
+            />
+            {customWidget.cover ? (
+              <div className="relative rounded-lg overflow-hidden border border-border aspect-square">
+                <img src={customWidget.cover} alt="Cover" className="w-full h-full object-cover" />
+                <button
+                  onClick={() => setCustomWidget((p) => ({ ...p, cover: null }))}
+                  className="absolute top-2 right-2 h-8 w-8 rounded-full bg-background/90 border border-border flex items-center justify-center hover:bg-background"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => widgetCoverInputRef.current?.click()}
+                className="w-full rounded-lg border-2 border-dashed border-border bg-muted/30 hover:border-primary/40 hover:bg-muted/50 transition-colors aspect-square flex flex-col items-center justify-center gap-2"
+              >
+                <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                  <ImageIcon className="h-5 w-5" />
+                </div>
+                <p className="text-sm font-semibold text-foreground">Upload cover picture</p>
+                <p className="text-xs text-muted-foreground">1:1 Aspect ratio (recommended)</p>
+                <span className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                  <Upload className="h-3.5 w-3.5" /> Choose image
+                </span>
+              </button>
+            )}
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold text-foreground">Card Title</label>
+              <input
+                type="text"
+                value={customWidget.title}
+                onChange={(e) => setCustomWidget((p) => ({ ...p, title: e.target.value }))}
+                placeholder="Enter widget name"
+                className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold text-foreground">
+                Small Description <span className="font-normal text-muted-foreground">(try to keep it under 50 words)</span>
+              </label>
+              <textarea
+                value={customWidget.description}
+                onChange={(e) => setCustomWidget((p) => ({ ...p, description: e.target.value }))}
+                placeholder="Enter description"
+                rows={3}
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 resize-none"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold text-foreground">Button Title</label>
+              <input
+                type="text"
+                value={customWidget.buttonTitle}
+                onChange={(e) => setCustomWidget((p) => ({ ...p, buttonTitle: e.target.value }))}
+                placeholder="Enter widget name"
+                className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+              />
+              <p className="text-xs text-muted-foreground">Suggestions: Know more, Join, Apply...</p>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold text-foreground">URL</label>
+              <input
+                type="url"
+                value={customWidget.url}
+                onChange={(e) => setCustomWidget((p) => ({ ...p, url: e.target.value }))}
+                placeholder="https://"
+                className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
+              />
+            </div>
+          </div>
+          <DialogFooter className="flex-row justify-between sm:justify-between gap-3">
+            <Button variant="ghost" onClick={() => setAddCustomWidgetOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                toast({ title: "Custom widget created", description: "Your widget has been added to the home feed." });
+                setCustomWidget({ cover: null, title: "", description: "", buttonTitle: "", url: "" });
+                setAddCustomWidgetOpen(false);
+              }}
+            >
+              Create Custom Widget
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </motion.div>
