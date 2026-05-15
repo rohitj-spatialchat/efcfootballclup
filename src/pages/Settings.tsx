@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
-  Users, Trophy, KeyRound, Server, ShieldCheck, History,
-  AppWindow, UserCheck, Cpu, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell,
+  Users, Trophy, ShieldAlert, Home, UserPlus, Layers, Palette, User, Bell,
 } from "lucide-react";
 import TeamTab from "@/components/settings/TeamTab";
 import GamificationTab from "@/components/settings/GamificationTab";
@@ -26,13 +25,6 @@ const allTabs = [
   { label: "User Safety", id: "safety", icon: ShieldAlert, adminOnly: true },
   { label: "Profile", id: "profile", icon: User },
   { label: "Notification Centre", id: "notifications", icon: Bell },
-  { label: "Single sign-on (SSO)", id: "sso", icon: KeyRound },
-  { label: "SCIM provisioning", id: "scim", icon: Server, adminOnly: true },
-  { label: "Two-step authentication", id: "2fa", icon: ShieldCheck },
-  { label: "Security history", id: "security", icon: History },
-  { label: "Installed apps", id: "apps", icon: AppWindow },
-  { label: "Access requests", id: "access", icon: UserCheck },
-  { label: "MCP access", id: "mcp", icon: Cpu, adminOnly: true },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
