@@ -78,7 +78,7 @@ function NewPushView({ onBack }: { onBack: () => void }) {
             <div className="mt-2 flex items-center gap-6">
               {(["URL", "Group", "channel"] as const).map((t) => (
                 <label key={t} className="flex items-center gap-2 cursor-pointer text-sm">
-                  <input type="radio" checked={ctaType === t} onChange={() => setCtaValue("") || setCtaType(t)} className="accent-primary" />
+                  <input type="radio" checked={ctaType === t} onChange={() => { setCtaValue(""); setCtaType(t); }} className="accent-primary" />
                   {t}
                 </label>
               ))}
