@@ -16,6 +16,10 @@ import {
   Shield,
   Flame,
   PartyPopper,
+  GraduationCap,
+  CalendarDays,
+  Stethoscope,
+  BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
