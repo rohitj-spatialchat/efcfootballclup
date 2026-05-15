@@ -112,6 +112,54 @@ const scoreColor = (score: number) => {
   return "bg-muted text-muted-foreground";
 };
 
+function ClampedBio({ text, lines = 2, className }: { text: string; lines?: number; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [overflows, setOverflows] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const check = () => {
+      const prev = el.style.webkitLineClamp;
+      el.style.webkitLineClamp = String(lines);
+      (el.style as any).display = "-webkit-box";
+      (el.style as any).webkitBoxOrient = "vertical";
+      el.style.overflow = "hidden";
+      setOverflows(el.scrollHeight > el.clientHeight + 1);
+      el.style.webkitLineClamp = prev;
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [text, lines]);
+
+  return (
+    <>
+      <p
+        ref={ref}
+        className={className}
+        style={
+          expanded
+            ? undefined
+            : ({ display: "-webkit-box", WebkitLineClamp: lines, WebkitBoxOrient: "vertical", overflow: "hidden" } as React.CSSProperties)
+        }
+      >
+        {text}
+      </p>
+      {overflows && (
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          className="mt-1 text-[11px] font-semibold text-primary hover:underline"
+        >
+          {expanded ? "Read less" : "Read more"}
+        </button>
+      )}
+    </>
+  );
+}
+
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06 } } };
 const itemAnim = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 
